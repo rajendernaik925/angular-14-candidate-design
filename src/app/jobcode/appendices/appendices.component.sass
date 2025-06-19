@@ -1,0 +1,42 @@
+.loader-overlay
+  position: fixed
+  top: 0
+  left: 0
+  width: 100vw
+  height: 100vh
+  background-color: white 
+  display: flex
+  justify-content: center
+  align-items: center
+  z-index: 9999
+
+
+
+
+
+
+
+
+.custom-alert
+  position: fixed
+  top: 1rem
+  left: 50%
+  transform: translateX(-50%) // center horizontally
+  min-width: 250px
+  z-index: 1050
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2)
+  transition: top 0.4s ease-in-out, opacity 0.4s ease-in-out
+  opacity: 0
+  pointer-events: none
+
+.custom-alert.slide-in
+  top: 1rem // visible near top
+  opacity: 1
+  pointer-events: auto
+
+.custom-alert.slide-out
+  top: -100px // slide above the viewport (hidden)
+  opacity: 0
+  pointer-events: none
+
+

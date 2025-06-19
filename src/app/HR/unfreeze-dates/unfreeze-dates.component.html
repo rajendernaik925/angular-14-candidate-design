@@ -1,0 +1,130 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Unfreeze Dates
+            </li>
+        </span>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+   <div class="container-fluid">
+        <div class="card theCrd">
+            <h2>Employee ID:</h2>
+            <input type="text" (input)="onSearchChange($event.target.value)" 
+            (keypress)="numberOnly($event)" maxlength="6" />
+            <b *ngIf="empInfo" [ngClass]='{"isActv": empInfo.DISPLAYNAME== "ACTIVE"}'>{{empInfo.DISPLAYNAME}}</b>
+            <b *ngIf="inValidEmpId== '0'">Invalid Employee ID</b>
+        </div>
+
+        <ng-container *ngIf="empInfo">
+        <div class="card empInfoBlock">
+            <h5>Employee Information</h5>
+            <div class="empInfo"> 
+                   
+                    <ng-container *ngIf="ProfileImg == true; else userIcon">
+                        <div class="imgBlock">
+                        <img [src]="profle_imgURL" height="200"  />
+                        </div>
+                    </ng-container>
+                    <ng-template #userIcon>
+                        <div class="imgBlock no_bordr">
+                        <img src="./././assets/img/icons/user.svg" alt="user">
+                        </div>
+                    </ng-template> 
+                <ul>
+                    <li><label>Employee Name:&nbsp;</label><span>{{empInfo.Fullname}}</span></li>
+                    <li><label>Division:&nbsp;</label><span>{{empInfo.DIVISION}}</span></li>
+                    <li><label>Department:&nbsp;</label><span>{{empInfo.DEPT}}</span></li>
+
+                    <li><label>Designation:&nbsp;</label><span>{{empInfo.DESIGNATION}}</span></li>
+                    <li><label>Status:&nbsp;</label><span>{{empInfo.EMPSTATUS}}</span></li>
+                    <li><label>Employment Type:&nbsp;</label><span>{{empInfo.EmploymentType}}</span></li>
+                </ul>
+            </div>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="isEmpInfo && empInfo">
+        <div class="card empInfoBlock" *ngIf="empInfo.STATUS == 1001 || empInfo.STATUS == 1092|| empInfo.STATUS == 1401">
+            <h5> Request Type </h5>
+            <div class="v_cntr">
+                <input type="radio" name="category" value="unfreezeAttendance" id="ar" (click)="setradio('unfreezeAttendance')"/>
+                <label for="ar">Unfreeze Attendance Request</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="category" value="unfreezeLeave" id="lr" (click)="setradio('unfreezeLeave')"/>
+                <label for="lr">Unfreeze Leave Request</label> 
+            </div>
+
+
+            <!--************** Unfreeze Leaves  ****************-->
+            <div class="leavesEnble" *ngIf="theRadioVal == 'unfreezeLeave'">
+                <div class="bs_date">
+                    <label>Date: </label>
+                    <input type="text"   
+                    placeholder="YYYY-MM-DD"
+                    [(ngModel)]="bk_Date"               
+                     bsDatepicker 
+                     [minDate]="minDateFrom"
+                     [maxDate]="maxDateFrom" 
+                     [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'YYYY-MM-DD' }"             
+                     readonly/>
+                </div>
+                <div>
+                    <ul>
+                        <ng-container *ngFor="let item of empLeaveTypes; let i=index"> 
+                            <li><input type="checkbox" class="styled-checkbox" 
+                                [(ngModel)]="item.isSelected"
+                                (change)="onChange()"
+                                 [value]="item.TYPE" [id]="i+1" ><label for={{i+1}}>{{item.NAME}}</label></li>
+                        </ng-container>
+                        <!-- <li><input type="checkbox" class="styled-checkbox" id="cl"><label for="cl">CASUAL LEAVE</label></li>
+                        <li><input type="checkbox" class="styled-checkbox" id="sl"><label for="sl">SICK LEAVE</label></li>
+                        <li><input type="checkbox" class="styled-checkbox" id="el"><label for="el">EARNED LEAVE</label></li>
+                        <li><input type="checkbox" class="styled-checkbox" id="od"><label for="od">ONDUTY</label></li>
+                        <li><input type="checkbox" class="styled-checkbox" id="wfh"><label for="wfh">WORK FROM HOME</label></li> -->
+                    </ul>  
+                </div> 
+                <div *ngIf="finalData">
+                    <button class="themeBtn" (click)="unfreezReqst()" [disabled]=" !bk_Date " >Enable</button>
+                </div>
+            </div>
+
+            <!--************** Unfreeze Attendance  *****************-->
+            <div class="leavesEnble" *ngIf="theRadioVal == 'unfreezeAttendance'">
+                <div>
+                    <ul>
+                        <ng-container *ngFor="let item of attndnceDate; let i=index"> 
+                            <li><input type="checkbox" class="styled-checkbox" 
+                                [(ngModel)]="item.isSelected"
+                                (change)="onDateCheck()"
+                                 [value]="item.DATE" [id]="i+1" ><label for={{i+1}}>{{item.DATE}}</label></li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </ng-container> 
+                    </ul>  
+                </div> 
+                <div *ngIf="finalData">
+                    <button class="themeBtn" (click)="unfreezAttndnceReqst()" [disabled]='dsbleBtn' >Enable</button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+        <div class="card gydLines">
+            <h5>Note : Guidelines</h5> 
+            <ul>
+                <li><span>Step 1 : Enter Employee id in text box.</span></li>
+                <li><span>Step 2 : Assign Leave To Employee:- who are not having particular leave-type we can assign leave type to that particular employee.</span></li>
+                <li><span>Step 3 : Unfreeze Attendance Request:- who forget to apply attendance request within time limit, we can unfreeze attendance date to that particular employee.</span></li>
+                <li><span>Step 4 : Unfreeze Leave Request (Back Dates):- who are forget to apply leave within time limit, we can unfreeze leave dates for that particular employee.</span></li>
+                <li><b>Note: Unfreeze dates are enabled from selected date to current date, date option is available from last pay period closing date to current date.</b></li>
+            </ul>
+        </div>
+   </div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+</div>   

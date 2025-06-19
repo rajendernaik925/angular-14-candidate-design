@@ -1,0 +1,119 @@
+<div class="container empLogin">
+  <div class="row my-5">
+    <div class="_name">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/home']">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            QR Management
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="_logOutBtn">
+      <a><i class="fa fa-sign-out"></i> Logout</a>
+    </div>
+    <div class="_back">
+      <a [routerLink]="['/utilities']">Back</a>
+    </div>
+  </div>
+
+  <!-- <div class="login_cards">
+    <div class="row">
+      <div class="col-md-12">
+        <h6 class="text-bold text-center">Create New QR</h6>
+      </div>
+    </div>
+ 
+    <div class="row">
+      <div class="col-md-4">
+        <a class="empCard human-resources" (click)="navToHetero()">
+          <div class="">
+            <img src="././assets/utilities/QR.svg" alt="vendor" />
+          </div>
+          <p>For Hetero Healthcare</p>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="empCard human-resources" (click)="navToAzista()">
+          <div class="">
+            <img src="././assets/utilities/QR.svg" alt="vendor" />
+          </div>
+          <p>For Azista</p>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="empCard human-resources" (click)="navToABHCL()">
+          <div class="">
+            <img src="././assets/utilities/QR.svg" alt="vendor" />
+          </div>
+          <p>For ABHCL</p>
+        </a>
+      </div>
+    </div>
+  </div> -->
+  <div class="container mt-4">
+    <fieldset class="qr-fieldset">
+      <legend class="qr-legend">Create QR</legend>
+
+      <div class="row text-center">
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="navToHetero()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For Hetero Healthcare</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="navToAzista()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For Azista</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="navToABHCL()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For ABHCL</p>
+          </a>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="container mt-4">
+    <fieldset class="qr-fieldset">
+      <legend class="qr-legend">Update QR</legend>
+
+      <div class="row text-center">
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="updateHeteroQR()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For Hetero Healthcare</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="updateAzistaQR()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For Azista</p>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a class="empCard human-resources" (click)="updateABHCLQR()">
+            <div>
+              <img src="././assets/utilities/QR.svg" alt="vendor" />
+            </div>
+            <p>For ABHCL</p>
+          </a>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>

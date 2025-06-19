@@ -1,0 +1,760 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Promotion Letters
+      </li>
+    </span>
+    <!-- <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> -->
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD" }}
+      <sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+ 
+<form [formGroup]="promotionForm" (ngSubmit)="onSubmit()">
+  <div class="container-fluid mt-3">
+    <div class="tableSection">
+      <div class="flxEnd">
+        <h5>Employee Promotion Form</h5>
+      </div>
+ 
+      <div class="row mb-2">
+        <!-- Employee ID -->
+        <div class="col-md-2 form-group">
+          <label for="employeeId" class="mb-0">
+            Employee ID<span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="empid"
+            class="form-control"
+            formControlName="empid"
+            name="empid"     minlength="5" inputmode="numeric"
+            maxlength="8"  
+             (keydown)="restrictInput($event)"
+            (input)="onInput($event)"
+          />
+          <div
+            *ngIf="
+              promotionForm.controls['empid'].touched &&
+              promotionForm.controls['empid'].invalid
+            "
+            class="text-danger"
+          >
+            Employee ID is required
+          </div>
+       
+        </div>
+        <div class="col-md-2 form-group">
+          <label for="transfertypeid">Transfer Type<span class="text-danger">*</span></label>
+          <select
+            id="transfertypeid"
+            class="form-control"
+            formControlName="transferTypeId"
+          >
+            <option value="" disabled selected>Select Transfer Type</option>
+            <option
+              *ngFor="let transferType of transferTypesList"
+              [value]="transferType.TRANSFERTYPEID"
+            >
+              {{ transferType.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              promotionForm.get('transferTypeId')?.invalid &&
+              promotionForm.get('transferTypeId')?.touched
+            "
+            class="text-danger"
+          >
+            Transfer Type is required.
+          </div>
+        </div>
+        <!-- Business Unit -->
+        <div class="col-md-2 form-group">
+          <label for="businessUnitId" class="mb-0">
+            Business Unit <span class="text-danger">*</span>
+          </label>
+          <select
+            id="businessUnitId"
+            class="form-control"
+            formControlName="businessUnitId"
+          >
+            <option value="" selected>Select Business Unit</option>
+            <option
+              *ngFor="let unit of businessunitlist"
+              [value]="unit.BUSINESSUNITID"
+            >
+              {{ unit.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              promotionForm.controls['businessUnitId'].touched &&
+              promotionForm.controls['businessUnitId'].invalid
+            "
+            class="text-danger"
+          >
+            Business Unit is required
+          </div>
+        </div>
+ 
+        <!-- Department -->
+        <div class="col-md-2 form-group">
+          <label for="departmentId">Department<span class="text-danger">*</span></label>
+          <select
+            id="departmentId"
+            class="form-control"
+            formControlName="departmentId"
+          >
+            <option value="">Select Department</option>
+            <option
+              *ngFor="let dep of departmentList"
+              [value]="dep.departmentid"
+            >
+              {{ dep.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              promotionForm.get('departmentId')?.invalid &&
+              promotionForm.get('departmentId')?.touched
+            "
+            class="text-danger"
+          >
+            Department is required.
+          </div>
+        </div>
+ 
+        <div class="col-md-2 form-group">
+          <label for="transferdetails">Transfer Details<span class="text-danger">*</span></label>
+          <select
+            id="transferdetails"
+            class="form-control"
+            formControlName="transferId"  
+          >
+            <option
+              *ngFor="let details of transferDetailsList"
+              [value]="details.TRANSFERID"
+             
+            >
+              {{ details.TRANSFERNAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              promotionForm.get('transferId')?.invalid &&
+              promotionForm.get('transferId')?.touched
+            "
+            class="text-danger"
+          >
+            Transfer Details is required.
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label for="currentdesignationId">Current Designation<span class="text-danger">*</span></label>
+          <input type="text"  formControlName="currentdesignationId"   class="form-control" readonly>
+        </div>
+        <!-- Designation -->
+        <div class="col-md-2 form-group">
+          <label for="designationId">Proposed Designation<span class="text-danger">*</span></label>
+          <select
+            id="designationId"
+            class="form-control"
+            formControlName="designationId"
+          >
+            <option value="">Select Designation</option>
+            <option
+              *ngFor="let desig of designationList"
+              [value]="desig.DESIGNATIONID"
+            >
+              {{ desig.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              promotionForm.get('designationId')?.invalid &&
+              promotionForm.get('designationId')?.touched
+            "
+            class="text-danger"
+          >
+            Designation is required.
+          </div>
+        </div>
+<!--      
+        <div class="col-md-2 form-group">
+          <label for="reportingDate">Reporting Date<span class="text-danger">*</span></label>
+          <input
+            type="text"  
+            id="reportingDate"
+            formControlName="reportingDate"
+            autocomplete="off"
+            placeholder="YYYY-MM-DD"
+            class="form-control"
+            [bsConfig]="{
+              adaptivePosition: true,
+              showWeekNumbers: false,
+              isAnimated: true,
+              containerClass: colorTheme,
+              customTodayClass: 'custom-today-class',
+              dateInputFormat: 'YYYY-MM-DD'
+            }"
+            bsDatepicker
+            required
+            readonly
+          />
+          <div
+            *ngIf="promotionForm.get('reportingDate')?.invalid &&
+              promotionForm.get('reportingDate')?.touched"
+            class="text-danger"
+          >
+            Date is required.
+          </div>
+        </div> -->
+        <div class="col-md-2 form-group">
+          <label for="reportingDate">Reporting Date<span class="text-danger">*</span></label>
+          <input
+            type="text"  
+            id="reportingDate"
+            formControlName="reportingDate"
+            autocomplete="off"
+            placeholder="YYYY-MM-DD"
+            class="form-control"
+            [bsConfig]="{
+              adaptivePosition: true,
+              showWeekNumbers: false,
+              isAnimated: true,
+              containerClass: colorTheme,
+              customTodayClass: 'custom-today-class',
+              dateInputFormat: 'YYYY-MM-DD'
+            }"
+            bsDatepicker
+            required
+            readonly
+            style="background-color: white;"
+          />
+          <div
+            *ngIf="promotionForm.get('reportingDate')?.invalid &&
+              promotionForm.get('reportingDate')?.touched"
+            class="text-danger"
+          >
+            Date is required.
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label for="search">Reporting Manager<span class="text-danger">*</span></label>
+          <input
+            type="text"
+            formControlName="search"
+            placeholder="Search Reporties..."
+            class="form-control"
+            (input)="onSearchChange($event.target.value)"
+            (focus)="showDropdown = true"
+          />
+ 
+          <ul
+            *ngIf="showDropdown && reportiesList.length > 0"
+            class="dropdown-menu show"
+          >
+            <li *ngFor="let reportie of reportiesList">
+              <a
+                class="dropdown-item"
+                href="#"
+                (click)="selectReportie(reportie, $event)"
+              >
+                {{ reportie.name }}
+              </a>
+            </li>
+          </ul>
+          <div
+            *ngIf="
+              promotionForm.get('search')?.invalid &&
+              promotionForm.get('search')?.touched
+            "
+            class="text-danger"
+          >
+            Reporting is required.
+          </div>
+        </div>
+        <div class="col-md-2 form-group">
+          <label for="transferredDate">Transferred Date<span class="text-danger">*</span></label>
+        
+          <input
+  type="text"
+  id="transferredDate"
+  class="form-control"
+  placeholder="YYYY-MM-DD"
+  formControlName="transferredDate"
+  autocomplete="off"
+  [bsConfig]="{
+    adaptivePosition: true,
+    showWeekNumbers: false,
+    isAnimated: true,
+    containerClass: colorTheme,
+    customTodayClass: 'custom-today-class',
+    dateInputFormat: 'YYYY-MM-DD'
+  }"
+  bsDatepicker
+  required
+  readonly
+  style="background-color: white !important;"
+/>
+ 
+          <div
+            *ngIf="
+              promotionForm.get('transferredDate')?.invalid &&
+              promotionForm.get('transferredDate')?.touched
+            "
+            class="text-danger"
+          >
+            Date is required.
+          </div>
+        </div>
+        <!-- Submit & Reset Buttons -->
+        <div class="col-md-2 d-flex form-group align-items-end">
+          <button
+            type="submit"
+            name="confirmButton"
+            class="btn btn-success mr-2"  [disabled]="!promotionForm.valid"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            name="resetButton"
+            class="reset-btn btn btn-secondary ms-2"
+            (click)="resetForm()"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="container-fluid mt-3">
+  <div class="tableSection tablesection">
+    <div class="row mb-2 align-items-center">
+      <div class="col-md-8">
+        <p class="note"><b>Note: </b>Your changes have been saved or edited successfully. Please wait while the letter is being generated. This may take up to 30 seconds.</p>   </div>
+      <div class="col-md-1">
+        <button class="btn btn-primary Theme_Btn" (click)="refreshTable()">
+          <i class="fa fa-refresh "
+          [ngClass]="{'fa-spin': spinnr, ' ': !spinnr}"
+           aria-hidden="true"></i></button>
+      </div>
+      <div class="col-md-3 ">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchTermUniversity"
+          placeholder="Search by Employee ID or Name"
+          (input)="applySearchFilter()"
+        />
+      </div>
+    </div>
+ 
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="bg">
+          <tr>
+            <th class="sticky-column">Employee ID</th>
+            <th class="sticky-column">Name</th>
+            <!-- <th>Location</th>
+            <th>Transfer Type</th> -->
+            <th>Department</th>
+            <th>Previous Designation</th>
+            <th>Current Designation</th>
+            <th>Transferred Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of paginatedData">
+            <td class="sticky-column">{{ emp.employeeid }}</td>
+            <td class="sticky-column">{{ emp.callname | titlecase }}</td>
+            <!-- <td>{{ emp.location | titlecase }}</td>
+            <td>{{ emp.typeoftransfer | titlecase }}</td> -->
+            <td>{{ emp.deptname | titlecase }}</td>
+            <td>{{ emp.prev_des | titlecase }}</td>
+            <td>{{ emp.current_designation | titlecase }}</td>
+            <td>{{ emp.transferredDate | date: "yyyy-MM-dd" }}</td>
+            <td>
+
+              <!-- <button class="edit-btn btn-warning" (click)="editPromotion(emp)">Edit</button>
+              <button class="download-btn btn-info" (click)="PromotionshowFormModal()">View</button>
+              <button class="download-btn btn-danger" (click)="deletePromotion(emp)">Delete</button>
+             -->
+             <ng-template [ngIf]="emp.flag === 'C'">
+              <button class="edit-btn btn-warning" (click)="editPromotion(emp)">Edit</button>
+              <button class="download-btn btn-info" (click)="PromotionshowFormModal(emp)">View</button>
+              <button class="download-btn btn-danger" (click)="deletePromotion(emp)">Delete</button>
+            </ng-template>
+            <ng-template [ngIf]="emp.flag === 'P'">
+              Letter In-progress
+            </ng-template>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+   
+   
+      <nav>
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="prevPage()">
+              <i class="fa fa-chevron-left"></i>
+            </button>
+          </li>
+          <li
+            *ngFor="let page of paginationRange"
+            class="page-item"
+            [class.active]="currentPage === page"
+            [class.disabled]="page === '...'"
+          >
+            <button
+              class="page-link"
+              (click)="goToPage(page)"
+              *ngIf="page !== '...'"
+            >
+              {{ page }}
+            </button>
+            <span class="page-link disabled" *ngIf="page === '...'">...</span>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="nextPage()">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+ 
+
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup-content">
+    <h4>Edit Employee Promotion</h4>
+    <form [formGroup]="editPromotionForm" (ngSubmit)="updatePromotion()">
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="employeeId" class="mb-0">
+            Employee ID<span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="employeeid"
+            class="form-control"
+            formControlName="employeeid"
+            name="employeeid"
+            (blur)="
+              fetchPromotionDetails(promotionForm.get('employeeid')?.value)
+            "
+          />
+ 
+          <div
+            *ngIf="
+              editPromotionForm.controls['employeeid'].touched &&
+              editPromotionForm.controls['employeeid'].invalid
+            "
+            class="text-danger"
+          >
+            Employee ID is required
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="transfertypeid">Transfer Type<span class="text-danger">*</span></label>
+          <select
+            id="transfertypeid"
+            class="form-control"
+            formControlName="transferTypeId"
+          >
+            <option value="" disabled selected>Select Transfer Type</option>
+            <option
+              *ngFor="let transferType of transferTypesList"
+              [value]="transferType.TRANSFERTYPEID"
+            >
+              {{ transferType.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editPromotionForm.get('transferTypeId')?.invalid &&
+              editPromotionForm.get('transferTypeId')?.touched
+            "
+            class="text-danger"
+          >
+            Transfer Type is required.
+          </div>
+        </div>
+        <!-- Business Unit -->
+        <div class="col-md-3 form-group">
+          <label for="businessUnitId" class="mb-0">
+            Business Unit<span class="text-danger">*</span>
+          </label>
+          <select
+            id="businessUnitId"
+            class="form-control"
+            formControlName="businessUnitId"
+          >
+            <option value="" selected>Select Business Unit</option>
+            <option
+              *ngFor="let unit of businessunitlist"
+              [value]="unit.BUSINESSUNITID"
+            >
+              {{ unit.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editPromotionForm.controls['businessUnitId'].touched &&
+              editPromotionForm.controls['businessUnitId'].invalid
+            "
+            class="text-danger"
+          >
+            Business Unit is required
+          </div>
+        </div>
+ 
+        <!-- Department -->
+        <div class="col-md-3 form-group">
+          <label for="departmentId">Department<span class="text-danger">*</span></label>
+          <select
+            id="departmentId"
+            class="form-control"
+            formControlName="departmentId"
+          >
+            <option value="">Select Department</option>
+            <option
+              *ngFor="let dep of departmentList"
+              [value]="dep.departmentid"
+            >
+              {{ dep.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editPromotionForm.get('departmentId')?.invalid &&
+              editPromotionForm.get('departmentId')?.touched
+            "
+            class="text-danger"
+          >
+            Department is required.
+          </div>
+        </div>
+        <!-- Designation -->
+        <div class="col-md-3 form-group">
+          <label for="transferdetails">Transfer Details<span class="text-danger">*</span></label>
+          <select
+            id="transferdetails"
+            class="form-control"
+            formControlName="transferId"
+          >
+            <option
+              *ngFor="let details of transferDetailsList"
+              [value]="details.TRANSFERID"  [defaultSelected]="true" [disabled]="true"
+            >
+              {{ details.TRANSFERNAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editPromotionForm.get('transferdetails')?.invalid &&
+              editPromotionForm.get('transferdetails')?.touched
+            "
+            class="text-danger"
+          >
+            Transfer Details is required.
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <label for="prev_des">Previous Designation</label>
+          <input
+            type="text"
+            id="prev_des"
+            class="form-control"
+            formControlName="prev_des"
+            readonly
+          />
+        </div>
+        
+        <div class="col-md-3 form-group">
+          <label for="designationId"> Proposed Designation</label>
+          <select
+            id="designationId"
+            class="form-control"
+            formControlName="designationId"
+          >
+            <option value="">Select Designation<span class="text-danger">*</span></option>
+            <option
+              *ngFor="let desig of designationList"
+              [value]="desig.DESIGNATIONID"
+            >
+              {{ desig.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editPromotionForm.get('designationId')?.invalid &&
+              editPromotionForm.get('designationId')?.touched
+            "
+            class="text-danger"
+          >
+            Designation is required.
+          </div>
+        </div>
+        
+        <div class="col-md-3 form-group">
+          <label for="reportingDate">Reporting Date<span class="text-danger">*</span></label>
+          <input
+            type="text"
+            id="reportingDate"
+            class="form-control"
+            placeholder="YYYY-MM-DD"
+            formControlName="reportingDate"
+            autocomplete="off"
+            [bsConfig]="{
+              adaptivePosition: true,
+              showWeekNumbers: false,
+              isAnimated: true,
+              containerClass: colorTheme,
+              customTodayClass: 'custom-today-class',
+              dateInputFormat: 'YYYY-MM-DD'
+            }"
+            bsDatepicker
+            required
+            readonly
+            style="background-color: white;"
+          />
+          <div
+            *ngIf="
+              editPromotionForm.get('reportingDate')?.invalid &&
+              editPromotionForm.get('reportingDate')?.touched
+            "
+            class="text-danger"
+          >
+            Reporting Date is required.
+          </div>
+        </div>
+       
+        <div class="col-md-3 form-group">
+          <label for="search">Reporting Manager<span class="text-danger">*</span></label>
+       
+          <input
+            type="text"
+            formControlName="search"
+            placeholder="Search Reporties..."
+            class="form-control"
+            (blur)="onBlurSearch()"
+            (focus)="showEditDropdown = true; showDropdown = false"
+            (input)="onSearchChange($event.target.value, true)"
+            autocomplete="off"
+          />
+       
+          <!-- Edit Mode Dropdown -->
+          <ul *ngIf="showEditDropdown && reportiesList.length > 0" class="dropdown-menu show">
+            <li *ngFor="let reportie of reportiesList">
+              <a class="dropdown-item" href="#" (click)="selectReportie(reportie, $event, true)">
+                {{ reportie.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      
+        <div class="col-md-3 form-group">
+          <label for="transferredDate">Transferred Date<span class="text-danger">*</span></label>
+          <input
+            type="text"
+            id="transferredDate"
+            class="form-control"
+            placeholder="YYYY-MM-DD"
+            formControlName="transferredDate"
+            autocomplete="off"
+            [bsConfig]="{
+              adaptivePosition: true,
+              showWeekNumbers: false,
+              isAnimated: true,
+              containerClass: colorTheme,
+              customTodayClass: 'custom-today-class',
+              dateInputFormat: 'YYYY-MM-DD'
+            }"
+            bsDatepicker
+            required
+            readonly  
+            style="background-color: white;"
+          />
+          <div
+            *ngIf="
+              promotionForm.get('transferredDate')?.invalid &&
+              promotionForm.get('transferredDate')?.touched
+            "
+            class="text-danger"
+          >
+            Transferred Date is required.
+          </div>
+        </div>
+       
+      </div>
+ 
+      <div class="d-flex align-items-center justify-content-center mt-2">
+        <button type="submit" class="btn btn-primary mr-2">Update</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="showPopup = false"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div
+  class="modal hlydysModl"
+  id="PromotionviewModal"
+  [style.display]="PromotionviewModal ? 'block' : 'none'"
+>
+  <div class="modal-dialog modal_top modal-lg">
+    <div class="modal-content">
+      <div class="modal_Myheader">
+        <button type="button" (click)="PromotioncloseformModal()" class="close">
+          <i
+            class="fa fa-times-circle"
+            aria-hidden="true"
+            style="color: red"
+          ></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <object
+          [data]="Promotionview | safe"
+          type="application/pdf"
+          allowtransparency="true"
+          allowfullscreen="true"
+          style="min-height: 95vh; width: 100%"
+        >
+          <a [href]="Promotionview_mob" (click)="closeformModal()"
+            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
+          >
+        </object>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <!-- <div class="bg_icon"></div> -->
+  <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+  </div>
+</div>

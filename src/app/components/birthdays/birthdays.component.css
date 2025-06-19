@@ -1,0 +1,266 @@
+img.flags-bg {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  z-index: -1;
+  max-width: 190px;
+}
+
+img.gifts-bg {
+  position: absolute;
+  right: 0;
+  z-index: -1;
+  max-height: 180px;
+}
+
+img.cake-bg {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  max-height: 180px;
+}
+
+.theBody {
+  position: relative;
+  border: 1px solid #e4eaf0;
+  padding-top: 45px;
+  background: #e4eaf0;
+  border-top: 3px solid #fff;
+  z-index: 1;
+}
+.theBody::after {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+  content: " --- No Birthdays --- ";
+  z-index: -1;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  background: #f7f9fb;
+}
+
+.table_contnr {
+  overflow-y: auto;
+  height: 55vh;
+  z-index: 99;
+}
+.table_contnr table {
+  border-spacing: 0;
+  width: 100%;
+}
+.table_contnr tr {
+  background-color: #f7f9fb;
+}
+.table_contnr tr:nth-child(even) {
+  background-color: #f1f4f7;
+}
+.table_contnr td {
+  border-bottom: 2px solid #fff;
+  color: #101010;
+  padding: 8px 8px;
+  text-align: left;
+  min-width: 155px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.table_contnr td a {
+  text-decoration: none;
+  color: #0072bc;
+}
+.table_contnr td a img {
+  vertical-align: bottom;
+}
+.table_contnr th {
+  border-bottom: 2px solid #fff;
+  color: #101010;
+  padding: 10px 5px;
+  text-align: left;
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.table_contnr th div {
+  position: absolute;
+  background: transparent;
+  color: #101010;
+  padding: 14px 5px;
+  top: 0;
+  line-height: normal;
+  border-left: 0px solid #fff;
+  font-weight: 500;
+  font-size: 16px;
+  min-width: 100px;
+}
+.table_contnr th:first-child div {
+  border: none;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 400px;
+  overflow: scroll;
+  position: relative;
+  min-height: 100px;
+}
+div.myTableScroll::after {
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  content: " --- No Birthdays --- ";
+  z-index: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  background: #f7f9fb;
+  line-height: 40px;
+}
+div.myTableScroll table {
+  position: relative;
+  border-collapse: collapse;
+  width: 100%;
+  z-index: 99;
+}
+div.myTableScroll table .minWdth {
+  min-width: 210px;
+}
+div.myTableScroll td, div.myTableScroll th {
+  padding: 0.45em 0.75em;
+  text-align: left;
+  min-width: 110px;
+}
+div.myTableScroll td:nth-child(2), div.myTableScroll th:nth-child(2) {
+  min-width: 140px;
+}
+div.myTableScroll td:last-child, div.myTableScroll th:last-child {
+  min-width: 220px;
+}
+div.myTableScroll td p, div.myTableScroll th p {
+  margin: 0;
+  font-size: 14px;
+}
+div.myTableScroll thead th {
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #e4eaf0;
+  color: #101010;
+  z-index: 9;
+}
+div.myTableScroll thead th:nth-child(2) {
+  z-index: 99;
+}
+div.myTableScroll thead th:first-child {
+  z-index: 1;
+}
+div.myTableScroll thead th span {
+  font-weight: 600;
+  font-size: 14px;
+  color: #101010;
+  text-transform: uppercase;
+}
+div.myTableScroll thead th b {
+  font-weight: 600;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+div.myTableScroll tbody th {
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+}
+div.myTableScroll tbody tr {
+  background: #f1f4f7;
+}
+div.myTableScroll tbody tr:nth-child(even) {
+  background-color: #f7f9fb;
+}
+div.myTableScroll tbody td {
+  font-size: 13px;
+  text-align: left;
+  padding: 0.65em 0.75em;
+}
+div.myTableScroll tbody td a {
+  text-decoration: none;
+  color: #0072bc;
+}
+div.myTableScroll tbody td a img {
+  vertical-align: bottom;
+}
+div.myTableScroll tbody td .lmtTxt {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+div.myTableScroll tbody td h5 {
+  font-size: 18px;
+}
+div.myTableScroll .sticky-col {
+  position: sticky;
+  position: -webkit-sticky;
+  background-color: #fafbfc;
+}
+
+._note {
+  font-size: 14px;
+  color: #ea279f;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  padding: 0px 5px;
+}
+
+.bdaysSectn {
+  padding: 1em;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 2px;
+}
+
+.flxEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  margin-bottom: 0.5em;
+}
+.flxEnd .select-css {
+  outline: none;
+  box-shadow: none;
+  max-width: 120px;
+  background: #e4eaf0;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #101010;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.flxEnd .select-css option {
+  background: #ffffff;
+  color: #000;
+  border: 0;
+  line-height: 2;
+  height: 30px !important;
+  font-family: "Jost", sans-serif;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}/*# sourceMappingURL=birthdays.component.css.map */

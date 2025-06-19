@@ -1,0 +1,983 @@
+<div class="container-fluid p-0">
+  <app-nav></app-nav>
+</div>
+<div class="mt-3">
+  <!-- <div class="card border-0 p-0">
+  <div class="card-body"> -->
+  <div class="container-fluid">
+    <div class="d-inline-flex">
+      <button class="btn  btn-sm shadow-none border-0  shadow-none border-0 mr-2 px-4"
+        [ngClass]="{ 'custom-bg text-white': activeTab === 'personal', 'btn-secondary': activeTab !== 'personal' }"
+        (click)="setActiveSection('personal')">
+        Personal Info
+      </button>
+
+      <button class="btn  btn-sm shadow-none border-0  shadow-none border-0 mr-2 px-4"
+        [ngClass]="{ 'custom-bg text-white': activeTab === 'address', 'btn-secondary': activeTab !== 'address' }"
+        (click)="setActiveSection('address')">
+        Address
+      </button>
+
+      <button class="btn  btn-sm shadow-none border-0  shadow-none border-0 mr-2 px-4"
+        [ngClass]="{ 'custom-bg text-white': activeTab === 'education', 'btn-secondary': activeTab !== 'education' }"
+        (click)="setActiveSection('education')">
+        Education
+      </button>
+
+      <button class="btn  btn-sm shadow-none border-0  shadow-none border-0 mr-2 px-4"
+        [ngClass]="{ 'custom-bg text-white': activeTab === 'documents', 'btn-secondary': activeTab !== 'documents' }"
+        (click)="setActiveSection('documents')">
+        Documents
+      </button>
+
+      <button class="btn  btn-sm shadow-none border-0  shadow-none border-0 mr-2 px-4"
+        [ngClass]="{ 'custom-bg text-white': activeTab === 'experience', 'btn-secondary': activeTab !== 'experience' }"
+        (click)="setActiveSection('experience')">
+        Experience
+      </button>
+    </div>
+  </div>
+  <!-- </div>
+  </div> -->
+
+
+  <div class="row g-2 mx-0 mb-3 mt-3">
+    <div class="col-md-12">
+      <div class="card border-0 pb-1 pt-1">
+        <div class="card-body pb-1 pt-1">
+          <form [formGroup]="registrationForm">
+            <!-- Personal Info Form -->
+            <div *ngIf="activeTab === 'personal'">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fw-bold text-start custom-text">{{ 'Personal Information' | uppercase }}
+                </div>
+                <div class="text-end mt-0 align-items-center">
+                  <span class="fs-custom rounded-pill text-danger"
+                    aria-label="Fields marked with asterisk are required">(*) Required Fields</span>
+                </div>
+              </div>
+              <hr class="custom-hr mb-2 mt-1" />
+              <div class="container scroll-container">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>Jobcode Id <span class="text-danger">*</span></label>
+                    <!-- Use formControlName to bind the value -->
+                    <input type="text" formControlName="jobCodeId" class="form-control form-control-sm"
+                      [value]="jobCodeData.jobCodeRefId" readonly />
+                    <div
+                      *ngIf="registrationForm.get('jobCodeId')?.touched && registrationForm.get('jobCodeId')?.invalid"
+                      class="text-danger fs-custom">
+                      Jobcode Id is required
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>Email <span class="text-danger">*</span></label>
+                    <input type="email" [value]="jobCodeData.email" readonly formControlName="email"
+                      class="form-control form-control-sm" />
+                    <div *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid"
+                      class="text-danger fs-custom">
+                      <div *ngIf="registrationForm.get('email').errors?.required">Email is required</div>
+                      <div *ngIf="registrationForm.get('email').errors?.email">Enter a valid email</div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>Mobile <span class="text-danger">*</span></label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="mobileNumber"
+                      placeholder="9876543210" class="form-control form-control-sm" (keydown)="onlyNumbers($event)"
+                      maxlength="10" />
+                    <div
+                      *ngIf="registrationForm.get('mobileNumber')?.touched && registrationForm.get('mobileNumber')?.invalid"
+                      class="text-danger fs-custom">
+                      <div *ngIf="registrationForm.get('mobileNumber').errors?.required">Mobile number is required</div>
+                      <div *ngIf="registrationForm.get('mobileNumber').errors?.pattern">Enter a valid 10-digit mobile
+                        number</div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>Date of Birth <span class="text-danger">*</span></label>
+                    <input type="text" id="dob" class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                      formControlName="dob" autocomplete="off" [readOnly]="isAllDataPresent" [bsConfig]="{
+                      adaptivePosition: true,
+                      showWeekNumbers: false,
+                      isAnimated: true,
+                      containerClass: colorTheme,
+                      customTodayClass: 'custom-today-class',
+                      dateInputFormat: 'YYYY-MM-DD'
+                      }" bsDatepicker required />
+                    <div *ngIf="registrationForm.get('dob')?.touched && registrationForm.get('dob')?.invalid"
+                      class="text-danger fs-custom">
+                      Date of Birth is required
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-3">
+                    <label>Title <span class="text-danger">*</span></label>
+                    <select formControlName="titleId" [attr.disabled]="isAllDataPresent ? true : null"
+                      class="form-control form-control-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let title of titleOptions" [value]="title?.id">{{ title?.name }}</option>
+                    </select>
+                    <div *ngIf="registrationForm.get('titleId')?.touched && registrationForm.get('titleId')?.invalid"
+                      class="text-danger fs-custom">
+                      Title is required
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>First Name <span class="text-danger">*</span></label>
+                    <input type="text" [value]="jobCodeData.name" [readOnly]="isAllDataPresent"
+                      formControlName="firstName" class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('firstName')?.touched && registrationForm.get('firstName')?.invalid"
+                      class="text-danger fs-custom">
+                      First name is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label>Middle Name</label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="middleName" placeholder="Rajender"
+                      class="form-control form-control-sm" />
+                  </div>
+                  <div class="col-md-3">
+                    <label>Last Name <span class="text-danger">*</span></label>
+                    <input type="text" placeholder="Naik" [readOnly]="isAllDataPresent" formControlName="lastName"
+                      class="form-control form-control-sm" />
+                    <div *ngIf="registrationForm.get('lastName')?.touched && registrationForm.get('lastName')?.invalid"
+                      class="text-danger fs-custom">
+                      Last name is required
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-3">
+                    <label>Marital Status <span class="text-danger">*</span></label>
+                    <select formControlName="maritalStatusId" [attr.disabled]="isAllDataPresent ? true : null"
+                      class="form-control form-control-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let status of marriatalStatusOptions" [value]="status.id">
+                        {{ status.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="registrationForm.get('maritalStatusId')?.touched && registrationForm.get('maritalStatusId')?.invalid"
+                      class="text-danger fs-custom">
+                      Marital status is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label>Gender <span class="text-danger">*</span></label>
+                    <select formControlName="genderId" [attr.disabled]="isAllDataPresent ? true : null"
+                      class="form-control form-control-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let gender of genderOptions" [value]="gender?.id">{{ gender?.name }}</option>
+                    </select>
+                    <div *ngIf="registrationForm.get('genderId')?.touched && registrationForm.get('genderId')?.invalid"
+                      class="text-danger fs-custom">
+                      Gender is required
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>Father's Name <span class="text-danger">*</span></label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="fatherName"
+                      placeholder="Eerya naik" class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('fatherName')?.touched && registrationForm.get('fatherName')?.invalid"
+                      class="text-danger fs-custom">
+                      Father's name is required
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>District <span class="text-danger">*</span></label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="district"
+                      placeholder="Mahabubabad" class="form-control form-control-sm" />
+                    <div *ngIf="registrationForm.get('district')?.touched && registrationForm.get('district')?.invalid"
+                      class="text-danger fs-custom">
+                      District is required
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-3">
+                    <label>PAN <span class="text-danger">*</span></label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="pan" placeholder="ABCDE1234F"
+                      class="text-uppercase form-control form-control-sm" />
+                    <div *ngIf="registrationForm.get('pan')?.touched && registrationForm.get('pan')?.invalid"
+                      class="text-danger fs-custom">
+                      Not valid Ex: ABCDE1234F
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label>Aadhaar <span class="text-danger">*</span></label>
+                    <input type="text" [readOnly]="isAllDataPresent" formControlName="adhar" placeholder="987698769876"
+                      class="form-control form-control-sm" (keydown)="onlyNumbers($event)" maxlength="12" />
+                    <div *ngIf="registrationForm.get('adhar')?.touched && registrationForm.get('adhar')?.invalid"
+                      class="text-danger fs-custom">
+                      Enter valid 12-digit number
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="tenth" class="form-label">Resume <span class="text-danger">*</span></label>
+                    <div class="file-upload px-2 pt-1 rounded-4">
+                      <ng-container *ngIf="resumeFile && isAllDataPresent; else resumeFileInput">
+                        <button class="btn btn-info badge badge-pill badge-info py-2  btn-sm shadow-none border-0 w-100"
+                          (click)="viewFile(resumeFile)">
+                          View Resume
+                        </button>
+                      </ng-container>
+                      <ng-template #resumeFileInput>
+                        <input type="file" formControlName="resume" id="resume" #resumeFileInput
+                          (change)="onFileSelect($event, 'resume')" class="form-control form-control-sm file-input" />
+                      </ng-template>
+                    </div>
+                    <div *ngIf="registrationForm.get('resume')?.touched && registrationForm.get('resume')?.invalid"
+                      class="text-danger fs-custom">
+                      Resume is required
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="tenth" class="form-label">photo <span class="text-danger">*</span></label>
+                    <div class="file-upload px-2 pt-1 rounded-4">
+                      <ng-container *ngIf="photoFile && isAllDataPresent; else photoFileInput">
+                        <button
+                          class="btn btn-info badge badge-pill badge-info py-2  btn-sm shadow-none border-0  w-100"
+                          (click)="viewFile(resumeFile)">
+                          View photo
+                        </button>
+                      </ng-container>
+                      <ng-template #photoFileInput>
+                        <input type="file" formControlName="photo" id="photo" #photoFileInput
+                          (change)="onFileSelect($event, 'photo')" class="form-control form-control-sm file-input" />
+                      </ng-template>
+                    </div>
+                    <div *ngIf="registrationForm.get('photo')?.touched && registrationForm.get('photo')?.invalid"
+                      class="text-danger fs-custom">
+                      Photo is required
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-2 mr-2">
+                  <button *ngIf="!isAllDataPresent && !personalUpdate" type="submit"
+                    class="btn custom-bg text-white btn-sm shadow-none border-0 ms-2"
+                    (click)="setValidation('personal')">
+                    Save
+                  </button>
+                  <button *ngIf="isAllDataPresent" type="submit"
+                    class="btn btn-success btn-sm shadow-none border-0 ms-2" (click)="edit('personal')">
+                    Edit
+                  </button>
+                  <button *ngIf="personalUpdate" type="submit" class="btn btn-primary btn-sm shadow-none border-0 ms-2"
+                    (click)="setValidation('personal')">
+                    Update
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Address Info Form -->
+            <div *ngIf="activeTab === 'address'">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fw-bold text-start custom-text">{{ 'Address Information' | uppercase }}
+                </div>
+                <div class="text-end mt-0 align-items-center">
+                  <span class="fs-custom rounded-pill text-danger"
+                    aria-label="Fields marked with asterisk are required">(*) Required Fields</span>
+                </div>
+              </div>
+              <hr class="custom-hr mb-2 mt-1" />
+              <div class="container scroll-container">
+                <div class="d-flex justify-content-center fw-bold mb-2">Communication Address</div>
+                <!-- Permanent Address Fields -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label>Address1 <span class="text-danger">*</span></label>
+                    <textarea formControlName="addressA" placeholder="1-2-3/A" [readOnly]="isAllAddressDataPresent"
+                      class="form-control form-control-sm" rows="1"></textarea>
+                    <div *ngIf="registrationForm.get('addressA')?.touched && registrationForm.get('addressA')?.invalid"
+                      class="text-danger fs-custom">
+                      Address1 is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Address2 <span class="text-danger">*</span></label>
+                    <textarea formControlName="addressB" placeholder="madhapur" [readOnly]="isAllAddressDataPresent"
+                      class="form-control form-control-sm" rows="1"></textarea>
+                    <div *ngIf="registrationForm.get('addressB')?.touched && registrationForm.get('addressB')?.invalid"
+                      class="text-danger fs-custom">
+                      Address2 is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Address3</label>
+                    <textarea formControlName="addressC" placeholder="hyderabad" [readOnly]="isAllAddressDataPresent"
+                      class="form-control form-control-sm" rows="1"></textarea>
+                    <div *ngIf="registrationForm.get('addressC')?.touched && registrationForm.get('3')?.invalid"
+                      class="text-danger fs-custom">
+                      Address3 is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <label>State <span class="text-danger">*</span></label>
+                    <select formControlName="stateId" [attr.disabled]="isAllAddressDataPresent ? true : null"
+                      class="form-control form-control-sm" (change)="onStateChange($event,'communication')">
+                      <!-- Added (change) event -->
+                      <option value="">Select</option>
+                      <option *ngFor="let state of indianStates" [value]="state.id">
+                        {{ state.name }}
+                      </option>
+                    </select>
+
+                    <div *ngIf="registrationForm.get('stateId')?.touched && registrationForm.get('stateId')?.invalid"
+                      class="text-danger fs-custom">
+                      State is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>City <span class="text-danger">*</span></label>
+
+                    <select formControlName="cityId" [attr.disabled]="isAllAddressDataPresent ? true : null"
+                      class="form-control form-control-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let district of communicationCities" [value]="district.id">
+                        {{ district.name }}
+                      </option>
+                    </select>
+
+                    <!-- Error Message When No Cities Are Available -->
+                    <div
+                      *ngIf="!communicationCities || communicationCities.length === 0 && registrationForm.get('cityId')?.touched"
+                      class="text-danger fs-custom">
+                      No cities available. Please select a state first.
+                    </div>
+
+                    <!-- Validation Error (Only When Cities Exist) -->
+                    <div
+                      *ngIf="communicationCities?.length > 0 && registrationForm.get('cityId')?.touched && registrationForm.get('cityId')?.invalid"
+                      class="text-danger fs-custom">
+                      City is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <label>Postal Code <span class="text-danger">*</span></label>
+                    <input type="text" formControlName="postalCode" placeholder="500081"
+                      [readOnly]="isAllAddressDataPresent" (keydown)="onlyNumbers($event)" maxlength="6"
+                      class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('postalCode')?.touched && registrationForm.get('postalCode')?.invalid"
+                      class="text-danger fs-custom">
+                      Postal Code is required
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="custom-hr mb-2 mt-3" />
+                <div class="row mt-3">
+                  <div class="col-md-12">
+                    <label class="mr-3">permanent Address same as Communication address? <span
+                        class="text-danger">*</span></label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="addressFlag" id="yes" value="yes"
+                        (change)="onCommunicationAddressChange('yes')"
+                        [attr.disabled]="isAllAddressDataPresent ? true : null" />
+                      <label class="form-check-label" for="yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="addressFlag" id="no" value="no"
+                        (change)="onCommunicationAddressChange('no')"
+                        [attr.disabled]="isAllAddressDataPresent ? true : null" />
+                      <label class="form-check-label" for="no">No</label>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="fw-bold mb-2">Permanent Address</div> -->
+                <div class="d-flex justify-content-center fw-bold mb-2">Permanent Address</div>
+
+                <div class="row mt-2">
+                  <div class="col-md-2">
+                    <label>permanent Address1 <span class="text-danger">*</span></label>
+                    <textarea formControlName="permanentAddressA" placeholder="10-42"
+                      [readOnly]="isAllAddressDataPresent" class="form-control form-control-sm" rows="1"></textarea>
+                    <div
+                      *ngIf="registrationForm.get('permanentAddressA')?.touched && registrationForm.get('permanentAddressA')?.invalid"
+                      class="text-danger fs-custom">
+                      permanent Address1 is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>permanent Address2 <span class="text-danger">*</span></label>
+                    <textarea formControlName="permanentAddressB" placeholder="Gudur"
+                      [readOnly]="isAllAddressDataPresent" class="form-control form-control-sm" rows="1"></textarea>
+                    <div
+                      *ngIf="registrationForm.get('permanentAddressB')?.touched && registrationForm.get('permanentAddressB')?.invalid"
+                      class="text-danger fs-custom">
+                      permanent Address2 is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>permanent Address3</label>
+                    <textarea formControlName="permanentAddressC" placeholder="Mahabubabad"
+                      [readOnly]="isAllAddressDataPresent" class="form-control form-control-sm" rows="1"></textarea>
+                    <div
+                      *ngIf="registrationForm.get('permanentAddressC')?.touched && registrationForm.get('permanentAddressC')?.invalid"
+                      class="text-danger fs-custom">
+                      permanent Address2 is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>permanent State <span class="text-danger">*</span></label>
+                    <select formControlName="permanentStateId" [attr.disabled]="isAllAddressDataPresent ? true : null"
+                      class="form-control form-control-sm" (change)="onStateChange($event,'permanent')">
+                      <option value="">Select</option>
+                      <option *ngFor="let district of indianStates" [value]="district.id">
+                        {{ district.name }}
+                      </option>
+                    </select>
+
+                    <div
+                      *ngIf="registrationForm.get('permanentStateId')?.touched && registrationForm.get('permanentStateId')?.invalid"
+                      class="text-danger fs-custom">
+                      permanent State is required
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>City <span class="text-danger">*</span></label>
+
+                    <select formControlName="permanentCityId" class="form-control form-control-sm"
+                      [attr.disabled]="isAllAddressDataPresent ? true : null">
+                      <option value="">Select</option>
+                      <option *ngFor="let district of permanentCities" [value]="district.id">
+                        {{ district.name }}
+                      </option>
+                    </select>
+
+                    <!-- Show error if no cities are available -->
+                    <div *ngIf="!permanentCities?.length && registrationForm.get('permanentCityId')?.touched"
+                      class="text-danger fs-custom">
+                      No cities available. Please select a state first.
+                    </div>
+
+                    <!-- Show validation error only when cities are available -->
+                    <div
+                      *ngIf="permanentCities?.length > 0 && registrationForm.get('permanentCityId')?.touched && registrationForm.get('permanentCityId')?.invalid"
+                      class="text-danger fs-custom">
+                      City is required
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <label>permanent Postal Code <span class="text-danger">*</span></label>
+                    <input type="text" formControlName="permanentPostalCode" placeholder="506332"
+                      [readOnly]="isAllAddressDataPresent" maxlength="6" (keydown)="onlyNumbers($event)"
+                      class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('permanentPostalCode')?.touched && registrationForm.get('permanentPostalCode')?.invalid"
+                      class="text-danger fs-custom">
+                      permanent Postal Code is required
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                  <button *ngIf="!isAllAddressDataPresent && !addressUpadte" type="submit"
+                    class="btn custom-bg text-white  btn-sm shadow-none border-0" (click)="setValidation('address')">
+                    Save
+                  </button>
+
+                  <button *ngIf="isAllAddressDataPresent" type="submit"
+                    class="btn btn-success  btn-sm shadow-none border-0  mx-2" (click)="edit('address')">
+                    Edit
+                  </button>
+
+                  <button *ngIf="addressUpadte" type="submit" class="btn btn-primary  btn-sm shadow-none border-0 "
+                    (click)="setValidation('address')">
+                    Update
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- education form -->
+            <div *ngIf="activeTab === 'education'">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fw-bold text-start custom-text">{{ 'Education Details' | uppercase }}
+                </div>
+                <div class="text-end mt-0 align-items-center">
+                  <span class="fs-custom rounded-pill text-danger"
+                    aria-label="Fields marked with asterisk are required">(*) Required Fields</span>
+                </div>
+              </div>
+              <hr class="custom-hr mb-2 mt-1" />
+              <div class="container scroll-container">
+                <form [formGroup]="registrationForm">
+                  <div formArrayName="educationDetails">
+                    <div *ngFor="let education of educationArray.controls; let i = index" [formGroupName]="i"
+                      [ngClass]="{'pb-2': education.disabled}">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label *ngIf="!education.disabled">Education Type <span class="text-danger">*</span></label>
+                          <select formControlName="educationTypeId" class="form-control form-control-sm"
+                            [disabled]="education.disabled">
+                            <option value="">Select</option>
+                            <option value="1">Regular</option>
+                            <option value="2">Correspondence</option>
+                          </select>
+                          <div
+                            *ngIf="education.get('educationTypeId')?.touched && education.get('educationTypeId')?.invalid"
+                            class="text-danger fs-custom">
+                            Education type is required
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label *ngIf="!education.disabled">University/Institute <span
+                              class="text-danger">*</span></label>
+                          <select formControlName="universityId" class="form-control form-control-sm"
+                            [disabled]="education.disabled">
+                            <option value="">Select</option>
+                            <option *ngFor="let university of universityOptions" [value]="university.id">{{
+                              university.name }}</option>
+                          </select>
+                          <div *ngIf="education.get('universityId')?.touched && education.get('universityId')?.invalid"
+                            class="text-danger fs-custom">
+                            University/Institute is required
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label *ngIf="!education.disabled">Qualification <span class="text-danger">*</span></label>
+                          <select formControlName="qualificationId" class="form-control form-control-sm"
+                            [disabled]="education.disabled">
+                            <option value="">Select</option>
+                            <option *ngFor="let qualItem of qualificationOptions" [value]="qualItem.id">{{ qualItem.name
+                              }}</option>
+                          </select>
+                          <div
+                            *ngIf="education.get('qualificationId')?.touched && education.get('qualificationId')?.invalid"
+                            class="text-danger fs-custom">
+                            Qualification is required
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label *ngIf="!education.disabled">Year of passing <span class="text-danger">*</span></label>
+                          <select formControlName="yearOfPassing" class="form-control form-control-sm"
+                            [disabled]="education.disabled">
+                            <option value="">Select</option>
+                            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                          </select>
+                          <div
+                            *ngIf="education.get('yearOfPassing')?.touched && education.get('yearOfPassing')?.invalid"
+                            class="text-danger fs-custom">
+                            Year of passing is required
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label *ngIf="!education.disabled">Percentage <span class="text-danger">*</span></label>
+                          <input type="text" formControlName="percentage" maxlength="2" (keydown)="onlyNumbers($event)"
+                            placeholder="87" class="form-control form-control-sm" [disabled]="education.disabled" />
+                          <div *ngIf="education.get('percentage')?.touched && education.get('percentage')?.invalid"
+                            class="text-danger fs-custom">
+                            Percentage is required
+                          </div>
+                        </div>
+
+                        <!-- DELETE BUTTON (only for existing data) -->
+                        <div class="col-md-2 d-flex align-items-center" *ngIf="education.disabled">
+                          <button class="btn btn-danger btn-sm shadow-none border-0 " type="button"
+                            (click)="removeEducation(i, education.get('educationId')?.value)">
+                            Delete
+                          </button>
+                        </div>
+
+                        <!-- SAVE & ADD BUTTON (only for new entry) -->
+                        <div class="col-md-2 mt-4 d-flex align-items-center" *ngIf="!education.disabled">
+                          <button class="btn custom-bg text-white btn-sm mt-1" type="button"
+                            (click)="setValidation('education')">Save & Add</button>
+                        </div>
+                      </div>
+
+                      <!-- Hide hr for existing data, but apply pb-2 -->
+                      <hr class="custom-h" *ngIf="!education.disabled">
+                    </div>
+
+
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div *ngIf="activeTab === 'documents'">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fw-bold text-start custom-text">{{ 'Upload Documents' | uppercase }}</div>
+                <div class="text-end mt-0 align-items-center">
+                  <span class="fs-custom rounded-pill text-danger"
+                    aria-label="Fields marked with asterisk are required">(*) Required Fields</span>
+                </div>
+              </div>
+              <hr class="custom-hr mb-2 mt-1" />
+              <table class="tabl table-bordere table-sm mt-3 w-auto">
+                <!-- <thead>
+                  <tr>
+                    <th class="py-1 px-2 text-center">Document Name</th>
+                    <th class="py-1 px-2 text-center">Upload File</th>
+                    <th class="py-1 px-2 text-center">Actions</th>
+                  </tr>
+                </thead> -->
+                <tbody>
+                  <!-- 10th Document -->
+                  <tr>
+                    <td class="fw-bold py-1 px-2">SSC (10th)
+                      <span class="text-danger">*</span>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="file-upload px-2 pt-1 rounded-4">
+                        <ng-container *ngIf="tenthFile; else tenthFileInput">
+                          <button
+                            class="btn btn-info badge badge-pill badge-info py-2 btn-sm shadow-none border-0 w-100"
+                            (click)="viewFile(tenthFile)">View Document</button>
+                        </ng-container>
+                        <ng-template #tenthFileInput>
+                          <input type="file" formControlName="tenth" id="tenth" #tenthFileInput
+                            (change)="onFileSelect($event, 'tenth')" class="form-control form-control-sm file-input" />
+                        </ng-template>
+                      </div>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="d-flex gap-1">
+                        <button *ngIf="tenthFile" class="btn btn-danger btn-sm shadow-none border-0 mr-2"
+                          (click)="deleteFile('1')">Delete</button>
+                        <button *ngIf="!tenthFile" class="btn custom-bg text-white btn-sm shadow-none border-0 w-100"
+                          (click)="setValidation('documents')">Save</button>
+                        <button *ngIf="tenthFile" class="btn btn-primary btn-sm shadow-none border-0"
+                          (click)="updateDocument('tenth')">Update</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- 12th Document -->
+                  <tr>
+                    <td class="fw-bold py-1 px-2">Intermediate <span class="text-danger">*</span></td>
+                    <td class="py-1 px-2">
+                      <div class="file-upload px-2 pt-1 rounded-4">
+                        <ng-container *ngIf="twelthFile; else twelthFileInput">
+                          <button
+                            class="btn btn-info badge badge-pill badge-info py-2 btn-sm shadow-none border-0 w-100"
+                            (click)="viewFile(twelthFile)">View Document</button>
+                        </ng-container>
+                        <ng-template #twelthFileInput>
+                          <input type="file" formControlName="twelth" id="twelth" #twelthFileInput
+                            (change)="onFileSelect($event, 'twelth')" class="form-control form-control-sm file-input" />
+                        </ng-template>
+                      </div>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="d-flex gap-1">
+                        <button *ngIf="twelthFile" class="btn btn-danger btn-sm shadow-none border-0 mr-2"
+                          (click)="deleteFile(2)">Delete</button>
+                        <button *ngIf="!twelthFile" class="btn custom-bg text-white btn-sm shadow-none border-0 w-100"
+                          (click)="setValidation('documents')">Save</button>
+                        <button *ngIf="twelthFile" class="btn btn-primary btn-sm shadow-none border-0"
+                          (click)="updateDocument('twelth')">Update</button>
+                      </div>
+                    </td>
+                  </tr>
+
+
+
+                  <!-- B.Tech Document -->
+                  <tr>
+                    <td class="fw-bold py-1 px-2">Degree/B.Tech <span class="text-danger">*</span></td>
+                    <td class="py-1 px-2">
+                      <div class="file-upload px-2 pt-1 rounded-4">
+                        <ng-container *ngIf="degreeOrBTechFile; else degreeOrBTechFileInput">
+                          <button
+                            class="btn btn-info badge badge-pill badge-info py-2 btn-sm shadow-none border-0 w-100"
+                            (click)="viewFile(degreeOrBTechFile)">View Document</button>
+                        </ng-container>
+                        <ng-template #degreeOrBTechFileInput>
+                          <input type="file" formControlName="degreeOrBTech" id="degreeOrBTech" #degreeOrBTechFileInput
+                            (change)="onFileSelect($event, 'degreeOrBTech')"
+                            class="form-control form-control-sm file-input" />
+                        </ng-template>
+                      </div>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="d-flex gap-1">
+                        <button *ngIf="degreeOrBTechFile" class="btn btn-danger btn-sm shadow-none border- mr-2"
+                          (click)="deleteFile(3)">Delete</button>
+                        <button *ngIf="!degreeOrBTechFile"
+                          class="btn custom-bg text-white btn-sm shadow-none border-0 w-100"
+                          (click)="setValidation('documents')">Save</button>
+                        <button *ngIf="degreeOrBTechFile" class="btn btn-primary btn-sm shadow-none border-0"
+                          (click)="updateDocument('degreeOrBTech')">Update</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- M.Tech/PG Document -->
+                  <tr>
+                    <td class="fw-bold py-1 px-2">M.Tech/PG</td>
+                    <td class="py-1 px-2">
+                      <div class="file-upload px-2 pt-1 rounded-4">
+                        <ng-container *ngIf="deplomaFile; else deplomaFileInput">
+                          <button
+                            class="btn btn-info badge badge-pill badge-info py-2 btn-sm shadow-none border-0 w-100"
+                            (click)="viewFile(deplomaFile)">View Document</button>
+                        </ng-container>
+                        <ng-template #deplomaFileInput>
+                          <input type="file" formControlName="deploma" id="deploma" #deplomaFileInput
+                            (change)="onFileSelect($event, 'deploma')"
+                            class="form-control form-control-sm file-input" />
+                        </ng-template>
+                      </div>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="d-flex gap-1">
+                        <button *ngIf="deplomaFile" class="btn btn-danger btn-sm shadow-none border-0 mr-2"
+                          (click)="deleteFile(4)">Delete</button>
+                        <button *ngIf="!deplomaFile" class="btn custom-bg text-white btn-sm shadow-none border-0 w-100"
+                          (click)="setValidation('documents')">Save</button>
+                        <button *ngIf="deplomaFile" class="btn btn-primary btn-sm shadow-none border-0"
+                          (click)="updateDocument('deploma')">Update</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Others Document -->
+                  <tr>
+                    <td class="fw-bold py-1 px-2">Others</td>
+                    <td class="py-1 px-2">
+                      <div class="file-upload px-2 pt-1 rounded-4">
+                        <ng-container *ngIf="othersFile; else othersFileInput">
+                          <button
+                            class="btn btn-info badge badge-pill badge-info py-2 btn-sm shadow-none border-0 w-100"
+                            (click)="viewFile(othersFile)">View Document</button>
+                        </ng-container>
+                        <ng-template #othersFileInput>
+                          <input type="file" formControlName="others" id="others" #othersFileInput
+                            (change)="onFileSelect($event, 'others')" class="form-control form-control-sm file-input" />
+                        </ng-template>
+                      </div>
+                    </td>
+                    <td class="py-1 px-2">
+                      <div class="d-flex gap-1">
+                        <button *ngIf="othersFile" class="btn btn-danger btn-sm shadow-none border-0 mr-2"
+                          (click)="deleteFile(5)">Delete</button>
+                        <button *ngIf="!othersFile" class="btn custom-bg text-white btn-sm shadow-none border-0 w-100"
+                          (click)="setValidation('documents')">Save</button>
+                        <button *ngIf="othersFile" class="btn btn-primary btn-sm shadow-none border-0"
+                          (click)="updateDocument('others')">Update</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+            </div>
+
+
+            <!-- Experience -->
+
+            <div *ngIf="activeTab === 'experience'">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="fw-bold text-start custom-text">{{ 'Experience' | uppercase }}</div>
+                <div class="text-end mt-0 align-items-center">
+                  <span class="fs-custom rounded-pill text-danger"
+                    aria-label="Fields marked with asterisk are required">(*) Required Fields</span>
+                </div>
+              </div>
+              <hr class="custom-hr mb-2 mt-1" />
+              <div class="container scroll-container">
+                <!-- Permanent Address Fields -->
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label class="d-block">Are you a Fresher or Experienced?</label>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" formControlName="isFresher" class="form-check-input" id="fresher"
+                          value="fresher" (change)="handleExperienceToggle('fresher')" />
+                        <label class="form-check-label" for="fresher">Fresher</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" formControlName="isFresher" class="form-check-input" id="experienced"
+                          value="experienced" (change)="handleExperienceToggle('experienced')" />
+                        <label class="form-check-label" for="experienced">Experienced</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label>Joining Time <span class="text-danger">*</span></label>
+                    <select formControlName="joiningTime" class="form-control form-control-sm">
+                      <option value="">Select</option>
+                      <option *ngFor="let joining of joiningOptions" [value]="joining.id">
+                        {{ joining.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="registrationForm.get('joiningTime')?.touched && registrationForm.get('joiningTime')?.invalid"
+                      class="text-danger fs-custom">
+                      Joining Time is required
+                    </div>
+                  </div>
+                  <div *ngIf="isFresher" class="col-md-1 mt-4">
+                    <div class="">
+                      <button type="submit" class="btn custom-bg text-white btn-sm shadow-none border-0 mt-2"
+                        (click)="setValidation('experience')">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="!isFresher" class="col-md-2">
+                    <label>Current Salary <span class="text-danger">*</span></label>
+                    <input type="text" formControlName="currentSalary" placeholder="₹400000"
+                      (keydown)="onlyNumbers($event)" class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('currentSalary')?.touched && registrationForm.get('currentSalary')?.invalid"
+                      class="text-danger fs-custom">
+                      Current Salary is required
+                    </div>
+                  </div>
+
+                  <div *ngIf="!isFresher" class="col-md-2">
+                    <label>Expected Salary <span class="text-danger">*</span></label>
+                    <input type="text" formControlName="expectedSalary" placeholder="₹600000"
+                      (keydown)="onlyNumbers($event)" class="form-control form-control-sm" />
+                    <div
+                      *ngIf="registrationForm.get('expectedSalary')?.touched && registrationForm.get('expectedSalary')?.invalid"
+                      class="text-danger fs-custom">
+                      Expected Salary is required
+                    </div>
+                  </div>
+                  <div *ngIf="!isFresher" class="col-md-3">
+                    <label>Description <span class="text-danger">*</span></label>
+                    <textarea rows="1" formControlName="suitableJobDescription" class="form-control form-control-sm"
+                      placeholder="Description"></textarea>
+                    <div
+                      *ngIf="registrationForm.get('suitableJobDescription')?.touched && registrationForm.get('suitableJobDescription')?.invalid"
+                      class="text-danger fs-custom">
+                      job description is required
+                    </div>
+                  </div>
+                </div>
+                <hr class="custom-h mb-1 mt-1" />
+                <div *ngIf="!isFresher">
+                  <div class="row mt-3 mb-4">
+                    <div class="col-md-2">
+                      <label>Company Name<span class="text-danger">*</span></label>
+                      <input type="text" formControlName="companyName" placeholder="Company Name"
+                        class="form-control form-control-sm" (blur)="checkDuplicateCompanyName()" />
+
+                      <div
+                        *ngIf="registrationForm.get('companyName')?.touched && registrationForm.get('companyName')?.invalid"
+                        class="text-danger fs-custom">
+                        Company Name is required
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <label>Total Experience<span class="text-danger">*</span></label>
+                      <input type="text" formControlName="totalExperience" placeholder="5" maxlength="6"
+                        (keydown)="onlyNumbersWithDot($event)" maxlength="3" class="form-control form-control-sm" />
+                      <div
+                        *ngIf="registrationForm.get('totalExperience')?.touched && registrationForm.get('totalExperience')?.invalid"
+                        class="text-danger fs-custom">
+                        Total Experience
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <label>Last Date <span class="text-danger">*</span></label>
+                      <!-- <input type="date" formControlName="LastOrStill_Working_Date"
+                        class="form-control form-control-sm" /> -->
+                        <input type="text" id="LastOrStill_Working_Date" class="form-control form-control-sm" placeholder="yyyy-dd-mm"
+                        formControlName="LastOrStill_Working_Date" autocomplete="off" [bsConfig]="{
+                        adaptivePosition: true,
+                        showWeekNumbers: false,
+                        isAnimated: true,
+                        containerClass: colorTheme,
+                        customTodayClass: 'custom-today-class',
+                        dateInputFormat: 'YYYY-MM-DD'
+                        }" bsDatepicker required />
+                        
+                      <div
+                        *ngIf="registrationForm.get('LastOrStill_Working_Date')?.touched && registrationForm.get('LastOrStill_Working_Date')?.invalid"
+                        class="text-danger fs-custom">
+                        Last Date is required
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mt-4">
+                      <div class="">
+                        <button type="submit" class="btn custom-bg text-white btn-sm shadow-none border-0  mt-2"
+                          (click)="setValidation('experience')">
+                          Save & Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="custom-h mb-1 mt-1" />
+                <div class="col-md-12 mt-3 px-0 mx-0" *ngIf="experienceArray?.length > 0 && !isFresher">
+                  <!-- Table Header -->
+                  <div class="row fw-bold pb-2">
+                    <div class="col-md-2">Company Name</div>
+                    <div class="col-md-2">Total Experience</div>
+                    <div class="col-md-2">Last Working Date</div>
+                    <div class="col-md-1">Action</div>
+                  </div>
+
+                  <!-- Experience List -->
+                  <div class="row mb-2" *ngFor="let exp of experienceArray; let i = index">
+                    <div class="col-md-2">
+                      <input type="text" class="form-control" [value]="exp.companyName" readonly>
+                    </div>
+
+                    <div class="col-md-2">
+                      <input type="text" class="form-control" [value]="exp.totalExp + ' Years'" readonly>
+                    </div>
+
+                    <div class="col-md-2">
+                      <input type="text" class="form-control" [value]="lastWorkingformatDate(exp.lastWorkingDate)" readonly>
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
+                      <button class="btn btn-danger btn-sm w-100" (click)="deleteExperience(exp.experienceMapId, i)">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<!-- Modal-like Overlay -->
+<div *ngIf="showPDF" class="overlay">
+  <div class="pdf-container">
+    <button class="close-btn" (click)="closePDF()">✖</button>
+    <iframe [src]="fileURL" width="100%" height="100%"></iframe>
+  </div>
+</div>

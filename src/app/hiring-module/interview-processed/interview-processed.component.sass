@@ -1,0 +1,217 @@
+.col-md-2
+  padding-right: 0  
+.custom-bg
+  background-color: #0072BC 
+.custom-text
+  color: #0072bc   
+.small-header
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 1.5
+.small-header-th 
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 2.0    
+.custom-hr
+  border: 1px solid #0072BC !important   
+.cursor-pointer
+  cursor: pointer
+th, td
+  white-space: nowrap // Prevent text from wrapping to the next line
+  overflow: hidden     // Hide any overflowing content
+  text-overflow: ellipsis // Add ellipsis (...) if content overflows   
+  
+.scroll-container
+  max-height: calc(100vh - 200px)
+  overflow-y: scroll // Keep scrolling functionality
+  display: block
+  max-width: 100%
+  position: relative
+  &::-webkit-scrollbar
+    display: none
+  scrollbar-width: none
+  -ms-overflow-style: none  
+
+.scroll-container-with-scroll-bar
+  max-height: calc(100vh - 200px)
+  overflow-y: auto
+  overflow-x: hidden // Hide horizontal scroll
+  display: block
+  max-width: 100%
+  position: relative
+  &::-webkit-scrollbar
+    width: 0.5px 
+    height: 0px 
+  &::-webkit-scrollbar-track
+    background: transparent
+  &::-webkit-scrollbar-thumb
+    background: #0072BC
+    border-radius: 2px 
+  &::-webkit-scrollbar-thumb:hover
+    background: #005999
+  scrollbar-width: thin
+  scrollbar-color: #0072BC transparent
+  -ms-overflow-style: none
+
+thead th
+  position: -webkit-sticky
+  position: sticky
+  top: 0px
+  background: #0072BC
+  padding-top: 0
+
+input:focus, select:focus, textarea:focus
+  border-color: black !important // Override Bootstrap default blue
+  box-shadow: none !important // Remove default Bootstrap shadow
+
+// Make the input fields smaller
+input, select, textarea
+  font-size: 0.875rem // Small font size
+  padding: 0.25rem 0.5rem // Reduce padding for a smaller look
+  height: auto // Ensure height is adjusted correctly 
+
+
+button
+  &:active
+    box-shadow: none !important
+    outline: none !important
+.fw-bold
+  font-weight: bold
+   
+
+
+
+
+
+//offcanvas
+
+$offcanvas-width: 300px
+$offcanvas-bg: white
+$offcanvas-shadow: -2px 0 5px rgba(0, 0, 0, 0.2)
+$offcanvas-transition: right 0.3s ease-in-out
+$z-index-offcanvas: 1050
+
+.offcanvas-right
+  position: fixed
+  top: 0
+  right: -$offcanvas-width
+  width: $offcanvas-width
+  height: 100%
+  background-color: $offcanvas-bg
+  box-shadow: $offcanvas-shadow
+  transition: $offcanvas-transition
+  z-index: $z-index-offcanvas
+  overflow-y: auto
+
+  &.show
+    right: 0
+
+.offcanvas-header
+  padding: 1rem
+  border-bottom: 1px solid #dee2e6
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+.offcanvas-body
+  padding: 1rem
+
+.Hover:hover 
+  color: red  
+
+.text-decoration-underline
+  text-decoration: underline 
+
+
+@keyframes zoomIn
+  0%
+    transform: scale(0)
+    opacity: 0
+  100%
+    transform: scale(1)
+    opacity: 1
+
+.animate-zoom
+  animation: zoomIn 0.5s ease-out
+
+
+
+.custom-action-btn 
+  line-height: 1.5
+  font-size: 12px
+  border-radius: 5px
+  border: none
+  &:active,
+  &:focus 
+    border: none
+    outline: none
+    
+.fs-custom
+  font-size: 10px 
+
+
+
+.custom-scroll
+  max-height: 150px  // Set max height
+  overflow-y: auto   // Enable scrolling
+
+  // Customize scrollbar for WebKit browsers (Chrome, Edge, Safari)
+  &::-webkit-scrollbar
+    width: 5px  // Small width
+
+  &::-webkit-scrollbar-thumb
+    background-color: #0072BC  // Light gray scrollbar
+    border-radius: 10px  // Rounded scrollbar
+
+    &:hover
+      background-color: #0072BC  // Slightly darker on hover
+.top-dropdown
+  top: auto !important
+  bottom: 100% !important  // Moves the dropdown above
+  z-index: 1050  // Ensures it appears above other elements
+  max-height: 220px  // Adjust height as needed
+  overflow-y: auto  // Enable scrolling if needed
+  border: 1px solid #ccc
+  background: #fff  // Ensures the dropdown has a white background
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1)  // Adds a slight shadow
+
+  // Style for dropdown items
+  li
+    padding: 5px 10px
+    cursor: pointer
+    transition: background 0.2s ease-in-out
+
+    &:hover
+      background: #f8f9fa  // Light grey hover effect
+
+
+.table-container 
+  overflow-x: auto
+
+.custom-table 
+  width: 100%
+  border-collapse: collapse
+  table-layout: auto // Ensures better content fit
+
+.custom-th, .custom-td 
+  padding: 8px
+  border: 1px solid #dee2e6 // Bootstrap default border color
+  text-align: left
+  vertical-align: middle
+
+.custom-th 
+  background-color: #343a40 // Dark background for the header
+  color: #ffffff
+  font-weight: bold
+  text-align: center
+
+.custom-td 
+  white-space: nowrap // Prevents text from wrapping (remove if you want wrapping)
+  overflow: hidden
+  text-overflow: ellipsis
+
+.text-break 
+  word-wrap: break-word
+  word-break: break-word
+  white-space: normal // Allows text to wrap properly
+    

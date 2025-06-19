@@ -1,0 +1,315 @@
+.container-fluid {
+  width: 98% !important;
+  margin: auto;
+}
+
+.side-nav {
+  background: #fff;
+}
+
+.side-nav li {
+  list-style-type: none;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.side-nav a {
+  text-decoration: none;
+  color: #000;
+}
+
+.side-nav a:hover {
+  color: #0072bc;
+  text-decoration: none;
+}
+
+.jobcode-section {
+  padding: 10px 20px;
+  background: #fff;
+}
+
+.jobcode-section h3 {
+  color: #0072bc;
+}
+
+table {
+  overflow: scroll;
+}
+
+thead {
+  background: #0072bc !important;
+  color: #fff;
+  position: sticky;
+  top: 0px;
+}
+
+tr th, tr td {
+  border: 1px solid #fff;
+  padding: 8px 4px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+tr th {
+  white-space: nowrap;
+}
+
+.search-btn {
+  background: transparent !important;
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  color: #535353;
+}
+
+.create-jobcode {
+  text-align: right;
+}
+
+.create-jobcode button {
+  background: #0072bc;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+}
+
+.search-box {
+  width: 100%;
+  border: 1px solid #bababa;
+  font-size: 13px;
+  padding: 5px;
+}
+
+.modal.fade {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+}
+
+.modal-dialog {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  max-width: 60%;
+  margin: auto;
+}
+
+.close {
+  background: none !important;
+  color: #000 !important;
+  font-size: 30px;
+}
+
+.modal-header {
+  padding: 0em 1em;
+  border-bottom: none;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 0px;
+}
+
+.form-control {
+  height: 40px;
+  padding: 0px;
+}
+
+.exp {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0px 5px;
+  height: 40px;
+}
+
+.exp p {
+  color: #666666;
+  margin-bottom: 0px;
+}
+
+#experience {
+  border: none;
+  height: 28px;
+}
+
+.btnblock {
+  text-align: center;
+}
+
+.btnblock .submit {
+  background: #0072bc;
+  margin-right: 20px;
+  color: #fff;
+}
+
+.btnblock .cancel {
+  background: #e23d3a;
+  color: #fff;
+}
+
+.pipe {
+  margin: 0px 5px;
+}
+
+.sidenavbar {
+  width: 19% !important;
+  margin-right: 10px;
+}
+
+.title h6 {
+  color: #000;
+}
+
+label {
+  color: #000;
+}
+
+p {
+  color: #756262;
+}
+
+.search-container {
+  width: 28%;
+  text-align: right;
+  position: relative;
+}
+
+.create-jobcode {
+  width: 20%;
+}
+
+table {
+  margin-top: 10px;
+}
+
+.view-more {
+  color: #0072bc;
+  font-weight: 600;
+  cursor: pointer !important;
+}
+.view-more img {
+  height: 15px;
+  width: 15px;
+}
+
+.ack {
+  text-align: right !important;
+}
+
+.ack button {
+  background: #0072bc;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  padding: 5px 18px;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 776px) {
+  .col-md-10 {
+    padding-right: 0px;
+  }
+  .search-container {
+    text-align: left;
+  }
+  .row {
+    overflow: scroll;
+  }
+  .modal-dialog {
+    left: 0%;
+  }
+  .sidenavbar, .create-jobcode, .title, .search-container {
+    width: 100%;
+  }
+  tr th, tr td {
+    font-size: 12px;
+  }
+}
+.asset-data {
+  background: rgb(246, 248, 250);
+  padding: 15px;
+}
+
+select, input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+input {
+  padding: 0px 10px;
+}
+
+.navbar-nav {
+  padding: 10px;
+}
+
+label {
+  margin-bottom: 0px;
+}
+
+p {
+  font-size: 14px;
+}
+
+.id {
+  margin-left: 15px;
+}
+
+.asset-data .col-md-3 {
+  text-align: left;
+}
+
+.loop {
+  overflow: scroll;
+  max-height: 340px;
+}
+
+input:disabled {
+  background: #fff;
+}
+
+.hover-box {
+  background: #F6F8FA;
+  cursor: pointer;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+  max-height: 340px;
+}
+
+.asset-name {
+  color: #000;
+}
+
+@media screen and (max-width: 776px) {
+  .col-md-10, .col-md-2 {
+    padding-right: 15px !important;
+  }
+}
+.hover-box {
+  background: #F6F8FA;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.hover-box:hover {
+  background: #DFEEFE;
+}/*# sourceMappingURL=assethistory.component.css.map */

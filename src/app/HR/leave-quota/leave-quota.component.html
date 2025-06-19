@@ -1,0 +1,85 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Leave Quota
+            </li>
+        </span>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+   <div class="container-fluid">
+        <div class="card theCrd">
+            <h2>Employee ID:</h2>
+            <input type="text" (input)="onSearchChange($event.target.value)" 
+            (keypress)="numberOnly($event)" maxlength="6" />
+            <b *ngIf="empInfo" [ngClass]='{"isActv": empInfo.DISPLAYNAME== "ACTIVE"}'>{{empInfo.DISPLAYNAME}}</b>
+            <b *ngIf="inValidEmpId== '0'">Invalid Employee ID</b>
+        </div>
+
+        <ng-container *ngIf="empInfo">
+        <div class="card empInfoBlock">
+            <h5>Employee Information</h5>
+            <div class="empInfo">
+                 
+                <ng-container *ngIf="ProfileImg == true; else userIcon">
+                    <div class="imgBlock">
+                    <img [src]="profle_imgURL" height="200"  />
+                    </div>
+                </ng-container>
+                <ng-template #userIcon>
+                    <div class="imgBlock no_bordr">
+                    <img src="./././assets/img/icons/user.svg" alt="user">
+                    </div>
+                </ng-template> 
+
+
+
+                <ul>
+                    <li><label>Employee Name:&nbsp;</label><span>{{empInfo.Fullname}}</span></li>
+                    <li><label>Division:&nbsp;</label><span>{{empInfo.DIVISION}}</span></li>
+                    <li><label>Department:&nbsp;</label><span>{{empInfo.DEPT}}</span></li>
+
+                    <li><label>Designation:&nbsp;</label><span>{{empInfo.DESIGNATION}}</span></li>
+                    <li><label>Status:&nbsp;</label><span>{{empInfo.EMPSTATUS}}</span></li>
+                    <li><label>Employment Type:&nbsp;</label><span>{{empInfo.EmploymentType}}</span></li>
+                </ul>
+            </div>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="isEmpInfo && empInfo">
+        <div class="card empInfoBlock" *ngIf="empInfo.STATUS == 1001 || empInfo.STATUS == 1092|| empInfo.STATUS == 1401">
+            
+            <div class="_flxx">
+            <div>
+                <label> Request Type </label>
+                <select name="" class="form-control" >
+                    <option value="6">MRL</option>
+                    <option value="7">CF</option>
+                    <option value="14">OD</option>											
+                    <option value="16">WFH</option>
+                </select> 
+            </div>
+            <div>
+                <label>Quantity</label>
+                <input type="text" class="form-control" (keypress)="numberOnly($event)" /> 
+            </div>
+                <div class="leavesEnble"> 
+                    <button class="themeBtn" (click)="unfreezReqst()" >Enable</button> 
+                </div>
+        </div>
+        </div>
+    </ng-container>
+       
+   </div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+</div>   

@@ -1,0 +1,141 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <span>
+    <li class="breadcrumb-item" [routerLink]="['/managerApprovals']">
+      Manager Approvals
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Attendance Approvals
+    </li>
+  </span>
+    <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <!-- <div class="loader" *ngIf="isLoading">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+  </div> -->
+
+  <div class="tableSectn">
+    <div class="flxEnd">
+      <h5>Summary</h5>
+    </div>
+
+    <div class="myTableScroll"> 
+        <table>
+          <thead>
+            <tr>
+              <th class="sticky-col"><span>Name</span></th>
+              <th class="sticky-col"><span>Emp ID</span></th>
+              <th class="sticky-col"><span>On Date</span></th>
+              <th class="sticky-col"><span>Duration</span></th> 
+              <th class="sticky-col"><span>Net Hours</span></th> 
+              <th class="sticky-col"><span>Reason</span></th> 
+              <th class="sticky-col"><span>Status</span></th> 
+              <th class="sticky-col"><span>Action</span></th>   
+            </tr>
+             
+          </thead>
+          <tbody> 
+
+            <tr *ngFor="let item of attndnceRests">
+              <td>{{item.name}}</td>
+              <td>{{item.id}}</td>
+              <td>{{item.req_DATE | momentDate: "DD-MM-YYYY"}}</td>
+              <td>{{item.duration}}</td>
+              <td>{{item.net_HOURS}}</td> 
+              <td [tooltip]="item.message" content-type="template"  placement="bottom" [show-delay]="100" [hide-delay]="100">
+                <span class="lmtTxt">{{item.message}}</span>
+            </td>
+            <ng-template #HtmlContent1>
+              {{item.message}}
+            </ng-template>
+            <td>
+              <span class="lv_status aprvd"
+              [ngClass]="{'aprvd': item.flag == 'A', 'pndng':item.flag == 'P', 'rjctd':item.flag == 'R', 'rjctdBy':item.flag == 'MC'}">
+                <ng-container *ngIf="item.flag == 'MC' || item.flag == 'R'">Rejected</ng-container>
+                <ng-container *ngIf="item.flag == 'A' ||item.flag == 'P'">{{item.manager_Status}}</ng-container>                 
+              </span>
+            </td>
+            <td style="min-width: 199px;">
+              <ng-container *ngIf="item.flag== 'P'"> 
+                <button class="actnBtn apprv" (click)="leaveAction($event,item,'A')" >APPROVE</button> 
+                <button class="actnBtn" (click)="leaveAction($event,item,'R')" >REJECT</button> 
+            </ng-container>
+              <ng-container *ngIf="item.flag== 'A'"> 
+                <button class="actnBtn dsbl"  >-- NA --</button> 
+            </ng-container>
+             
+            </td>
+            </tr>
+            <tr *ngIf="noData">
+              <td colspan="9"><h2 class="noData">No Records Found&nbsp;</h2></td>
+            </tr>
+          </tbody>
+        </table> 
+    </div>
+  </div>
+
+
+  <div class="card gydLines">
+    <h5 >Note : <span>Please Submit your approvals before payroll closing.</span> </h5>     
+  </div>
+
+</div>
+
+
+
+<!-- Reason Form Modal -->
+<div #outsideElement>
+  <div class="modal-view-container">
+    <div #modalView class="modal view">
+      <div class="modal-view-details">
+          <!-- <input type="text" [(ngModel)]="leaveSumry"  hidden/> -->
+          <ng-container *ngIf="actionType == 'R' ||actionType == 'MC' ">
+          <form [formGroup]="ReasonForm" (ngSubmit)="submitReason()" >              
+              <div class="form-group">
+              <label>Leave your Comments<sup>*</sup></label>
+              <textarea class="form-control" rows="3" formControlName="reasonComment" name="comments" ></textarea>
+              <div *ngIf="f.reasonComment.touched && f.reasonComment.invalid" class="alert alert-danger">
+                  <div *ngIf="f.reasonComment.errors.required">Reason is required</div>
+                  <div *ngIf="f.reasonComment.errors.minlength">Reason should be minimum 2 characters</div>
+                  <div *ngIf="f.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+                </div> 
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="btn btn-success" type="submit" [disabled]="ReasonForm.invalid">Submit</button>
+                <button class="btn btn-warning" type="reset" (click)="closeModal()">Back</button>
+
+            </div>
+            </form>   
+          </ng-container>
+
+           <ng-container *ngIf="actionType == 'A'">
+            <form [formGroup]="ReasonFormApprve" (ngSubmit)="submitApprveReason()" >              
+              <div class="form-group">
+              <label>Leave your Comments (optional)</label>
+              <textarea class="form-control" rows="3" formControlName="reasonComment" name="comments" ></textarea>
+              <div *ngIf="f.reasonComment.touched && f.reasonComment.invalid" class="alert alert-danger">
+                  <div *ngIf="f.reasonComment.errors.required">Reason is required</div>
+                  <div *ngIf="f.reasonComment.errors.minlength">Reason should be minimum 2 characters</div>
+                  <div *ngIf="f.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+                </div> 
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="btn btn-success" type="submit" [disabled]="ReasonFormApprve.invalid">Submit</button>
+                <button class="btn btn-warning" type="reset" (click)="closeModal()">Back</button>
+
+            </div>
+            </form> 
+           </ng-container> 
+      <button (click)="closeModal()" class="clsModl">X</button> 
+    </div>
+    </div>
+  </div>
+  </div>

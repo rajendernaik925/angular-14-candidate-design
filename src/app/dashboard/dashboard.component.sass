@@ -1,0 +1,1376 @@
+
+
+\::-webkit-scrollbar
+  background: transparent
+  width: 5px
+  height: 5px
+
+\::-webkit-scrollbar-thumb
+  background-color: #888
+  &:hover
+    background-color: rgba(0, 0, 0, 0.3)
+
+.bread_crumb
+  display: flex
+  flex-flow: row
+  justify-content: space-between
+  align-items: center
+  flex-wrap: wrap
+  padding: 0.75rem 1rem
+  margin-bottom: 0rem 
+  padding-bottom: 1px
+  padding-top: 5px
+  min-height: 52px
+  ._date 
+    color: #e23d3a  
+    font-weight: 600 
+    font-size: 16px
+    margin-bottom: .2em
+.loggdEmps
+  justify-content: space-between
+  align-items: center
+  padding: .25em 
+  display: flex
+  min-width: 200px
+  padding-bottom: 0
+  span
+    font-size: 24px
+    font-weight: 300
+  p
+    margin: 0
+    font-size: 16px
+    font-weight: 600
+    color: #101010
+  h2
+    margin: 0
+    color: #7a86fa
+    -webkit-text-stroke: 1px #101010bb
+    font-size: 36px
+    font-weight: bolder 
+    //text-shadow: 0px -2px #fff, 3px -2px #7a86fa, 1px -3px #060606b4
+    // font-family: 'Rubik', sans-serif
+    // letter-spacing: 1px
+    line-height: 1
+.switch
+  display: inline-block
+  height: 34px
+  position: relative
+  width: 60px
+
+  input
+    display: none
+
+.slider
+  background-color: #ccc
+  bottom: 0
+  cursor: pointer
+  left: 0
+  position: absolute
+  right: 0
+  top: 0
+  transition: .4s
+
+  &:before
+    background-color: #fff
+    bottom: 4px
+    content: ""
+    height: 26px
+    left: 4px
+    position: absolute
+    transition: .4s
+    width: 26px
+
+input:checked + .slider
+  background-color: #66bb6a
+
+  &:before
+    transform: translateX(26px)
+
+.slider.round
+  border-radius: 34px
+
+  &:before
+    border-radius: 50%  
+
+.card 
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.035)
+  border-radius: 8px
+// profile card 
+.myProfile 
+  p 
+    margin-bottom: 5px
+    color: #101010
+    font-weight: 400
+    small
+      font-size: 14px
+  .card
+    margin-bottom: 1rem
+  .crdHdr
+    min-height: 180px
+    background: url('../../assets/img/dashboard/holidays-bg.svg')no-repeat
+    background-size: cover
+    padding: 1.8em 0.5em 0em 0.5em
+    h4
+      font-size: 20px
+      font-weight: 600
+      color: #101010
+      margin-bottom: 0
+    a 
+      font-weight: 500
+      text-decoration: none
+      font-size: 14px  
+      color: #101010
+      cursor: pointer
+.crdBdy.table_contnr
+  height: auto
+  border: 6px solid white
+  table tr td 
+    padding: 10px 5px
+    text-align: left
+    min-width: auto    
+    font-size: 12px
+  table tr td.holydayscomingsoonLBL
+    font-size: 15px  
+    font-weight: 600
+.hlydysModl    
+  .modal_title_img 
+    h5
+      margin: 0
+  .modal-body 
+    padding: 0 
+  .crdBdy.table_contnr 
+    max-height: 505px    
+    overflow-y: auto
+    table tr td 
+      text-transform: uppercase
+      cursor: initial
+  .closedHldy
+    color: red
+    text-transform: capitalize
+  .close
+    outline: none
+    box-shadow: none  
+ 
+a.viewBtn
+  font-style: italic
+  color: #007bff!important
+a.brfView
+  background-color: #e4eaf0
+  color: #101010
+  font-size: 16px
+  font-weight: 400
+  padding: 6px 12px
+  text-decoration: none
+  outline: none
+  box-shadow: none
+  font-style: italic
+  min-width: 100px
+
+.myProfile h5
+  margin-top: 6px 
+  margin-bottom: 10px      
+  font-size: 18px
+  overflow: hidden
+  text-overflow: ellipsis
+  display: -webkit-box
+  -webkit-line-clamp: 1
+  -webkit-box-orient: vertical
+.profile-pic 
+  position: absolute
+  top: 40px
+  left: 0
+  right: 0
+  text-align: center
+  width: 120px
+  height: 120px
+  overflow: hidden
+  margin: 0 auto
+  border-radius: 30px
+  border-bottom-left-radius: 1px
+  box-shadow: 0px 0px 5px #0000002b     
+  background-color: #fff
+  img 
+    width: 100%
+    height: 100%
+    object-fit: cover  
+// .profile-pic 
+//   position: absolute
+//   top: 40px
+//   left: 0
+//   text-align: center
+//   width: 100%
+//   img 
+//     max-height: 120px
+//     border-radius: 40px
+//     border-bottom-left-radius: 1px
+//     box-shadow: 0px 0px 5px #0000002b
+
+canvas.chartjs-render-monitor
+  max-height: max-content
+  max-width: 400px
+  margin: 0 auto 
+  
+.myFlex>div 
+  margin: 0.6em
+
+.myFlex 
+  flex-flow: row
+  justify-content: flex-start
+  align-items: flex-start
+
+.flx_inline
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 1em
+  h5
+    margin-bottom: 0.5em
+  a
+    font-style: italic  
+    text-decoration: none
+    color: #101010
+.progress-bar-container
+  background-color: #e4eaf0
+
+.progress-bar
+  height: 10px
+  width: 0
+  border-radius: 2px
+  &.green
+    background-color: #34d1bf
+
+  &.yellow
+    background-color: #ffd400
+
+  &.red
+    background-color: red  
+.inOutCard  
+  h6 
+    margin-bottom: .9rem
+    margin-top: .5rem
+    display: flex
+    justify-content: space-between
+    align-items: center
+    b 
+      color: #7ed321
+      font-size: 18px
+    small
+      font-size: 14px  
+    span
+      display: inline-block
+      padding: 6px 4px
+      font-size: 12px
+      background-color: #7ed321
+      color: white
+      border-radius: 5px 
+    label
+      margin-bottom: 0em  
+
+.leaveBalBarchart
+  .theBar 
+    padding: 0.75em 0
+    margin: 0.25em 0
+    .lbl._txt
+      min-width: 70%
+    .lbl
+      width: 30%
+      display: inline-block   
+      font-size: 14px
+      font-weight: 500
+      color: #414d55
+      &:nth-child(2)
+        text-align: right
+        font-size: 16px
+  h3
+    font-size: 30px
+    font-weight: 900      
+    color: #101010
+    margin-bottom: 10px
+a.applyLveBtn
+  background: #007bff
+  color: white!important
+  padding: 4px 14px!important 
+  display: inline-block
+  border-radius: 3px
+  margin-right: 10px
+
+.leaveBalDonutchart        
+  display: flex
+  flex-flow: row
+  justify-content: flex-start
+  flex-wrap: wrap 
+
+  .donutCard
+    min-width: 20.5rem
+    padding: 1em 0em
+    h5,a
+      padding: 0em 1em  
+    p  
+      padding: 0em 1.5em        
+      
+  &>div
+    margin: 0 0.6em
+    margin-bottom: 1.5em
+    flex: 0 0 46.5%
+
+  .card 
+    min-height: 430px
+    h5 
+      font-size: 22px
+      margin-bottom: .6em  
+    a 
+      font-style: italic  
+      color: #007bff
+      font-size: 16px
+      cursor: pointer
+    p  
+      color: #ff4400
+      display: block
+      font-size: 14px
+      line-height: 1.45
+      margin-top: 1em
+.fxdCard 
+  position: absolute
+  right: 0
+  top: 0
+  .card
+    max-width: 19rem
+    min-width: 19rem
+    margin-bottom: 1rem
+
+.card.inOutCard
+  padding: 15px    
+  padding-bottom: 1.35em
+  h5
+    font-size: 20px
+    margin-bottom: 0.6em
+    color: #101010
+    font-weight: 600
+  a
+    font-style: italic
+    color: #007bff
+    font-size: 14px
+    cursor: pointer
+.card.inOutCard._wfh 
+  .flx_inline
+    margin-bottom: 0
+  h6
+    // justify-content: space-evenly    
+    span
+      text-transform: uppercase
+      font-size: 14px 
+
+
+.reltv
+  position: relative    
+.abslt
+  position: absolute
+  top: 0
+  left: 23.5%
+  width: 100%
+  max-width: 53%
+  padding-bottom: 2em
+
+
+.dailyaAttndnce
+  margin: 0 0.6em
+  margin-bottom: 1em
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.025)
+  border-radius: 8px
+  .theHdr
+    background-color: #7a86fa
+    padding: 15px 10px 5px 10px
+    border-top-left-radius: 6px
+    border-top-right-radius: 6px
+  .hdng 
+    display: flex
+    justify-content: space-between
+    align-items: center
+    
+    h4
+      font-size: 18px
+      font-weight: 600
+      color: #fafafa
+      margin-bottom: 0
+    a 
+      color: white
+      text-decoration: none
+      font-size: 16px  
+
+  .hdrBtm
+    display: flex
+    justify-content: flex-start
+    align-items: flex-start    
+    &>div
+      min-width: 20%
+      padding-right: 0.95em
+      margin-top: 1.5em
+      margin-right: 1.25rem
+      h3
+        color: white
+        font-weight: 700
+      span
+        color: white  
+        font-size: 14px
+
+
+button.reqstBtn
+  font-size: 14px
+  padding: 6px 8px
+  border: none
+  border-radius: 5px
+  min-width: 90px
+  background-color: #e4eaf0
+  outline: none
+  box-shadow: none
+
+  &.actve
+    background-color: orange
+    color: white
+
+.theBody
+  position: relative
+  border: 5px solid #fff
+  padding-top: 45px
+  background: #e4eaf0
+  border-top: 5px solid #fff
+ 
+.table_contnr
+  table
+    border-spacing: 0
+    width: 100%
+  tr
+    background-color: #f7f9fb
+    outline: none
+    box-shadow: none
+    // cursor: pointer
+    &:nth-child(even)
+      background-color: #f1f4f7
+.table_contnr.attendanceReport
+  overflow-y: auto
+  height: 314px
+
+  table
+    border-spacing: 0
+    width: 100%
+
+  tbody
+    tr
+      background-color: #f7f9fb
+      outline: none
+      box-shadow: none
+      cursor: pointer
+      &:nth-child(even)
+        background-color: #f1f4f7
+    tr.warnBg 
+      background-color: #fcd855    
+    tr.holyday
+      background-color: #a5db5e
+
+    td
+      border-bottom: 2px solid #fff
+      color: #101010
+      padding: 10px 10px
+      text-align: left
+      min-width: 100px
+  th
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 10px 5px
+    text-align: left
+    height: 0
+    line-height: 0
+    padding-top: 0
+    padding-bottom: 0
+    color: transparent
+    border: none
+    white-space: nowrap
+
+    div
+      position: absolute
+      background: transparent
+      color: #101010
+      padding: 14px 5px
+      top: 0
+      line-height: normal
+      border-left: 0px solid #fff
+      font-weight: 500
+      font-size: 18px
+      min-width: 100px
+
+    &:first-child div
+      border: none        
+
+
+._crdAnncmnt 
+  // background-color: #7a86fa
+  color: white
+  // padding: 10px 15px
+  // min-height: 60px 
+  position: relative
+  overflow: hidden
+  max-width: 98%
+  margin: 0 auto
+  margin-bottom: 1em
+  border: 1px solid #fff
+  .micIcon 
+    background: url('../../assets/img/dashboard/announcement-mic.svg')no-repeat
+    background-size: 88px
+    width: 108px
+    height: 88px
+    -webkit-animation-name: bounceInDown
+    animation-name: bounceInDown
+    -webkit-animation-duration: 1s
+    animation-duration: 1s
+    -webkit-animation-fill-mode: both
+    animation-fill-mode: both
+    animation-delay: .6s
+    position: absolute
+    top: 3px
+    right: 0px
+    z-index: 99
+  p
+    margin-bottom: 0.35em    
+    font-size: 18px
+    font-weight: 600
+    position: absolute
+    top: 0.4em
+    left: 1.5em
+    z-index: 99
+  h4
+    font-size: 22px
+    line-height: 1.4
+    padding-right: 1em
+    margin-bottom: 0
+
+  owl-carousel 
+    max-width: 100%
+    cursor: grab
+    .item
+      padding: 2em 2.5em 1.5em 1.5em
+      min-height: 80px
+      line-height: 1.5
+
+
+
+
+@-webkit-keyframes bounceInDown
+  0%, 60%, 75%, 90%, 100%
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
+
+  0%
+    opacity: 0
+    -webkit-transform: translate3d(0, -3000px, 0)
+    transform: translate3d(0, -3000px, 0)
+
+  60%
+    opacity: 1
+    -webkit-transform: translate3d(0, 25px, 0)
+    transform: translate3d(0, 25px, 0)
+
+  75%
+    -webkit-transform: translate3d(0, -10px, 0)
+    transform: translate3d(0, -10px, 0)
+
+  90%
+    -webkit-transform: translate3d(0, 5px, 0)
+    transform: translate3d(0, 5px, 0)
+
+  100%
+    -webkit-transform: none
+    transform: none
+
+@keyframes bounceInDown
+  0%, 60%, 75%, 90%, 100%
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1)
+
+  0%
+    opacity: 0
+    -webkit-transform: translate3d(0, -3000px, 0)
+    transform: translate3d(0, -3000px, 0)
+
+  60%
+    opacity: 1
+    -webkit-transform: translate3d(0, 25px, 0)
+    transform: translate3d(0, 25px, 0)
+
+  75%
+    -webkit-transform: translate3d(0, -10px, 0)
+    transform: translate3d(0, -10px, 0)
+
+  90%
+    -webkit-transform: translate3d(0, 5px, 0)
+    transform: translate3d(0, 5px, 0)
+
+  100%
+    -webkit-transform: none
+    transform: none
+
+.card.ourInfo 
+  padding: 1em 0.75em
+  min-height: 180px
+  background: url('../../assets/img/dashboard/our-documents-bg.png')no-repeat
+  background-size: cover
+  h5
+    font-size: 20px
+    font-weight: 600
+    color: #101010
+  .crdsGrid 
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+    justify-content: space-between
+    align-items: center
+    width: 100%
+  .theCard 
+    flex: 0 0 50%
+    width: 100%
+    max-width: 30%
+    padding: 3px 5px
+    background-color: #f7f9fb
+    min-height: 90px
+    margin: 0.5em auto
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-flow: column
+    text-align: center
+    border-radius: 10px
+    border: 1px solid #707070
+    cursor: pointer
+    outline: none
+    box-shadow: none
+    img
+      max-height: 32px
+      width: auto
+    a
+      font-size: 10px !important
+      font-weight: 700
+      line-height: 1.3
+      display: block
+      padding: 8px 0px
+      color: #101010
+      opacity: .9
+      text-decoration: none
+      cursor: pointer
+      word-break: break-word
+
+
+
+
+
+// leave policy pdf modal css 
+.modal-view-container
+  width: 100%
+  height: 100%
+  overflow: hidden
+  position: relative
+  padding-top: 50px
+  box-sizing: border-box
+  z-index: 9999
+  pointer-events: none
+  position: fixed
+  top: 0
+  left: 0
+
+.view.modal
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  z-index: 999
+  transform: scale(1.15)
+  transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946)
+  pointer-events: none
+  opacity: 0
+  will-change: transform, opacity
+
+  &.visible
+    pointer-events: auto
+    display: block
+    opacity: 1
+    transform: scale(1)
+    transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946), opacity 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946)
+
+.modal-view-details
+  background: #FFF
+  z-index: 2
+  position: fixed
+  left: 50%
+  top: 50%
+
+  /* padding: 25px 25px 50px 25px;
+  width: 65%
+  max-width: 100%
+  transform: translate(-50%, -50%)
+  border-radius: 2px
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6)
+
+  h1
+    margin: 0.2em 0 0.4em 0
+    padding: 0
+    line-height: 1
+    font-size: 24px
+    color: #111
+
+  button.clsModl
+    position: absolute    
+    top: 0px
+    right: -31px
+    background: none
+    color: #f5f5f5
+    background: #2e2f2b8c
+    border-radius: 2px
+    border: none
+    font-size: 16px
+    font-weight: bold
+    padding: 4px 10px
+    outline: none
+    box-shadow: none
+    text-transform: uppercase
+    &:hover
+      background: #000
+
+.modal:after
+  position: fixed
+  background: rgba(0, 0, 0, 0.4)
+  width: 100%
+  height: 100%
+  left: 0
+  top: 0
+  display: block
+  content: ''  
+
+
+// birthdays section   
+.bDaysCard 
+  margin: 1em 0.6em
+  padding: 1.4em 1em 1em 1em
+  border-radius: 10px
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.025)
+  background-color: #ffffff
+  .flx_inline    
+    margin-bottom: 0em !important
+    h5 
+      font-size: 20px
+      font-weight: 600
+      color: #101010
+      margin-bottom: 0.1em !important
+      position: relative
+      span 
+        position: absolute
+        top: -20px
+        right: -2.8em
+        img 
+          max-height: 50px
+  small
+    margin-bottom: 1.5em
+    display: block   
+
+.bdaysList 
+  ul 
+    list-style-type: none
+    margin: 0
+    padding: 0
+    display: flex
+    flex-flow: row
+    align-items: flex-start
+    flex-wrap: wrap
+    li 
+      display: inline-block
+      // flex: 0 0 25%
+      max-width: 160px
+      margin-bottom: 0.7em
+
+
+  .bdayOf>div 
+    display: flex
+    flex-flow: row
+    justify-content: flex-start
+    align-items: center
+    position: relative
+    min-width: 140px
+    background: #e4eaf0
+    margin-right: 20px
+    border-radius: 20px
+    overflow: hidden
+    border: 1px solid #e4eaf0
+    img
+      max-width: 100px 
+    p
+      margin: 0 auto
+      padding: 0
+      position: absolute
+      bottom: 0
+      top: 95px
+      max-width: 95px
+      left: 106px
+      transform: rotate(-90deg)
+      transform-origin: 0 0
+      line-height: 1.3
+      font-size: 11px
+      width: 100%
+      display: block
+      text-align: center
+      font-weight: 600
+      opacity: .9
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 2
+      -webkit-box-orient: vertical
+      overflow: hidden
+      min-height: 28px
+
+   
+    
+.bdayOf 
+  h6 
+    font-size: 12px
+    font-weight: 600
+    margin: 0.6em 0em
+    color: #101010
+    margin-right: 10px
+    text-overflow: ellipsis
+    display: -webkit-box
+    -webkit-line-clamp: 1
+    -webkit-box-orient: vertical
+    overflow: hidden
+    cursor: pointer
+
+.loader
+  content: ""
+  position: fixed
+  width: 100%
+  height: 100%
+  background: #fdfdfd6b
+  top: 0
+  left: 0  
+// .loader.attDnceLoadr
+//   position: absolute
+//   z-index: 99  
+.hlydysModl  
+  transition: transform .3s ease-out  
+  overflow-y: hidden
+  &::after
+    position: absolute
+    content: ''
+    background: black
+    opacity: .5
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    z-index: -1  
+  .table_contnr  
+    -webkit-animation-name: fadeIn
+    animation-name: fadeIn
+    -webkit-animation-duration: 1s
+    animation-duration: 1s
+    -webkit-animation-fill-mode: both
+    animation-fill-mode: both
+
+    td.clsd 
+      color: #959595
+.noData
+  margin: 0em auto
+  text-align: center
+  font-size: 26px
+  color: #767676
+  background-color: #f3f5f8
+  padding: 2em
+.card._dwnlds
+  padding: 1em
+  min-height: 430px    
+  padding-bottom: 200px
+  background: url('../../assets/img/dashboard/document-downloads-BG.svg')no-repeat
+  background-size: contain
+  background-position-y: bottom
+  background-position-x: center
+  background-color: white  
+  h5 
+    margin-bottom: 1em
+
+._payslips, ._itsDocs 
+  margin-bottom: 1.3em
+  ul 
+    padding: 0
+    margin: 0
+    display: flex
+    flex-flow: row
+    justify-content: flex-start
+    align-items: center
+    flex-wrap: wrap
+  li 
+    list-style-type: none
+    margin: 0.15555em
+    margin-bottom: 0.5em
+
+    a
+      max-width: 85px
+      padding: 10px 10px
+      background: #f7f9fb
+      border-radius: 8px
+      display: flex
+      flex-flow: column
+      justify-content: center
+      align-items: center
+      text-align: center  
+      cursor: pointer
+      p
+        margin: 0
+        font-size: 12px
+        font-weight: 600
+        text-transform: uppercase
+        line-height: 1.4
+        margin-top: 5px
+._payslips
+  li
+    margin: 0.35555em
+    flex: 0 0 30%
+    max-width: 30%
+._itsDocs 
+  ul
+    align-items: flex-start 
+    li
+      min-width: 48%
+      a
+        max-width: 130px 
+        min-height: 105px
+      p
+        font-size: 14px 
+        font-weight: 700
+        opacity: .9
+        margin-top: 8px
+
+  .form_16
+    img
+      // max-width: 100px  
+      max-width: 50px      
+
+.jobOpenings
+  margin: 1em 0.6em
+  padding: 1em 1em
+  padding-bottom: 0
+  border-radius: 10px
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.025)
+  min-height: 350px     
+  background: url('../../assets/img/dashboard/job-openings-bg.svg') no-repeat
+  background-size: 43%
+  background-position-y: top
+  background-position-x: 98%
+  background-color: #ffffff
+
+  .flx_inline
+    h5
+      font-size: 20px
+      font-weight: 600
+      color: #101010
+  ._job 
+    min-width: 330px
+    max-width: 350px
+    overflow: hidden
+    padding: 1em
+    border-radius: 15px
+    background-color: #f4f7faf0
+    border: solid 1px #7a86fa4d
+    border-bottom-left-radius: 0px
+    min-height: 335px
+    padding-bottom: 60px
+    h6
+      font-size: 18px
+      font-weight: bold
+      margin-bottom: 1em
+    ul
+      list-style-type: none
+      margin: 0
+      padding: 0
+      li 
+        margin-bottom: 0.5em
+        p
+          margin-bottom: 0px
+          color: #101010
+          font-size: 16px
+          font-weight: 300
+          word-break: break-word
+          a 
+            color: #3c4ce2
+          b
+            font-weight: 600
+    a.btn.brfView 
+      font-size: 14px
+      font-weight: 500
+      position: absolute
+      bottom: 18px
+
+  ._listOfOpngs 
+    max-width: 360px
+
+
+div.myTableScroll
+  max-width: 100%
+  max-height: 350px
+  overflow: scroll
+  position: relative
+
+  table
+    position: relative
+    // border-collapse: collapse
+    border-collapse: initial
+    width: 100%    
+
+  td, th
+    padding: 0.45em 0.75em
+    text-align: left     
+    min-width: 130px 
+    white-space: nowrap 
+    p
+      margin: 0
+      font-size: 14px
+  thead th
+    position: -webkit-sticky    
+    /* for Safari
+    position: sticky
+    top: 0
+    background: #e4eaf0
+    color: #101010
+    &:nth-child(2)
+      z-index: 99 
+    &:first-child
+      // left: 0
+      z-index: 1 
+    span
+      font-weight: 600
+      font-size: 14px
+      color: #101010
+      text-transform: uppercase
+    b 
+      font-weight: 600
+      font-size: 24px
+      vertical-align: middle
+      padding-left: 5px
+  tbody th
+    position: -webkit-sticky
+    /* for Safari
+    position: sticky
+    left: 0
+    background: #FFF
+    border-right: 1px solid #CCC
+  tbody 
+    tr
+      background: #f1f4f7 
+      &:nth-child(even)
+        background-color: #f7f9fb
+    tr.warnBg 
+      background-color: #fcd855    
+    tr.holyday
+      background-color: #a5db5e
+  tbody td 
+    font-size: 14px
+    text-align: left
+    padding: 0.65em 0.75em
+    cursor: pointer
+    h5
+      font-size: 18px
+    span._compltd
+      color: #328d05
+    span._proccss
+      color: #0072bc
+    span._pending
+      color: #e46c03  
+    span._rejctd
+      color: #ed0423   
+  .sticky-col
+    position: sticky
+    position: -webkit-sticky
+    background-color: #fafbfc
+  .first-col 
+    left: 0px
+    min-width: 260px
+  .second-col
+    width: 50px
+    min-width: 50px
+    // max-width: 150px 
+    left: 260px
+    z-index: 1       
+
+div.myTableScroll._assamAttndnceTable
+  td, th
+    min-width: 110px    
+
+
+.welcome_Txt
+  margin-bottom: 10px
+  padding: 10px
+  border-bottom: 1px solid #dee2e6
+  text-align: center
+  h2 
+    font-size: 22px
+  p 
+    font-size: 18px
+    text-align: center
+    font-weight: 500
+    color: #2ea9f0
+    margin-bottom: 0
+    span 
+      font-size: 14px
+      color: #101010    
+
+  p._logout 
+    position: absolute
+    right: 2em
+    top: 2em
+    a
+      cursor: pointer
+      display: block
+      padding: 4px
+      i
+        font-size: 1.2em
+
+
+.PanInfoForm  
+  .form-group
+    position: relative
+  .invalid-feedback 
+    display: initial
+    width: auto 
+    font-size: 13px
+    color: #ba0202
+    margin: 0
+    // padding-left: 5px
+  label.uploadBtn
+    display: flex
+    background: #d4edf6
+    border: 1px solid #ddd
+    padding: 0.35em 0em 0.4em 0
+    border-radius: 3px
+    align-items: flex-end
+    margin-bottom: -2px    
+    span
+      padding-left: 10px
+      vertical-align: text-top
+      white-space: nowrap
+      overflow: hidden
+      line-height: 1
+      // text-overflow: ellipsis
+      // font-size: 14px
+      // display: -webkit-box
+      // -webkit-line-clamp: 1
+      // -webkit-box-orient: vertical
+    img
+      max-width: 26px
+      margin-left: 8px  
+
+
+.flxGridRow
+  display: flex
+  flex-flow: row
+  justify-content: flex-start
+  &>div
+    flex: 0 0 49%
+    max-width: 49%
+    padding: 0em 1em
+    form
+      max-width: 100%
+      .radioGrid
+        display: flex
+        flex-flow: row
+        flex-wrap: wrap
+        &>div
+          flex: 0 0 40%
+          max-width: 40% 
+
+      .flxRoww
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        margin-bottom: 0.5em
+        &>div
+          flex: 0 0 49%
+          max-width: 49%
+        
+
+
+          
+      input[type="text"]
+        outline: 0
+        box-shadow: none
+        text-transform: uppercase
+      .datePckr:disabled, input.datePckr.form-control[readonly]
+        background: white  
+        font-size: 14px
+        max-width: 49%
+      textarea
+        max-height: 90px
+        min-height: 60px
+        outline: none
+        box-shadow: none
+        font-size: 14px  
+  .theFelxx
+    display: flex
+    justify-content: space-between
+    flex-flow: row
+  #rectangle    
+    width: 100%
+    max-width: 440px
+    height: 225px
+    border-radius: 10px
+    padding: 10px
+    margin: 10px
+    margin-bottom: 20px
+    margin-left: auto
+    margin-right: auto
+    user-select: none
+    background: -moz-linear-gradient(212deg, rgba(153, 218, 255, 1) 0%, rgba(161, 139, 159, 1) 100%)
+    /* ff3.6+
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(161, 139, 159, 1)), color-stop(100%, rgba(153, 218, 255, 1)))
+    /* safari4+,chrome
+    background: -webkit-linear-gradient(212deg, rgba(153, 218, 255, 1) 0%, rgba(161, 139, 159, 1) 100%)
+    /* safari5.1+,chrome10+
+    background: -o-linear-gradient(212deg, rgba(153, 218, 255, 1) 0%, rgba(161, 139, 159, 1) 100%)
+    /* opera 11.10+
+    background: -ms-linear-gradient(212deg, rgba(153, 218, 255, 1) 0%, rgba(161, 139, 159, 1) 100%)
+    /* ie10+
+    background: linear-gradient(238deg, rgba(153, 218, 255, 1) 0%, rgba(161, 139, 159, 1) 100%)
+    /* w3c
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A18B9F', endColorstr='#99DAFF',GradientType=1 )
+    /* ie6-9
+    position: relative    
+
+    h1
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 20px #ff00de, 0 0 75px #ff00de
+      font-size: 24px 
+
+    h2
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 20px #ff00de, 0 0 75px #ff00de
+      font-size: 22px 
+
+    h4
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 3px #ff00de, 0 0 40px #ff00de, 0 0 5px #ff00de, 0 0 75px #ff00de
+      font-size: 18px 
+      text-transform: uppercase
+    h3
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de, 0 0 20px #ff00de, 0 0 75px #ff00de
+      font-size: 14px 
+      text-transform: uppercase 
+
+    .A
+      margin-top: 5px
+      margin-bottom: 5px
+      max-width: 55px
+      height: auto  
+    span
+      margin-top: 20px
+      display: block
+      color: #034892
+    p
+      text-align: center 
+      text-transform: uppercase
+      width: 160px
+      font-size: 24px
+      margin-left: 10px 
+      text-decoration: none
+      color: #000 
+    a
+      color: #000 
+    .exmpleCase
+      position: absolute
+      left: .7em
+      bottom: 1em  
+      small
+        display: block       
+  
+
+  .custom_validtn
+    color: #ba0202 
+    font-size: 13px
+    // padding-left: 5px
+  .v_center
+    vertical-align: middle
+    text-align: left
+    label
+      vertical-align: text-bottom
+      margin-left: 8px  
+      cursor: pointer
+    input[type="radio"]
+      width: 25px
+      height: 25px
+      cursor: pointer
+      webkit-appearance: none
+      -moz-appearance: none
+      appearance: none
+      display: inline-block
+      padding: 3px
+      /* background-color only for content */
+      background-clip: content-box
+      border: 2px solid #bbbbbb
+      background-color: #e4eaf0
+      border-radius: 50%
+      outline: none
+      box-shadow: none
+      &:disabled 
+        cursor: auto
+    input[type="radio"]:checked 
+      background-color: #7a86fa
+    input[type="radio"].is-invalid
+      border: 2px solid #f20000      
+
+
+    
+.inPgrssPAN
+  text-align: center
+  p
+    font-size: 14px
+    color: #101010
+  h2
+    font-size: 18px
+    color: #101010
+    font-weight: 500  
+
+.modal-content.popup_onload 
+  height: max-content
+  overflow: auto
+  padding: 30px  
+  p
+    margin-bottom: 10px
+  button.close
+    position: absolute
+    right: 0
+    top: 0
+  ol, ul, dl
+    font-size: 14px
+  .model_btn
+    text-align: center
+
+.theCard.new_relative
+  position: relative
+  .new_pdf
+    animation: blinker 1s linear infinite
+    position: absolute
+    top: 1px
+    right: 3px   
+    background: red
+    width: max-content
+    padding: 0px 5px
+    color: #fff
+    font-size: 14px
+  @keyframes blinker 
+    50% 
+      opacity: 0
+.center_model
+  justify-content: center
+  align-items: center
+  height: 100vh
+  display: flex
+tr.table_padding
+  display: block
+  padding: 15px
+
+    
+

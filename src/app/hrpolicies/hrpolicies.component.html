@@ -1,0 +1,47 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">  
+            <li class="breadcrumb-item active" aria-current="page">
+               HR Policies
+            </li>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+
+  <div class="container-fluid p_5">
+      <ul class="policyList">
+          <li *ngFor = "let item of hrDocs" (click)="showPolicyModal(item) " appNoRightClick>
+            <div class="card">
+                <img src="././assets/img/icons/pdf-file.svg" alt=""/>
+                <!-- <img src="{{fileBasepath + item.image_FILE}}" alt=""/> -->
+                <h5>{{item.displayname}}</h5>
+            </div>
+          </li>
+           
+      </ul>
+      
+  </div>
+
+
+  <!-- PDF Modal --> 
+<div class="modal hlydysModl"  [style.display]="policyModal ? 'block' : 'none'"> 
+  <div class="modal-dialog modal_top modal-lg"> 
+    <div class="modal-content" > 
+      <div class="modal_Myheader"> 
+        <button type="button" (click)="closePolicyModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+      <div class="modal-body" style="overflow: hidden;overflow-x: auto;" > 
+        <iframe class="desktop-pdf embed-responsive-item" id= "policyiFrame" 
+        [src]="policyFile|safe" width="100%" height="500" allowfullscreen="true" 
+         style="min-height:95vh;width:100%;max-width: 100%;"  type="application/pdf" *ngIf="policyFile">
+          <!-- <a [href]="policyFile" (click)="closePolicyModal()"><span class="btn btn-primary">View/Download</span> the PDF file.</a> -->
+        </iframe >   
+        <img class="mobile-pdf embed-responsive-item" [src]="policyFileImg|safe" 
+         allowfullscreen="true" 
+        style="width:100%;max-width: 100%;" type="application/pdf" *ngIf="policyFileImg"  >
+
+      </div>
+    </div>
+  </div>
+</div> 

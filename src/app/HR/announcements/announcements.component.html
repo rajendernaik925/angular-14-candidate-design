@@ -1,0 +1,11 @@
+
+<form [formGroup]="blogForm" >
+    <label for="">Title</label>
+    <input type="text" class="form-control" formControlName="title"/>
+    <br><label for="">Comment</label>
+    <textarea formControlName="data" id="" class="form-control" 
+    cols="10" ></textarea>
+    <br><label for="">Date</label>
+    <input type="date" formControlName="date" class="form-control">
+    <br><input type="submit"(click)="postBlog()" value="Post">
+</form>

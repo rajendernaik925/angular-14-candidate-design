@@ -1,0 +1,807 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Asset Requests</li>
+      <li class="_date">
+        Logged in from {{ myDate | momentDate : "dddd, DD"
+        }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+        {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+      </li>
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="side-bar">
+        <ul class="sidebar">
+          <li
+            [class.active]="selectedView === 'raiseAsset'"
+            (click)="changeView('raiseAsset')"
+          >
+            Raise Request
+          </li>
+          <li
+            [class.active]="selectedView === 'assetHistory'"
+            (click)="changeView('assetHistory')"
+          >
+            Requests History ({{ totalCount }})
+          </li>
+        </ul>
+      </div>
+  
+      <div class="main">
+        <div class="jobcode-section">
+          <div *ngIf="selectedView === 'raiseAsset'">
+            <form
+              [formGroup]="employeeDeviceForm"
+              (ngSubmit)="onSubmit()"
+              autocomplete="off"
+            >
+              <!-- Employee Information Section -->
+              <div class="emp-info">
+                <h5 class="mb-2">Employee Information</h5>
+                <div class="row mb-1">
+                  <div class="col-md-3">
+                    <label for="empName" class="form-label"
+                      >Employee Name <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="empName"
+                      class="form-control"
+                      formControlName="empName"
+                      placeholder="Enter Name"
+                      (keypress)="onKeyPress($event, 'empName')"
+                      (paste)="onPaste($event, 'empName')"
+                      (input)="convertToUppercase('empName')"
+                    />
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('empName')?.hasError('required') &&
+                        employeeDeviceForm.get('empName')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Employee Name is required.
+                    </div>
+  
+                    <!-- Error Message for Max Length -->
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('empName')?.value?.length >= 50 &&
+                        employeeDeviceForm.get('empName')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Maximum 50 characters allowed.
+                    </div>
+                  </div>
+  
+                  <div class="col-md-3">
+                    <label for="contactNum" class="form-label"
+                      >Contact Number <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="contactNum"
+                      class="form-control"
+                      formControlName="contactNum"
+                      (keypress)="allowOnlyDigits($event)"
+                      (paste)="handlePaste($event)"
+                      maxlength="10"
+                      placeholder="Enter Contact Number"
+                    />
+                    <div
+                      *ngIf="employeeDeviceForm.get('contactNum')?.touched"
+                      class="text-danger"
+                    >
+                      <span
+                        *ngIf="
+                          employeeDeviceForm.get('contactNum')?.errors?.required
+                        "
+                      >
+                        Contact Number is required.
+                      </span>
+                      <span
+                        *ngIf="
+                          employeeDeviceForm.get('contactNum')?.errors?.pattern
+                        "
+                      >
+                        Please enter a valid 10-digit number.
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="bu" class="form-label"
+                      >BU Name <span style="color: red">*</span></label
+                    >
+                    <select id="bu" class="form-select" formControlName="bu">
+                      <option value="" selected disabled>Select BU</option>
+                      <option
+                        *ngFor="let businessunit of bu"
+                        [value]="businessunit.id"
+                      >
+                        {{ businessunit.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('bu')?.invalid &&
+                        employeeDeviceForm.get('bu')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      BU Name is required.
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="department" class="form-label"
+                      >Department <span style="color: red">*</span></label
+                    >
+                    <select
+                      id="department"
+                      class="form-select"
+                      formControlName="department"
+                    >
+                      <option value="" selected disabled>
+                        Select Department
+                      </option>
+                      <option *ngFor="let dept of departments" [value]="dept.id">
+                        {{ dept.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('department')?.invalid &&
+                        employeeDeviceForm.get('department')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Department is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <div class="col-md-3">
+                    <label for="designation" class="form-label"
+                      >Designation <span style="color: red">*</span></label
+                    >
+                    <select
+                      id="designation"
+                      class="form-select"
+                      formControlName="designation"
+                    >
+                      <option value="" selected disabled>
+                        Select Designation
+                      </option>
+                      <option *ngFor="let des of designations" [value]="des.id">
+                        {{ des.name }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('designation')?.invalid &&
+                        employeeDeviceForm.get('designation')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Designation is required.
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-3 position-relative">
+                    <label for="reportingManager" class="form-label"
+                      >Reporting Manager <span style="color: red">*</span>
+                    </label>
+                    <div class="manager-search">
+                      <input
+                        type="text"
+                        [formControl]="reportingManager"
+                        (input)="searchManagers()"
+                        (keypress)="specialChar($event)"
+                        placeholder="Search Manager by ID or Name"
+                      />
+  
+                      <ul
+                        *ngIf="filteredManagers.length > 0"
+                        class="suggestions-list"
+                      >
+                        <li
+                          *ngFor="let manager of filteredManagers"
+                          (click)="selectManager(manager)"
+                        >
+                          {{ manager.id }} - {{ manager.name }}
+                        </li>
+                      </ul>
+                    </div>
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('reportingManager')?.invalid &&
+                        employeeDeviceForm.get('reportingManager')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      reportingManager is required.
+                    </div>
+                  </div> -->
+                  <div class="col-md-3 position-relative">
+                    <label for="reportingManager" class="form-label">
+                      Reporting Manager <span style="color: red">*</span>
+                    </label>
+                    <div class="manager-search">
+                      <input
+                        type="text"
+                        [formControl]="reportingManager"
+                        (input)="searchManagers()"
+                        (keypress)="specialChar($event)"
+                        placeholder="Search Manager by ID or Name"
+                      />
+                      <ul
+                        *ngIf="filteredManagers.length > 0"
+                        class="suggestions-list"
+                      >
+                        <li
+                          *ngFor="let manager of filteredManagers"
+                          (click)="selectManager(manager)"
+                        >
+                          {{ manager.id }} - {{ manager.name }}
+                        </li>
+                      </ul>
+                    </div>
+                    <div
+                      *ngIf="
+                        employeeDeviceForm
+                          .get('reportingManager')
+                          ?.hasError('required') &&
+                        employeeDeviceForm.get('reportingManager')?.touched &&
+                        !employeeDeviceForm.get('reportingManager')?.dirty
+                      "
+                      class="text-danger"
+                    >
+                      Reporting Manager is required.
+                    </div>
+                  </div>
+  
+                  <div class="col-md-3">
+                    <label for="tentativeJoiningDate" class="form-label"
+                      >Tentative Joining Date
+                      <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="tentativeJoiningDate"
+                      class="form-control"
+                      placeholder="YYYY-MM-DD"
+                      bsDatepicker
+                      formControlName="tentativeJoiningDate"
+                      [bsConfig]="{
+                        dateInputFormat: 'YYYY-MM-DD',
+                        isAnimated: true
+                      }"
+                      [minDate]="minDate"
+                    />
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        employeeDeviceForm.get('tentativeJoiningDate')?.touched &&
+                        employeeDeviceForm.get('tentativeJoiningDate')?.invalid
+                      "
+                    >
+                      Tentative Joining Date is required.
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="workLocation" class="form-label"
+                      >Work Location <span style="color: red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="workLocation"
+                      class="form-control"
+                      formControlName="workLocation"
+                      placeholder="Enter Location"
+                      (keypress)="onKeyPress($event, 'workLocation')"
+                      (paste)="onPaste($event, 'workLocation')"
+                    />
+                    <div
+                      *ngIf="
+                        employeeDeviceForm
+                          .get('workLocation')
+                          ?.hasError('required') &&
+                        employeeDeviceForm.get('workLocation')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Work Location is required.
+                    </div>
+  
+                    <!-- Error Message for Max Length -->
+                    <div
+                      *ngIf="
+                        employeeDeviceForm.get('workLocation')?.value?.length >=
+                          50 && employeeDeviceForm.get('workLocation')?.touched
+                      "
+                      class="text-danger"
+                    >
+                      Maximum 50 characters allowed.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="emp-info mt-4">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div formArrayName="assetRows">
+                      <div
+                        *ngFor="let row of assetRows.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <div class="row mt-4 align-items-end">
+                          <div class="col-md-2">
+                            <label
+                              >Select Asset Type
+                              <span style="color: red">*</span></label
+                            >
+                            <!-- <select formControlName="assetType" id="assetType">
+                              <option value="" disabled selected>Select</option>
+                              <option
+                                *ngFor="let asset of assets"
+                                [value]="asset.id"
+                              >
+                                {{ asset.name }}
+                              </option>
+                            </select> -->
+                            <select
+                              formControlName="assetType"
+                              (change)="onAssetTypeChange($event, i)"
+                            >
+                              <option value="" disabled selected>Select</option>
+                              <option
+                                *ngFor="let asset of getFilteredAssetList(i)"
+                                [value]="asset.id"
+                              >
+                                {{ asset.name }}
+                              </option>
+                            </select>
+  
+                            <div
+                              *ngIf="
+                                row.get('assetType')?.invalid &&
+                                row.get('assetType')?.touched
+                              "
+                              class="text-danger"
+                            >
+                              Asset Type is required.
+                            </div>
+                          </div>
+  
+                          <div
+                            class="col-md-2"
+                            *ngIf="
+                              !['8', '9', '10'].includes(
+                                row.get('assetType').value
+                              )
+                            "
+                          >
+                            <label>Count</label>
+                            <input
+                              formControlName="count"
+                              type="number"
+                              (keypress)="allowOnlyDigits($event)"
+                              min="1"
+                              placeholder="Count"
+                            />
+                          </div>
+  
+                          <div
+                            class="col-md-7"
+                            *ngIf="row.get('assetType').value === '9'"
+                          >
+                            <label
+                              >Domain <span style="color: red">*</span></label
+                            >
+                            <select formControlName="domain">
+                              <option value="" selected>Select</option>
+                              <option
+                                *ngFor="let domain of domain"
+                                [value]="domain.name"
+                              >
+                                {{ domain.name }}
+                              </option>
+                            </select>
+                          </div>
+                          <div
+                            class="col-md-7"
+                            *ngIf="row.get('assetType').value !== '9'"
+                          >
+                            <label> Description</label>
+                            <input
+                              type="text"
+                              formControlName="description"
+                              (input)="validateMaxLength(row, 'description')"
+                              (keypress)="
+                                preventExceedingMaxLength(
+                                  $event,
+                                  row,
+                                  'description'
+                                )
+                              "
+                              placeholder="Enter description"
+                            />
+                            <div
+                              *ngIf="row.get('description')?.value?.length >= 100"
+                              class="text-danger"
+                            >
+                              Maximum 100 characters allowed.
+                            </div>
+                          </div>
+  
+                          <div class="col-md-1 d-flex justify-content-end">
+                            <button
+                              type="button"
+                              class="btn btn-danger"
+                              (click)="removeRow(i)"
+                              [disabled]="assetRows.length === 1"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Add Row Button -->
+                <div class="row mt-4 ml-1">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="addRow()"
+                  >
+                    <i class="fa fa-plus"></i> Add
+                  </button>
+                </div>
+              </div>
+  
+              <!-- Submit Button Inside Form -->
+              <div class="row justify-content-center mt-3">
+                <div class="col-md-1">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-md-1">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="onReset()"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <div *ngIf="selectedView === 'assetHistory'">
+          <div class="asset-history">
+            <form
+              [formGroup]="filterForm"
+              (ngSubmit)="onFilterSubmit()"
+              autocomplete="off"
+            >
+              <div class="row mr-1">
+                <div class="col-md-4">
+                  <h4>Asset History</h4>
+                </div>
+                <div class="col-md-8 m-auto d-flex filter">
+                  <div>
+                    <label for="tentativeFromDate">From Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeFromDate"
+                      formControlName="tentativeFromDate"
+                      class="form-control"
+                      (change)="onFromDateChange()"
+                    />
+                  </div>
+                  <div>
+                    <label for="tentativeToDate">To Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeToDate"
+                      formControlName="tentativeToDate"
+                      class="form-control"
+                      [readonly]="!isToDateEnabled"
+                      [ngClass]="{ 'inactive-date': !isToDateEnabled }"
+                    />
+                  </div>
+                  <div>
+                    <label for="bu">Division</label>
+                    <select id="bu" formControlName="bu" class="form-control">
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let businessunit of bu"
+                        [value]="businessunit.id"
+                      >
+                        {{ businessunit.name }}
+                      </option>
+                    </select>
+                  </div>
+  
+                  <div>
+                    <label for="department">Department</label>
+                    <select
+                      id="department"
+                      formControlName="department"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="status">Status</label>
+                    <select
+                      id="status"
+                      formControlName="status"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option value="Acknowledged">Acknowledged</option>
+                      <option value="InProgress">In Progress</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="assetType">Asset Type</label>
+ 
+                    <select
+                      id="assetType"
+                      formControlName="assetType"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option *ngFor="let asset of assets" [value]="asset.id">
+                        {{ asset.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="m-auto view-btn">
+                    <button type="submit" class="filter-btn">View</button>
+                  </div>
+                  <div class="m-auto border-0 view-btn">
+                    <button
+                      type="button"
+                      class="filter-clear-btn"
+                      (click)="onClearFilters()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="table-responsive">
+              <!-- Table -->
+              <table class="mt-4 table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Raised Date</th>
+                    <th>Raised For</th>
+                    <th>Division</th>
+                    <th>Asset Type</th>
+                    <th>Tentative Joining Date</th>
+                    <th>Contact Number</th>
+                    <th>Work Location</th>
+                    <th>Department</th>
+  
+                    <th>Designation</th>
+                    <th>Reporting Manager</th>
+                    <th>Acknowledged By</th>
+                    <th>Acknowledged Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let employee of filteredAssetList"
+                    (click)="openModal(employee)"
+                    class="cursor-pointer"
+                  >
+                    <td>{{ employee.raisedDate }}</td>
+                    <td>{{ employee.empName }}</td>
+                    <td>{{ employee.buName }}</td>
+                    <!-- <td
+                      [tooltip]="getTooltipText(employee.items)"
+                      class="tooltip-cell"
+                    >
+                      <span>{{ getPreviewText(employee.items) }}</span>
+                    </td> -->
+                    <td
+                      [tooltip]="
+                        getPreviewText(employee.items).length > 10
+                          ? getTooltipText(employee.items)
+                          : null
+                      "
+                      class="tooltip-cell"
+                    >
+                      <span>{{ getPreviewText(employee.items) }}</span>
+                    </td>
+  
+                    <td>{{ employee.tentativeJoiningDate }}</td>
+                    <td>{{ employee.contactNum }}</td>
+                    <td>{{ employee.workLocation }}</td>
+                    <td>{{ employee.deptName }}</td>
+  
+                    <td>{{ employee.desName }}</td>
+                    <td>{{ employee.reportingManagerName }}</td>
+  
+                    <td>{{ employee.acknowledgeByName }}</td>
+                    <!-- <td>{{ employee.acknowledgeDate }}</td> -->
+                    <td *ngIf="employee.acknowledgeDate">
+                      {{ employee.acknowledgeDate }}
+                    </td>
+                    <td *ngIf="!employee.acknowledgeDate">--</td>
+  
+                    <td>{{ employee.status }}</td>
+                    <td>
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 256 256"
+                        height="1em"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="cursor: pointer"
+                      >
+                        <path
+                          d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"
+                        ></path>
+                      </svg>
+                      <!-- <img
+                        src="/assets/img/eye.svg"
+                        alt="view"
+                       
+                      /> -->
+                    </td>
+                  </tr>
+                  <div
+                    class="modal approval-modal"
+                    *ngIf="isConfirmationModalVisible"
+                  >
+                    <div class="modal-content">
+                      <div
+                        class="d-flex justify-content-between align-items-center close"
+                      >
+                        <h6 class="mb-0">Asset Records</h6>
+                        <span class="close-btn" (click)="closeModal()"
+                          >&times;</span
+                        >
+                      </div>
+  
+                      <div class="modal-body success-modal px-6">
+                        <div *ngIf="modalData.length">
+                          <div
+                            *ngFor="let asset of modalData"
+                            class="modal-row row mb-3"
+                          >
+                            <!-- Asset Type -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Asset Type:</strong></label
+                              >
+                              <p>{{ asset.asset }}</p>
+                              <!-- <input
+                                  type="text"
+                                  class="form-control"
+                                  [value]="asset.asset"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Count -->
+                            <div
+                              class="col-md-12 d-flex"
+                              *ngIf="
+                                !['E-Mail', 'RF Card', 'ID Card'].includes(
+                                  asset.asset
+                                )
+                              "
+                            >
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Count:</strong></label
+                              >
+  
+                              <p>{{ asset.count }}</p>
+                              <!-- <input
+                                  type="number"
+                                  class="form-control"
+                                  [value]="asset.count"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Remarks / Description -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%">
+                                <strong>
+                                  <ng-container *ngIf="asset.asset === 'E-Mail'"
+                                    >Domain:</ng-container
+                                  >
+                                  <ng-container *ngIf="asset.asset !== 'E-Mail'"
+                                    >Description:</ng-container
+                                  ></strong
+                                >
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                [value]="asset.remarks"
+                                [ngStyle]="{ 'background-color': '#fff' }"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <tr *ngIf="filteredAssetList.length === 0">
+                    <td colspan="14">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination-controls mt-2 d-flex justify-content-between">
+              <div class="allrecords">
+                <p
+                  *ngIf="
+                    filteredAssetList &&
+                    filteredAssetList.length > 0 &&
+                    totalCount
+                  "
+                >
+                  Showing results {{ getDisplayedCount() }} of {{ totalCount }}
+                  <!-- Showing results {{ filteredAssetList.length }} of
+                  {{ totalCount }} -->
+                </p>
+              </div>
+  
+              <div class="pagination-controls">
+                <button
+                  (click)="prevPage()"
+                  [ngClass]="{ 'button-disabled': currentPage === 1 }"
+                >
+                  <i class="fa fa-angle-double-left"></i>
+                </button>
+  
+                <span>Page {{ currentPage }}</span>
+  
+                <button
+                  (click)="nextPage()"
+                  [ngClass]="{ 'button-disabled': isNextDisabled }"
+                >
+                  <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+  

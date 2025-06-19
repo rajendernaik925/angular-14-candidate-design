@@ -1,0 +1,36 @@
+<!--  
+    <ul class="nav navbar-nav side-nav mb-2">
+   
+      <li class="pb-2">
+        <a routerLink="/asset" routerLinkActive="active-link">
+          Employee Assets
+        </a>
+      </li>
+      <li>
+        <a routerLink="/assethistory" routerLinkActive="active-link">Asset Request History</a>
+      </li>
+    </ul> -->
+
+    <ul class="nav navbar-nav side-nav mb-2">
+      <li class="pb-2">
+          <a 
+              routerLink="/asset" 
+              routerLinkActive="active-link" 
+              [routerLinkActiveOptions]="{ exact: true }">
+              Employee Assets
+          </a>
+      </li>
+      <li>
+          <a 
+              routerLink="/assethistory"
+              routerLinkActive="active-link" 
+              [routerLinkActiveOptions]="{ exact: true }">
+              Asset Request History
+          </a>
+      </li>
+  </ul>
+  
+      
+      
+      
+  

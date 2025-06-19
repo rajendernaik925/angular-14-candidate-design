@@ -1,0 +1,200 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb"> 
+      <span>
+        <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+        <li class="breadcrumb-item" [routerLink]="['/profileRequests']">Profile Requests</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Emergency Contact Request
+        </li>
+    </span> 
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="bgWyt"> 
+      
+
+    <div class="myTableScroll" >
+        <table >
+          <thead>
+            <tr>
+              <th class="sticky-col s_no"><span>S.No</span></th>
+              <th class="sticky-col first-col"><span>Emp Name</span></th>
+              <th class="sticky-col second-col"><span>Emp ID</span></th>
+              <th class="sticky-col"><span>Date of Request</span></th> 
+              <th class="sticky-col"><span>DOJ</span></th>  
+              <th class="sticky-col"><span>Business Unit</span></th> 
+              <th class="sticky-col"><span>Department</span></th> 
+              <th class="sticky-col"><span>Status</span></th> 
+              <th class="sticky-col"><span>Action</span></th> 
+            </tr>
+          </thead>
+
+          <tbody *ngIf="listOfReqsts">
+            <tr *ngIf="listOfReqsts.length == 0">
+              <td colspan="9">
+               <h2 class="noData">No Records</h2>
+              </td>
+            </tr>
+            <tr *ngFor="let item of listOfReqsts;let i=index;">
+              <td class="sticky-col s_no" >{{i+1}}</td>
+              <td class="sticky-col first-col">{{item.EMPLOYEENAME}}</td>
+              <td class="sticky-col second-col">{{item.EMPLOYEEID}}</td>
+              <td>{{item.EMPLOYEE_REQUEST_DATE}}</td> 
+              <td>{{item.DOJ}}</td> 
+              <td>{{item.BUNAME}}</td> 
+              <td>{{item.DEPARTMENT}}</td>
+              <td>{{item.STATUS}}</td>
+              <td><a data-toggle="modal" data-target="#veiwModal" (click)='showmyModal();get_Item(item)'  class="_proccss">View</a></td>
+               
+          </tr>
+          
+       
+          </tbody>
+        </table> 
+    </div>
+    </div>
+  </div>
+
+
+
+  <!-- Holidays modal  -->
+  <div class="modal detailsModl" id="veiwModal" [style.display]="veiwModal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl" *ngIf="empData">
+      <div class="modal-content"> 
+        <div class="modal-header" style="align-items: center">
+          <div class="modal_title_img">
+           <h5>Requested By: {{empData.EMPLOYEENAME}}&nbsp;-&nbsp;{{empData.EMPLOYEEID}} </h5>
+          </div>
+          <button type="button" (click)="closeVeiwModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        </div> 
+        <div class="modal-body">
+          <ng-container *ngIf="modalType==''"> 
+           <div class="row">
+            <div class="col-md-6" > 
+              <div class="myTableScroll">
+                <table>
+                  <thead>
+                    <tr> 
+                      <th class="sticky-col prev" colspan="2"><span>Previous</span></th>   
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="prevData">
+                        <tr>
+                          <td>First Name</td>
+                          <td>{{prevData.ice_FIRSTNAME}}</td>
+                        </tr>
+                        <tr>
+                          <td>Last Name</td>
+                          <td>{{prevData.ice_LASTNAME}}</td>
+                        </tr>
+                        <tr>
+                          <td>Relation</td>
+                          <td>{{prevData.relationname}}</td>
+                        </tr>
+                        <tr>
+                          <td>Mobile No.</td>
+                          <td>{{prevData.icemobile}}</td>
+                        </tr>
+                        <tr>
+                          <td>Address 1</td>
+                          <td>{{prevData.iceaddress}}</td>
+                        </tr>
+                        <tr>
+                            <td>Address 2</td>
+                            <td>{{prevData.iceaddress2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Address 3</td>
+                            <td>{{prevData.iceaddress3}}</td>
+                        </tr>
+                        <tr>
+                            <td>Address 4</td>
+                            <td>{{prevData.iceaddress4}}</td>
+                        </tr>
+                        <tr>
+                            <td>State</td>
+                            <td>{{prevData.icestate}}</td>
+                          </tr>
+                        <tr>
+                          <td>City</td>
+                          <td>{{prevData.icecity}}</td>
+                        </tr>
+                        
+                  </tbody>
+                </table>
+            </div> 
+            </div>  
+            <div class="col-md-6" > 
+              <div class="myTableScroll">
+                <table>
+                  <thead>
+                    <tr> 
+                      <th class="sticky-col req" colspan="2"><span>Requested</span></th>   
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="reqData">
+                        <tr *ngFor="let item of reqData">
+                          <ng-container *ngIf="item.FIELD_NAME!= 'ICE_STATE_ID' && item.FIELD_NAME!= 'RELATIONID' && item.FIELD_NAME != 'ICE_CITY_ID'">
+                            <td *ngIf="item.FIELD_NAME == 'FIRSTNAME'">First Name</td>
+                            <td *ngIf="item.FIELD_NAME == 'LASTNAME'">Last Name</td>
+                            <td *ngIf="item.FIELD_NAME == 'RELATIONNAME'">Relation</td>  
+                            <td *ngIf="item.FIELD_NAME == 'MOBILE'">Mobile No.</td> 
+                            <td *ngIf="item.FIELD_NAME == 'ADDRESS'">Address 1</td>
+                            <td *ngIf="item.FIELD_NAME == 'ADDRESS2'">Address 2</td>
+                            <td *ngIf="item.FIELD_NAME == 'ADDRESS3'">Address 3</td>
+                            <td *ngIf="item.FIELD_NAME == 'ADDRESS4'">Address 4</td> 
+                            <td *ngIf="item.FIELD_NAME == 'ICE_STATE_NAME'">State</td>
+                            <td *ngIf="item.FIELD_NAME == 'ICE_CITY_NAME'">City</td> 
+                              
+                            <td>{{item.FIELD_DISPLAY}}</td>
+                          </ng-container>
+                          
+                        </tr>
+                        
+                  </tbody>
+                </table>
+            </div> 
+            </div>  
+            <div class="col-md-12 mt-4 text-center">
+              <button class="btn btn-success mr-1" (click)="approve()">Approve</button>
+              <button class="btn btn-danger ml-1" (click)="reject('reject')">Reject</button>
+              <button class="btn btn-warning ml-1" (click)="closeVeiwModal()">Back</button>
+            </div>
+            </div> <!-- End Row  -->
+          </ng-container>
+
+           <!-- Rejection Form  -->
+          <ng-container *ngIf="modalType=='reject'">  
+            <form [formGroup]="ReasonForm" (ngSubmit)="submitReason()" class="reasonForm">              
+              <div class="form-group">
+              <label>Rejection Reason<sup>*</sup></label>
+              <textarea class="form-control" rows="3" formControlName="reasonComment" name="comments" ></textarea>
+              <div *ngIf="f.reasonComment.touched && f.reasonComment.invalid" class="alert alert-danger">
+                  <div *ngIf="f.reasonComment.errors.required">Reason is required</div>
+                  <div *ngIf="f.reasonComment.errors.minlength">Reason should be minimum 5 characters</div>
+                  <div *ngIf="f.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+              </div> 
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="btn btn-success" type="submit" [disabled]="ReasonForm.invalid">Submit</button>
+                <button class="btn btn-warning ml-2" type="reset" (click)="closeVeiwModal()">Back</button>
+            </div>
+            </form> 
+          </ng-container>
+        </div> 
+      </div>
+    </div> 
+  </div>  
+
+
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>  

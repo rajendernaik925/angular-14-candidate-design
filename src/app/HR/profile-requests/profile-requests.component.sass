@@ -1,0 +1,113 @@
+.breadcrumb 
+  li.active
+    color: #101010
+    cursor: initial
+
+.bgWyt
+  padding: 1em
+  background: white
+
+
+
+.Nav_Card
+  cursor: pointer
+  min-height: 120px
+  margin-bottom: 1.75em
+  background: #eff4f8
+  .card-body
+    display: flex
+    justify-content: flex-start
+    flex-flow: row
+    align-items: center
+    h2
+      font-size: 24px
+    
+.card.Nav_Card .card-body div
+  flex: 0 0 75%
+  max-width: 75%
+  &._count
+    flex: 0 0 25%
+    max-width: 25%
+
+/* Ripple effect
+
+.ripple
+  background-position: center
+  transition: background 0.8s
+
+  &:hover
+    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) (center / 15000%)
+
+  &:active
+    background-color: #6eb9f7
+    background-size: 100%
+    transition: background 0s
+
+/* Button style
+
+button.Theme_Btn
+  border: none
+  border-radius: 2px
+  padding: 4px 12px
+  font-size: 20px
+  text-transform: uppercase
+  cursor: pointer
+  color: white
+  background-color: #0072bc
+  box-shadow: none!important
+  outline: none !important
+  margin-bottom: 10px
+
+
+.concentric-circles
+  width: 50px
+  height: 50px
+  // margin-top: 50px
+  margin-left: 50%
+  // background-color: #acd1ea
+  background-color: #7691a8b8
+  border-radius: 50%
+  transform: translateX(-50%)
+  position: relative
+  span
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    font-weight: 700
+    color: white
+    font-size: 20px
+.noData
+  margin: 0em auto
+  text-align: center
+  font-size: 26px
+  color: #767676
+  background-color: #f3f5f8
+  padding: 2em  
+.loader.transLoadr
+  content: ""
+  position: fixed
+  width: 100%
+  height: 100%
+  background: #fdfdfd6b
+  top: 0
+  left: 0
+  z-index: 999999 
+  
+.Nav_Card
+  &:hover
+    .concentric-circles
+      transition: all 0.2s ease-in-out
+      animation: ripple 2.0s 0.2s infinite
+      -webkit-animation: ripple 2.0s 0.2s  infinite
+   
+
+@-webkit-keyframes ripple
+  20%
+    box-shadow: 0px 0px 0px 4px #fff, 0px 0px 0px 5px #0071bca8
+
+  50%
+    box-shadow: 0px 0px 0px 4px #fff, 0px 0px 0px 5px #0071bca8, 0px 0px 0px 9px #fff, 0px 0px 2px 11px #b0c4d1
+
+  100%
+    box-shadow: 0px 0px 0px 4px #fff, 0px 0px 0px 5px #0071bca8, 0px 0px 0px 9px #fff, 0px 0px 2px 11px #b0c4d1, 0px 0px 0px 15px #fff   

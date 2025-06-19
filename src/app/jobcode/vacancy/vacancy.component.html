@@ -1,0 +1,346 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<div class="mt-3 container-flui">
+  <div class="row g-2">
+    <div class="col-md-2 mb-2">
+      <div class="card border-0 p-0">
+        <div class="card-body p-2">
+          <app-side-bar></app-side-bar>
+        </div>
+      </div>
+    </div>
+    <!-- Right side content -->
+    <div class="col-md-10">
+      <div class="card border-0">
+        <div class="card-body pt-2">
+          <!-- Header Row -->
+          <div class="row mb-2 align-items-center">
+            <div class="col-md-6 col-7">
+              <span *ngIf="viewMoreValue" class="mr-2 cursor-pointer" (click)="back()">
+                <i class="bi bi-arrow-left  fs-5"></i>
+              </span>
+              <span *ngIf="!viewMoreValue" class="fw-bold">
+                Vacancy 
+                <span class="badge badge-light  badge bg-secondary text-white">{{totalRecords}}</span>
+              </span>
+              <span *ngIf="viewMoreValue" class="fw-bold">
+                {{referenceJobCode}} 
+              </span>
+            </div>
+            <div class="col-md-6 col-5 d-flex justify-content-end align-items-center">
+              <!-- <input *ngIf="vacancyValue" type="search" class="form-control form-control-sm search-input"
+                placeholder="Search Job Codes..." [formControl]="searchQuery" aria-level="Search"
+                style="max-width: 250px;"> -->
+              <!-- <i class="fa fa-search"></i> -->
+              <button *ngIf="viewMoreValue" type="button" (click)="addCandidate()"
+                class="btn btn-sm custom-bg text-light">
+                Add Candidate
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Section -->
+          <div class="p-0 scroll-container">
+            <table *ngIf="vacancyValue" class="table table-bordered">
+              <thead class="">
+                <tr class="text-light ">
+                  <th class="small-header-th cursor-pointer" (click)="sortTable('jcReferenceId')">
+                    Job Code
+                    <span *ngIf="sortColumn === 'jcReferenceId'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('jobTitleName')">
+                    Designation
+                    <span *ngIf="sortColumn === 'jobTitleName'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('reportingName')">
+                    Reporting Manager
+                    <span *ngIf="sortColumn === 'reportingName'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('teamName')">
+                    Team
+                    <span *ngIf="sortColumn === 'teamName'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('expMin')">
+                    Experience
+                    <span *ngIf="sortColumn === 'expMin'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('ctcMin')">
+                    CTC (Min-Max)
+                    <span *ngIf="sortColumn === 'ctcMin'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th  cursor-pointer" (click)="sortTable('businessunitId')">
+                    Business Unit
+                    <span *ngIf="sortColumn === 'businessunitId'">
+                      <i class="ms-1"
+                        [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
+                    </span>
+                  </th>
+                  <th class="small-header-th ">
+                    Status
+                  </th>
+                  <th class="small-header-th ">
+                    Publish Status
+                  </th>
+                  <th class="small-header-th ">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+
+
+              <tbody class="" *ngIf="paginatedRows?.length > 0; else noData">
+                <tr class="small-header table-hoverr" *ngFor="let row of paginatedRows">
+                  <th class="small-header text-uppercase" scope="row" [innerHTML]="highlightMatch(row.jcReferenceId)">
+                  </th>
+                  <td class="small-header text-uppercase" [innerHTML]="highlightMatch(row.jobTitleName)"></td>
+                  <td class="small-header text-uppercase" [innerHTML]="highlightMatch(row.reportingName)"></td>
+                  <td class="small-header text-uppercase">{{ row.departmentName }}</td>
+                  <td class="small-header text-uppercase">
+                    {{ row.expMin }}-{{ row.expMax }} Year's
+                  </td>
+                  <td class="small-header text-uppercase">
+                    ₹{{ (row.ctcMin / 100000) | number:'1.1-1' }}L - ₹{{ (row.ctcMax / 100000) |
+                    number:'1.1-1' }}L
+                  </td>
+                  <td class="small-header text-uppercase">{{ row.buName }}</td>
+                  <td class="small-header text-center">
+                    <ng-container class="text-uppercase" *ngIf="row.finalStatus === 1001; else onHoldOrClose">
+                      <span class="text-success fw-bold">Open</span>
+                    </ng-container>
+                    <ng-template class="text-uppercase" #onHoldOrClose>
+                      <ng-container class="text-uppercase" *ngIf="row.finalStatus === 1003; else close">
+                        <span class="text-info fw-bold">On Hold</span>
+                      </ng-container>
+                    </ng-template>
+                    <ng-template #close>
+                      <span class="text-danger fw-bold">Closed</span>
+                    </ng-template>
+                  </td>
+                  <td class="small-header text-center">
+                    <ng-container class="text-uppercase" *ngIf="row.publishStatus === 1001; else publish">
+                      <span class="text-danger fw-bold blink-tex">{{row.publishedStatusName}}</span>
+                    </ng-container>
+                    <ng-template #publish>
+                      <span class="text-success fw-bold blink-tex">Published</span>
+                    </ng-template>
+                  </td>
+                  <td class="small-header text-center d-flex justify-content-center align-items-center"
+                    (click)="viewMore(row.jobCodeId,row.jcReferenceId)">
+                    <span class="text-primary cursor-pointer text-decoration-underline Hover">View More</span>
+                  </td>
+                </tr>
+              </tbody>
+              <ng-template #noData>
+                <tbody>
+                  <tr>
+                    <td colspan="9">
+                      <div class="d-flex justify-content-center align-items-center my-3">
+                        <img [src]="dataNotFound" alt="" width="150px" height="150px">
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+
+
+            <table *ngIf="viewMoreValue" class="table table-bordered">
+              <thead class="custom-bg">
+                <tr class="text-light">
+                  <th class="small-header-th cursor-pointer">
+                    Full Name
+                  </th>
+                  <th class="small-header-th cursor-pointer">
+                    Contact Number
+                  </th>
+                  <th class="small-header-th cursor-pointer">
+                    Email Address
+                  </th>
+                  <th class="small-header-th cursor-pointer">
+                    Work Experience
+                  </th>
+                  <th class="small-header-th cursor-pointer">
+                    Resume
+                  </th>
+                  <!-- <th class="small-header-th cursor-pointer">
+                    Action
+                  </th> -->
+                </tr>
+              </thead>
+              <tbody *ngIf="jobCodeData?.length > 0; else noData">
+                <tr *ngFor="let row of jobCodeData" class="table-hoverr">
+                  <td class="small-header text-uppercase">{{ row.fullName }}</td>
+                  <td class="small-header text-uppercase">{{ row.mobileNumber }}</td>
+                  <td class="small-header text-uppercase">{{ row.email }}</td>
+                  <td class="small-header text-uppercase">{{ row.workExperience }} years</td>
+                  <td class="small-header fw-bold fst-italic text-center cursor-pointer "
+                    [ngClass]="{'text-primary text-decoration-underline hover': row.resumeName !== '--'}"
+                    (click)="viewResume(row.resumeFile)">
+                    {{ row.resumeName === '--' ? row.resumeName : 'Resume.pdf' }}
+                  </td>
+
+                  <!-- <td class="small-header text-center d-flex justify-content-center align-items-center" (click)="tracking(row)">
+                    <span class="text-primary cursor-pointer text-decoration-underline Hover">View More</span>
+                  </td> -->
+                </tr>
+              </tbody>
+              <ng-template #noData>
+                <tbody>
+                  <tr>
+                    <td colspan="7">
+                      <div class="d-flex justify-content-center align-items-center my-3">
+                        <img [src]="dataNotFound" alt="" width="150px" height="150px">
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+
+          <hr *ngIf="rows?.length > 0  && vacancyValue" class="custom-hr mb-2 mt-1">
+          <div class="d-flex justify-content-between align-items-center mt-1" *ngIf="rows?.length > 0  && vacancyValue">
+            <span class="small badge bg-secondary text-white">
+              Showing {{ startIndex }} to {{ endIndex }} of {{ totalRecords }} Records
+            </span>
+
+            <ul class="pagination pagination-sm mb-1">
+              <li class="page-item">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+                  [class.disabled]="currentPage === 1"
+                  [ngClass]="{'custom-bg': currentPage > 1, 'bg-secondary': currentPage === 1}">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+              <li class="page-item mr-2 d-none d-md-block">
+                <span class="px-3 py-1 small text-dark fw-bold border rounded bg-light">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </span>
+              </li>
+              <li class="page-item">
+                <button type="button" [class.disabled]="currentPage === totalPages"
+                  class="border-none text-white custom-action-btn px-2 py-1 mr-2" (click)="changePage(currentPage + 1)"
+                  [disabled]="currentPage === totalPages"
+                  [ngClass]="{'custom-bg': currentPage < totalPages, 'bg-secondary': currentPage === totalPages}">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- loader -->
+  <div class="loader attDnceLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+
+  <ng-template #addCandidateDialog>
+    <form [formGroup]="addCandidateForm" (ngSubmit)="onSubmit()">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold align-items-center">Add Candidate</h5>
+        <span class="hover" (click)="close()">
+          <i class="bi bi-x-circle fs-1 fs-4"></i>
+        </span>
+      </div>
+
+      <div class="container-fluid mt-3">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+            <input type="text" id="fullName" class="form-control form-control-sm text-uppercase"
+              formControlName="fullName" placeholder="Enter full name" autocomplete="off" />
+            <div *ngIf="submitted && addCandidateForm.get('fullName').invalid" class="text-danger fs-small">
+              Full Name is required.
+            </div>
+            <div *ngIf="addCandidateForm.get('fullName').hasError('pattern')" class="text-danger fs-small">
+              Job title must contain only letters and spaces.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="mobileNumber" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+            <input type="number" id="mobileNumber" class="form-control form-control-sm" formControlName="mobileNumber"
+              placeholder="Enter mobile number" maxlength="10"
+              (keydown)="preventNegativeInput($event, $event.target.value)" autocomplete="off" />
+            <div *ngIf="submitted && addCandidateForm.get('mobileNumber').invalid" class="text-danger fs-small">
+              Mobile Number is required
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="emailAddress" class="form-label">Email Address <span class="text-danger">*</span></label>
+            <input type="email" id="emailAddress" class="form-control text-uppercase form-control-sm"
+              formControlName="emailAddress" placeholder="Enter email address" autocomplete="off" />
+            <div *ngIf="submitted && addCandidateForm.get('emailAddress').invalid" class="text-danger fs-small">
+              Please enter a valid email address.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="workExperience" class="form-label">Work Experience <span class="text-danger">*</span></label>
+            <input type="number" id="workExperience text-uppercase" class="form-control form-control-sm"
+              formControlName="workExperience" placeholder="Enter work experience" autocomplete="off"
+              (keydown)="preventNegativeInput($event, $event.target.value)" />
+            <div *ngIf="submitted && addCandidateForm.get('workExperience').invalid" class="text-danger fs-small">
+              Work Experience is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-12">
+            <label for="resume" class="form-label">Upload Resume <span class="text-muted">(Optional)</span></label>
+            <div class="custom-file">
+              <input type="file" class="form-control-file" id="resume" accept=".pdf" (change)="onFileSelect($event)"
+                aria-describedby="fileHelp" />
+              <small id="fileHelp" class="form-text text-muted">
+                Choose a file from your device *
+              </small>
+              <div *ngIf="submitted && addCandidateForm.get('resume').invalid" class="text-danger fs-small">
+                Resume is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-sm custom-bg text-white w-25" [disabled]="addCandidateForm.invalid"
+            [ngClass]="{ 'disabled': addCandidateForm.invalid }">Add Candidate</button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <div *ngIf="showPDF" class="overlay">
+    <div class="pdf-container">
+      <button class="close-btn" (click)="closePDF()">✖</button>
+      <iframe [src]="fileURL" width="100%" height="100%"></iframe>
+    </div>
+  </div>

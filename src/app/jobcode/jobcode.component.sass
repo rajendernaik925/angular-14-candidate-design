@@ -1,0 +1,179 @@
+
+
+.opacity-50
+  opacity:0.8
+.border-end
+  border-right: 2px solid #AAAAAA
+.custom-bg
+  background-color: #0072BC
+.scroll-container
+  max-height: calc(100vh - 219px)
+  overflow-y: auto
+  display: block
+
+.fw-bold
+  font-weight: bold
+.ms-2
+  margin-left: 20px
+.rounded-2
+  border-radius:10px
+.mt-3
+  margin-top:2px
+.me-3
+  margin-right:10px
+.text-decoration-underline
+  text-decoration: underline
+.ms-3
+  margin-left: 20px
+.p-0
+  padding: 0px
+.m-0
+  padding: 0px
+.fs-5
+  font-size: 8px
+.Hover:hover
+  color: red !important
+
+input[type="number"]
+  // Remove spinner icons for Webkit browsers
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
+
+  // Remove spinner icons for Firefox and other browsers
+  appearance: none
+
+
+.cursor-pointer
+  cursor: pointer
+.fs-4
+  font-size: 23px
+.Hover:hover
+  color: red !important
+
+th, td
+  white-space: nowrap // Prevent text from wrapping to the next line
+  overflow: hidden     // Hide any overflowing content
+  text-overflow: ellipsis // Add ellipsis (...) if content overflows
+.viewHover:hover
+  color: red
+  text-decoration: underline
+.fs-3
+  font-size: 12px
+.dialog-content
+  max-height: 70vh
+  padding: 10px
+
+.dialog-content::-webkit-scrollbar
+  width: 0
+  height: 0
+
+.dialog-content
+  -ms-overflow-style: none
+  scrollbar-width: none
+
+thead th
+  position: -webkit-sticky
+  position: sticky
+  top: 0px
+  background: #0072BC
+  padding-top: 0
+
+.col-md-2
+  padding-right: 0px
+.custom-status-open
+  color: green
+  font-size: 12px
+  border-radius: 10px
+  padding: 2px
+  background: hsl(143, 54.60%, 76.70%)
+.disabled
+  cursor: not-allowed
+  opacity: 0.5
+.border-1
+  border: 1px solid black  
+// Apply black border when input/select is focused
+input:focus, select:focus, textarea:focus
+  border-color: black !important // Override Bootstrap default blue
+  box-shadow: none !important // Remove default Bootstrap shadow
+
+// Make the input fields smaller
+input, select, textarea
+  font-size: 0.875rem // Small font size
+  padding: 0.25rem 0.5rem // Reduce padding for a smaller look
+  height: auto // Ensure height is adjusted correctly
+.small-header-th 
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 2.2
+.small-header
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 1.5
+
+
+.custom-action-btn 
+  color: white !important
+  line-height: 1.5
+  font-size: 12px
+  border-radius: 5px
+  border: none
+  &:active,
+  &:focus 
+    border: none
+    outline: none
+
+.custom-hr
+  border: 1px solid #0072BC !important
+.blink-text 
+  animation: blink-animation 1s infinite
+  font-weight: bold
+  transition: opacity 0.3s ease-in-out
+
+  @keyframes blink-animation
+    0%
+      opacity: 1
+    50%
+      opacity: 0.3
+    100%
+      opacity: 1
+.sticky-column
+  position: sticky
+  left: 0
+  background-color: white
+  z-index: 2
+
+  &.sticky-column-header
+    z-index: 3
+
+.table-hoverr:hover
+  background-color: rgba(0, 114, 188, 0.1)
+  color: #0072BC
+  cursor: pointer  
+
+
+
+.dropdown-list-static
+  position: absolute
+  z-index: 1000
+  border: 1px solid #ccc
+  background: #fff
+  max-height: 120px
+  overflow-y: auto
+  list-style: none
+  padding: 0
+  margin: 0
+  width: 250px        // increased fixed width (adjust as needed)
+  min-width: 100%     // optional: ensure it's at least as wide as input container
+  border-radius: 4px
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1)
+
+  li
+    padding: 6px 12px
+    cursor: pointer
+    font-size: 14px
+
+    &:hover
+      background-color: #f5f5f5
+

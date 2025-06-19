@@ -1,0 +1,424 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<div class="mt-3">
+  <div class="row g-2">
+    <div class="col-md-3 mb-2">
+      <div class="card border-0 p-0">
+        <div class="card-body p-2">
+          <app-side-bar></app-side-bar>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 slide-in">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <span class="me-2 cursor-pointer" (click)="back()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                </svg>
+              </span>
+              <span class="fw-bold fs-2" style="margin-left: 10px;">
+                Job Code - {{jobCodeId}}
+              </span>
+            </div>
+            <button class="btn custom-bg text-light" (click)="selected()">Selected</button>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4 border-end pe-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <span class="opacity-50 d-block">Full Name</span>
+                  <span class="d-block fw-bold fs-5">{{ candidateData[0]?.FullName }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="d-block opacity-50">Contact Number</span>
+                  <span class="d-block fw-bold fs-5">{{ candidateData[0]?.Mobile_Number }}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <span class="opacity-50 d-block">Email Address</span>
+                  <span class="d-block fw-bold fs-5">{{ candidateData[0]?.Email_Address }}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="d-block opacity-50">Working Experience</span>
+                  <span class="d-block fw-bold fs-5">{{ candidateData[0]?.Work_Experience }} years</span>
+                </div>
+              </div>
+              <div class="d-block mt-3">
+                <span class="d-block opacity-50">Resume</span>
+                <!-- <span class="d-block fw-bold fs-5">{{ candidateData[0]?.Resume }}</span> -->
+                <a href="javascript:void(0)" (click)="downloadResume(candidateData[0]?.candidate_resume, 'Resume.pdf')">
+                  <button class="btn bg-secondary px-1 text-light">Download Resume</button>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <!-- Display DOC file via Google Docs Viewer -->
+              <div class="border-0">
+                <div class="card-body">
+                  <!-- <img src="https://st4.depositphotos.com/2274151/30828/v/450/depositphotos_308282000-stock-illustration-in-progress-sign-in-progress.jpg" alt=""> -->
+                  <div class="">
+                    <div class="d-flex">
+                      <div class="me-2">
+                        <span>
+                          <img
+                            src="https://media.istockphoto.com/id/691856234/vector/flat-round-check-mark-green-icon-button-tick-symbol-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=hXL5nXQ2UJlh4yzs2LyZC4GtctQG0fs-mk30GPPbhbQ="
+                            width="45px" height="50px" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Application Test</span>
+                        <span>10 Jan, 2025 10:30 AM - 11:15 AM</span>
+                        <span class="d-block text-primary cursor-pointer" (click)="openFeedbackForm()">View feedback
+                          form</span>
+                      </div>
+                    </div>
+                    <!-- Vertical Line Container -->
+                    <div class="d-flex align-items-start">
+                      <span class="vertical-line"></span>
+                    </div>
+                  </div>
+
+                  <div class=" mt-0 mb-0">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        <span>
+                          <img src="https://i.pinimg.com/736x/e2/79/89/e27989a209ea850ad67ae9d85ddfbe08.jpg"
+                            width="40px" height="40px" style="border-radius: 20px;" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Technical Interview</span>
+                        <span>10 Jan, 2025 10:30 AM - 11:15 AM</span>
+                        <span class="d-block text-primary cursor-pointer" (click)="startInterview()">upload
+                          feedback</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                      <span class="vertical-line"></span>
+                    </div>
+                  </div>
+
+
+                  <div class="mt-0 mb-0">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        <span>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvBilZyu2_bgbbUeBkPkgTbBPOUQA_GfcYxA&s"
+                            width="40px" height="40px" style="border-radius: 10px;" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2 text-primary cursor-pointer" (click)="newRound()">Add New Round</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-start">
+                      <span class="vertical-line"></span>
+                    </div>
+                  </div>
+                  <div class="mt-0 mb-0">
+                    <div class="d-flex align-items-center">
+                      <div class="me-2">
+                        <span>
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkvTtQF5LuRXye8d9sC_dM1cBINqExsOGppA&s"
+                            width="40px" height="40px" style="border-radius: 10px;" alt="">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="fw-bold me-2">Offer Letter Issued</span>
+                        <span class="text-primary cursor-pointer" (click)="reSheduleInterview()">Re shedule
+                          interview</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- loader -->
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<ng-template #newRoundDialog>
+  <div class="">
+    <div class="d-flex justify-content-between">
+      <h5 class="fw-bold">Add New Round</h5>
+      <span class="Hover cursor-pointer" (click)="close()">
+        <i class="bi bi-x-circle fs-1 fs-4"></i>
+      </span>
+    </div>
+    <form [formGroup]="addNewRoundForm" (ngSubmit)="onSubmit()">
+      <div class="row mt-3 mb-3">
+        <div class="col-md-6">
+          <label for="roundTitle" class="form-label">Round Title <span class="text-danger">*</span></label>
+          <input type="text" id="roundTitle" class="form-control" placeholder="Enter round title"
+            formControlName="roundTitle">
+          <div class="text-danger mt-1"
+            *ngIf="addNewRoundForm.get('roundTitle')?.hasError('required') && addNewRoundForm.get('roundTitle')?.touched">
+            <span class="fs-5">Round title is required.</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="interviewerName" class="form-label">Interviewer Name <span class="text-danger">*</span></label>
+          <!-- <input
+            type="text"
+            id="interviewerName"
+            class="form-control"
+            placeholder="Enter interviewer's name"
+            formControlName="interviewerName">
+            <div class="text-danger mt-1" *ngIf="addNewRoundForm.get('interviewerName')?.hasError('required') && addNewRoundForm.get('interviewerName')?.touched">
+              <span class="fs-5">Interviewer Name is required.</span>
+            </div> -->
+          <select class="form-control" id="interviewerName" formControlName="interviewerName">
+            <option value="1" selected disabled>select interviewer name</option>
+            <option value="2">Rajender</option>
+            <option value="3">Venu</option>
+            <option value="4">Durga Prasad</option>
+            <option value="5">Sirisha</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
+          <input type="date" id="date" class="form-control" formControlName="date">
+          <div class="text-danger mt-1"
+            *ngIf="addNewRoundForm.get('date')?.hasError('required') && addNewRoundForm.get('date')?.touched">
+            <span class="fs-5">Date is required.</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="time" class="form-label">Time <span class="text-danger">*</span></label>
+          <input type="time" id="time" class="form-control" formControlName="time">
+          <div class="text-danger mt-1"
+            *ngIf="addNewRoundForm.get('time')?.hasError('required') && addNewRoundForm.get('time')?.touched">
+            <span class="fs-5">Time is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn text-white custom-bg w-100">Submit</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</ng-template>
+
+<ng-template #feedbackform>
+  <div class="d-flex justify-content-between">
+    <h5 class="fw-bold">Candidate Feedback</h5>
+    <span class="Hover cursor-pointer" (click)="close()">
+      <i class="bi bi-x-circle fs-1 fs-4"></i>
+    </span>
+  </div>
+  <div class="mt-3">
+    <div class="card shadow">
+      <div class="card-header text-center bg-info text-white">
+        <h3>Interview Feedback</h3>
+      </div>
+      <div class="card-body">
+        <!-- Candidate Name -->
+        <div class="mb-3">
+          <h5>Candidate Name:</h5>
+          <p>{{ feedback.candidateName }}</p>
+        </div>
+        <!-- Interview Level -->
+        <div class="mb-3">
+          <h5>Interview Level:</h5>
+          <p>{{ feedback.level }}</p>
+        </div>
+        <!-- Interviewer Name -->
+        <div class="mb-3">
+          <h5>Interviewer:</h5>
+          <p>{{ feedback.interviewer }}</p>
+        </div>
+        <!-- Rating -->
+        <div class="mb-3">
+          <h5>Rating:</h5>
+          <div>
+            <ng-container *ngFor="let star of stars; let i = index">
+              <i class="fa" [class.fa-star]="i < feedback.rating" [class.fa-star-o]="i >= feedback.rating"></i>
+            </ng-container>
+          </div>
+        </div>
+        <!-- Comments -->
+        <div class="mb-3">
+          <h5>Comments:</h5>
+          <p>{{ feedback.comments }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #selectedDialog>
+  <span>
+    Dialog for Selected Action
+  </span>
+</ng-template>
+
+<ng-template #interviewRound>
+  <form [formGroup]="feedbackForm" (ngSubmit)="newRoundSubmit()">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="text-center">
+          <tr>
+            <th>S.No</th>
+            <th>Factors</th>
+            <th>Excellent</th>
+            <th>Good</th>
+            <th>Average</th>
+            <th>Below Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Communication Skills</td>
+            <td><input type="radio" formControlName="q1" value="A"></td>
+            <td><input type="radio" formControlName="q1" value="B"></td>
+            <td><input type="radio" formControlName="q1" value="C"></td>
+            <td><input type="radio" formControlName="q1" value="D"></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Technical Knowledge</td>
+            <td><input type="radio" formControlName="q2" value="A"></td>
+            <td><input type="radio" formControlName="q2" value="B"></td>
+            <td><input type="radio" formControlName="q2" value="C"></td>
+            <td><input type="radio" formControlName="q2" value="D"></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Problem-Solving Skills</td>
+            <td><input type="radio" formControlName="q3" value="A"></td>
+            <td><input type="radio" formControlName="q3" value="B"></td>
+            <td><input type="radio" formControlName="q3" value="C"></td>
+            <td><input type="radio" formControlName="q3" value="D"></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Teamwork & Collaboration</td>
+            <td><input type="radio" formControlName="q4" value="A"></td>
+            <td><input type="radio" formControlName="q4" value="B"></td>
+            <td><input type="radio" formControlName="q4" value="C"></td>
+            <td><input type="radio" formControlName="q4" value="D"></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Punctuality</td>
+            <td><input type="radio" formControlName="q5" value="A"></td>
+            <td><input type="radio" formControlName="q5" value="B"></td>
+            <td><input type="radio" formControlName="q5" value="C"></td>
+            <td><input type="radio" formControlName="q5" value="D"></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Adaptability</td>
+            <td><input type="radio" formControlName="q6" value="A"></td>
+            <td><input type="radio" formControlName="q6" value="B"></td>
+            <td><input type="radio" formControlName="q6" value="C"></td>
+            <td><input type="radio" formControlName="q6" value="D"></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Leadership Skills</td>
+            <td><input type="radio" formControlName="q7" value="A"></td>
+            <td><input type="radio" formControlName="q7" value="B"></td>
+            <td><input type="radio" formControlName="q7" value="C"></td>
+            <td><input type="radio" formControlName="q7" value="D"></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Overall Impression</td>
+            <td><input type="radio" formControlName="q8" value="A"></td>
+            <td><input type="radio" formControlName="q8" value="B"></td>
+            <td><input type="radio" formControlName="q8" value="C"></td>
+            <td><input type="radio" formControlName="q8" value="D"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div *ngIf="submitted && feedbackForm.invalid && (feedbackForm.dirty || feedbackForm.touched)" class="text-danger">
+      <p>Please fill out all fields.</p>
+    </div>
+
+    <div class="row g-3 align-items-center">
+      <div class="col-md-3">
+        <label for="textarea" class="form-label">Comments <span class="text-danger">*</span></label>
+        <textarea id="textarea" class="form-control" rows="3" formControlName="feedbackText"
+          placeholder="Enter text"></textarea>
+        <div *ngIf="submitted && feedbackForm.controls['feedbackText'].invalid" class="text-danger">
+          Comment is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="statusSelect" class="form-label">Status <span class="text-danger">*</span></label>
+        <select id="statusSelect" class="form-select form-control" formControlName="status">
+          <option value="" selected disabled>Select status</option>
+          <option value="approved">Approved</option>
+          <option value="pending">Pending</option>
+          <option value="rejected">Rejected</option>
+          <option value="on-hold">On Hold</option>
+        </select>
+        <div *ngIf="submitted && feedbackForm.controls['status'].invalid" class="text-danger">
+          Status is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="optionSelect" class="form-label">Assign next round <span class="text-danger">*</span></label>
+        <select id="optionSelect" class="form-select form-control" formControlName="nextRound">
+          <option value="" selected disabled>Select option</option>
+          <option value="option1">Technical</option>
+          <option value="option2">Managerial</option>
+          <option value="option3">HR</option>
+          <option value="option4">Final</option>
+        </select>
+        <div *ngIf="submitted && feedbackForm.controls['nextRound'].invalid" class="text-danger">
+          Next round option is required.
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label for="textInput" class="form-label">Employee Name <span class="text-danger">*</span></label>
+        <input id="textInput" type="text" class="form-control" formControlName="employeeName"
+          placeholder="Enter text" />
+        <div *ngIf="submitted && feedbackForm.controls['employeeName'].invalid" class="text-danger">
+          Employee name is required.
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn custom-bg text-light mt-2 w-100">Submit</button>
+  </form>
+
+</ng-template>
+
+<ng-template #reShedule>
+  <span class="text-primary">
+    rajender form
+  </span>
+</ng-template>

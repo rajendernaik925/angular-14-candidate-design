@@ -1,0 +1,19 @@
+.progress-bar-container {
+  background-color: #e4eaf0;
+  border-radius: 2px;
+}
+
+.progress-bar {
+  height: 10px;
+  width: 0;
+  border-radius: 2px;
+}
+.progress-bar.green {
+  background-color: #19e876;
+}
+.progress-bar.yellow {
+  background-color: #ffd400;
+}
+.progress-bar.red {
+  background-color: red;
+}/*# sourceMappingURL=progress-bar.component.css.map */

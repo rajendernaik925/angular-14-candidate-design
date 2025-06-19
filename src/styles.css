@@ -1,0 +1,1543 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: Noto Sans;
+  src: url(assets/fonts/NotoSans-Italic.ttf) format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: Noto Sans;
+  src: url(assets/fonts/NotoSans-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Noto Sans;
+  src: url(assets/fonts/NotoSans-Regular.ttf) format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Noto Sans;
+  src: url(assets/fonts/NotoSans-BoldItalic.ttf) format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: Noto Sans;
+  src: url(assets/fonts/NotoSans-Bold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Noto Sans", sans-serif;
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+  width: 8px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: "Noto Sans", sans-serif !important;
+  min-height: 90vh;
+  background: url("././assets/img/body_bg.png") repeat;
+  background-size: 250px;
+  background-color: rgba(0, 114, 188, 0.04);
+  padding-bottom: 2em;
+}
+body .loggdEmps h2 {
+  font-size: 30px !important;
+}
+body p {
+  font-size: 14px;
+}
+body span.proImgCircle h3 {
+  line-height: 1.5 !important;
+  font-weight: 600 !important;
+}
+body a.viewBtn {
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+body a.brfView {
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+}
+body label {
+  font-size: 14px;
+}
+body ._crdAnncmnt p {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+body ._crdAnncmnt h4 {
+  font-size: 20px !important;
+}
+body .myProfile h5 {
+  font-size: 16px !important;
+}
+body .myProfile p small {
+  font-size: 13px !important;
+}
+body .myProfile small b {
+  font-weight: 600 !important;
+}
+body .leaveBalBarchart h3 {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+}
+body .leaveBalDonutchart .card a {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+}
+body .leaveBalDonutchart .card h5 {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #101010;
+}
+body .table_contnr.attendanceReport th div {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+}
+body .table_contnr.attendanceReport td {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+body .dailyaAttndnce .theHdr {
+  padding: 15px 15px 2px 15px !important;
+}
+body .dailyaAttndnce .hdng a {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+}
+body .dailyaAttndnce .hdrBtm > div {
+  margin-top: 1em !important;
+}
+body .dailyaAttndnce .hdrBtm > div h3 {
+  font-weight: 600 !important;
+  font-size: 20px !important;
+}
+body .dailyaAttndnce .hdrBtm > div span {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+body .card.ourInfo .theCard a {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+body .crdBdy.table_contnr table tr td {
+  font-weight: 500 !important;
+}
+body .card.ourInfo h5, body .card._dwnlds h5, body .myProfile .crdHdr h4 {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+body .jobOpenings ._job h6 {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+body .jobOpenings ._job ul li p {
+  font-size: 14px !important;
+}
+body .card._dwnlds h6, body .flxCol h6 {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+body ._payslips li {
+  margin: 0.25555em !important;
+}
+body ._itsDocs ul li p {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+body ._payslips li a, body ._itsDocs li a {
+  max-width: 100% !important;
+}
+body .bread_crumb ._date, body .breadcrumb ._date {
+  font-size: 15px !important;
+}
+body .profle_adrss b {
+  font-weight: 600 !important;
+}
+body .profle_adrss h6 b {
+  font-size: 15px !important;
+}
+body .flx_inline {
+  margin-bottom: 1.05em !important;
+}
+body ._Addrs h6 span, body ._Addrs h5 span {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+body .accnt_info ul li span, body .accnt_info span._prgrs, body .iceCrd p, body .flxCol p {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+}
+body .accnt_info ul li label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+body .iceCrd h5, body .accnt_info h5, body .flx_inline h5 {
+  font-size: 18px !important;
+}
+
+.loader {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgb(253, 253, 253);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.spinner {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.spinner > div {
+  width: 20px;
+  height: 20px;
+  background-color: #0071bb;
+  border-radius: 100%;
+  display: inline-block;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+.spinner .bounce1 {
+  animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+  animation-delay: -0.16s;
+}
+@keyframes sk-bouncedelay {
+  0%, 100%, 80% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(0.85);
+  }
+}
+img.card-img-top {
+  opacity: 0.8;
+}
+
+.modal-dialog.modal_top {
+  margin-top: 10px;
+  max-width: 65%;
+}
+
+.modal_Myheader button {
+  position: absolute;
+  right: -28px;
+  opacity: 1 !important;
+}
+.modal_Myheader button i {
+  color: white;
+  font-size: 1.3em;
+}
+
+.bs-datepicker-body table td {
+  color: #000 !important;
+}
+.bs-datepicker-body table td span.custom-today-class.ng-star-inserted {
+  background: #e9edf0;
+  border: 1px solid #337ab7;
+}
+.bs-datepicker-body table td span.selected.custom-today-class.ng-star-inserted {
+  background-color: #337ab7;
+  border: 1px solid #337ab7;
+}
+
+.autocomplete-container {
+  box-shadow: none !important;
+}
+.autocomplete-container .input-container input {
+  background-color: #f2f6fa !important;
+  background-clip: padding-box;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem;
+}
+
+.gydLines ul li {
+  font-size: 15px !important;
+}
+
+.modal-header button.close {
+  outline: none;
+  box-shadow: none;
+}
+
+.bs-datepicker-container {
+  padding: 5px;
+}
+
+.p_3 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.breadcrumb {
+  border-radius: 0px;
+  background: white;
+  border-bottom: 1px dashed #0072bc;
+  justify-content: space-between;
+  align-items: center;
+}
+.breadcrumb li {
+  color: #0072bc;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.breadcrumb li.active {
+  color: #0072bc;
+  cursor: initial;
+  white-space: nowrap;
+}
+.breadcrumb ._date {
+  color: #e23d3a;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: initial;
+}
+.breadcrumb > span {
+  display: flex;
+  min-width: 50%;
+}
+
+.detailsModl .modal_title_img h5 {
+  letter-spacing: 0px !important;
+  font-size: 18px !important;
+  margin-bottom: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.modal.hlydysModl .desktop-pdf {
+  display: block;
+}
+
+.modal.hlydysModl .mobile-pdf {
+  display: none;
+}
+
+@media screen and (min-width: 320px) and (max-width: 567px) {
+  .profile-pic {
+    top: 10% !important;
+  }
+  ._logOutBtn {
+    position: absolute !important;
+    top: 10em;
+    right: -1em !important;
+    transform: rotate(-90deg);
+  }
+}
+@media screen and (max-width: 420px) {
+  .inOutTime div span {
+    font-size: 16px !important;
+  }
+  .modal.hlydysModl .desktop-pdf {
+    display: none;
+  }
+  .modal.hlydysModl .mobile-pdf {
+    display: block;
+  }
+  app-dashboard .profile-pic {
+    top: 70px !important;
+  }
+  .otp-input {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  form.formOTP .flxRow {
+    flex-flow: row !important;
+    align-items: center !important;
+  }
+  form.formOTP .flxRow .form-group.otpSuccessAlert {
+    padding-bottom: 0 !important;
+  }
+  form.formPsswd .flxRow {
+    flex-flow: row !important;
+  }
+  form.formPsswd .flxRow .w50 {
+    flex: 0 0 47% !important;
+    max-width: 47% !important;
+  }
+  .forgotPswd button.skipBtn {
+    padding: 0.5em 1em !important;
+    top: 0em !important;
+    left: 0em !important;
+  }
+  form.uploadPic .cropBlck {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  .empLogin h2 {
+    font-size: 24px !important;
+    margin: 1em auto !important;
+  }
+  .login_cards {
+    flex-flow: column !important;
+  }
+  .login_cards > div {
+    margin-bottom: 1em;
+  }
+  .login_cards > div a.empCard:hover {
+    box-shadow: none !important;
+  }
+  .profile-pic {
+    top: 70px !important;
+  }
+  .custom-switch.custom-switch-lg {
+    min-width: 145px !important;
+    padding-right: 1.5em !important;
+  }
+  .modal-dialog.modal_top {
+    max-width: 90%;
+  }
+  body .bread_crumb ._date, body .breadcrumb ._date {
+    margin-bottom: 0.2em !important;
+    font-size: 14px !important;
+    margin-top: 0.5em !important;
+  }
+  .login {
+    max-width: 100%;
+    min-height: 33vh !important;
+  }
+  .login-header, .the-header {
+    font-size: 25px !important;
+  }
+  .bgImg .row {
+    flex-flow: column-reverse;
+  }
+  .bgImgRyt.type-1, .bgImgRyt.type-2, .bgImgRyt.type-3 {
+    background-size: 75% !important;
+    max-width: 100%;
+    margin: 0 auto;
+    min-height: 235px !important;
+  }
+  .bgImgRyt.type-2 {
+    max-width: 210px;
+  }
+  .bgImgRyt.type-3 {
+    max-width: 250px;
+  }
+  .bgImg::after {
+    top: -47% !important;
+    right: 0% !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: rotate(-90deg) !important;
+    min-height: 70vh !important;
+  }
+  .forgotPswd {
+    max-width: 100%;
+    min-height: 63vh !important;
+  }
+  .forgotPswd .flxRow {
+    align-items: flex-start !important;
+  }
+  .forgotPswd .flxRow .w70, .forgotPswd .flxRow .w30 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+  ._crdAnncmnt p {
+    left: 1em !important;
+  }
+  owl-carousel .item {
+    padding: 2em 2.5em 1em 1em !important;
+    max-height: 80px !important;
+    overflow: hidden !important;
+  }
+  .modal.hlydysModl .modal-dialog.modal_content_left {
+    top: 50%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+  }
+  .modal.hlydysModl .modal-dialog.modal_top.modal-lg {
+    top: 50%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+  }
+  .modal.hlydysModl .modal_Myheader button {
+    right: -18px;
+    top: -18px;
+  }
+  .modal.hlydysModl .modal-body {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .modal.hlydysModl .modal-body object, .modal.hlydysModl .modal-body iframe {
+    min-height: initial !important;
+    width: auto !important;
+  }
+  .modal.hlydysModl .modal-body object span, .modal.hlydysModl .modal-body iframe span {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  .modal.hlydysModl .modal-body.leavePlcy object {
+    min-height: 80vh !important;
+  }
+  .modal.hlydysModl .modal-body.leavePlcy .maxHyyt {
+    min-height: 75vh;
+  }
+  .modal.hlydysModl .modal-body.leavePlcy span {
+    margin-bottom: 0.75em;
+  }
+  .modal.hlydysModl .modal-body.flexi_hours_policy span {
+    margin-bottom: 0.75em;
+  }
+  .modal.hlydysModl .maxHyyt {
+    margin: 1em 0em;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  .modal.hlydysModl .maxHyyt img {
+    max-width: 100%;
+    width: 100%;
+  }
+  body .loggdEmps h2 {
+    font-size: 26px !important;
+  }
+  img.logo_icon {
+    max-height: 50px !important;
+  }
+  img.logo {
+    max-width: 185px !important;
+  }
+  .iconnectNav li.dropdown .dropdown-menu {
+    position: relative !important;
+    top: 4px !important;
+  }
+  ul.navbar-nav.ml-auto {
+    position: absolute !important;
+    top: 5px !important;
+    right: 1em !important;
+  }
+  ul.navbar-nav.ml-auto li.nav-item._home {
+    position: absolute !important;
+    right: 3.2em !important;
+    top: 0;
+    bottom: 0;
+  }
+  ul.navbar-nav.ml-auto .inOutTime {
+    position: absolute;
+    right: 6.5em;
+    top: 0;
+    bottom: 0;
+    max-height: 50px;
+  }
+  ul.navbar-nav.ml-auto li.nav-item._shrtNme.dropdown span.proImgCircle h3 {
+    max-width: 42px !important;
+    margin-left: auto !important;
+  }
+  button.navbar-toggler {
+    display: none !important;
+  }
+  ul.navbar-nav.ml-auto {
+    display: flex !important;
+    justify-content: flex-end !important;
+    flex-flow: row !important;
+    margin-top: 0.7em;
+  }
+  .collapse.navbar-collapse {
+    display: block !important;
+  }
+  body ._crdAnncmnt h4 {
+    font-size: 18px !important;
+  }
+  ._crdAnncmnt .micIcon {
+    background-size: 75% !important;
+    top: initial !important;
+    bottom: 0 !important;
+    right: -1em !important;
+    width: 90px !important;
+    height: 70px !important;
+  }
+  .fxdCard {
+    position: relative !important;
+  }
+  .fxdCard .card {
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+  .myProfile .crdHdr {
+    background-size: contain !important;
+    background-position: center !important;
+  }
+  .myProfile .card {
+    width: 100% !important;
+  }
+  .abslt {
+    position: relative !important;
+    left: 0 !important;
+    max-width: 100% !important;
+  }
+  .abslt .leaveBalDonutchart .card {
+    min-height: 300px !important;
+    margin-left: 0 !important;
+  }
+  .abslt .leaveBalDonutchart > div {
+    flex: 0 0 100% !important;
+    margin-left: 0 !important;
+  }
+  .leaveBalDonutchart .donutCard {
+    min-width: 100% !important;
+  }
+  .dailyaAttndnce, .bDaysCard, .jobOpenings {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+  .dailyaAttndnce {
+    overflow: hidden;
+  }
+  .dailyaAttndnce div.myTableScroll {
+    max-height: 450px !important;
+  }
+  .card._dwnlds, .wrkExprnce, .iceCrd {
+    background-size: 65% !important;
+  }
+  .jobOpenings {
+    background-size: 80% !important;
+  }
+  .gydLines ul {
+    padding-left: 1em !important;
+  }
+  .gydLines ul li::marker {
+    font-size: 16px !important;
+  }
+  .p_3 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .col_6.Comm_Addrs, .col_6.Perm_Addrs {
+    min-width: 99% !important;
+    max-width: 99% !important;
+    padding-left: 0em !important;
+  }
+  body .wrkExprnce .expRow h3 {
+    font-size: 20px !important;
+  }
+  .accnt_info ul {
+    flex-flow: column !important;
+  }
+  .accnt_info ul li {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+  .profle_adrss {
+    width: 100% !important;
+    margin-top: 0.6em;
+  }
+  .card.wrkExprnce {
+    margin-top: 0.6em;
+  }
+  .wrkExprnce ul {
+    max-width: 100% !important;
+  }
+  ._Modal .modal_title_img h5 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  ._Modal .dflx {
+    flex-flow: column;
+  }
+  ._Modal .dflx div {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+  ._Modal .modal-body {
+    padding: 1em 1em !important;
+    overflow-y: auto;
+    max-height: 86vh;
+  }
+  ._Modal .form-group input, ._Modal .form-group select {
+    font-size: 14px !important;
+  }
+  button.btn.btn-danger.CancleReqst {
+    min-width: -moz-max-content !important;
+    min-width: max-content !important;
+  }
+  .breadcrumb li {
+    font-size: 16px !important;
+  }
+  .iconnectNav li.dropdown .dropdown-menu p {
+    font-size: 15px !important;
+    padding: 10px !important;
+  }
+  .iconnectNav li.dropdown .dropdown-menu a {
+    padding: 8px 10px !important;
+  }
+  .iconnectNav .pfleOptions {
+    padding-bottom: 10px;
+  }
+  .p_5 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  h2.swal2-title {
+    font-size: 20px !important;
+  }
+  .flxRow {
+    flex-flow: column !important;
+  }
+  .flxRow .card {
+    width: 100% !important;
+  }
+  .flxRow div._col {
+    max-width: 100% !important;
+  }
+  app-vaccine-reg div.myTableScroll .second-col {
+    left: initial !important;
+  }
+  app-vaccine-reg div.myTableScroll .first-col, app-vaccine-reg div.myTableScroll thead th:first-child {
+    left: initial !important;
+  }
+  app-birthdays img.gifts-bg, app-birthdays img.cake-bg {
+    bottom: 0;
+    max-height: 85px !important;
+  }
+  app-birthdays div.myTableScroll td, app-birthdays div.myTableScroll th {
+    white-space: nowrap !important;
+  }
+  app-apply-leave .ng-autocomplete {
+    width: 100% !important;
+  }
+  app-apply-leave ng-autocomplete.ng-autocomplete {
+    width: 100% !important;
+  }
+  app-apply-leave .fRow {
+    flex-wrap: wrap;
+  }
+  app-apply-leave .fRow .form-group {
+    width: 100% !important;
+  }
+  app-apply-leave ._col .card {
+    padding: 0.5em;
+  }
+  app-apply-leave .notfctnAlert {
+    position: relative !important;
+    right: 0 !important;
+    top: -10px !important;
+    min-width: 100% !important;
+  }
+  ul.datesList li {
+    margin-bottom: 0.4em !important;
+    width: 99% !important;
+    max-width: 99% !important;
+  }
+  .pl_0 {
+    padding-left: 1em !important;
+  }
+  app-attendance-report .modal-view-container .form-group.fRow, app-attendance-report-assam .modal-view-container .form-group.fRow {
+    flex-flow: column !important;
+  }
+  app-attendance-report .flxEnd.mb-0, app-attendance-report-assam .flxEnd.mb-0 {
+    align-items: flex-start !important;
+    flex-flow: column !important;
+  }
+  app-attendance-report .lftAlgn, app-attendance-report-assam .lftAlgn {
+    width: 100%;
+  }
+  app-attendance-report .lftAlgn h5, app-attendance-report-assam .lftAlgn h5 {
+    font-size: 18px;
+  }
+  app-attendance-report .rytAlign, app-attendance-report-assam .rytAlign {
+    margin-top: 1em;
+    padding-right: 0em !important;
+  }
+  app-attendance-report .select-css, app-attendance-report-assam .select-css {
+    min-width: 170px !important;
+    max-width: 180px !important;
+  }
+  app-leave-summary .modal-view-details {
+    width: 85% !important;
+    padding: 1em !important;
+  }
+  app-leave-summary .flxRow .card {
+    max-width: 100% !important;
+  }
+  app-leave-summary .flxRow .card h5 {
+    font-size: 18px !important;
+  }
+  app-leave-summary .flxRow .flxItms ul li {
+    min-width: 24% !important;
+  }
+  app-leave-summary .flxRow .flxItms ul li h3 {
+    font-size: 24px !important;
+  }
+  app-leave-summary .flxRow .flxItms.col3 ul li {
+    width: 50% !important;
+  }
+  app-leave-summary .tableSectn {
+    padding: 0.5em !important;
+  }
+  app-leave-summary .flxEnd h5, app-leave-summary .gydLines h5 {
+    font-size: 18px !important;
+  }
+  app-leave-summary .gydLines {
+    background-size: 95px !important;
+  }
+  app-leave-summary .gydLines ul li {
+    font-size: 14px !important;
+  }
+  app-ctc .p_5 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  app-ctc .dflxTbls {
+    overflow-x: auto;
+    justify-content: flex-start !important;
+  }
+  app-ctc .dflxTbls .theBody {
+    flex: 0 0 90%;
+    max-width: 90%;
+  }
+  app-department-info .deptList ul li {
+    margin: 0.3em 0em !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100%;
+  }
+  app-department-info .search-hero input {
+    font-size: 16px !important;
+    padding-left: 2.4em !important;
+  }
+  app-department-info .search-hero input::-moz-placeholder {
+    font-size: 15px !important;
+  }
+  app-department-info .search-hero input::placeholder {
+    font-size: 15px !important;
+  }
+  app-manager-approvals .homeContnr, app-hrms .homeContnr {
+    flex-flow: column;
+  }
+  app-manager-approvals .homeContnr .imgContiner, app-hrms .homeContnr .imgContiner {
+    padding: 1em !important;
+    width: 100% !important;
+  }
+  app-manager-approvals .homeContnr .imgContiner img, app-hrms .homeContnr .imgContiner img {
+    max-width: 200px;
+  }
+  app-manager-approvals .homeContnr .imgContiner h1, app-hrms .homeContnr .imgContiner h1 {
+    font-size: 22px;
+  }
+  app-manager-approvals .card.ourInfo, app-hrms .card.ourInfo {
+    width: 100% !important;
+  }
+  app-manager-approvals .crdsGrid ul li, app-hrms .crdsGrid ul li {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+  app-manager-approvals .crdsGrid ul li p, app-hrms .crdsGrid ul li p {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+  }
+  app-leave-approvals .modal-view-details {
+    width: 85% !important;
+    padding: 1em !important;
+  }
+  app-attendance-approvals .modal-view-details {
+    width: 85% !important;
+    padding: 1em !important;
+  }
+  app-dept-attendance .tableSectn {
+    padding: 1em 0.5em !important;
+  }
+  app-dept-attendance .rytAlign {
+    padding-right: 0 !important;
+  }
+  app-dept-attendance div.myTableScroll .second-col, app-dept-attendance div.myTableScroll thead th:nth-child(2) {
+    left: initial !important;
+  }
+  app-dept-attendance div.myTableScroll .first-col {
+    z-index: 9 !important;
+  }
+  app-dept-attendance div.myTableScroll thead th:first-child {
+    z-index: 999 !important;
+  }
+  app-unfreeze-dates .leavesEnble ul li {
+    min-width: 47%;
+    margin-bottom: 0.5em;
+  }
+  app-unfreeze-dates .leavesEnble > div {
+    padding-right: 1em !important;
+  }
+  app-unfreeze-dates .leavesEnble .bs_date {
+    margin-bottom: 1em !important;
+    width: 100%;
+  }
+  app-unfreeze-dates button.themeBtn {
+    margin-top: 1em !important;
+  }
+  app-unfreeze-dates .card.theCrd {
+    flex-flow: column !important;
+    align-items: flex-start !important;
+  }
+  app-unfreeze-dates .card.theCrd h2 {
+    margin-bottom: 10px !important;
+  }
+  app-unfreeze-dates .card.empInfoBlock .empInfo {
+    flex-flow: column !important;
+  }
+  app-unfreeze-dates .card.empInfoBlock .empInfo .imgBlock {
+    margin-left: initial !important;
+    margin-right: auto !important;
+  }
+  app-unfreeze-dates .card.empInfoBlock .empInfo ul {
+    margin-left: 0em !important;
+  }
+  app-unfreeze-dates .card.empInfoBlock .empInfo ul li {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  app-flexi-policy .leavesEnble .bs_date {
+    flex-flow: column !important;
+    width: 100%;
+    margin-bottom: 0.65em !important;
+  }
+  app-flexi-policy .leavesEnble .bs_date label {
+    margin-bottom: 6px !important;
+  }
+  app-flexi-policy .leavesEnble .bs_date input {
+    width: 100% !important;
+  }
+  app-flexi-policy .leavesEnble > div {
+    padding-right: 0em !important;
+    width: 100%;
+  }
+  app-flexi-policy .card.empInfoBlock ul {
+    margin-top: 0.65em !important;
+  }
+  app-flexi-policy .card.empInfoBlock ul li.v_cntr {
+    min-width: 50%;
+  }
+  app-process-of-assessment .search-hero {
+    position: relative !important;
+    top: 0 !important;
+    right: 0 !important;
+    margin-bottom: 0.5em;
+  }
+  app-process-of-assessment div.myTableScroll {
+    max-height: 450px !important;
+  }
+  app-assessment-process-report div.myTableScroll .second-col, app-assessment-process-report div.myTableScroll thead th:nth-child(2), app-assessment-extended-report div.myTableScroll .second-col, app-assessment-extended-report div.myTableScroll thead th:nth-child(2), app-assessment-permanent-report div.myTableScroll .second-col, app-assessment-permanent-report div.myTableScroll thead th:nth-child(2), app-mngr-assesment-form div.myTableScroll .second-col, app-mngr-assesment-form div.myTableScroll thead th:nth-child(2) {
+    left: 0 !important;
+  }
+  app-assessment-process-report div.myTableScroll .first-col, app-assessment-extended-report div.myTableScroll .first-col, app-assessment-permanent-report div.myTableScroll .first-col, app-mngr-assesment-form div.myTableScroll .first-col {
+    left: initial !important;
+  }
+  app-assessment-process-report div.myTableScroll thead th:first-child, app-assessment-extended-report div.myTableScroll thead th:first-child, app-assessment-permanent-report div.myTableScroll thead th:first-child, app-mngr-assesment-form div.myTableScroll thead th:first-child {
+    left: initial !important;
+  }
+  app-assessment-process-report div.myTableScroll tbody tr:hover td, app-assessment-extended-report div.myTableScroll tbody tr:hover td, app-assessment-permanent-report div.myTableScroll tbody tr:hover td, app-mngr-assesment-form div.myTableScroll tbody tr:hover td {
+    background: initial !important;
+  }
+  app-profile-requests .bgWyt {
+    padding: 0.5em !important;
+  }
+  app-profile-requests .Nav_Card .card-body h2 {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+  }
+  app-commnctn-addrss div.myTableScroll .second-col, app-commnctn-addrss div.myTableScroll thead th:nth-child(2), app-permnt-addrss div.myTableScroll .second-col, app-permnt-addrss div.myTableScroll thead th:nth-child(2), app-ice-address div.myTableScroll .second-col, app-ice-address div.myTableScroll thead th:nth-child(2), app-bank-addrss div.myTableScroll .second-col, app-bank-addrss div.myTableScroll thead th:nth-child(2), app-pan-reqsts div.myTableScroll .second-col, app-pan-reqsts div.myTableScroll thead th:nth-child(2) {
+    left: 0 !important;
+    background: #e4eaf0;
+  }
+  app-commnctn-addrss div.myTableScroll .first-col, app-permnt-addrss div.myTableScroll .first-col, app-ice-address div.myTableScroll .first-col, app-bank-addrss div.myTableScroll .first-col, app-pan-reqsts div.myTableScroll .first-col {
+    left: initial !important;
+  }
+  app-commnctn-addrss div.myTableScroll thead th:first-child, app-permnt-addrss div.myTableScroll thead th:first-child, app-ice-address div.myTableScroll thead th:first-child, app-bank-addrss div.myTableScroll thead th:first-child, app-pan-reqsts div.myTableScroll thead th:first-child {
+    left: initial !important;
+  }
+  app-commnctn-addrss ol.breadcrumb, app-permnt-addrss ol.breadcrumb, app-ice-address ol.breadcrumb, app-bank-addrss ol.breadcrumb, app-pan-reqsts ol.breadcrumb {
+    padding: 0.75em 0.5em !important;
+  }
+  app-commnctn-addrss .breadcrumb li, app-permnt-addrss .breadcrumb li, app-ice-address .breadcrumb li, app-bank-addrss .breadcrumb li, app-pan-reqsts .breadcrumb li {
+    font-size: 15px !important;
+  }
+  app-commnctn-addrss .bgWyt, app-permnt-addrss .bgWyt, app-ice-address .bgWyt, app-bank-addrss .bgWyt, app-pan-reqsts .bgWyt {
+    padding: 0.5em 0em !important;
+  }
+  app-commnctn-addrss .detailsModl table td, app-commnctn-addrss .detailsModl table th, app-permnt-addrss .detailsModl table td, app-permnt-addrss .detailsModl table th, app-ice-address .detailsModl table td, app-ice-address .detailsModl table th, app-bank-addrss .detailsModl table td, app-bank-addrss .detailsModl table th, app-pan-reqsts .detailsModl table td, app-pan-reqsts .detailsModl table th {
+    min-width: initial !important;
+  }
+  app-commnctn-addrss .modal-header, app-permnt-addrss .modal-header, app-ice-address .modal-header, app-bank-addrss .modal-header, app-pan-reqsts .modal-header {
+    padding: 0.5rem 0.5rem !important;
+  }
+  app-commnctn-addrss .modal-body, app-permnt-addrss .modal-body, app-ice-address .modal-body, app-bank-addrss .modal-body, app-pan-reqsts .modal-body {
+    overflow-y: auto;
+    max-height: 75vh !important;
+  }
+  app-commnctn-addrss .modal-body div.myTableScroll, app-permnt-addrss .modal-body div.myTableScroll, app-ice-address .modal-body div.myTableScroll, app-bank-addrss .modal-body div.myTableScroll, app-pan-reqsts .modal-body div.myTableScroll {
+    max-height: initial !important;
+  }
+  app-assmnt-fill-form .assmntEmpInfo .formRow .form-group {
+    flex-flow: column !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  app-assmnt-fill-form .assmntForm ul {
+    flex-flow: column !important;
+  }
+  app-assmnt-fill-form .assmntForm ul li {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  app-assmnt-fill-form .inlneFlx {
+    flex-flow: column !important;
+  }
+  app-hrpolicies ul.policyList li {
+    max-width: 45% !important;
+    min-width: 45% !important;
+  }
+  app-hrpolicies ul.policyList li .card {
+    min-width: initial !important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  app-ctc .dflxTbls {
+    overflow-x: auto;
+    justify-content: flex-start !important;
+  }
+  app-ctc .dflxTbls .theBody {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  app-profile-page .flxRow.topROw {
+    flex-flow: column !important;
+    position: relative;
+  }
+  app-profile-page .flxRow.topROw .profle_adrss {
+    width: 100% !important;
+  }
+  app-profile-page .flxRow.topROw .card.myProfile {
+    width: 49% !important;
+    margin-bottom: 1em !important;
+  }
+  app-profile-page .flxRow.topROw .card.profle_cntct {
+    width: 49% !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-height: 450px;
+  }
+  app-attendance-report ul.datesList li {
+    width: 47% !important;
+    max-width: 47% !important;
+  }
+  app-attendance-report ul.datesList li .theDate {
+    min-width: 55px !important;
+  }
+  app-attendance-report ul.datesList li .inOfc, app-attendance-report ul.datesList li .lbl {
+    font-size: 12px !important;
+    padding: 3px 3px !important;
+  }
+  .modal.hlydysModl .modal-dialog.modal_top.modal-lg {
+    min-width: 75%;
+    max-width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+  }
+  .modal.hlydysModl iframe, .modal.hlydysModl object {
+    min-height: initial !important;
+  }
+  .iconnectNav li.dropdown .dropdown-menu {
+    position: relative !important;
+    top: 4px !important;
+  }
+  ul.navbar-nav.ml-auto {
+    position: absolute !important;
+    top: 5px !important;
+    right: 1em !important;
+  }
+  ul.navbar-nav.ml-auto li.nav-item._home {
+    position: absolute !important;
+    right: 3.2em !important;
+    top: 0;
+    bottom: 0;
+  }
+  ul.navbar-nav.ml-auto .inOutTime {
+    position: absolute;
+    right: 9em;
+    top: 0;
+    bottom: 0;
+    max-height: 50px;
+  }
+  ul.navbar-nav.ml-auto li.nav-item._shrtNme.dropdown span.proImgCircle h3 {
+    max-width: 42px !important;
+    margin-left: auto !important;
+  }
+  button.navbar-toggler {
+    display: none !important;
+  }
+  ul.navbar-nav.ml-auto {
+    display: flex !important;
+    justify-content: flex-end !important;
+    flex-flow: row !important;
+    margin-top: 0.7em;
+  }
+  .collapse.navbar-collapse {
+    display: block !important;
+  }
+  .profile-pic {
+    top: 70px !important;
+  }
+  .myProfile {
+    width: 49%;
+  }
+  .myProfile .card {
+    width: 100% !important;
+  }
+  .abslt {
+    left: initial !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 50% !important;
+  }
+  .fxdCard {
+    position: relative !important;
+  }
+  .leaveBalDonutchart {
+    flex-flow: column !important;
+  }
+  .leaveBalDonutchart > div {
+    width: 99% !important;
+    flex: 0 0 49% !important;
+  }
+  .card.donutCard {
+    margin: 0 !important;
+    margin-bottom: 0.75em !important;
+  }
+  .fxdCard {
+    position: relative !important;
+    width: 49%;
+  }
+  .fxdCard .card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .hlydysModl .modal-body {
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+  app-department-info .deptList ul {
+    width: 100% !important;
+  }
+  app-department-info .deptList ul li {
+    flex: 0 0 48% !important;
+    max-width: 48% !important;
+  }
+}
+@media screen and (min-width: 800px) and (max-width: 1281px) {
+  .myProfile, .fxdCard, .card.iceCrd._Addrs, .card.profle_cntct {
+    width: 22% !important;
+  }
+  .profle_adrss {
+    width: 52% !important;
+  }
+  .abslt {
+    left: 24.75% !important;
+  }
+  .leaveBalDonutchart .card.donutCard {
+    min-width: 20rem !important;
+  }
+  .leaveBalBarchart {
+    margin-left: 0 !important;
+  }
+  .leaveBalBarchart .card._usedLeaves {
+    min-width: 18rem !important;
+    padding: 0em !important;
+  }
+  ul.datesList li {
+    max-width: 31.55% !important;
+  }
+  ul.datesList li .theDate {
+    min-width: 40px !important;
+  }
+  ul.datesList .dteInfo {
+    min-width: 110px !important;
+  }
+  div.myTableScroll th, div.myTableScroll td {
+    min-width: 110px !important;
+  }
+  .deptList ul li {
+    flex: 0 0 32.23% !important;
+    max-width: 32.23% !important;
+  }
+  app-profile-page .myProfile, app-profile-page .fxdCard, app-profile-page .card.iceCrd._Addrs, app-profile-page .card.profle_cntct {
+    width: 23% !important;
+  }
+  app-profile-page .profle_adrss {
+    width: 52% !important;
+  }
+  app-profile-page .profile-pic {
+    top: 35px !important;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .mobile-pdf {
+    display: none !important;
+  }
+  .desktop-pdf {
+    display: block !important;
+  }
+}
+@media screen and (min-width: 1900px) {
+  .profile-pic {
+    top: 95px !important;
+  }
+  .card.ourInfo .theCard {
+    flex: 0 0 30% !important;
+  }
+  .myProfile, .fxdCard, .card.iceCrd._Addrs, .card.profle_cntct {
+    width: 23% !important;
+  }
+  .myProfile .card, .fxdCard .card, .card.iceCrd._Addrs .card, .card.profle_cntct .card {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+  .profle_adrss {
+    width: 53% !important;
+  }
+  .leaveBalDonutchart > div {
+    margin: 0 0.65em;
+    flex: 0 0 48.25% !important;
+    margin-right: 0 !important;
+  }
+  .leaveBalDonutchart .card {
+    min-height: 460px !important;
+  }
+  .accnt_info {
+    margin-top: 1em !important;
+  }
+  form.uploadPic .abslt {
+    right: -68% !important;
+  }
+  .modal-dialog.modal-lg.modal-dialog-centered.modal_content_left {
+    max-width: 60%;
+  }
+  .container {
+    max-width: 85%;
+  }
+  ul.datesList li {
+    width: 23.33% !important;
+    max-width: 23.67% !important;
+  }
+  .deptList ul li {
+    flex: 0 0 24.25% !important;
+    max-width: 24.25% !important;
+  }
+  .myProfile .crdHdr {
+    background-size: contain !important;
+  }
+  .card._dwnlds {
+    padding-bottom: 140px !important;
+    background-size: 50% !important;
+  }
+  .iceCrd {
+    background-size: 70% !important;
+  }
+  div.myTableScroll {
+    max-height: 600px !important;
+  }
+  .dailyaAttndnce div.myTableScroll {
+    max-height: 350px !important;
+  }
+  app-assmnt-fill-form .container-fluid {
+    max-width: 90%;
+  }
+}
+.fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fadeOutLeft {
+  animation-name: fadeOutLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+.fadeInRight {
+  animation-name: fadeInRight;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fadeInDown {
+  animation-name: fadeInDown;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fadeInLeft {
+  animation-name: fadeInLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.slideInLeft {
+  animation-name: slideInLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.bounceInLeft {
+  animation-name: bounceInLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes bounceInLeft {
+  0%, 60%, 75%, 90%, 100% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: translate3d(-3000px, 0, 0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(25px, 0, 0);
+  }
+  75% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  90% {
+    transform: translate3d(5px, 0, 0);
+  }
+  100% {
+    transform: none;
+  }
+}
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.flipInX {
+  backface-visibility: visible !important;
+  animation-name: flipInX;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes flipInX {
+  0% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transition-timing-function: ease-in;
+    opacity: 0;
+  }
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transition-timing-function: ease-in;
+  }
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+  100% {
+    transform: perspective(400px);
+  }
+}
+.slideInDown {
+  animation-name: slideInDown;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes slideInDown {
+  0% {
+    transform: translateY(-100%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.zoomInLeft {
+  animation-name: zoomInLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes zoomInLeft {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(-1000px, 0, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(10px, 0, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+.zoomInRight {
+  animation-name: zoomInRight;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes zoomInRight {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+.zoomOutLeft {
+  animation-name: zoomOutLeft;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes zoomOutLeft {
+  40% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(42px, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.1) translate3d(-2000px, 0, 0);
+    transform-origin: left center;
+  }
+}
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.fadeOutRight {
+  animation-name: fadeOutRight;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes fadeOutRight {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}/*# sourceMappingURL=styles.css.map */

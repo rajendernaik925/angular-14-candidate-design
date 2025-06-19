@@ -1,0 +1,108 @@
+.breadcrumb li.active {
+  color: #101010;
+  cursor: initial;
+}
+
+.bgWyt {
+  padding: 1em;
+  background: white;
+}
+
+.Nav_Card {
+  cursor: pointer;
+  min-height: 120px;
+  margin-bottom: 1.75em;
+  background: #eff4f8;
+}
+.Nav_Card .card-body {
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row;
+  align-items: center;
+}
+.Nav_Card .card-body h2 {
+  font-size: 24px;
+}
+
+.card.Nav_Card .card-body div {
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+.card.Nav_Card .card-body div._count {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple:hover {
+  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
+}
+.ripple:active {
+  background-color: #6eb9f7;
+  background-size: 100%;
+  transition: background 0s;
+}
+
+/* Button style */
+button.Theme_Btn {
+  border: none;
+  border-radius: 2px;
+  padding: 4px 12px;
+  font-size: 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: white;
+  background-color: #0072bc;
+  box-shadow: none !important;
+  outline: none !important;
+  margin-bottom: 10px;
+}
+
+.concentric-circles {
+  width: 50px;
+  height: 50px;
+  margin-left: 50%;
+  background-color: rgba(118, 145, 168, 0.7215686275);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+.concentric-circles span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  color: white;
+  font-size: 20px;
+}
+
+.noData {
+  margin: 0em auto;
+  text-align: center;
+  font-size: 26px;
+  color: #767676;
+  background-color: #f3f5f8;
+  padding: 2em;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.Nav_Card:hover .concentric-circles {
+  transition: all 0.2s ease-in-out;
+  animation: ripple 2s 0.2s infinite;
+  -webkit-animation: ripple 2s 0.2s infinite;
+}/*# sourceMappingURL=profile-requests.component.css.map */

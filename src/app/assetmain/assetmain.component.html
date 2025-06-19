@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">Asset Management</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="homeContnr">
+      <div class="imgContiner">
+        <img src="./assets/img/dashboard/Asset.png" alt="Asset">
+      </div>
+        <!-- Our Info card -->
+   <div class="card ourInfo" >
+      <div class="crdsGrid">
+  
+        <ul>
+          <ng-container>
+          <li  *ngIf="IsManager == 'Y'">
+            <a [routerLink]="['/asset']" >
+            <span> <img src="./assets/img/dashboard/TeamAssets.png" alt="asset-data-icon" />
+            </span> <p>Team Assets</p>
+            </a>
+          
+          </li>
+          <li >
+            <a [routerLink]="['/employeeasset']">
+             <span> <img src="./assets/img/dashboard/MyAssets.png" alt="asset-data-icon" />
+              
+             </span><p>My Assets</p>
+            </a>
+          </li>
+          
+         
+        </ng-container>
+        </ul>  
+      </div>
+   
+     
+   
+      <!-- <div class="crdsGrid">
+  
+        <ul>
+          <ng-container>
+          <li >
+            <a [routerLink]="['/profileRequests']">
+            <span>PR</span>
+            <p>Profile Requests</p>
+          </a>
+          </li>
+    
+          </ng-container>
+          </ul>
+          </div> -->
+    </div> <!--End Our Info  -->
+  </div>
+    </div>
+<!-- <div class="container"> -->
+  <!--  -->
+
+<!-- <div class="homeContnr">
+    <div class="imgContiner">
+      <img src="./assets/img/dashboard/Asset.jpg" alt="asset">
+    </div>
+  <div class="theCard-container">
+    <div class="theCard" [routerLink]="['/asset']">
+      <img src="./assets/img/dashboard/TeamAssets.png" alt="asset-data-icon" />
+      <a>Team Assets</a>
+    </div>
+    <div class="theCard" [routerLink]="['/employeeasset']">
+      <img src="./assets/img/dashboard/MyAssets.png" alt="asset-data-icon" />
+      <a>My Assets</a>
+    </div>
+  </div>
+  </div> -->

@@ -1,0 +1,647 @@
+.modal {
+  transition: transform 0.3s ease-out;
+  overflow: hidden;
+}
+.modal::after {
+  position: absolute;
+  content: "";
+  background: black;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.modal .close {
+  outline: none;
+  box-shadow: none;
+}
+
+.edtLBL {
+  background: #5b8cc0;
+  width: 100%;
+  color: white;
+  padding: 0.25em 1em;
+  text-transform: uppercase;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 8px;
+}
+
+.myProfile p {
+  margin-bottom: 3px;
+}
+.myProfile .card {
+  margin-bottom: 1rem;
+}
+.myProfile .card-body {
+  padding-top: 0;
+}
+.myProfile h5 {
+  margin: 0 auto;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.profile-pic {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid #616161;
+  border-radius: 30px;
+  border-bottom-left-radius: 1px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.168627451);
+  animation-name: bounceIn;
+  animation-duration: 0.75s;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  background-color: #fff;
+}
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+form.uploadPic .abslt {
+  position: absolute !important;
+  top: 0;
+  right: -100%;
+  max-width: 300px;
+}
+form.uploadPic i.fa.fa-cloud-upload {
+  font-size: 1.4em;
+}
+form.uploadPic image-cropper {
+  margin: 0 auto;
+  padding: 0;
+  background: white;
+  border: 2px solid #000000;
+  box-shadow: 0px 4px 10px #565656;
+}
+form.uploadPic button.btn.btn-primary {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  top: 143px;
+  z-index: 99;
+  background: green;
+  border-radius: 50%;
+  line-height: 1.8;
+  border-color: green;
+  outline: none;
+  box-shadow: none;
+}
+form.uploadPic .cropBlck {
+  position: relative;
+}
+form.uploadPic .btnsBlock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  bottom: -54px;
+  background: #3f3e3e;
+  justify-content: space-evenly;
+  padding: 0.5em 0;
+  box-shadow: 0px 4px 10px #565656;
+}
+form.uploadPic .btnsBlock button.btn {
+  color: white;
+  border: 1px solid #fff;
+  box-shadow: none;
+  outline: none;
+  min-width: 100px;
+}
+form.uploadPic .btnsBlock button.btn.crop {
+  background: green;
+}
+form.uploadPic .btnsBlock button.btn.cancel {
+  background: orange;
+}
+
+.alert.alert-success.profileImgAlert {
+  top: -12px;
+  position: absolute;
+  text-align: center;
+  z-index: 99;
+  font-size: 14px;
+  padding: 1px;
+  padding-right: 2em;
+  animation-name: fadeInUp;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+.alert.alert-success.profileImgAlert .close {
+  font: 400 13.3333px Arial;
+  font-size: 2em;
+  padding: 0.2em 0.3em;
+  outline: none;
+  box-shadow: none;
+}
+
+.flxRow {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.col_6 {
+  padding-right: 1em;
+}
+
+.flx_inline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.35em;
+}
+.flx_inline h5 {
+  margin-bottom: 0 !important;
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+}
+.flx_inline a {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.profle_adrss {
+  width: 54%;
+  flex-flow: column;
+  display: flex;
+  justify-content: space-between;
+}
+.profle_adrss .card {
+  padding: 1em;
+  height: 100%;
+}
+.profle_adrss .col_6 h6 b {
+  font-weight: 800;
+  font-size: 16px;
+  color: #101010;
+}
+.profle_adrss .col_6 p {
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  line-height: 1.6 !important;
+}
+
+.accnt_info h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 1em;
+}
+.accnt_info ul {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.accnt_info ul li {
+  flex: 0 0 50%;
+  max-width: 49%;
+  background: rgba(228, 234, 240, 0.5333333333);
+  padding: 8px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.accnt_info ul li label {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: #101010;
+  opacity: 0.85;
+}
+.accnt_info ul li span {
+  font-size: 14px;
+  color: #101010;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.card.profle_cntct {
+  padding: 1em;
+}
+
+.flxCol {
+  margin-bottom: 1.5em;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.flxCol img {
+  display: block;
+  margin-bottom: 10px;
+}
+.flxCol h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 0;
+}
+.flxCol p {
+  word-break: break-word;
+  font-size: 15px;
+  color: #101010;
+  opacity: 0.85;
+  text-align: center;
+  margin-bottom: 0;
+  text-transform: lowercase;
+}
+
+.iceCrd {
+  padding: 1em;
+  min-height: 430px;
+  background: url("../../../assets/img/profile/ice-bg.svg") no-repeat;
+  background-size: contain;
+  background-position-y: bottom;
+  background-position-x: center;
+  background-color: white;
+}
+.iceCrd h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 1em;
+}
+.iceCrd b {
+  font-size: 14px;
+  font-weight: 600;
+  color: #101010;
+}
+.iceCrd p {
+  font-size: 14px;
+  color: #101010;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.wrkExprnce {
+  width: 76.5%;
+  padding: 1em;
+  min-height: 430px;
+  background: url("../../../assets/img/profile/wework-Experience-bg.svg") no-repeat;
+  background-size: 300px;
+  background-position-y: bottom;
+  background-position-x: right;
+  background-color: white;
+}
+.wrkExprnce h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 1em;
+}
+.wrkExprnce ul {
+  list-style-type: none;
+  margin: 0;
+  margin-top: 1.65em;
+  padding: 0;
+  max-width: 65%;
+}
+.wrkExprnce ul li {
+  background: rgba(228, 234, 240, 0.5333333333);
+  font-size: 14px;
+  color: #101010;
+  padding: 8px 5px;
+  margin-bottom: 5px;
+}
+.wrkExprnce ul li label {
+  margin: 0;
+}
+.wrkExprnce ul li b {
+  font-weight: 600;
+  color: #101010;
+  font-size: 13px;
+}
+.wrkExprnce .expRow {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.wrkExprnce .expRow h3 {
+  color: #101010;
+  font-weight: 500;
+  padding-left: 0.25em;
+  font-size: 21px;
+}
+
+form.uploadPic {
+  z-index: 99;
+}
+
+.fileUpload {
+  background: transparent;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 77px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fileUpload input[type=file] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+.fileUpload input[type=file] + label {
+  width: 28px;
+  height: 28px;
+  line-height: 1;
+  background: #f15d22;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: inherit;
+  font-weight: 500;
+  margin-top: 0.65rem;
+  outline: none;
+  padding: 0.35rem 5px;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+.fileUpload input[type=file] + label i.fa {
+  font-size: 14px;
+}
+.fileUpload input[type=file] + label.btn-2 {
+  background-color: rgba(0, 0, 0, 0.3647058824);
+  border-radius: 50px;
+  overflow: hidden;
+}
+.fileUpload input[type=file] + label.btn-2:hover {
+  background-color: #538bdf;
+}
+.fileUpload .rmvePic {
+  width: 35px;
+  height: 28px;
+}
+.fileUpload .rmvePic label {
+  background-color: rgba(0, 0, 0, 0.3647058824);
+  border-radius: 50px;
+  overflow: hidden;
+  width: 28px;
+  height: 28px;
+  border: none;
+  color: white;
+  padding: 0.35rem 5px;
+  margin-bottom: 0;
+  line-height: 1;
+  cursor: pointer;
+}
+.fileUpload .rmvePic label:hover {
+  background: #e11b22;
+}
+.fileUpload .rmvePic label:hover i {
+  color: #eeeeee;
+}
+.fileUpload .rmvePic label i {
+  font-size: 18px;
+  color: #fa9a2d;
+}
+
+.uploadPic input#file {
+  font-size: 0;
+  line-height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+._edit {
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+._edit i {
+  font-size: 14px !important;
+  color: #0072bc;
+}
+
+._Modal .modal_content_left {
+  animation-name: zoomInRight;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+}
+._Modal .modal-body {
+  padding: 1.5em 2em;
+}
+._Modal textarea {
+  outline: none;
+  box-shadow: none;
+  min-height: 50px;
+  max-height: 120px;
+}
+._Modal .form-group input, ._Modal .form-group select {
+  outline: none;
+  box-shadow: none;
+  text-transform: uppercase;
+}
+._Modal .form-group label {
+  margin-bottom: 0.25em;
+}
+._Modal .dflx {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+._Modal .dflx div {
+  min-width: 48%;
+  max-width: 100%;
+  flex: 0 0 48%;
+}
+._Modal .dflx.flx3 div {
+  min-width: 31%;
+  max-width: 31%;
+}
+
+.col_6.Comm_Addrs, .col_6.Perm_Addrs {
+  min-width: 50%;
+  max-width: 50%;
+}
+
+.col_6.Perm_Addrs {
+  padding-left: 1em;
+}
+
+.accnt_info span._prgrs {
+  color: #fd6930 !important;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: initial;
+}
+
+._Addrs h6 small, ._Addrs h5 small {
+  padding-left: 5px;
+}
+
+._Addrs h6 span, ._Addrs h5 span {
+  color: #fd6930;
+  font-size: 14px;
+}
+
+._Addrs a {
+  padding: 5px;
+  cursor: pointer;
+}
+._Addrs a i {
+  font-size: 14px;
+  color: #0072bc;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.Btns_Block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Btns_Block button.btn {
+  min-width: 150px;
+  margin: 1em 0.45em;
+  margin-bottom: 0;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.Btns_Block button.btn.SendToHR {
+  background: #0072bc;
+}
+
+.emrgncyContctForm .form-group {
+  position: relative;
+}
+.emrgncyContctForm .invalid-feedback {
+  background: white;
+  border: 0;
+  padding: 6px 3px;
+  color: #ba0202;
+  position: absolute;
+  left: 10px;
+  bottom: -25px;
+  font-size: 14px;
+  line-height: 1;
+  max-height: 19px;
+  overflow: hidden;
+}
+
+button.btn.btn-primary.SendToHR[disabled],
+button.btn.btn-primary.SendToHR:disabled {
+  opacity: 0.5;
+}
+
+.AccntInfoForm .form-group, .PanInfoForm .form-group {
+  position: relative;
+}
+.AccntInfoForm .invalid-feedback, .PanInfoForm .invalid-feedback {
+  position: absolute;
+  right: 12px;
+  width: auto;
+  top: 0;
+  font-size: 14px;
+}
+.AccntInfoForm label.uploadBtn, .PanInfoForm label.uploadBtn {
+  display: flex;
+  background: #d4edf6;
+  border: 1px solid #ddd;
+  padding: 0.35em 0em 0.4em 0;
+  border-radius: 3px;
+  align-items: flex-end;
+}
+.AccntInfoForm label.uploadBtn span, .PanInfoForm label.uploadBtn span {
+  padding-left: 10px;
+  vertical-align: text-top;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 1;
+}
+.AccntInfoForm label.uploadBtn img, .PanInfoForm label.uploadBtn img {
+  max-width: 26px;
+  margin-left: 8px;
+}
+
+h6._bankDtls {
+  margin-top: 1em;
+  font-weight: 600;
+}
+
+.custom_validtn {
+  color: #ba0202;
+}
+
+.bounceIn {
+  animation-name: bounceIn;
+  animation-duration: 0.75s;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes bounceIn {
+  0%, 20%, 40%, 60%, 80%, 100% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0.75;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}/*# sourceMappingURL=profile-page.component.css.map */

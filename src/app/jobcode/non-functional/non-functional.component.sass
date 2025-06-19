@@ -1,0 +1,92 @@
+.fw-bold
+  font-weight: bold
+.me-2
+  margin-right: 15px
+
+.mt-0
+  margin-top: 0
+.container
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+
+.d-flex
+  display: flex
+  align-items: center
+
+.vertical-line
+  display: inline-block
+  width: 8px
+  margin-left: 15px
+  height: 60px
+  background-color: #E8E8E8
+  border-radius: 5px
+  position: relative
+  animation: fillGreen 3s forwards
+
+@keyframes fillGreen
+  0%
+    background: linear-gradient(to bottom, #E8E8E8 0%, #E8E8E8 100%)
+    background-position: top
+
+  50%
+    background: linear-gradient(to bottom, #E8E8E8 0%, green 100%)
+    background-position: center
+
+  100%
+    background: linear-gradient(to bottom, green 0%, green 100%)
+    background-position: bottom
+.cursor-pointer
+  cursor: pointer
+.custom-bg
+  background-color: #0072BC
+.Hover:hover
+  color: red !important
+.fs-4
+  font-size: 23px
+.fs-5
+  font-size: 12px
+
+.checkbox-list
+  max-height: 300px
+  overflow-y: auto
+  border: 1px solid #ccc
+  padding: 10px
+  border-radius: 5px
+
+  label
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 5px
+    cursor: pointer
+
+    input
+      width: 16px
+      height: 16px
+      accent-color: #007bff  // Adds a blue tint to the checkbox
+
+    &:hover
+      background-color: #f8f9fa
+.checkbox-list
+  max-height: 300px
+  overflow-y: auto
+  border: 1px solid #ccc
+  padding: 10px
+  border-radius: 5px
+
+  label
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 5px
+    cursor: pointer
+
+    input
+      width: 16px
+      height: 16px
+      accent-color: #007bff  // Adds a blue tint to the checkbox
+
+    &:hover
+      background-color: #f8f9fa
+

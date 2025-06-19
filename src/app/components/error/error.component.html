@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div> 
+<div class="container-fluid" *ngIf="errCode == 500">
+    <div class="text-center" >
+        <img src="./././assets/img/500-error.gif" alt="internal-server-error"/>
+    </div>  
+</div>
+<div class="container-fluid" *ngIf="errCode == 400 || errCode == 415"  > 
+    <div class="text-center error400" style="background-color: whitesmoke">
+        <img src="./././assets/img/400-error.png" alt="400-bad-request" />
+    </div>
+</div>
+<div class="container-fluid" *ngIf="errCode == 0"> 
+    <div class="text-center" style="background-color: whitesmoke">
+        <img src="./././assets/img/0-error.png" alt="connection-error" /> 
+    </div>
+</div>
+
+<div class="container-fluid" *ngIf="isMnger == 'N'|| AuthrzdUser == 'false'" > 
+    <div class="text-center" class="userRestrict" style="background-color: whitesmoke">
+        <img src="./././assets/img/anonymous_user.svg" alt="anonymous-user" />
+        <br>
+        <a [routerLink]="['/dashboard']" class="goHomeBtn"> Go to Home</a>
+    </div>
+</div>

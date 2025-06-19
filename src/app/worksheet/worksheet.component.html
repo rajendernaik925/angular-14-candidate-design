@@ -1,0 +1,1147 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">
+        Daily Worksheet
+      </li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="navbar">
+  <ul class="d-flex list-unstyled">
+    <li class="nav-item mr-1">
+      <a
+        class="nav-link border-0"
+        [class.active]="selectedIndex === 0"
+        (click)="selectTab(0)"
+        >Daily Tasks</a
+      >
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link border-0"
+        [class.active]="selectedIndex === 1"
+        (click)="selectTab(1)"
+        >Work Summary</a
+      >
+    </li>
+  </ul>
+</div>
+
+<div class="worksheet">
+  <div class="tab-content mt-2">
+    <div *ngIf="selectedIndex === 0">
+      <div class="container-fluid">
+        <div
+          class="row d-flex align-items-center"
+          style="border-bottom: 1px solid #e7e7e7"
+        >
+          <div class="col-md-2 add-task">
+            <button class="add-task-btn" (click)="openModal()">Add Task</button>
+            <!-- <h6 appHighlight>Daily Tasks</h6> -->
+          </div>
+          <div class="col-md-7">
+            <marquee
+              behavior="scroll"
+              class="marquee"
+              direction="left"
+              scrollamount="7"
+            >
+              {{ getdata.workDurationCalculation }}
+            </marquee>
+          </div>
+          <div
+            class="col-md-3 text-right btn"
+            *ngIf="getdata.list && getdata.list.length > 0"
+            (click)="openSubmitModal()"
+          >
+            <button>Submit for Approval</button>
+          </div>
+        </div>
+        <!-- <div clas="row">
+         
+        </div> -->
+        <div class="row">
+          <div class="table-responsive">
+            <!-- Wrapper for responsive table -->
+            <table class="task-table table table-bordered w-100">
+              <thead>
+                <tr>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/action.svg" /> Action
+                  </th>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/Task Date.svg" /> Task Date
+                  </th>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/freelance.svg" /> Work Place
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/tasktitle.png" /> Project
+                    Title
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/dashboard.svg" /> Project
+                    Module
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/clock.png" /> Start & End
+                    Time
+                  </th>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/duration.png" /> Duration
+                  </th>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/outcome.png" /> Outcome
+                  </th>
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/emergency-on.png" />
+                    Priority
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/description.png" /> Task
+                    Description
+                  </th>
+
+                  <th class="pb-2 custom-col">
+                    <img src="././assets/worksheet/timeblock.png" /> Time Block
+                  </th>
+                  <th class="pb-2" style="width: 280px">
+                    <img src="././assets/worksheet/Task Alignment.svg" /> Task
+                    Alignment
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/Category.svg" />Category
+                  </th>
+                  <th class="pb-2" style="width: 250px">
+                    <img src="././assets/worksheet/Activities.svg" />
+                    Activities
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/Task Type.svg" /> Task Type
+                  </th>
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/Planned or Ad-hoc.svg" />
+                    Planned/Adhoc
+                  </th>
+
+                
+                  <th class="pb-2">
+                    <img src="././assets/worksheet/Remark.svg" /> Remarks
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of getdata.list">
+                  <td class="d-flex custom-col">
+                    <button
+                      class="btn btn-danger btn-sm mr-2"
+                      (click)="deleteTask(task.sno)"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      (click)="editTask(task)"
+                    >
+                      Edit
+                    </button>
+                  </td>
+                  <td class="custom-col">{{ task.taskDate }}</td>
+                  <td class="custom-col">{{ task.workPlace }}</td>
+
+                  <!-- <td>{{ task.projectName }}</td> -->
+                  <td>
+                    <span
+                      *ngIf="task.projectName.length > 20"
+                      tooltip="{{ task.projectName }}"
+                      placement="bottom"
+                      container="body"
+                      triggers="hover"
+                      class="cursor-pointer"
+                    >
+                      {{ task.projectName | slice : 0 : 20 }}...
+                    </span>
+
+                    <span *ngIf="task.projectName.length <= 20">
+                      {{ task.projectName }}
+                    </span>
+                  </td>
+
+                  <!-- <td
+                      class="tooltip-container"
+                      [tooltip]="
+                        task.projectName.length > 20 ? task.projectName : null
+                      "
+                      placement="bottom"
+                    >
+                      {{
+                        task.projectName.length > 20
+                          ? task.projectName.substring(0, 20) + "..."
+                          : task.projectName
+                      }}
+                    </td> -->
+
+                  <!-- <td>{{ task.module }}</td> -->
+
+                  <td>
+                    <span
+                      *ngIf="task.module.length > 20"
+                      tooltip="{{ task.module }}"
+                      placement="bottom"
+                      container="body"
+                      triggers="hover"
+                      class="cursor-pointer"
+                    >
+                      {{ task.module | slice : 0 : 20 }}...
+                    </span>
+ 
+                    <span *ngIf="task.module.length <= 20">
+                      {{ task.module }}
+                    </span>
+                  </td>
+                  <td>{{ task.startTime }} - {{ task.endTime }}</td>
+                  <td class="custom-col">{{ task.duration }}</td>
+                  <td [ngClass]="getOutcomeClass(task.outcomeName)">
+                    {{ task.outcomeName }}
+                  </td>
+                  <!-- <td class="custom-col">{{ task.outcomeName }}</td> -->
+                  <td class="custom-col">{{ task.priorityName }}</td>
+                  <td>
+                    <span
+                      *ngIf="task.taskDescription.length > 20"
+                      tooltip="{{ task.taskDescription }}"
+                      placement="bottom"
+                      container="body"
+                      triggers="hover"
+                      class="cursor-pointer"
+                    >
+                      {{ task.taskDescription | slice : 0 : 20 }}...
+                    </span>
+
+                    <span *ngIf="task.taskDescription.length <= 20">
+                      {{ task.taskDescription }}
+                    </span>
+                  </td>
+
+                  <td class="custom-col">{{ task.timeBlock }}</td>
+                  <td style="width: 280px">{{ task.taskAlignmentName }}</td>
+                  <td>{{ task.categoryName }}</td>
+                  <td style="width:250px">{{ task.activityName }}</td>
+                  <td>{{ task.taskTypeName }}</td>
+                  <td>{{ task.plannedAdhocName }}</td>
+                
+                  <!-- <td>{{ task.remarks }}</td> -->
+                  <td>
+                    <span
+                      *ngIf="task.remarks.length > 20"
+                      tooltip="{{ task.remarks }}"
+                      placement="bottom"
+                      container="body"
+                      triggers="hover"
+                      class="cursor-pointer"
+                    >
+                      {{ task.remarks | slice : 0 : 20 }}...
+                    </span>
+
+                    <span *ngIf="task.remarks.length <= 20">
+                      {{ task.remarks }}
+                    </span>
+                  </td>
+                </tr>
+                <div
+                  class="modal approval-modal"
+                  *ngIf="isConfirmationModalVisible"
+                >
+                  <div class="modal-content">
+                    <div
+                      class="d-flex justify-content-end align-items-center close"
+                    >
+                      <span class="close-btn" (click)="closeModal1()"
+                        >&times;</span
+                      >
+                    </div>
+
+                    <div class="modal-body text-center success-modal px-6">
+                      <img
+                        src="./assets/img/dashboard/check.png"
+                        alt="Success Image"
+                      />
+
+                      <h6>
+                        {{
+                          isTaskUpdated
+                            ? "Task Updated Successfully"
+                            : "Task Added Successfully"
+                        }}
+                      </h6>
+                      <p>
+                        Your Task has been
+                        {{ isTaskUpdated ? "updated" : "added" }}
+                        successfully for<br />
+                        {{ taskDate | date : "yyyy-MM-dd" }}.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <tr
+                  *ngIf="!getdata.list || getdata.list.length === 0"
+                  class="no-data"
+                >
+                  <td colspan="17" class="text-center">No data available</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedIndex === 1">
+      <div class="container-fluid">
+        <div class="row pt-2" style="border-bottom: 1px solid #e7e7e7">
+          <div class="col-md-3"><h6>Work Log Summary</h6></div>
+          <div class="col-md-9 marquee-container">
+            <!-- Display scrolling content -->
+            <marquee behavior="scroll" direction="left" class="scroll-data">
+              Dear {{ this.userData.user.name | titlecase }}, your last one-week
+              summary will be displayed here.
+            </marquee>
+          </div>
+        </div>
+
+        <div *ngIf="groupedTasks && groupedTasks.length > 0; else noData">
+          <div *ngFor="let group of groupedTasks">
+            <div class="row mt-3">
+              <div class="col-md-9">
+                <h6 class="fw-800">{{ group.taskDate }}</h6>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="table-responsive">
+                <table
+                  class="task-summary task-table table-bordered table-striped w-100"
+                >
+                  <thead>
+                    <tr>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/freelance.svg" /> Work
+                        Place
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/tasktitle.png" />
+                        Project Title
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/dashboard.svg" />
+                        Project Module
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/clock.png" /> Start & End
+                        Time
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/duration.png" />
+                        Duration
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/outcome.png" /> Outcome
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/emergency-on.png" />
+                        Priority
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/description.png" />
+                        Task Description
+                      </th>
+
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/timeblock.png" /> Time
+                        Block
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/Task Alignment.svg" />
+                        Task Alignment
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/Category.svg" />Category
+                      </th>
+                      <th class="pb-2" style="width:220px">
+                        <img src="././assets/worksheet/Activities.svg" />
+                        Activities
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/Task Type.svg" /> Task
+                        Type
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/Planned or Ad-hoc.svg" />
+                        Planned/Adhoc
+                      </th>
+
+                     
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/Remark.svg" /> Remarks
+                      </th>
+                      <th class="pb-2">
+                        <img src="././assets/worksheet/status.png" /> Manager
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let task of group.tasks">
+                      <td>{{ task.workPlace }}</td>
+                      <td>
+                        <span
+                          *ngIf="task.projectName.length > 20"
+                          tooltip="{{ task.projectName }}"
+                          placement="bottom"
+                          container="body"
+                          triggers="hover"
+                          class="cursor-pointer"
+                        >
+                          {{ task.projectName | slice : 0 : 20 }}...
+                        </span>
+    
+                        <span *ngIf="task.projectName.length <= 20">
+                          {{ task.projectName }}
+                        </span>
+                      </td>
+    
+                      <!-- <td>{{ task.module }}</td> -->
+                      <td>
+                        <span
+                          *ngIf="task.module.length > 20"
+                          tooltip="{{ task.module }}"
+                          placement="bottom"
+                          container="body"
+                          triggers="hover"
+                          class="cursor-pointer"
+                        >
+                          {{ task.module | slice : 0 : 20 }}...
+                        </span>
+     
+                        <span *ngIf="task.module.length <= 20">
+                          {{ task.module }}
+                        </span>
+                      </td>
+                      <td>{{ task.startTime }} - {{ task.endTime }}</td>
+                      <td>{{ task.duration }}</td>
+                      <td [ngClass]="getOutcomeClass(task.outcomeName)">
+                        {{ task.outcomeName }}
+                      </td>
+                      <td>{{ task.priorityName }}</td>
+
+                      <td>
+                        <span
+                          *ngIf="task.taskDescription.length > 20"
+                          tooltip="{{ task.taskDescription }}"
+                          placement="bottom"
+                          container="body"
+                          triggers="hover"
+                          class="cursor-pointer"
+                        >
+                          {{ task.taskDescription | slice : 0 : 20 }}...
+                        </span>
+    
+                        <span *ngIf="task.taskDescription.length <= 20">
+                          {{ task.taskDescription }}
+                        </span>
+                      </td>
+                      <td>{{ task.timeBlock }}</td>
+                      <td>{{ task.taskAlignmentName }}</td>
+                      <td>{{ task.categoryName }}</td>
+                      <td style="width:220px">{{ task.activityName }}</td>
+                      <td>{{ task.taskTypeName }}</td>
+                      <td>{{ task.plannedAdhocName }}</td>
+                     
+                      <!-- <td>{{ task.remarks }}</td> -->
+                      <td>
+                        <span
+                          *ngIf="task.remarks.length > 20"
+                          tooltip="{{ task.remarks }}"
+                          placement="bottom"
+                          container="body"
+                          triggers="hover"
+                          class="cursor-pointer"
+                        >
+                          {{ task.remarks | slice : 0 : 20 }}...
+                        </span>
+    
+                        <span *ngIf="task.remarks.length <= 20">
+                          {{ task.remarks }}
+                        </span>
+                      </td>
+                  
+                      <td>{{ task.managerStatus }}</td>
+                    </tr>
+                    <!-- If no tasks are found for this date, show this row -->
+                    <tr *ngIf="group.tasks.length === 0">
+                      <td colspan="16" class="text-center">
+                        No tasks available for this date.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noData>
+          <div class="text-center mt-3">
+            <p>No data available</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" *ngIf="isVisible">
+  <div class="modal-content mb-2">
+    <div
+      class="d-flex justify-content-between align-items-center"
+      height="30px"
+    >
+      <h6 *ngIf="!selectedTaskId">Add Task</h6>
+      <h6 *ngIf="selectedTaskId">Edit Task</h6>
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+    </div>
+
+    <form
+      [formGroup]="worksheetForm"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off"
+    >
+      <div class="row mb-2">
+        <div class="col-md-3">
+          <label for="taskdate" class="form-label"
+            >Date <span class="important">*</span></label
+          >
+          <input
+            type="text"
+            id="taskdate"
+            class="form-control"
+            formControlName="taskDate"
+            bsDatepicker
+            [bsConfig]="bsConfig"
+            [bsValue]="currentDate"
+            (bsValueChange)="onDateChange($event)"
+            (keydown)="restrictInvalidCharacters($event)"
+            placeholder="YYYY-MM-DD"
+            required
+          />
+
+          <div
+            *ngIf="
+              worksheetForm.get('taskDate').invalid &&
+              worksheetForm.get('taskDate').touched
+            "
+            class="text-danger"
+          >
+            Date is required.
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="team" class="form-label"
+            >Team <span class="important">*</span></label
+          >
+          <select id="team" class="form-control" formControlName="team">
+            <option value="" selected disabled>Select</option>
+            <option *ngFor="let team of teams" [value]="team.id">
+              {{ team.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('team').invalid &&
+              worksheetForm.get('team').touched
+            "
+            class="text-danger"
+          >
+            <div *ngIf="worksheetForm.get('team').hasError('required')">
+              Team is required.
+            </div>
+
+            <div *ngIf="worksheetForm.get('team').hasError('maxlength')">
+              Team must not exceed 150 characters.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label for="name" class="form-label"
+            >Name <span class="important">*</span></label
+          >
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            placeholder="Enter Name"
+            formControlName="name"
+            readonly
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="timeblock" class="form-label"
+            >Time Block (Duration (hh.mm))<span class="important"
+              >*</span
+            ></label
+          >
+          <!-- 
+          <input
+            type="number"
+            id="timeblock"
+            class="form-control"
+            placeholder="Enter Hour (Duration)"
+            formControlName="timeBlock"
+            min="1"
+            max="24"
+            (keypress)="KeyPress($event)"
+            (input)="validateTimeBlock($event)"
+          /> -->
+
+          <input
+            type="text"
+            class="form-control"
+            id="timeblock"
+            formControlName="timeBlock"
+            (keypress)="DecimalInput($event)"
+            (paste)="preventPaste($event)"
+          />
+
+          <!-- <div
+            *ngIf="
+              worksheetForm.get('timeBlock').invalid &&
+              worksheetForm.get('timeBlock').touched
+            "
+            class="text-danger"
+          >
+            Time Block is required.
+          </div> -->
+
+          <div
+            *ngIf="
+              worksheetForm.get('timeBlock').hasError('required') &&
+              worksheetForm.get('timeBlock').touched
+            "
+            class="text-danger"
+          >
+            Time Block is required.
+          </div>
+
+          <!-- Show the "invalidTimeBlock" error message from the custom validator -->
+          <div
+            *ngIf="worksheetForm.get('timeBlock').hasError('invalidTimeBlock')"
+            class="text-danger"
+          >
+            {{ worksheetForm.get("timeBlock").getError("invalidTimeBlock") }}
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-8">
+          <label for="task" class="form-label"
+            >Task Description <span class="important">*</span></label
+          >
+          <textarea
+            id="taskAlignment"
+            class="form-control"
+            rows="1"
+            placeholder="Enter task"
+            formControlName="taskDescription"
+          ></textarea>
+          <div
+            *ngIf="
+              worksheetForm.get('taskDescription').invalid &&
+              worksheetForm.get('taskDescription').touched
+            "
+            class="text-danger"
+          >
+            <div
+              *ngIf="worksheetForm.get('taskDescription').hasError('required')"
+            >
+              Task Description is required.
+            </div>
+
+            <div
+              *ngIf="worksheetForm.get('taskDescription').hasError('maxlength')"
+            >
+              Task Description must not exceed 500 characters.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="workPlace" class="form-label"
+            >Work Place <span class="important">*</span></label
+          >
+          <select
+            id="workPlace"
+            class="form-control"
+            formControlName="workPlace"
+          >
+            <option value="" selected disabled>Select</option>
+            <option *ngFor="let workplace of workPlace" [value]="workplace.id">
+              {{ workplace.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('workPlace').invalid &&
+              worksheetForm.get('workPlace').touched
+            "
+            class="text-danger"
+          >
+            work place is required.
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="pojectname" class="form-label"
+            >Project Name <span class="important">*</span></label
+          >
+          <input
+            type="text"
+            id="pojectname"
+            class="form-control"
+            placeholder="Enter Name"
+            formControlName="projectName"
+          />
+          <div
+            *ngIf="
+              worksheetForm.get('projectName').invalid &&
+              worksheetForm.get('projectName').touched
+            "
+            class="text-danger"
+          >
+            <div *ngIf="worksheetForm.get('projectName').hasError('required')">
+              Project Name is required.
+            </div>
+
+            <div *ngIf="worksheetForm.get('projectName').hasError('maxlength')">
+              Project Name must not exceed 150 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-2">
+          <label for="module" class="form-label"
+            >Project Module <span class="important">*</span></label
+          >
+          <input
+            type="text"
+            id="module"
+            class="form-control"
+            placeholder="Enter module"
+            formControlName="module"
+          />
+          <div
+            *ngIf="
+              worksheetForm.get('module').invalid &&
+              worksheetForm.get('module').touched
+            "
+            class="text-danger"
+          >
+            <div *ngIf="worksheetForm.get('module').hasError('required')">
+              Module is required.
+            </div>
+
+            <div *ngIf="worksheetForm.get('module').hasError('maxlength')">
+              Project Module must not exceed 50 characters.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="taskAlignment" class="form-label"
+            >Task Alignment <span class="important">*</span></label
+          >
+          <select
+            id="taskAlignment"
+            class="form-control"
+            formControlName="taskAlignmentId"
+          >
+            <option value="" selected disabled>Select</option>
+            <option *ngFor="let task of taskAlignment" [value]="task.id">
+              {{ task.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('taskAlignmentId').invalid &&
+              worksheetForm.get('taskAlignmentId').touched
+            "
+            class="text-danger"
+          >
+            Alignment is required.
+          </div>
+        </div>
+        <div class="col-md-2 position-relative">
+          <label for="dependentPerson" class="form-label"
+            >Dependent Person
+          </label>
+
+          <input
+            type="text"
+            formControlName="dependentPerson"
+            class="form-control"
+            placeholder="Enter name..."
+            (keydown)="onKeyDown($event)"
+            (keyup)="onKeyUp($event)"
+            (focus)="showDropdown = true"
+          />
+
+          <!-- Dropdown Menu -->
+          <ul
+            class="dropdown-menu show w-100"
+            *ngIf="showDropdown && dependents.length"
+            style="max-height: 200px; overflow-y: auto"
+            autocomplete="false"
+          >
+            <li
+              *ngFor="let dep of dependents"
+              class="dropdown-item"
+              (click)="selectDependent(dep)"
+            >
+              {{ dep.name }} - {{ dep.id }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <label for="category" class="form-label"
+            >Category: <span class="important">*</span></label
+          >
+          <select
+            id="category"
+            name="category"
+            class="form-control"
+            (change)="onCategoryChange()"
+            formControlName="categoryId"
+          >
+            <option value="" selected>Select</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('categoryId').invalid &&
+              worksheetForm.get('categoryId').touched
+            "
+            class="text-danger"
+          >
+            Category is required.
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="activity" class="form-label"
+            >Activities: <span class="important">*</span></label
+          >
+          <select
+            name="activity"
+            class="form-control"
+            placeholder="Select Activity"
+            id="activity"
+            formControlName="activityId"
+          >
+            <option value="" selected>Select</option>
+            <option *ngFor="let activity of activities" [value]="activity.id">
+              {{ activity.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('activityId').invalid &&
+              worksheetForm.get('activityId').touched
+            "
+            class="text-danger"
+          >
+            Activity is required.
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="priority" class="form-label"
+            >Priority <span class="important">*</span></label
+          >
+          <select
+            id="priority"
+            class="form-control"
+            formControlName="priorityId"
+          >
+            <option value="" selected disabled>Select</option>
+            <option
+              *ngFor="let getpriority of priority"
+              [value]="getpriority.id"
+            >
+              {{ getpriority.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('priorityId').invalid &&
+              worksheetForm.get('priorityId').touched
+            "
+            class="text-danger"
+          >
+            Priority is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-2">
+          <label for="startTime" class="form-label"
+            >Start Time (HH:mm)<span class="important">*</span></label
+          >
+          <input
+            type="time"
+            id="startTime"
+            class="form-control"
+            formControlName="startTime"
+            (blur)="onTimeChange()"
+            value=""
+          />
+          <div
+            *ngIf="
+              worksheetForm.get('startTime').invalid &&
+              worksheetForm.get('startTime').touched
+            "
+            class="text-danger"
+          >
+            Start Time is required.
+          </div>
+        </div>
+
+        <!-- End Time -->
+        <div class="col-md-2">
+          <label for="endTime" class="form-label"
+            >End Time (HH:mm)<span class="important">*</span></label
+          >
+          <input
+            type="time"
+            id="endTime"
+            class="form-control"
+            formControlName="endTime"
+            (blur)="onTimeChange()"
+            value=""
+          />
+          <div
+            *ngIf="
+              worksheetForm.get('endTime').invalid &&
+              worksheetForm.get('endTime').touched
+            "
+            class="text-danger"
+          >
+            End Time is required.
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="col-md-2">
+          <label for="duration" class="form-label"
+            >Duration (HH:mm)<span class="important">*</span></label
+          >
+          <input
+            type="text"
+            id="duration"
+            class="form-control"
+            formControlName="duration"
+            [value]="worksheetForm.get('duration')?.value"
+            readonly
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="tasktype" class="form-label"
+            >Task Type <span class="important">*</span></label
+          >
+          <select
+            id="tasktype"
+            class="form-control"
+            formControlName="taskTypeId"
+          >
+            <option value="" selected disabled>Select</option>
+            <option *ngFor="let tasktypo of tasktype" [value]="tasktypo.id">
+              {{ tasktypo.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('taskTypeId').invalid &&
+              worksheetForm.get('taskTypeId').touched
+            "
+            class="text-danger"
+          >
+            Task Type is required.
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="plannedOrAdhoc" class="form-label"
+            >Planned/Adhoc <span class="important">*</span></label
+          >
+          <select
+            id="plannedOrAdhoc"
+            class="form-control"
+            formControlName="plannedAdhocId"
+          >
+            <option value="" selected disabled>Select</option>
+            <option
+              *ngFor="let plannedadhoc of plannedadhoc"
+              [value]="plannedadhoc.id"
+            >
+              {{ plannedadhoc.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              worksheetForm.get('plannedAdhocId').invalid &&
+              worksheetForm.get('plannedAdhocId').touched
+            "
+            class="text-danger"
+          >
+            Planned Adhoc is required.
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="outcome" class="form-label"
+            >Outcome <span class="important">*</span></label
+          >
+          
+            <select id="outcome" class="form-control" formControlName="outcomeId">
+              <option value="" selected disabled>Select</option>
+              <option *ngFor="let outcome of outcome" [value]="outcome.id" [ngClass]="getOutcomeClass(outcome.name)" style="font-weight: bold;">
+                {{ outcome.name }}
+              </option>
+            </select>
+          <div
+            *ngIf="
+              worksheetForm.get('outcomeId').invalid &&
+              worksheetForm.get('outcomeId').touched
+            "
+            class="text-danger"
+          >
+            Outcome is required.
+          </div>
+        </div>
+        <!-- <div class="col-md-2">
+          <label for="updatedBy" class="form-label">Updated By <span class="important">*</span></label>
+          <input
+            type="text"
+            id="updatedBy"
+            class="form-control"
+            formControlName="updatedBy"
+          />
+        </div>
+        <div class="col-md-2">
+          <label for="approvedBy" class="form-label">Approved By <span class="important">*</span></label>
+          <input
+            type="text"
+            id="approvedBy"
+            class="form-control"
+            formControlName="approvedBy"
+          />
+        </div> -->
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-12">
+          <label for="remarks" class="form-label">Remarks </label>
+          <textarea
+            id="remarks"
+            class="form-control"
+            rows="1"
+            placeholder="Enter remarks"
+            formControlName="remarks"
+          ></textarea>
+          <div
+            *ngIf="
+              worksheetForm.get('remarks').invalid &&
+              worksheetForm.get('remarks').touched
+            "
+            class="text-danger"
+          >
+            <div *ngIf="worksheetForm.get('remarks').hasError('maxlength')">
+              Remarks must not exceed 500 characters.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row mx-auto mt-1 mb-4 d-flex align-items-center justify-content-center flex-nowrap gap-2"
+      >
+        <div class="col-auto pr-0">
+          <button type="button" class="btn btn-danger" (click)="onReset()">
+            Reset
+          </button>
+        </div>
+        <div class="col-auto">
+          <button *ngIf="!selectedTaskId" type="submit" class="btn btn-primary">
+            Save
+          </button>
+          <button
+            *ngIf="selectedTaskId"
+            type="submit"
+            class="btn btn-primary text-nowrap"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- First Modal: Confirmation -->
+<div class="modal approval-modal" *ngIf="isFirstModalVisible">
+  <div class="modal-content">
+    <div class="modal-body text-center">
+      <img
+        src="./assets/worksheet/caution.png"
+        alt="caution"
+        height="50px"
+        width="50px"
+      />
+      <h6 class="mt-3">Action Needed!</h6>
+      <p class="mt-1">
+        Daily Worksheet cannot be modified once sent for Approval.
+      </p>
+    </div>
+    <button class="btn btn-primary" (click)="proceedToNextModal()">
+      Submit for Approval
+    </button>
+    <button class="btn btn-secondary" (click)="closeModal1()">Cancel</button>
+  </div>
+</div>
+
+<!-- Second Modal: Success -->
+<div class="modal approval-modal" *ngIf="isSecondModalVisible">
+  <div class="modal-content">
+    <div class="d-flex justify-content-end align-items-center close">
+      <span class="close-btn" (click)="closeModal1()">&times;</span>
+    </div>
+
+    <div class="modal-body text-center success-modal">
+      <img src="./assets/worksheet/check.png" alt="Success Image" />
+      <h6>Worksheet successfully sent for approval.</h6>
+      <p>
+        You can track your worksheet status in this Work Log Summary module.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

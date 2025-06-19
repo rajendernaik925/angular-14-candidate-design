@@ -1,0 +1,27 @@
+<svg id="professional-contact-icon" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <rect id="Rectangle_498" data-name="Rectangle 498" width="14" height="34" rx="1" transform="translate(43 26)" fill="#2980b9"/>
+  <rect id="Rectangle_499" data-name="Rectangle 499" width="6" height="6" rx="1" transform="translate(48 30)" fill="#9fe0f6"/>
+  <rect id="Rectangle_500" data-name="Rectangle 500" width="6" height="6" rx="1" transform="translate(48 38)" fill="#9fe0f6"/>
+  <rect id="Rectangle_501" data-name="Rectangle 501" width="14" height="34" rx="1" transform="translate(3 26)" fill="#2980b9"/>
+  <rect id="Rectangle_502" data-name="Rectangle 502" width="6" height="6" rx="1" transform="translate(6 30)" fill="#9fe0f6"/>
+  <rect id="Rectangle_503" data-name="Rectangle 503" width="6" height="6" rx="1" transform="translate(6 38)" fill="#9fe0f6"/>
+  <rect id="Rectangle_504" data-name="Rectangle 504" width="30" height="45" rx="1" transform="translate(15 15)" fill="#3498db"/>
+  <g id="Group_3351" data-name="Group 3351" transform="translate(-2 -2)">
+    <rect id="Rectangle_505" data-name="Rectangle 505" width="6" height="6" rx="1" transform="translate(20 21)" fill="#9fe0f6"/>
+    <rect id="Rectangle_506" data-name="Rectangle 506" width="6" height="6" rx="1" transform="translate(29 21)" fill="#9fe0f6"/>
+    <rect id="Rectangle_507" data-name="Rectangle 507" width="6" height="6" rx="1" transform="translate(38 21)" fill="#9fe0f6"/>
+    <rect id="Rectangle_508" data-name="Rectangle 508" width="6" height="6" rx="1" transform="translate(20 29)" fill="#9fe0f6"/>
+    <rect id="Rectangle_509" data-name="Rectangle 509" width="6" height="6" rx="1" transform="translate(29 29)" fill="#9fe0f6"/>
+    <rect id="Rectangle_510" data-name="Rectangle 510" width="6" height="6" rx="1" transform="translate(38 29)" fill="#9fe0f6"/>
+    <rect id="Rectangle_511" data-name="Rectangle 511" width="6" height="6" rx="1" transform="translate(20 37)" fill="#9fe0f6"/>
+    <rect id="Rectangle_512" data-name="Rectangle 512" width="6" height="6" rx="1" transform="translate(29 37)" fill="#9fe0f6"/>
+    <rect id="Rectangle_513" data-name="Rectangle 513" width="6" height="6" rx="1" transform="translate(38 37)" fill="#9fe0f6"/>
+  </g>
+  <path id="Path_10081" data-name="Path 10081" d="M40,47H24a1,1,0,0,1,0-2H40a1,1,0,0,1,0,2Z" transform="translate(-2 -2)" fill="#2980b9"/>
+  <path id="Path_10082" data-name="Path 10082" d="M26,46H38V61H26Z" transform="translate(-2 -2)" fill="#9fe0f6"/>
+  <path id="Path_10083" data-name="Path 10083" d="M38,45H26a1,1,0,0,0-1,1V61a1,1,0,0,0,1,1H38a1,1,0,0,0,1-1V46A1,1,0,0,0,38,45ZM27,47h4V60H27ZM37,60H33V47h4Z" transform="translate(-2 -2)" fill="#2980b9"/>
+  <path id="Path_10084" data-name="Path 10084" d="M61,62H3a1,1,0,0,1,0-2H61a1,1,0,0,1,0,2Z" transform="translate(-2 -2)" fill="#333"/>
+  <path id="Path_10085" data-name="Path 10085" d="M35.11,14.578a1.007,1.007,0,0,1-.351-.064,7.847,7.847,0,0,0-5.518,0,1,1,0,1,1-.7-1.873,9.855,9.855,0,0,1,6.922,0,1,1,0,0,1-.351,1.937Z" transform="translate(-2 -2)" fill="#ffcc5c"/>
+  <path id="Path_10086" data-name="Path 10086" d="M37.979,10.477a1,1,0,0,1-.459-.112,12,12,0,0,0-11.04,0,1,1,0,1,1-.92-1.775,14,14,0,0,1,12.88,0,1,1,0,0,1-.461,1.887Z" transform="translate(-2 -2)" fill="#f7931e"/>
+  <path id="Path_10087" data-name="Path 10087" d="M40.789,6.468a1,1,0,0,1-.518-.145,15.892,15.892,0,0,0-16.542,0,1,1,0,0,1-1.038-1.71,17.888,17.888,0,0,1,18.618,0,1,1,0,0,1-.52,1.855Z" transform="translate(-2 -2)" fill="#f15a24"/>
+</svg>

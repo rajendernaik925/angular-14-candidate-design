@@ -1,0 +1,418 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">
+      Attendance Report
+    </li>
+    <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="card">
+    <div class="flxEnd mb-0">
+      <div class="lftAlgn">
+        <!-- <h5>Current Month Attendance</h5> -->
+        <h5>{{curMnth}} Attendance<span *ngIf="payperiodSwitch; else month"> (for Pay Period)</span> 
+          <ng-template #month>
+            (for Entire Month) 
+          </ng-template>
+           </h5>
+           <p class="payperiodDate" *ngIf="payperiodSwitch">{{ payperiodfromDate | date: "dd-MMM-yyyy"}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{ payperiodtoDate| date: "dd-MMM-yyyy"}}</p>   
+        <p class="payperiodDate" *ngIf="!payperiodSwitch">{{ fromDate | date: "dd-MMM-yyyy"}} <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{ toDate| date: "dd-MMM-yyyy"}}</p>    
+      </div>
+      
+      <div class="rytAlign">
+        <div class="custom-control custom-switch custom-switch-lg">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="customSwitch2"
+            [(ngModel)]="payperiodSwitch" 
+            (change)="handleSelected()"/>
+          <label class="custom-control-label" for="customSwitch2">
+            Pay Period
+          </label>
+        </div> 
+        
+
+       <select class="form-control select-css" 
+        [ngModel]="selectedLevel" (ngModelChange)='onChangeMonth($event)'>
+        <option *ngFor="let level of options" [ngValue]="level" >                    
+          {{level.monthname}}-{{level.year}}    
+        </option>
+      </select> 
+      
+      </div>
+    </div>
+  </div>
+
+
+
+
+  
+  <div class="loader" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>  
+
+  <div class="row">
+
+
+
+
+
+
+    <!-- Hyd Attendance  --> 
+
+  <div class="col-sm-9" *ngIf="userData.user.sublocation =='HYD'">
+      <div *ngIf="isData ">
+      <ul class="datesList" *ngIf="inOutData && colorVariables ">
+        <li *ngFor="let item of inOutData">
+          <div class="theDate">
+             <label
+              class="measure"
+              [ngStyle]="{ background: item.DISPLAYCOLOR }"></label>
+            <div>
+              <p>
+                {{ item.date.split("-").reverse().join("-") | date: " MMM" }}
+              </p>             
+              <h4>
+                {{ item.date.split("-").reverse().join("-") | date: " dd" }}
+              </h4>
+              <p>
+                {{ item.date.split("-").reverse().join("-") | date: " EEE" }}
+              </p>
+            </div>
+          </div>
+
+
+          <div class="lablNbtn">
+          <!--today date label  -->
+          <span
+            *ngIf="item.date === latest_date "
+            class="inOfc"
+            [ngStyle]="{
+              background: item.DISPLAYCOLOR,
+              display: item.DISPLAYNAME
+            }">
+            {{ item.DISPLAYNAME }}</span>           
+          
+
+          <span *ngIf="(item.LESSHRS >= '1' || item.LESSHRS == '0')  && item.date != latest_date">          
+            <!-- button  --> 
+            <ng-container *ngIf="item.LABLE === '1'  ">
+            <span><b [ngStyle]="{ color: item.DISPLAYCOLOR }" >   
+              <span *ngIf="userData.user.buid === '17';else otherBU">{{item.LESSHRS}}</span>    
+              <ng-template #otherBU>
+                {{item.LESSHRS}}-hr<span *ngIf="(item.LESSHRS)>'1'">s</span>
+              </ng-template> 
+            </b></span>
+            <button
+              class="actnBtn"
+              (click)="openModal(); getThisData($event, item);"
+              [ngStyle]="{
+                background: item.DISPLAYCOLOR,
+                'border-color': item.DISPLAYCOLOR,
+                display: item.DISPLAYNAME
+              }" *ngIf="item.DAF !== 'none'">
+              {{ item.DISPLAYNAME }}
+            </button>
+          </ng-container>
+           <!-- label  -->
+          <ng-container *ngIf="item.LABLE === '0' && item.DAREQ !== 'No Request' " >      
+            <span  *ngIf="item.LESSHRS >= '1'"><b [ngStyle]="{ color: item.DISPLAYCOLOR }" >              
+              <span *ngIf="userData.user.buid === '17';else otherBU">{{item.LESSHRS}}</span>    
+              <ng-template #otherBU>
+                {{item.LESSHRS}}-hr<span *ngIf="(item.LESSHRS)>'1'">s</span>
+              </ng-template> 
+            </b></span>        
+            <span class="lbl" [ngStyle]="{ background: item.DISPLAYCOLOR }" >{{ item.DISPLAYNAME }}</span>  
+          </ng-container>  
+          </span> 
+        </div>
+
+          <!-- ryt side section -->
+          <div class="dteInfo"> 
+            <ng-container >
+              <p [ngStyle]="{display: item.DISPLAYINOUT}">
+                <b>Net Hrs: {{ item.netHours }}</b>
+              </p>
+              <p [ngStyle]="{display: item.DISPLAYINOUT}">{{ item.in }} - {{ item.out }}</p>
+              <p [ngStyle]="{ color: item.DISPLAYCOLOR }"><b>{{ item.dayType }}</b></p>
+            </ng-container> 
+          </div>
+        </li>
+        <!-- <li>
+            <div class="theDate">
+              <label class="measure"></label>
+              <div>
+                <p>TUE</p>
+                <h4>22</h4>
+              </div>
+            </div>
+            <div class="dteInfo">
+              <p><b>9.4 hrs</b></p>
+              <p>09:43:44 - 18:47:53</p>
+              <p>Working Day</p>
+            </div>
+          </li> -->
+      </ul> 
+    </div>
+      <div *ngIf="!isData ">
+        <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+      </div>
+     
+    </div>
+
+ 
+    
+
+    <!-- Mumbai Attendance  --> 
+    <div class="col-sm-9" *ngIf="userData.user.sublocation =='MUM'"> 
+      <div *ngIf="isData ">
+      <ul class="datesList" *ngIf="inOutData && colorVariables ">
+        <li *ngFor="let item of inOutData">
+          <div class="theDate">
+             <label
+              class="measure"
+              style="background: #8a95fb "></label>
+            <div>
+              <p>
+                {{ item.date.split("-").reverse().join("-") | date: " MMM" }}
+              </p>             
+              <h4>
+                {{ item.date.split("-").reverse().join("-") | date: " dd" }}
+              </h4>
+              <p>
+                {{ item.date.split("-").reverse().join("-") | date: " EEE" }}
+              </p>
+            </div>
+          </div>
+
+
+          <div class="lablNbtn">
+          <!--today date label  -->
+          <span
+            *ngIf="item.date === latest_date && (item.in != '00:00:00'|| item.out != '00:00:00' )"
+            class="inOfc" >
+            {{ item.DISPLAYNAME }}</span>           
+          
+
+                    
+            <!-- button  --> 
+           
+           <!-- label  -->
+          <ng-container *ngIf="item.LABLE === '0' && item.DAREQ !== 'No Request' " >      
+                    
+            <span class="lbl" [ngStyle]="{ background: item.DISPLAYCOLOR }" >{{ item.DISPLAYNAME }}</span>  
+          </ng-container>  
+           
+        </div>
+
+          <!-- ryt side section -->
+          <div class="dteInfo"> 
+            <ng-container >
+              <p >
+                <b>Net Hrs: {{ item.netHours }}</b>
+              </p>
+              <p>{{ item.in }} - {{ item.out }}</p>
+              <p ><b>{{ item.dayType }}</b></p>
+            </ng-container> 
+          </div>
+        </li>
+        <!-- <li>
+            <div class="theDate">
+              <label class="measure"></label>
+              <div>
+                <p>TUE</p>
+                <h4>22</h4>
+              </div>
+            </div>
+            <div class="dteInfo">
+              <p><b>9.4 hrs</b></p>
+              <p>09:43:44 - 18:47:53</p>
+              <p>Working Day</p>
+            </div>
+          </li> -->
+      </ul>
+
+
+      
+    </div>
+      <div *ngIf="!isData ">
+        <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+      </div>
+     
+    </div>
+
+    
+    <div class="col-sm-3 pl_0">   
+      <ng-container *ngIf="userData.user.sublocation !='MUM'">  
+      <div class="card dedHrs" >
+        <p>DEDUCTION HOURS</p>
+        <h6 *ngIf="userData.user.buid === '17';else otherBUDedHrs">{{deductnHrs}}</h6>
+        <ng-template #otherBUDedHrs>
+          <h6>{{deductnHrs}} hrs</h6>
+        </ng-template>
+      </div>
+      <div class="card _note"  >
+        <b>Note : Attendance Requests will be enabled only after 48 hours &amp; must be applied within 24 hours once it is enabled.</b>
+      </div>
+    </ng-container> 
+    <div class="card dedHrs" *ngIf="userData.user.sublocation =='MUM'">
+      <p>Number of LOP's</p>
+      <h6>{{this.lopCount}} Days</h6>
+    </div>
+      <div class="card dedctn_policy">
+        <p>
+          Deduction Hours <br />
+          As per Policy Attached <a  (click)='showPolicyModal()'>View PDF</a>
+        </p>
+        <div class="micIcon"></div>
+      </div>
+
+      <!-- color pallet  -->
+      <div class="card colorPallet" *ngIf="userData.user.sublocation !='MUM'">
+        <h5>Type of attendance</h5>
+        <div class="colrItms">
+          <span *ngFor="let item of colorVariables">
+            <label [ngStyle]="{ 'background-color': item.colorcode }"></label
+            >&nbsp;
+            <i>{{ item.colorcodename }}</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Attendence Request Form Modal -->
+<div #outsideElement>
+  <div class="modal-view-container">
+    <div #modalView class="modal view">
+      <div class="modal-view-details">
+        <div class="modal-heading">
+          <h5>Send Request</h5>
+          <button (click)="closeModal()" class="clsModl">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="thisData" hidden />
+          <form [formGroup]="ReasonForm" (ngSubmit)="submitRequest()">
+            <div class="form-group fRow">
+              <label>Request Date</label>
+              <!-- <p>11-02-2021</p> -->
+              <p>{{thisData}}</p>
+
+            </div>
+            <div class="form-group fRow">
+              <label>To (Reporting Manager)</label>
+              <p>{{reportingMangr}}</p>
+            </div>
+
+            <div class="form-group fRow">
+              <label>Request Type<sup>*</sup></label>
+              <!-- <select name="ReqType" class="form-control select-css" >
+                <option *ngFor="let option of ReqOptions" [value]="option">{{option}}</option>
+             </select> -->
+             <div class="rltv">
+             <select formControlName="ReqType" class="form-control" [(ngModel)]="selectedValue"> 
+              <option [value]="option" *ngFor="let option of ReqOptions"> {{option}}</option>
+            </select>
+
+            <div *ngIf="f.ReqType.touched && f.ReqType.invalid" class="alert alert-danger">
+              <div *ngIf="f.ReqType.errors.required">Select Request Type</div> 
+            </div>
+          </div>
+            </div>
+            <div class="form-group fRow">
+              <label>Request Message<sup>*</sup></label>
+              <div class="rltv">
+              <textarea
+                class="form-control"
+                rows="3"
+                formControlName="reasonComment"
+                name="comments" ></textarea>
+              <div
+                *ngIf="f.reasonComment.touched && f.reasonComment.invalid"
+                class="alert alert-danger" >
+                <div *ngIf="f.reasonComment.errors.required">
+                  Reason is required
+                </div>
+                <div *ngIf="f.reasonComment.errors.minlength">
+                  Reason should be minimum 5 characters
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="form-group mb-0 text-center">
+              <button
+                class="btn btn-warning"
+                type="reset"
+                (click)="closeModal()" >
+                Back
+              </button>
+              <button
+                class="btn btn-success"
+                type="submit" 
+                [disabled]="ReasonForm.invalid" >
+                Submit
+              </button>
+              
+            </div>
+          </form>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Deduction Hours Policy PDF Modal --> 
+  <div class="modal hlydysModl" id="policyModal" [style.display]="commonnModal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal_top modal-lg">  
+    <div class="modal-content"> 
+      <div class="modal_Myheader"> 
+        <button type="button" (click)="closePolicyModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+      <div class="modal-body flexi_hours_policy"> 
+        <!-- Hyderabad  -->  
+          <!-- <img src="././assets/img/logo.svg" alt="logo" class="letterHdr_Logo" />         -->
+          <object [data]="flexiPolicy|safe" type="application/pdf" allowtransparency="true" *ngIf='userData.user.sublocation=="HYD"'
+           style="min-height:95vh;width:100%;">  
+           <!-- mobile view start-->
+           <a><div class="maxHyyt">
+              <img src="././assets/uploads/hyd-flexi_working_hours_policy.jpg" alt="flexi_working_hours_policy" /> 
+            </div>
+            <span class="btn btn-primary" (click)="closePolicyModal()">Close</span></a>   
+            <!-- mobile view end--> 
+          </object>   
+
+        <!-- Mumbai  -->        
+          <object [data]="mumFlexiPolicy|safe" type="application/pdf" allowtransparency="true" *ngIf='userData.user.sublocation=="MUM"' 
+           style="min-height:95vh;width:100%;">
+           <!-- mobile view start-->  
+           <a><div class="maxHyyt">
+              <img src="././assets/uploads/mumbai-Ded-Hrs-Policy.jpg" alt="mumbai-Ded-Hrs-Policy" /> 
+            </div>
+            <span class="btn btn-primary" (click)="closePolicyModal()">Close</span></a>     
+            <!-- mobile view end-->    
+          </object>   
+         
+      </div>
+    </div> 
+  
+</div> 
+</div> 

@@ -1,0 +1,81 @@
+ul.policyList {
+  display: flex;
+  justify-content: flex-start;
+  list-style-type: none;
+  flex-wrap: wrap;
+}
+ul.policyList li {
+  max-width: 246px;
+  min-width: 230px;
+  margin: 0.5em 0.5em;
+  text-align: center;
+}
+ul.policyList li .card {
+  min-width: 250px;
+  padding: 1em 0.5em;
+  min-height: 160px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+ul.policyList li .card img {
+  width: 75px;
+  display: block;
+  margin: 0 auto;
+}
+ul.policyList li .card h5 {
+  font-size: 15px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.modal:after {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: block;
+  content: "";
+}
+
+.hlydysModl {
+  transition: transform 0.3s ease-out;
+  overflow-y: hidden;
+}
+.hlydysModl::after {
+  position: absolute;
+  content: "";
+  background: black;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.hlydysModl .modal_title_img h5 {
+  margin: 0;
+}
+.hlydysModl .modal-body {
+  padding: 0;
+}
+.hlydysModl .crdBdy.table_contnr {
+  max-height: 505px;
+  overflow-y: auto;
+}
+.hlydysModl .crdBdy.table_contnr table tr td {
+  text-transform: uppercase;
+  cursor: initial;
+}
+.hlydysModl .closedHldy {
+  color: red;
+  text-transform: capitalize;
+}
+.hlydysModl .close {
+  outline: none;
+  box-shadow: none;
+}/*# sourceMappingURL=hrpolicies.component.css.map */

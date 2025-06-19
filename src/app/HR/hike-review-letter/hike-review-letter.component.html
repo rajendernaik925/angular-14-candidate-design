@@ -1,0 +1,117 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb ">
+    <ol class="breadcrumb p_3">
+      <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">Hike Letters</li>
+    </span>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+      <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+      <div class="tableSection" >
+        <div class="flxEnd">
+            <h5>Summary</h5>                    
+        </div>
+        
+        <div *ngIf="isData == 0; else assmntDataTable ">
+          <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+        </div>
+        <ng-template #assmntDataTable>
+
+          <div class="search-hero">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchText" 
+             autocomplete="off" placeholder="Search by Employee Name / ID / BU" />
+          </div>
+           
+        <div class="myTableScroll"> 
+          <table class="custom_width">
+            <thead>
+              <tr>
+                
+                <!-- <th class="sticky-col"><span>S.No</span></th> -->
+                <th class="sticky-col"><span>Emp ID</span></th>  
+                <th class="sticky-col"><span>Name</span></th>  
+                <th class="sticky-col text-center"><span>Business Unit</span></th> 
+                <th class="sticky-col text-center"><span>CostCenter</span></th> 
+                <th class="sticky-col text-center"><span>Previous CTC</span></th>  
+                <th class="sticky-col text-center"><span>Revised CTC</span></th> 
+                <th class="sticky-col text-center"><span>Release Date</span></th> 
+                <th class="sticky-col text-center"><span>Action</span></th> 
+                 
+              </tr>
+              <tr class="header">
+                </tr>
+              <!-- <tr class="header">
+                <th> 
+                    <div><input type="checkbox" [disabled]="isDisabled" class="styled-checkbox" [(ngModel)]="isMasterSel" (change)="checkUncheckAll()"><label></label></div>
+                </th>
+               
+              
+              </tr> -->
+            </thead>
+
+            <tbody> 
+              <ng-container *ngIf="( assmntData | filter : searchText) as result">
+                <tr *ngFor="let item of result ; let i= index;">
+                      <!-- <td>{{i+1}}</td> -->
+                    <td >{{item.EMPLOYEEID}}</td>
+                    <td>{{item.EMPNAME}}</td>
+                    <td>{{item.BUNAME}}</td>
+                    <td class="center_img">{{item.COSTCENTER}}</td>
+                    
+                    <td class="center_img">{{item.PREVIOUS_CTC}}</td>
+                    <td class="center_img">{{item.REVISED_CTC}}</td>
+                    <td class="center_img">{{item.RELEASE_DATE}}</td>
+                    
+                    <td class="center_img"><button class="actnBtn apprv small-btn" (click)="showFormModal(item.EMPLOYEEID)">view</button></td>
+                     
+                    
+                </tr>
+                <tr *ngIf="result.length === 0">
+                  <td colspan="11">
+                    <h2 class="noData" ><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;No Records Found for - "{{searchText}}"</h2> 
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+        </table> 
+      </div>
+       
+        
+      </ng-template>
+      </div>
+ 
+    </div>
+
+    <div class="loader transLoadr" *ngIf="isLoading">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+
+    <div class="modal hlydysModl" id="form16Modal"  [style.display]="form16Modal ? 'block' : 'none'"> 
+      <div class="modal-dialog modal_top modal-lg"> 
+        <div class="modal-content"> 
+          <div class="modal_Myheader"> 
+            <button type="button" (click)="closeformModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true" style="color: red;" ></i></button>
+          </div> 
+          <div class="modal-body"> 
+            <object [data]="form16|safe" type="application/pdf" allowtransparency="true" allowfullscreen="true" style="min-height:95vh;width:100%;">
+                <a [href]="form16_mob" (click)="closeformModal()"><span class="btn btn-primary">View/Download</span> the PDF file.</a>
+              </object>   
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    

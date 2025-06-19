@@ -1,0 +1,21 @@
+<div class="use-case-container">
+  <h2>{{ title }}</h2>
+  <p>{{ message }}</p>
+
+  <div class="file-section">
+    <label for="resume">Upload Resume:</label>
+    <input type="file" id="resume" (change)="onResumeUpload($event)" />
+  </div>
+
+  <div class="file-section">
+    <label for="jd">Paste Job Description:</label>
+    <textarea id="jd" [(ngModel)]="jobDescription" rows="5" class="form-control"></textarea>
+  </div>
+
+  <button class="btn btn-outline-custom" (click)="compare()">Compare</button>
+
+  <div *ngIf="result">
+    <h4>Match Result:</h4>
+    <pre>{{ result }}</pre>
+  </div>
+</div>

@@ -1,0 +1,393 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb ">
+    <ol class="breadcrumb p_3">
+      <span>
+        <li class="breadcrumb-item active" aria-current="page">My Assets</li>
+      </span>
+      <li class="_date">
+        Logged in from {{ myDate | momentDate : "dddd, DD"
+        }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+        {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+      </li>
+      <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 pr-0">
+       
+          <ul class="nav navbar-nav side-nav mb-2">
+            <li class="pb-2" routerLinkActive="active">
+              <a routerLink="/employeeasset/employeeassets"   routerLinkActive="active" (click)="goBack()">Assets</a>
+            </li>
+            <li class="pb-2" routerLinkActive="active">
+              <a routerLink="/employeeasset/employeetable"  routerLinkActive="active" (click)="goBack()">Asset Requests</a>
+            </li>
+          </ul>
+          
+      </div>
+      <div class="col-md-10" style="padding-left:3px">
+      <div *ngIf="!selectedEmp">
+    <div  *ngIf="selectedView === '/employeeasset/employeetable'">
+        <div class="jobcode-section" >
+          <div class="row">
+            <div class="col-md-8 title">
+              <h6>Asset Requests</h6>
+            </div>
+         
+          <!-- <div class="col-md-4 search-container">
+            <input
+              type="text"
+              class="search-box" 
+              placeholder="Search with Manager Id or Name" [(ngModel)]="searchText" (ngModelChange)="applySearchFilter()"
+            />
+            <button class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </div> -->
+        </div>
+          <div class="row">
+            <div class="col-md-12 overflow-scroll">
+              <table class="table" style="background: #F6F8FA;">
+                <thead>
+                  <tr>
+                    <!-- <th>Employee ID</th> -->
+                     <th>Request Id</th>
+                     <th>Request Date</th>
+                     <th>Requested Assets</th>
+                     <th>Status</th>
+                    <th>Request Raised By</th>
+                    <!-- <th>Department</th>
+                    <th>Designation</th> -->
+                    <!-- <th>Request Date</th>
+                    <th>Status</th> -->
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="managerEmp.length === 0">
+                    <td colspan="9" Style="text-align: center;">No data found</td>
+                  </tr>
+                  <tr *ngFor="let emp of managerEmp" class="hover-box" (click)="toggleViewMore(emp)">
+                     <td>{{ emp.RequestId }}</td> 
+                     <td>{{emp.RequestDate | date:'dd-MM-yyyy'}}</td>
+                   
+                  <td>
+                    <span [tooltip]="emp.Assets" placement="bottom">
+                      {{ emp.Assets | slice:0:20 }}
+                    </span>
+                  </td>
+                  
+                    
+                     <td class="text-left">{{getStatus(emp.RequestStatus)}}</td>
+                    <td>{{ emp.Name | titlecase}}</td>
+                    <!-- <td>{{ emp.Dept | titlecase}}</td>
+                    <td>{{ emp.Desg | titlecase}}</td> -->
+                    <!-- <td>{{emp.RequestDate | date:'dd-MM-yyyy'}}</td>
+                    <td class="text-left">{{getStatus(emp.RequestStatus)}}</td> -->
+                    <td class="view-more" (click)="toggleViewMore(emp)">
+                      <!-- <img src="./assets/img/dashboard/eye.svg" alt="view-more"> -->
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+        <div class="jobcode-section"  *ngIf="selectedEmp">
+          <div class="row">
+            <div class="col-md-8">
+              <p><p class="asset-name"><i class="fa fa-arrow-left" (click)="goBack()"> </i> {{selectedEmp.Id}} - Raise Asset Request</p>
+            </div>
+          </div>
+          <div class="asset-data mt-2 p-2"  *ngFor="let item of selectedEmp?.Items">
+            <div class="row">
+              <div class="col-md-3">
+                <label class="d-block">Item ID</label>
+                <p class="id">{{ item.ItemId }}</p>
+              </div>
+              <!-- <div class="col-md-3">
+                <label class="d-block">Requested Date</label>
+                <p>{{ selectedEmp.RequestDate }}</p>
+              </div> -->
+              <!-- <div class="col-md-3">
+                <label class="d-block">Assigned Date</label>
+                <p>{{ selectedEmp.AssignedDate || '--' }}</p>
+              </div> -->
+             
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1005 || item.ItemStatus === 1006">
+                <label class="d-block">Assigned Date</label>
+                <p>{{ item.AssignedDate || '--' }}</p>
+              </div>
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1005 || item.ItemStatus === 1006">
+                <label class="d-block">Assigned By</label>
+                <p>{{ item.AssignedBy ? (item.AssignedBy | titlecase) : '--' }}</p>
+              </div>
+          
+              <!-- Processed Date and Processed By: Only shown for ItemStatus 1001 or 1002 -->
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1001 || item.ItemStatus === 1002">
+                <label class="d-block">Processed Date</label>
+                <p>{{ item.ProcessedDate || '--' }}</p>
+              </div>
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1001 || item.ItemStatus === 1002">
+                <label class="d-block">Processed By</label>
+                <p>{{ item.ProcessedBy ? (item.ProcessedBy | titlecase) : '--' }}</p>
+              </div>
+          
+              <!-- Rejected Date and Rejected By: Only shown for ItemStatus 1003 -->
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1003">
+                <label class="d-block">Rejected Date</label>
+                <p>{{ item.RejectedDate || '--' }}</p>
+              </div>
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1003">
+                <label class="d-block">Rejected By</label>
+                <p>{{ item.RejectedBy ? (item.RejectedBy | titlecase) : '--' }}</p>
+              </div>
+          
+              <!-- Prepared Date and Prepared By: Only shown for ItemStatus 1004 -->
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1004">
+                <label class="d-block">Prepared Date</label>
+                <p>{{ item.PreparedDate || '--' }}</p>
+              </div>
+              <div class="col-md-3" *ngIf="item.ItemStatus === 1004">
+                <label class="d-block">Prepared By</label>
+                <p>{{ item.PreparedBy ? (item.PreparedBy | titlecase) : '--' }}</p>
+              </div>
+          
+              <!-- Acknowledge Button: Only shown for ItemStatus 1005 -->
+              <div class="col-md-3 ack">
+                <button *ngIf="item.ItemStatus === 1005" (click)="AcknowledgeEmployee(item)">Acknowledge</button>
+              </div>
+            
+            </div>
+            
+            <div class="row">
+              <div class="col-md-2 pr-0">
+                <label class="d-block">Asset Type</label>
+                <input type="text"   value="{{ item.AssetType }}" disabled/>
+              </div>
+              <div class="col-md-10">
+                <label class="d-block">Description</label>
+                <input type="text"  value="{{ item.ItemDes }}" disabled/>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-2 pr-0">
+                <label class="d-block">Status</label>
+                <input  type="text"  value="{{getItemStatus(item.ItemStatus)}}" disabled/>
+             </div>
+             <div class="col-md-10">
+              <label class="d-block">Remarks</label>
+              <input type="text"  value="{{item.ItDes}}" disabled/>
+           </div>
+             </div>
+          </div>
+        </div>
+      <div *ngIf="selectedView === '/employeeasset/employeeassets'">
+        <div class="jobcode-section" *ngIf="!selectedEmp">
+          <div *ngIf="assets && assets.length === 0" class="text-center margin-auto" style="height: 13vh;">
+            <i class="fa fa-frown-o" aria-hidden="true" ></i><br/>
+            <h6>No data found</h6>
+          </div>
+          
+          <div class="row d-flex" style="padding-left: 15px;margin-bottom:15px"> 
+            <div *ngFor="let asset of assets">
+              <a class="btn asset_name" (click)="assignAsset(asset)"  [ngClass]="{'active-link1': selectedAssetType === asset.asset_type_id}">
+                {{ asset.asset_name }} 
+              </a>
+            </div>
+            </div>
+            <!-- <div class="loop overflow-scroll">
+              <div *ngFor="let data of assetdata" class="asset-data mt-2">
+               
+                <div class="row">
+                  
+                  <div class="col-md-12">
+                    <p class="asset-code">{{data.assetCode}}</p>
+                  </div>
+                </div>
+               
+                <div class="row mt-1" id="asset">
+                  <div class="col-md-3 assign-date" *ngIf="data.assignedDate">
+                    <label class="d-block">Assigned Date</label>
+                    <input type="text" [value]="data.assignedDate" />
+                  </div>
+            
+                  <div class="col-md-3 assign-date" *ngIf="data.withdrawnDate">
+                    <label class="d-block">Withdraw Date</label>
+                    <input type="text" [value]="data.withdrawnDate" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.brand">
+                    <label class="d-block">Brand</label>
+                    <input type="text" placeholder="brand" [value]="data.brand" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.ram">
+                    <label class="d-block">RAM</label>
+                    <input type="text" placeholder="RAM" [value]="data.ram" />
+                  </div>
+              
+                  <div class="col-md-3 product" *ngIf="data.os">
+                    <label class="d-block">Operating System</label>
+                    <input type="text" placeholder="os" [value]="data.os" />
+                  </div>
+          
+                  <div class="col-md-3 product" *ngIf="data.processor">
+                    <label class="d-block">Processor</label>
+                    <input type="text" placeholder="processor" [value]="data.processor" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.graphicCard">
+                    <label class="d-block">Graphic Card</label>
+                    <input type="text" placeholder="graphic card" [value]="data.graphicCard" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.ssd">
+                    <label class="d-block">SSD</label>
+                    <input type="text" placeholder="ssd" [value]="data.ssd" />
+                  </div>
+               
+                  <div class="col-md-3 product" *ngIf="data.hdd">
+                    <label class="d-block">HHD</label>
+                    <input type="text" placeholder="graphic card" [value]="data.hdd" />
+                  </div>
+            
+                  <div class="col-md-3 product pr-2" *ngIf="data.charger !== null && (selectedAssetType === 1 || selectedAssetType === 3)">
+                    <label class="d-block">Charger</label>
+                    <input type="text" placeholder="charger" [value]="data.charger ? 'Yes' : 'No'" />
+                  </div> 
+                  <div class="col-md-3 product" *ngIf="data.storageCapacity">
+                    <label class="d-block">Storage Capacity</label>
+                    <input type="text" placeholder="processor" [value]="data.storageCapacity" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.storageType">
+                    <label class="d-block">Storage Type</label>
+                    <input type="text" placeholder="processor" [value]="data.storageType" />
+                  </div>
+              
+                  <div class="col-md-3 product" *ngIf="data.mailId">
+                    <label class="d-block">Mail Id</label>
+                    <input type="text" placeholder="brand" [value]="data.mailId" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.mailPassword">
+                    <label class="d-block">Mail Password</label>
+                    <input type="text" placeholder="brand" [value]="data.mailPassword" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.mailUsage">
+                    <label class="d-block">Mail Storage</label>
+                    <input type="text" placeholder="brand" [value]="data.mailUsage" />
+                  </div>
+            
+                  <div class="col-md-3 assign-date" *ngIf="data.cardNumber">
+                    <label class="d-block">Card Number</label>
+                    <input type="text" [value]="data.cardNumber" />
+                  </div>
+                </div>
+             
+              </div>
+            </div> -->
+            <div class="loop overflow-scroll">
+              <div *ngFor="let data of assetdata" class="asset-data mt-2">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p class="asset-code">{{data.assetCode}}</p>
+                  </div>
+                </div>
+            
+                <div class="row mt-1" id="asset">
+                  <div class="col-md-3 assign-date" *ngIf="data.assignedDate">
+                    <label class="d-block">Assigned Date</label>
+                    <input type="text" [value]="data.assignedDate" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 assign-date" *ngIf="data.withdrawnDate">
+                    <label class="d-block">Withdraw Date</label>
+                    <input type="text" [value]="data.withdrawnDate" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.brand">
+                    <label class="d-block">Brand</label>
+                    <input type="text" placeholder="brand" [value]="data.brand" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.ram">
+                    <label class="d-block">RAM</label>
+                    <input type="text" placeholder="RAM" [value]="data.ram" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.os">
+                    <label class="d-block">Operating System</label>
+                    <input type="text" placeholder="os" [value]="data.os" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.processor">
+                    <label class="d-block">Processor</label>
+                    <input type="text" placeholder="processor" [value]="data.processor" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.graphicCard">
+                    <label class="d-block">Graphic Card</label>
+                    <input type="text" placeholder="graphic card" [value]="data.graphicCard" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.ssd">
+                    <label class="d-block">SSD</label>
+                    <input type="text" placeholder="ssd" [value]="data.ssd" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.hdd">
+                    <label class="d-block">HDD</label>
+                    <input type="text" placeholder="hdd" [value]="data.hdd" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product pr-2" *ngIf="data.charger !== null && (selectedAssetType === 1 || selectedAssetType === 3)">
+                    <label class="d-block">Charger</label>
+                    <input type="text" placeholder="charger" [value]="data.charger ? 'Yes' : 'No'" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.storageCapacity">
+                    <label class="d-block">Storage Capacity</label>
+                    <input type="text" placeholder="storage capacity" [value]="data.storageCapacity" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.storageType">
+                    <label class="d-block">Storage Type</label>
+                    <input type="text" placeholder="storage type" [value]="data.storageType" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.mailId">
+                    <label class="d-block">Mail Id</label>
+                    <input type="text" placeholder="mail id" [value]="data.mailId" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.mailPassword">
+                    <label class="d-block">Mail Password</label>
+                    <input type="text" placeholder="mail password" [value]="data.mailPassword" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 product" *ngIf="data.mailUsage">
+                    <label class="d-block">Mail Storage</label>
+                    <input type="text" placeholder="mail storage" [value]="data.mailUsage" [disabled]="true" />
+                  </div>
+            
+                  <div class="col-md-3 assign-date" *ngIf="data.cardNumber">
+                    <label class="d-block">Card Number</label>
+                    <input type="text" [value]="data.cardNumber" [disabled]="true" />
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+      </div>
+      </div>
+  </div>

@@ -1,0 +1,155 @@
+.breadcrumb {
+  border-radius: 0px;
+  background: white;
+  border-bottom: 1px dashed #0072bc;
+  justify-content: space-between;
+  align-items: center;
+}
+.breadcrumb li {
+  color: #0072bc;
+  font-size: 18px;
+  font-weight: 600;
+}
+.breadcrumb ._date {
+  color: #e23d3a;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.card.ourInfo {
+  width: 54%;
+  padding: 1em 0.75em;
+  min-height: 180px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.035);
+  border-radius: 8px;
+}
+.card.ourInfo h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+}
+.card.ourInfo .crdsGrid {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.card.ourInfo .crdsGrid:last-child ul {
+  border: 0;
+}
+.card.ourInfo .crdsGrid ul {
+  border-bottom: 1px solid #ddd;
+  padding: 0.5em 0;
+}
+.card.ourInfo .crdsGrid ul:empty {
+  border: 0;
+}
+.card.ourInfo .theCard {
+  flex: 0 0 50%;
+  width: 100%;
+  max-width: 45%;
+  padding: 6px 10px;
+  background-color: #f7f9fb;
+  min-height: 140px;
+  margin: 0.5em auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #707070;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+.card.ourInfo .theCard img {
+  max-height: 45px;
+  width: auto;
+}
+.card.ourInfo .theCard a {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  display: block;
+  padding: 8px 0px;
+  color: #101010;
+  text-decoration: none;
+  cursor: pointer;
+  word-break: break-word;
+}
+
+.homeContnr {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.imgContiner {
+  background-color: white;
+  padding: 3em 2em;
+  width: 45%;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.035);
+  text-align: center;
+}
+.imgContiner h1 {
+  color: #0072bc;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1em;
+}
+.imgContiner img {
+  width: 80%;
+}
+
+.crdsGrid ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.crdsGrid ul li {
+  flex: 0 0 25%;
+  text-align: center;
+  margin: 0.65em 0;
+}
+.crdsGrid ul li a {
+  text-decoration: none;
+  margin: 0 0.65em;
+  display: block;
+  cursor: pointer;
+}
+.crdsGrid ul li span {
+  background-color: #0072bc;
+  color: white;
+  text-transform: uppercase;
+  font-size: 20px;
+  line-height: 60px;
+  font-weight: 600;
+  display: block;
+  border-radius: 14px;
+  border-bottom-left-radius: 0px;
+  border: solid 1px #414d55;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.crdsGrid ul li p {
+  margin: 0;
+  line-height: 1.3;
+  color: #101010;
+  opacity: 0.9;
+  font-weight: 600;
+  font-size: 15px;
+}/*# sourceMappingURL=employee-letter.component.css.map */

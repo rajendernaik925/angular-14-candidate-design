@@ -1,0 +1,81 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Attendance Log Status
+            </li>
+        </span>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+
+  <div class="container-fluid p_5">
+<div class="card infoBlock">
+    <h5>Attendance Log Status</h5>
+    <div class="theBody">
+        <div class="table_contnr">
+      <table>
+        <thead>
+          <tr class="header">
+            <th>
+                Reader IP
+              <div>Reader IP</div>
+            </th>
+            <th>
+                Reader Name
+              <div>Reader Name</div>
+            </th>
+            <th>
+                Last Transaction Time
+                <div>Last Transaction Time</div>
+            </th>
+             
+            <th>
+                Remark
+              <div>Remark</div>
+            </th>
+             
+          </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>192.168.99.201</td>
+                <td>HHCL MADHAPUR</td>
+                <td>06-02-2021 11:16:10 AM</td>
+                <td><span class="succssMsg">Log updated</span></td> 
+            </tr>
+            <tr>
+                <td>192.168.100.37</td>
+                <td>HHCL MUMBAI-BHIWANDI</td>
+                <td>05-02-2021 07:35:48 PM</td>
+                <td><span class="errMsg">log not updated</span></td> 
+            </tr>
+            <tr>
+                <td>192.168.99.201</td>
+                <td>HHCL MADHAPUR</td>
+                <td>06-02-2021 11:16:10 AM</td>
+                <td><span class="succssMsg">Log updated</span></td> 
+            </tr>
+            <tr>
+                <td>192.168.100.37</td>
+                <td>HHCL MUMBAI-BHIWANDI</td>
+                <td>05-02-2021 07:35:48 PM</td>
+                <td><span class="errMsg">log not updated</span></td> 
+            </tr>
+            <tr>
+                <td>192.168.99.201</td>
+                <td>HHCL MADHAPUR</td>
+                <td>06-02-2021 11:16:10 AM</td>
+                <td><span class="succssMsg">Log updated</span></td> 
+            </tr>
+             
+        </tbody>
+    </table>
+  </div>
+</div>
+</div>
+</div>

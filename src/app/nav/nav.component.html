@@ -1,0 +1,387 @@
+<div class="hyt90">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white iconnectNav">
+    <a class="navbar-brand" [routerLink]="routerLinkVariable">
+      <!-- <img src="././assets/img/logo.svg" alt="logo" class="logo" *ngIf="location == 'HHC'"/> -->
+      <ng-container *ngIf="location == 'AZISTA'; else hhcLogo">
+        <div class="d-none d-sm-none d-md-block">
+          <img
+            src="././assets/img/azista-logo.svg"
+            alt="azista-logo"
+            class="logo1"
+          />
+        </div>
+        <div class="d-block d-sm-block d-md-none">
+          <img
+            src="././assets/img/azista-icon.svg"
+            alt="azista-icon"
+            class="logo_icon"
+          />
+        </div>
+      </ng-container>
+      <ng-template #hhcLogo>
+        <div class="d-none d-sm-none d-md-block">
+          <img src="././assets/img/logo.svg" alt="logo" class="logo" />
+        </div>
+        <div class="d-block d-sm-block d-md-none">
+          <img
+            src="././assets/img/hetero-icon.svg"
+            alt="hetero-icon"
+            class="logo_icon"
+          />
+        </div>
+      </ng-template>
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav ml-auto">
+        <div class="inOutTime" *ngIf="dayType == 'T'">
+          <div>
+            <label>In </label>
+            <!-- <span>{{message.split('-')[0] | slice:0:5}}</span> -->
+            <span>{{ inToday | slice : 0 : 8 }}</span>
+          </div>
+          <div>
+            <label>Out </label>
+            <!-- <span>{{message.split('-')[1] | slice:0:5}}</span> -->
+            <span>{{ OutToday | slice : 0 : 8 }}</span>
+          </div>
+        </div>
+
+        <!-- when applied WorkFromHome  -->
+        <div class="inOutTime _wfh" *ngIf="dayType == 'L' && inToday == 'WFH'">
+          <div>
+            <label>You're on</label>
+            <span>{{ inToday }}</span>
+          </div>
+        </div>
+        <!-- <span>{{idleTimerLeft}}</span> -->
+        <div class="notification-container" *ngIf="notifications.length > 0">
+          <!-- Notification Bell Icon -->
+          <li class="nav-item _notification">
+            <i class="fa fa-bell bell-icon"></i>
+            <span class="notification-badge">{{ notifications.length }}</span>
+            <span class="wave"></span>
+            <span class="wave wave-2"></span>
+          </li>
+
+          <!-- Notification Popup (Shows on Hover) -->
+          <div class="custom-popup">
+            <div class="popup-arrow"></div>
+            <div class="popup-content">
+              <div
+                class="popup-item d-flex mb-2"
+                *ngFor="let notification of notifications"
+              >
+                <div
+                  [routerLink]="[notification.link]"
+                  class="popup-description d-flex align-items-center"
+                >
+                  <p class="notification-icon">{{ notification.icon }}</p>
+                  <p class="mx-2">{{ notification.description }}</p>
+                </div>
+                <div class="popup-link">
+                  <a class="popup-btn" [routerLink]="[notification.link]"
+                    >Click Here</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <li class="nav-item _home">
+          <a [routerLink]="['/dashboard']" class="nav-link">
+            <i class="fa_home"></i>
+            <span>Home</span>
+          </a>
+        </li>
+
+        <li class="nav-item _shrtNme dropdown" *ngIf="empShortName">
+          <a
+            class=""
+            (click)="showDropDown()"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <span class="proImgCircle">
+              <img
+                src="././assets/img/dashboard/user-male.svg"
+                alt="user-male"
+              />
+              <h3>{{ empShortName }}</h3>
+            </span>
+          </a>
+          <div
+            class="dropdown-menu fadeIn"
+            aria-labelledby="navbarDropdown"
+            *ngIf="showDropDownMenu"
+            style="display: block"
+          >
+            <p>{{ userData.user.name }}</p>
+            <div class="pfleOptions">
+              <a class="dropdown-item" [routerLink]="['/profilePage']"
+                >Profile</a
+              >
+              <a
+                class="dropdown-item"
+                data-toggle="modal"
+                data-target="#PasswrdModal"
+                (click)="showPasswrdModal()"
+                >Change Password</a
+              >
+              <a class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+          </div>
+        </li>
+
+        <!-- <li class="nav-item ">            
+            <a class="nav-link" (click)="logout()" tooltip="Logout" placement="bottom" show-delay="100">
+              <i class="fa_signOut"></i></a>
+          </li> -->
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<!-- show/hide actions popup -->
+<div
+  class="modal"
+  id="setting_modal"
+  [style.display]="showModal ? 'block' : 'none'"
+>
+  <div class="modal-dialog modal_content_left">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal_title_img">
+          <h5>View Controls</h5>
+        </div>
+        <button type="button" (click)="closeSettings()" class="close">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <p>Leave Balance Chart</p>
+        <label class="switch" for="checkbox">    
+          <input type="checkbox" id="checkbox" (change)="updateState($event)" autocomplete="off"  />
+          <div class="slider round"></div>
+        </label> -->
+        <ul class="myControls">
+          <li *ngFor="let opt of options; let i = index">
+            <input
+              type="checkbox"
+              [value]="opt"
+              [id]="opt + i"
+              (change)="selectCheckbox($event)"
+              checked
+            />
+            <label [for]="opt + i">{{ opt }}</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Password modal  -->
+<div
+  class="modal"
+  id="PasswrdModal"
+  [style.display]="PasswrdModal ? 'block' : 'none'"
+>
+  <div class="modal-dialog modal-dialog-centered modal_content_left">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal_title_img">
+          <h5>Change Password</h5>
+        </div>
+        <button type="button" (click)="closePasswrdModal()" class="close">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="passwordForm" (ngSubmit)="updatePasswrd()">
+          <input
+            type="password"
+            formControlName="oldPassword"
+            class="form-control"
+            value="{{ LoginPaswd }}"
+            hidden
+          />
+
+          <div class="form-group">
+            <label>
+              Existing Password:
+              <span
+                ><i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  (click)="toggleFieldTextType()"
+                ></i
+              ></span>
+            </label>
+            <input
+              [type]="fieldTextType ? 'text' : 'password'"
+              formControlName="curPassword"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.curPassword.errors }"
+              (keydown.space)="$event.preventDefault()"
+              blockCopyPaste
+            />
+            <div
+              *ngIf="submitted && f.curPassword.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.curPassword.errors.required">
+                Password is required
+              </div>
+              <div *ngIf="f.curPassword.errors.minlength">
+                Password must be 6 or more characters in length
+              </div>
+              <div *ngIf="f.curPassword.errors.notEquivalent1">
+                Password is required
+              </div>
+            </div>
+            <div
+              *ngIf="f.curPassword.touched && f.curPassword.invalid"
+              class="invalid-feedback reltv"
+            >
+              <div *ngIf="f.curPassword.errors.notEquivalent1" class="abslt">
+                Existing Password is Wrong
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label> New Password: </label>
+            <input
+              [type]="fieldTextType ? 'text' : 'password'"
+              formControlName="newPassword"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"
+              (keydown.space)="$event.preventDefault()"
+              blockCopyPaste
+            />
+            <!-- <div *ngIf="f.newPassword.touched && f.newPassword.invalid" class="alert alert-danger">
+              <div *ngIf="f.newPassword.errors.required">Password is required</div> 
+              <div *ngIf="f.newPassword.errors.maxlength">Password max length 15 characters</div>
+              <div *ngIf="f.newPassword.errors.pattern"> minimum one letter [a-z(OR)A-Z], minimum one special Character [!,@,#,$,&] and Number[0-9]</div>               
+              <div *ngIf="f.newPassword.errors.minlength">Password must be 6 or more characters in length</div>
+            </div> -->
+            <div
+              *ngIf="submitted && f.newPassword.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.newPassword.errors.required">
+                Password is required
+              </div>
+              <div *ngIf="f.newPassword.errors.maxlength">
+                Password max length 15 characters
+              </div>
+              <div *ngIf="f.newPassword.errors.pattern">
+                minimum one letter [a-z(OR)A-Z], minimum one special Character
+                [!,@,#,$,&] and Number[0-9]
+              </div>
+              <div *ngIf="f.newPassword.errors.minlength">
+                Password must be 6 or more characters in length
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label> Confirm Password: </label>
+            <input
+              [type]="fieldTextType ? 'text' : 'password'"
+              formControlName="confrmPassword"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.confrmPassword.errors }"
+              (keydown.space)="$event.preventDefault()"
+              blockCopyPaste
+            />
+            <!-- <div *ngIf="f.confrmPassword.touched && f.confrmPassword.invalid" class="alert alert-danger">
+            <div *ngIf="f.confrmPassword.errors.required">Password is required</div> 
+            <div *ngIf="f.confrmPassword.errors.minlength">Password must be 6 or more characters in length</div>     
+            <div *ngIf="f.confrmPassword.errors.notEquivalent">Password mismatch</div>       
+          </div>   -->
+            <div
+              *ngIf="submitted && f.confrmPassword.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.confrmPassword.errors.notEquivalent">
+                Password mismatch
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group _footr">
+            <p><b>Instructions :</b></p>
+            <ul>
+              <li>
+                Password should be minimum 6 & maximum 15 Characters with
+                minimum one letter [a-z(OR)A-Z]
+              </li>
+              <li>Minimum one special Character [!,@,#,$,&] and Number[0-9]</li>
+            </ul>
+
+            <p>Example: Hetero@123</p>
+          </div>
+
+          <div class="form-group mb-0 text-center">
+            <button
+              class="btn btn-warning"
+              type="reset"
+              (click)="closePasswrdModal()"
+            >
+              Close
+            </button>
+            <button
+              class="btn btn-success"
+              type="submit"
+              [disabled]="disableButton"
+            >
+              Confirm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- session second timer modal -->
+<div class="modal-container">
+  <div id="myModal" class="modal">
+    <div class="timerModal">
+      <div class="modal-content">
+        <h2><b>Session Will Expire Soon </b></h2>
+
+        <img src="././assets/img/timer.gif" alt="timer" />
+        <div class="clock-style">
+          <span>Time Remain - </span>
+          <span class="time-in-mins">{{ secondTimerLeft }}</span>
+        </div>
+
+        <div class="sessionTimebutns">
+          <button (click)="continue()" class="themeBtn">Continue</button>
+          <button (click)="logout()" class="themeBtn _logout">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

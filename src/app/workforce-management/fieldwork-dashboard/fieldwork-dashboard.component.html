@@ -1,0 +1,50 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+<div class="container-flui mt-3"> 
+    <div class="row g-2">
+        <div class="col-md-2 mb-2">
+            <div class="card border-0 p-0 shadow">
+                <div class="card-body p-2">
+                    <app-fieldwork-side-bar></app-fieldwork-side-bar>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 pad">
+            <div class="card py-1 border-0">
+                <div class="card-body py-1">
+                    <div class="row px-4">
+                        <div class="col-md-4 mr-4 border-red">
+                            <div class="row">
+                                <div class="col-md-6  bg-danger p-4 text-white">All Users</div>
+                                <div class="col-md-6 p-4 ">11333</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mr-4 border-green">
+                            <div class="row">
+                                <div class="col-md-6  bg-green p-4 text-white">All Active Users</div>
+                                <div class="col-md-6 p-4 ">11333</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mr-4 border-custom">
+                            <div class="row">
+                                <div class="col-md-6  bg-custom p-4 text-white">pending</div>
+                                <div class="col-md-6 p-4 ">11333544</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-5 mt-3" style="height: calc(100vh - 250px); overflow: auto;">
+                        <div class="col-md-6 border-custom mr-3 d-flex align-items-center justify-content-center"
+                            style="max-height: calc(100vh - 219px);">
+                            <div #barChart class="chart"></div>
+                        </div>
+                        <div class="col-md-5 border-custom d-flex align-items-center justify-content-center"
+                            style="max-height: calc(100vh - 219px);">
+                            <div #pieChart class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

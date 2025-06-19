@@ -1,0 +1,37 @@
+.fw-bold
+  font-weight: bold
+.border-radius
+  border-radius: 40px
+.mt-4-custom
+  display: flex
+  flex-wrap: wrap
+  gap: 12px // Adjust space between cards
+
+.team-card
+  display: flex
+  align-items: center
+  background: white
+  padding: 10px 15px
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) 
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out
+
+  &:hover
+    transform: translateY(-5px) scale(1.05)
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2)
+.cursor-pointer
+  cursor: pointer  
+
+
+html, body
+  height: 100%
+  margin: 0
+  overflow: auto
+
+body
+  position: static !important
+
+.team-list
+  display: flex
+  flex-direction: column
+  gap: 10px
+  padding: 16px

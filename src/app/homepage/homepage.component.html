@@ -1,0 +1,52 @@
+<div class="container empLogin">
+  <div class="_logOutBtn">
+    <a (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+  </div>
+  <div class="col-sm-12 col-md-12">
+    <h2>Intra Company Sites</h2>
+  </div>
+  <div class="login_cards">
+    <div (click)="navToDashboard()">
+      <a class="empCard human-resources">
+        <div class="overlay"></div>
+        <div class="circle">
+          <img src="././assets/img/icons/emp-avatar.png" alt="emp-avatar" />
+        </div>
+        <p>iConnect</p>
+      </a>
+    </div>
+
+    <!-- <div *ngIf="LoginParams.user.empID =='10484'"> -->
+    <div>
+      <a (click)="openITS()" class="empCard tds">
+        <div class="overlay"></div>
+        <div class="circle">
+          <img src="././assets/img/icons/tds.png" alt="tds" />
+        </div>
+        <p>Tax Declaration</p>
+      </a>
+    </div>
+    <div>
+      <a (click)="openUtilities()" class="empCard utilities">
+        <div class="overlay"></div>
+        <div class="circle">
+          <img src="././assets/img/icons/utilities.svg" alt="tds" />
+        </div>
+        <p>Utilities</p>
+      </a>
+    </div>
+    <!-- <div>
+      <a
+        href="https://czimapi.logix.in/mail"
+        target="_blank"
+        class="empCard credentialing"
+      >
+        <div class="overlay"></div>
+        <div class="circle">
+          <img src="././assets/img/icons/circle-mail.png" alt="circle-mail" />
+        </div>
+        <p>Web Mail</p>
+      </a>
+    </div> -->
+  </div>
+</div>

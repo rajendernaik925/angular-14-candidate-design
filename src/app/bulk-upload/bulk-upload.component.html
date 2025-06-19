@@ -1,0 +1,179 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Bulk Upload
+      </li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate: "dddd, DD" }}
+      <sup>{{ (myDate | momentDate: "D") | dateSuffix }}</sup>
+      {{ myDate | momentDate: "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card p-3">
+        <form [formGroup]="fileForm">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group flex_grid">
+                <label for="payPeriod">File Type : </label>
+                <select id="payPeriod" (change)="onOptionsSelected($event)" class="form-control">
+                  <option value="select">Select</option>
+                  <option value="UAN">UAN Number</option>
+                  <option value="PF">PF Number</option>
+                  <option value="ESI">ESI Number</option>
+                </select>
+                <!-- <select id="payPeriod" [(ngModel)]="selectedPayPeriod" (change)="onOptionsSelected($event)"
+                  class="form-control">
+                  <option disabled>Select</option>                
+                  <option value="UAN">UAN Number</option>
+                  <option value="PF">PF Number</option>
+                  <option value="ESI">ESI Number</option>
+                </select> -->
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group flex_grid">
+                <label for="fileInput">Upload File : </label>
+                <input type="text" id="fileName" [(ngModel)]="selectedFileName" readonly class="form-control"
+                  formControlName="filename" placeholder="No file selected" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="bulkuploadbtns">
+                <div class="d-flex gap-4">
+                  <button type="button" class="btn btn-secondary me-2" (click)="fileInput.click()">Attach</button>
+                  <input type="file" id="fileInput" #fileInput (change)="onFileSelected($event)" hidden />
+                  <button type="button" class="btn btn-primary"  [disabled]="!isFileSelected"
+                    (click)="onFileUpload()">Upload</button>
+                </div>
+                <div class="downloadformatbtn">
+                  <a (click)="downloadExcelFormat()" class="text-decoration-underline text-primary"
+                    style="cursor: pointer;">
+                    <i class="fa fa-download" aria-hidden="true"></i> Download Format (.xls)
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+
+
+          <div *ngIf="csvError" class="alert alert-danger mt-3">{{ csvError }}</div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-sm-12" *ngIf="responseData && responseData.length > 0; else noData">
+      <div *ngIf="isShowtable" class="employeeData">
+        <div class="tble_heading">
+          <h2 class="customh2">Employee Data</h2>
+          <div class="rtbtns">
+            <a class="totalcount">Total Count : <span>{{TotalCountRemark }}</span></a>
+            <button type="button" class="btn btn-primary">New(<span>{{newCount}}</span>)</button>
+            <button type="button" class="btn btn-secondary">Already Existed (<span>{{exitedCount}}</span>)</button>
+            <button type="button" class="btn btn-danger">Correction (<span>{{correctionCount}}</span>)</button>
+            <button type="button" class="btn btn-warning">Invalid Employee ID (<span>{{invalidEmployee}}</span>)</button>
+          </div>
+        </div>
+
+        <div class="table-responsive" >
+
+          <div class="myTableScroll">
+            <table class="custom_width"  >
+              <thead>
+                <tr>
+                  <th><input type="checkbox" (change)="toggleAllRemarks($event)"></th>
+                  <th>Employee Code</th>
+                  <th>Employee Name</th>
+                  <th>HRMS <span>{{selectedFileType}}</span> Number</th>
+                  <th>Uploaded {{selectedFileType}} Number</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let employee of responseData">
+                  <td>
+                    <ng-container *ngIf="employee.remark === 'New' || employee.remark === 'Correction'; else emptyTd">
+                      <input type="checkbox" [(ngModel)]="employee.isSelected">
+                    </ng-container>
+                  </td>
+
+                  <ng-template #emptyTd>
+                    <div></div>
+                  </ng-template>
+                  <td>{{employee.employeeSequenceNo}}</td>
+                  <td>{{employee.callName}}</td>
+                  <ng-container *ngIf="selectedFileType == 'UAN'">
+
+                    <td>{{employee.hrmsuan ? employee.hrmsuan : 'NA'}}</td>
+                    <td>{{employee.pfuan}}</td>
+                  </ng-container>
+
+                  <ng-container *ngIf="selectedFileType == 'ESI'">
+
+                    <td>{{employee.hrmsesi ? employee.hrmsesi : 'NA'}}</td>
+                    <td>{{employee.esino}}</td>
+                  </ng-container>
+
+                  <ng-container *ngIf="selectedFileType == 'PF'">
+
+                    <td>{{employee.hrmspfno ? employee.hrmspfno : 'NA'}}</td>
+                    <td>{{employee.pfno}}</td>
+                  </ng-container>
+
+                  <td>
+                    <span class="new" *ngIf="employee.remark === 'New'">New</span>
+                    <span class="correction" *ngIf="employee.remark === 'Correction'">Correction</span>
+                    <span class="already" *ngIf="employee.remark === 'Existed'">Already Existed</span>
+                    <span class="invalid" *ngIf="employee.remark === 'Invalid employeeid'">Invalid Employee ID</span>
+
+                  </td>
+                  <!-- <td [style.background-color]="employee.remark === 'New' ? employee.colorcode : employee.remark === 'Correction' ? employee.colorcode :employee.remark === 'Existed' ? employee.colorcode : 'inherit'">{{employee.remark}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+           
+           
+          </div>
+          <div class="d-flex justify-content-center mt-3">
+            <button type="button" class="btn btn-primary" (click)="moveToHrms()">MOVE TO HRMS</button>
+          </div>
+          
+        </div>
+
+       
+
+      </div>
+    </div>
+    <ng-template #noData>
+      <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+    </ng-template>
+  </div>
+</div>
+
+
+
+
+<!-- <span class="loader"></span> -->
+ 
+
+
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>

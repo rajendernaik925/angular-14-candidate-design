@@ -1,0 +1,199 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb ">
+    <ol class="breadcrumb p_3">
+      <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">Letters</li>
+    </span>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+      <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+      <div class="tableSection" >
+        <div class="flxEnd">
+            <h5>Summary</h5>                    
+        </div>
+        
+        <div *ngIf="isData == 0; else assmntDataTable ">
+          <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+        </div>
+        <ng-template #assmntDataTable>
+
+          <div class="search-hero">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchText" 
+             autocomplete="off" placeholder="Search by Employee Name / ID / BU" />
+          </div>
+          <div class="summary_note">
+            <h5>Note:</h5>
+            <p><img src="./././assets/img/checkcirclefill.svg" alt="homeBG"><span>Data Filled</span></p>
+            <p><img src="./././assets/img/xcircle.svg" alt="homeBG"><span>Data Not Filled</span></p>
+          </div>
+        <div class="myTableScroll"> 
+          <table class="custom_width">
+            <thead>
+              <tr>
+                
+                <!-- <th class="sticky-col"><span>S.No</span></th> -->
+                <th class="sticky-col"><span>Emp ID</span></th>  
+                <th class="sticky-col"><span>Name</span></th>  
+                <th class="sticky-col text-center"><span>Cost Center</span></th>  
+                <th class="sticky-col text-center"><span>Date Of Join</span></th> 
+                <th class="sticky-col text-center"><span>Business Unit</span></th> 
+                <th class="sticky-col text-center"><span>Registered CTC Amount</span></th> 
+                <th class="sticky-col text-center"><span>Upload CTC Amount</span></th> 
+                <th class="sticky-col text-center"><span>CTC Difference</span></th> 
+                <th class="sticky-col text-center" ><span>Upload CTC</span></th>  
+                <th class="sticky-col text-center"><span>Department</span></th>          
+                <th class="sticky-col text-center"><span>designation</span></th> 
+                <th class="sticky-col text-center "><span>Address</span></th> 
+                <th class="sticky-col text-center "><span>Comments</span></th> 
+                <th class="sticky-col text-center"><span>Action</span></th> 
+                 
+              </tr>
+              <tr class="header">
+                </tr>
+              <!-- <tr class="header">
+                <th> 
+                    <div><input type="checkbox" [disabled]="isDisabled" class="styled-checkbox" [(ngModel)]="isMasterSel" (change)="checkUncheckAll()"><label></label></div>
+                </th>
+               
+              
+              </tr> -->
+            </thead>
+
+            <tbody> 
+              <ng-container *ngIf="( assmntData | filter : searchText) as result">
+                <tr *ngFor="let item of result ; let i= index;">
+                      <!-- <td>{{i+1}}</td> -->
+                    <td >{{item.EMPLOYEEID}}</td>
+                    <td>{{item.NAME}}</td>
+                    <td class="center_img">{{item.COSTCENTER}}</td>
+                    <td class="center_img">{{item.DATEOFJOIN}}</td>
+                    <td>{{item.BUNAME}}</td>
+                    <td class="center_img">{{item.CTCPERANNUM}}</td>
+                    <td class="center_img">{{item.UPLOADCTC}}</td>
+                    <td class="center_img">{{item.DIFF_UPLOADCTC_CTCPERANNUM}}</td>
+                    <td class="center_img" *ngIf="item.CTCCHECK == 'FALSE'; else elseBlock"><img src="./././assets/img/xcircle.svg" alt="homeBG"></td>
+                    <ng-template #elseBlock>
+                        <td class="center_img"><img src="./././assets/img/checkcirclefill.svg" alt="homeBG"></td> <!-- Replace with your else content -->
+                     </ng-template>
+
+                     <td class="center_img" *ngIf="item.DEPARTMENTCHECK == 'FALSE'; else departmentElse"><img src="./././assets/img/xcircle.svg" alt="homeBG"></td>
+                     <ng-template #departmentElse>
+                       <td class="center_img"><img src="./././assets/img/checkcirclefill.svg" alt="homeBG"></td>
+                     </ng-template> 
+                     
+                     <td class="center_img" *ngIf="item.DESIGNATIONCHECK == 'FALSE'; else designationElse"> <img src="./././assets/img/xcircle.svg" alt="homeBG"></td>
+                     <ng-template #designationElse>
+                       <td class="center_img">
+                        <img src="./././assets/img/checkcirclefill.svg" alt="homeBG"></td>
+                     </ng-template>
+                     
+                     <td class="center_img" *ngIf="item.ADDRESSCHECK == 'FALSE'; else addressElse"><img src="./././assets/img/xcircle.svg" alt="homeBG"></td>
+                     <ng-template #addressElse>
+                       <td class="center_img"> <img src="./././assets/img/checkcirclefill.svg" alt="homeBG" ></td>
+                     </ng-template>
+
+                      <!-- comments -->
+
+                      <td class="condion_text center_img">
+                        <ng-container *ngIf="item.CTC_DIFF=='TRUE'; else ctcFailed">
+                          <span *ngIf="item.FLAG == 'N'" class="condion_text">Pending</span>
+                          <span *ngIf="item.FLAG == 'R'" class="condion_text">Progress</span>
+                          <span *ngIf="item.FLAG == 'H'" class="condion_text">Hold</span>
+                          <span *ngIf="item.FLAG == 'S' || item.FLAG == 'P'" class="condion_text">Success</span>
+                        </ng-container>
+                        <ng-template #ctcFailed>
+                          <span class="condion_text failed">CTC Failed</span>
+                        </ng-template>
+                      </td>
+                      
+                     <!-- Action Button  -->
+                     <ng-container *ngIf="item.CTC_DIFF=='TRUE'; else ctcFailedAction">
+                      <td class="center_img" *ngIf="item.VIEWBUTTON == 'TRUE'; else viewbuttonElse">
+                        <ng-container *ngIf="item.FLAG == 'P'">
+                          <div class="flex_btn_img">
+                            <button class="actnBtn apprv small-btn" (click)="showFormModal(item.EMPLOYEEID)">Preview</button>
+                            <button class="actnBtn apprv hold" (click)="Generate(item,$event,'H')">Hold</button>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.FLAG == 'S'">
+                          <button class="actnBtn apprv small-btn" (click)="showFormModal(item.EMPLOYEEID)">view</button>
+                        </ng-container>
+                        <button *ngIf="item.FLAG == 'N'" class="actnBtn apprv generate" (click)="Generate(item,$event,'R')">Generate</button>
+                        <button *ngIf="item.FLAG == 'R'" class="actnBtn apprv hold" (click)="Generate(item,$event,'H')">Hold</button>
+                        <button *ngIf="item.FLAG == 'H'" class="actnBtn apprv release" (click)="Generate(item,$event,'R')">Release</button>
+                      </td>
+                      <ng-template #viewbuttonElse>
+                        <td *ngIf="item.GENRATEBUTTON == 'TRUE'; else generatebuttonElse">
+                          <ng-container *ngIf="item.FLAG === 'N' && item.DATE24HOURS === 'FALSE'; else elseBlock">
+                            <button class="actnBtn apprv generate" (click)="Generate(item, $event, 'R')">Generate</button>
+                            <button *ngIf="item.FLAG == 'R'" class="actnBtn apprv hold" (click)="Generate(item,$event,'H')">Hold</button>
+                            <button *ngIf="item.FLAG == 'H'" class="actnBtn apprv release" (click)="Generate(item,$event,'R')">Release</button>
+                        
+                           </ng-container>
+                          <ng-template #elseBlock>
+                            <td class="condion_text center_img">Progress</td>
+                          </ng-template>
+                           </td>
+                        <ng-template #generatebuttonElse>
+                          <td class="center_img">
+                            <img src="./././assets/img/improper.svg" alt="homeBG">
+                          </td>
+                        </ng-template>
+                      </ng-template>
+                    </ng-container>
+                    
+                    <ng-template #ctcFailedAction>
+                      <td class="condion_text center_img failed">CTC Failed</td>
+                    </ng-template>
+                    
+                    
+                </tr>
+                <tr *ngIf="result.length === 0">
+                  <td colspan="11">
+                    <h2 class="noData" ><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;No Records Found for - "{{searchText}}"</h2> 
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+        </table> 
+      </div>
+       
+        
+      </ng-template>
+      </div>
+ 
+    </div>
+
+    <div class="loader transLoadr" *ngIf="isLoading">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+
+    <div class="modal hlydysModl" id="form16Modal"  [style.display]="form16Modal ? 'block' : 'none'"> 
+      <div class="modal-dialog modal_top modal-lg"> 
+        <div class="modal-content"> 
+          <div class="modal_Myheader"> 
+            <button type="button" (click)="closeformModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true" style="color: red;" ></i></button>
+          </div> 
+          <div class="modal-body"> 
+            <object [data]="form16|safe" type="application/pdf" allowtransparency="true" allowfullscreen="true" style="min-height:95vh;width:100%;">
+                <a [href]="form16_mob" (click)="closeformModal()"><span class="btn btn-primary">View/Download</span> the PDF file.</a>
+              </object>   
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    

@@ -1,0 +1,693 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Asset Requests</li>
+      <li class="_date">
+        Logged in from {{ myDate | momentDate : "dddd, DD"
+        }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+        {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+      </li>
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="side-bar">
+        <ul class="sidebar">
+          <li
+            [class.active]="selectedView === 'Inprogress'"
+            (click)="changeView('Inprogress')"
+          >
+            Pending Requests ({{ totalCount }})
+          </li>
+          <li
+            [class.active]="selectedView === 'Acknowledged'"
+            (click)="changeView('Acknowledged')"
+          >
+            Acknowledged Requests ({{ totalAckCount }})
+          </li>
+        </ul>
+      </div>
+      <div class="main">
+        <div *ngIf="selectedView === 'Inprogress'">
+          <div class="asset-history">
+            <form
+              [formGroup]="filterForm"
+              (ngSubmit)="onFilterSubmit()"
+              autocomplete="off"
+            >
+              <div class="row mr-1">
+                <div class="col-md-4">
+                  <h4>Asset History</h4>
+                </div>
+                <div class="col-md-8 m-auto d-flex filter">
+                  <div>
+                    <label for="tentativeFromDate">From Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeFromDate"
+                      formControlName="tentativeFromDate"
+                      class="form-control"
+                      (change)="onFromDateChange()"
+                    />
+                  </div>
+                  <div>
+                    <label for="tentativeToDate">To Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeToDate"
+                      formControlName="tentativeToDate"
+                      class="form-control"
+                      [readonly]="!isToDateEnabled"
+                      [ngClass]="{ 'inactive-date': !isToDateEnabled }"
+                    />
+                  </div>
+                  <div>
+                    <label for="bu">Division</label>
+                    <select id="bu" formControlName="bu" class="form-control">
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let businessunit of bu"
+                        [value]="businessunit.id"
+                      >
+                        {{ businessunit.name }}
+                      </option>
+                    </select>
+                  </div>
+  
+                  <div>
+                    <label for="department">Department</label>
+                    <select
+                      id="department"
+                      formControlName="department"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- <div>
+                    <label for="status">Status</label>
+                    <select
+                      id="status"
+                      formControlName="status"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option value="Acknowledged">Acknowledged</option>
+                      <option value="InProgress">In Progress</option>
+                    </select>
+                  </div> -->
+                  <div>
+                    <label for="assetType">Asset Type</label>
+                    <select
+                      id="assetType"
+                      formControlName="assetType"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option *ngFor="let asset of assets" [value]="asset.id">
+                        {{ asset.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="m-auto view-btn">
+                    <button type="submit" class="filter-btn">View</button>
+                  </div>
+                  <div class="m-auto border-0 view-btn">
+                    <button
+                      type="button"
+                      class="filter-clear-btn"
+                      (click)="onClearFilters()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="table-responsive">
+              <!-- Table -->
+              <table class="mt-4 table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Raised Date</th>
+                    <th>Raised By</th>
+                    <th>Raised For</th>
+                    <th>Division</th>
+                    <th>Asset Type</th>
+                    <th>Tentative Joining Date</th>
+                    <th>Contact Number</th>
+                    <th>Work Location</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Reporting Manager</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let employee of filteredAssetList"
+                    (click)="
+                      !$event.target.closest('button')
+                        ? openModal(employee)
+                        : null
+                    "
+                    class="cursor-pointer"
+                  >
+                    <td>{{ employee.raisedDate }}</td>
+                    <td>{{ employee.raisedByName }}</td>
+                    <td>{{ employee.empName }}</td>
+                    <td>{{ employee.buName }}</td>
+                    <!-- <td>
+                      <span *ngFor="let item of employee.items; let last = last">
+                        {{ item.asset }}<span *ngIf="!last">, </span>
+                      </span>
+                    </td> -->
+                    <!-- <td tooltip="{{ getTooltipText(employee.items) }}">
+                      <span *ngFor="let item of employee.items; let last = last">
+                        {{ item.asset }}<span *ngIf="!last">, </span>
+                      </span>
+                    </td> -->
+                    <!-- <td
+                      [tooltip]="getTooltipText(employee.items)"
+                      class="tooltip-cell"
+                    >
+                      <span>{{ getPreviewText(employee.items) }}</span>
+                    </td> -->
+                    <td
+                      [tooltip]="
+                        getPreviewText(employee.items).length > 10
+                          ? getTooltipText(employee.items)
+                          : null
+                      "
+                      class="tooltip-cell"
+                    >
+                      <span>{{ getPreviewText(employee.items) }}</span>
+                    </td>
+                    <td>{{ employee.tentativeJoiningDate }}</td>
+                    <td>{{ employee.contactNum }}</td>
+                    <td>{{ employee.workLocation }}</td>
+                    <td>{{ employee.deptName }}</td>
+  
+                    <td>{{ employee.desName }}</td>
+                    <td>{{ employee.reportingManagerName }}</td>
+  
+                    <td>
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 256 256"
+                        height="1em"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="cursor: pointer"
+                      >
+                        <path
+                          d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"
+                        ></path>
+                      </svg>
+                      <!-- <img
+                        src="/assets/img/eye.svg"
+                        alt="view"
+                       
+                      /> -->
+                    </td>
+                    <td>
+                      <button
+                        (click)="openModal1(employee); $event.stopPropagation()"
+                        class="btn fs-13"
+                      >
+                        Acknowledge
+                      </button>
+                    </td>
+                    <div class="modal approval-modal" *ngIf="isModalVisible">
+                      <div class="modal-content ack-popup">
+                        <div
+                          class="d-flex justify-content-end align-items-center close"
+                        >
+                          <!-- <span class="close-btn" (click)="closeModal1()"
+                            >&times;</span
+                          > -->
+                        </div>
+  
+                        <div class="modal-body text-center success-modal py-4">
+                          <svg
+                            width="50"
+                            height="50"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <rect width="24" height="24" rx="2" fill="green" />
+                            <path
+                              d="M9 16.2l-4.2-4.2L3 13.8 9 20l12-12-1.8-1.8L9 16.2z"
+                              fill="white"
+                            />
+                          </svg>
+  
+                          <h4>
+                            Are you sure you want to acknowledge this request?
+                          </h4>
+                          <button
+                            (click)="acknowledgeRequest()"
+                            class="btn btn-primary mr-2"
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            (click)="isModalVisible = false"
+                            class="btn btn-danger"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </tr>
+                  <div
+                    class="modal approval-modal"
+                    *ngIf="isConfirmationModalVisible"
+                  >
+                    <div class="modal-content">
+                      <div
+                        class="d-flex justify-content-between align-items-center close"
+                      >
+                        <h6 class="mb-0">Asset Records</h6>
+                        <span class="close-btn" (click)="closeModal()"
+                          >&times;</span
+                        >
+                      </div>
+  
+                      <div class="modal-body success-modal px-6">
+                        <div *ngIf="modalData.length">
+                          <div
+                            *ngFor="let asset of modalData"
+                            class="modal-row row mb-3"
+                          >
+                            <!-- Asset Type -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Asset Type:</strong></label
+                              >
+                              <p>{{ asset.asset }}</p>
+                              <!-- <input
+                                  type="text"
+                                  class="form-control"
+                                  [value]="asset.asset"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Count -->
+                            <div
+                              class="col-md-12 d-flex"
+                              *ngIf="
+                                !['E-Mail', 'RF Card', 'ID Card'].includes(
+                                  asset.asset
+                                )
+                              "
+                            >
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Count:</strong></label
+                              >
+  
+                              <p>{{ asset.count }}</p>
+                              <!-- <input
+                                  type="number"
+                                  class="form-control"
+                                  [value]="asset.count"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Remarks / Description -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%">
+                                <strong>
+                                  <ng-container *ngIf="asset.asset === 'E-Mail'"
+                                    >Domain:</ng-container
+                                  >
+                                  <ng-container *ngIf="asset.asset !== 'E-Mail'"
+                                    >Description:</ng-container
+                                  ></strong
+                                >
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                [value]="asset.remarks"
+                                [ngStyle]="{ 'background-color': '#fff' }"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <tr *ngIf="filteredAssetList.length === 0">
+                    <td colspan="13">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination-controls mt-2 d-flex justify-content-between">
+              <div class="allrecords">
+                <p *ngIf="filteredAssetList && filteredAssetList.length > 0">
+                  Showing results {{ getDisplayedCount() }} of {{ totalCount }}
+                </p>
+              </div>
+  
+              <div class="pagination-controls">
+                <button
+                  (click)="prevPage()"
+                  [ngClass]="{ 'button-disabled': currentPage === 1 }"
+                >
+                  <i class="fa fa-angle-double-left"></i>
+                </button>
+  
+                <span>Page {{ currentPage }}</span>
+  
+                <button
+                  (click)="nextPage()"
+                  [ngClass]="{ 'button-disabled': isNextDisabled }"
+                >
+                  <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedView === 'Acknowledged'">
+          <div class="asset-history">
+            <form
+              [formGroup]="filterForm"
+              (ngSubmit)="onFilterAckSubmit()"
+              autocomplete="off"
+            >
+              <div class="row mr-1">
+                <div class="col-md-4">
+                  <h4>Asset History</h4>
+                </div>
+                <div class="col-md-8 m-auto d-flex filter">
+                  <div>
+                    <label for="tentativeFromDate">From Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeFromDate"
+                      formControlName="tentativeFromDate"
+                      class="form-control"
+                      (change)="onFromDateChange()"
+                    />
+                  </div>
+                  <div>
+                    <label for="tentativeToDate">To Date:</label>
+                    <input
+                      type="date"
+                      id="tentativeToDate"
+                      formControlName="tentativeToDate"
+                      class="form-control"
+                      [readonly]="!isToDateEnabled"
+                      [ngClass]="{ 'inactive-date': !isToDateEnabled }"
+                    />
+                  </div>
+                  <div>
+                    <label for="bu">Division</label>
+                    <select id="bu" formControlName="bu" class="form-control">
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let businessunit of bu"
+                        [value]="businessunit.id"
+                      >
+                        {{ businessunit.name }}
+                      </option>
+                    </select>
+                  </div>
+  
+                  <div>
+                    <label for="department">Department</label>
+                    <select
+                      id="department"
+                      formControlName="department"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- <div>
+                    <label for="status">Status</label>
+                    <select
+                      id="status"
+                      formControlName="status"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option value="Acknowledged">Acknowledged</option>
+                      <option value="InProgress">In Progress</option>
+                    </select>
+                  </div> -->
+                  <div>
+                     
+                    <label for="assetType">Asset Type</label>
+                    <select
+                      id="assetType"
+                      formControlName="assetType"
+                      class="form-control"
+                    >
+                      <option value="">Select All</option>
+                      <option *ngFor="let asset of assets" [value]="asset.id">
+                        {{ asset.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="m-auto view-btn">
+                    <button type="submit" class="filter-btn">View</button>
+                  </div>
+                  <div class="m-auto border-0 view-btn">
+                    <button
+                      type="button"
+                      class="filter-clear-btn"
+                      (click)="onClearAckFilters()"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="table-responsive">
+              <!-- Table -->
+              <table class="mt-4 table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Raised Date</th>
+                    <th>Raised By</th>
+                    <th>Raised For</th>
+                    <th>Division</th>
+                    <th>Asset Type</th>
+                    <th>Tentative Joining Date</th>
+                    <th>Contact Number</th>
+                    <th>Work Location</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Reporting Manager</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let employee of filteredAckList"
+                    (click)="openModal(employee)"
+                    class="cursor-pointer"
+                  >
+                    <td>{{ employee.raisedDate }}</td>
+                    <td>{{ employee.raisedByName }}</td>
+                    <td>{{ employee.empName }}</td>
+                    <td>{{ employee.buName }}</td>
+                    <td
+                      [tooltip]="
+                        getPreviewText(employee.items).length > 10
+                          ? getTooltipText(employee.items)
+                          : null
+                      "
+                      class="tooltip-cell"
+                    >
+                      <span>{{ getPreviewText(employee.items) }}</span>
+                    </td>
+  
+                    <td>{{ employee.tentativeJoiningDate }}</td>
+                    <td>{{ employee.contactNum }}</td>
+                    <td>{{ employee.workLocation }}</td>
+                    <td>{{ employee.deptName }}</td>
+  
+                    <td>{{ employee.desName }}</td>
+                    <td>{{ employee.reportingManagerName }}</td>
+  
+                    <td>
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 256 256"
+                        height="1em"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="cursor: pointer"
+                      >
+                        <path
+                          d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"
+                        ></path>
+                      </svg>
+                      <!-- <img
+                        src="/assets/img/eye.svg"
+                        alt="view"
+                       
+                      /> -->
+                    </td>
+                  </tr>
+                  <div
+                    class="modal approval-modal"
+                    *ngIf="isConfirmationModalVisible"
+                  >
+                    <div class="modal-content">
+                      <div
+                        class="d-flex justify-content-between align-items-center close"
+                      >
+                        <h6 class="mb-0">Asset Records</h6>
+                        <span class="close-btn" (click)="closeModal()"
+                          >&times;</span
+                        >
+                      </div>
+  
+                      <div class="modal-body success-modal px-6">
+                        <div *ngIf="modalData.length">
+                          <div
+                            *ngFor="let asset of modalData"
+                            class="modal-row row mb-3"
+                          >
+                            <!-- Asset Type -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Asset Type:</strong></label
+                              >
+                              <p>{{ asset.asset }}</p>
+                              <!-- <input
+                                  type="text"
+                                  class="form-control"
+                                  [value]="asset.asset"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Count -->
+                            <div
+                              class="col-md-12 d-flex"
+                              *ngIf="
+                                !['E-Mail', 'RF Card', 'ID Card'].includes(
+                                  asset.asset
+                                )
+                              "
+                            >
+                              <label class="mr-3" style="flex: 0 0 25%"
+                                ><strong>Count:</strong></label
+                              >
+  
+                              <p>{{ asset.count }}</p>
+                              <!-- <input
+                                  type="number"
+                                  class="form-control"
+                                  [value]="asset.count"
+                                  readonly
+                                /> -->
+                            </div>
+  
+                            <!-- Remarks / Description -->
+                            <div class="col-md-12 d-flex">
+                              <label class="mr-3" style="flex: 0 0 25%">
+                                <strong>
+                                  <ng-container *ngIf="asset.asset === 'E-Mail'"
+                                    >Domain:</ng-container
+                                  >
+                                  <ng-container *ngIf="asset.asset !== 'E-Mail'"
+                                    >Description:</ng-container
+                                  ></strong
+                                >
+                              </label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                [value]="asset.remarks"
+                                [ngStyle]="{ 'background-color': '#fff' }"
+                                readonly
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <tr *ngIf="filteredAckList.length === 0">
+                    <td colspan="12">No data found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination-controls mt-2 d-flex justify-content-between">
+              <div class="allrecords">
+                <p
+                  *ngIf="
+                    filteredAckList && filteredAckList.length > 0 && totalAckCount
+                  "
+                >
+                  Showing results {{ getDisplayedAckCount() }} of
+                  {{ totalAckCount }}
+                  <!-- Showing results {{ filteredAckList.length }} of
+                  {{ totalAckCount }} -->
+                </p>
+              </div>
+  
+              <div class="pagination-controls">
+                <button
+                  (click)="prevAckPage()"
+                  [ngClass]="{ 'button-disabled': currentAckPage === 1 }"
+                >
+                  <i class="fa fa-angle-double-left"></i>
+                </button>
+  
+                <span>Page {{ currentAckPage }}</span>
+  
+                <button
+                  (click)="nextAckPage()"
+                  [ngClass]="{ 'button-disabled': isNextAckDisabled }"
+                >
+                  <i class="fa fa-angle-double-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+  

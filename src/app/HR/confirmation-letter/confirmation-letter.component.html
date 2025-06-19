@@ -1,0 +1,460 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Confirmation Letters
+      </li>
+    </span>
+    <!-- <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> -->
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD" }}
+      <sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+<form [formGroup]="confirmationForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div class="container-fluid mt-3">
+    <div class="tableSection">
+      <div class="flxEnd">
+        <h5>Employee Confirmation Form</h5>
+      </div>
+
+      <!-- Add Form with formGroup -->
+
+      <div class="row">
+        <!-- Employee ID -->
+        <div class="col-md-2 form-group">
+          <label for="employeeid" class="mb-0"
+            >Employee ID<span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            id="empid"
+            class="form-control"
+            formControlName="empid"
+            name="empid"
+            pattern="[0-9]*"
+            maxlength="8"
+            minlength="5"
+            (keypress)="isNumberKey($event)"
+            (input)="validateNumberInput()"
+            (blur)="fetchPromotionDetails(confirmationForm.get('empid')?.value)"
+          />
+          <div
+            *ngIf="
+              confirmationForm.controls['empid'].touched &&
+              confirmationForm.controls['empid'].invalid
+            "
+            class="text-danger"
+          >
+            Employee ID is required
+          </div>
+        </div>
+        <!-- Department -->
+        <div class="col-md-2 form-group">
+          <label for="department" class="mb-0"
+            >Department<span class="text-danger">*</span></label
+          >
+          <select
+            id="department"
+            class="form-control"
+            formControlName="department"
+            disabled
+          >
+            <option value="" selected>Select Department</option>
+            <option *ngFor="let unit of department" [value]="unit.departmentid">
+              {{ unit.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              confirmationForm.controls['department'].touched &&
+              confirmationForm.controls['department'].invalid
+            "
+            class="text-danger"
+          >
+            Department is required
+          </div>
+        </div>
+
+        <!-- Designation -->
+        <div class="col-md-2 form-group">
+          <label for="designation" class="mb-0"
+            >Designation<span class="text-danger">*</span></label
+          >
+          <select
+            id="designation"
+            class="form-control"
+            formControlName="designation"
+            disabled
+          >
+            <option value="" selected>Select Designation</option>
+            <option
+              *ngFor="let unit of designation"
+              [value]="unit.DESIGNATIONID"
+            >
+              {{ unit.NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              confirmationForm.controls['designation'].touched &&
+              confirmationForm.controls['designation'].invalid
+            "
+            class="text-danger"
+          >
+            Designation is required
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-2 form-group">
+          <label for="status" class="mb-0"
+            >Status<span class="text-danger">*</span></label
+          >
+          <select id="status" class="form-control" formControlName="status">
+            <!-- 
+            <option *ngFor="let unit of status" [value]="unit.EMPLOYMENTTYPEID">
+              {{ unit.NAME }}
+            </option> -->
+            <option value="" selected>Select Status</option>
+            <option
+              *ngIf="status.length > 0"
+              [value]="status[0].EMPLOYMENTTYPEID"
+            >
+              {{ status[0].NAME }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              confirmationForm.controls['status'].touched &&
+              confirmationForm.controls['status'].invalid
+            "
+            class="text-danger"
+          >
+            Status is required
+          </div>
+        </div>
+
+        <!-- Confirmation Date -->
+        <div class="col-md-2 form-group">
+          <label for="confirmationDate" class="mb-0"
+            >Confirmation Date<span class="text-danger">*</span></label
+          >
+          <!-- <input
+            type="text"
+            id="confirmationDate"
+            class="form-control"
+            placeholder="YYYY-MM-DD"
+            bsDatepicker
+            formControlName="confirmationDate"
+            container="body"
+            [bsConfig]="{
+              dateInputFormat: 'YYYY-MM-DD',
+              isAnimated: true,
+              containerClass: 'theme-dark-blue',
+              adaptivePosition: true
+            }"
+            [maxDate]="maxDate"
+          /> -->
+          <input
+            type="text"
+            id="confirmationDate"
+            class="form-control"
+            placeholder="YYYY-MM-DD"
+            bsDatepicker
+            formControlName="confirmationDate"
+            container="body"
+            [bsConfig]="{
+              dateInputFormat: 'YYYY-MM-DD',
+              isAnimated: true,
+              containerClass: 'theme-dark-blue',
+              adaptivePosition: true
+            }"
+            [maxDate]="maxDate"
+            readonly
+            (keydown)="disableTyping($event)"
+          />
+
+          <div
+            *ngIf="
+              confirmationForm.controls['confirmationDate'].touched &&
+              confirmationForm.controls['confirmationDate'].invalid
+            "
+            class="text-danger"
+          >
+            Date is required
+          </div>
+        </div>
+
+        <div class="col-md-2 remarks form-group">
+          <label for="remarks" class="mb-0">Remarks</label>
+          <textarea
+            id="remarks"
+            class="form-control"
+            formControlName="remarks"
+            placeholder="Enter remarks here..."
+            (input)="filterRemarks($event)"
+          ></textarea>
+        </div>
+        <!-- <div class="col-md-2 submit-width form-group m-auto">
+          <button class="submit-btn btn btn-primary" type="submit">
+            Confirm
+          </button> -->
+        <div class="col-md-2 submit-width d-flex form-group m-auto pl-0">
+          <button
+            type="submit"
+            [disabled]="confirmationForm.invalid"
+            name="confirmButton"
+            class="btn btn-primary mr-2"
+          >
+            Confirm
+          </button>
+          <button
+            type="button"
+            name="resetButton"
+            class="reset-btn btn btn-danger ms-2"
+            (click)="onReset()"
+          >
+            Reset
+          </button>
+        </div>
+
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</form>
+<div class="container-fluid mt-3">
+  <div class="tableSection bg-white">
+    <div class="row mb-2 justify-content-end">
+      <div class="col-md-1">
+        <button class="btn btn-primary Theme_Btn" (click)="refreshTable()">
+          <i
+            class="fa fa-refresh"
+            [ngClass]="{ 'fa-spin': spinnr, ' ': !spinnr }"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </div>
+      <div class="col-md-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by Employee ID"
+          (input)="search()"
+        />
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="bg">
+          <tr>
+            <th>Employee ID</th>
+            <th>Business unit</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>On Date</th>
+            <th>Comments</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="paginatedData.length === 0">
+            <td colspan="8" class="text-center">No data found</td>
+          </tr>
+          <tr *ngFor="let employee of paginatedData">
+            <td>{{ employee.empid }}</td>
+            <td>{{ employee.BUNAME }}</td>
+            <td>
+              {{ employee.DESIGNNAME | titlecase }}
+            </td>
+            <td>{{ employee.DEPTNAME | titlecase }}</td>
+            <td>{{ employee.STATUSNAME | titlecase }}</td>
+            <td>{{ employee.ONDATE }}</td>
+            <td>{{ employee.COMMENTS | titlecase }}</td>
+            <td>
+              <button class="edit-btn" (click)="openEditPopup(employee)">
+                Edit
+              </button>
+              <button class="download-btn" (click)="PromotionshowFormModal(employee)">
+                View
+              </button>  
+              <button
+                class="delete-btn ml-2"
+                (click)="deleteConfirmation(employee)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <nav>
+      <ul class="pagination justify-content-end">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="prevPage()">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+        </li>
+        <li
+          *ngFor="let page of paginationRange"
+          class="page-item"
+          [class.active]="currentPage === page"
+          [class.disabled]="page === '...'"
+        >
+          <button
+            class="page-link"
+            (click)="goToPage(page)"
+            *ngIf="page !== '...'"
+          >
+            {{ page }}
+          </button>
+          <span class="page-link disabled" *ngIf="page === '...'">...</span>
+        </li>
+
+        <!-- Next Button -->
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="nextPage()">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<!-- Modal Popup -->
+<div *ngIf="isPopupOpen" class="popup-overlay">
+  <div class="popup-content">
+    <h4>Edit Employee</h4>
+
+    <form [formGroup]="editForm" (ngSubmit)="onUpdate()" autocomplete="off">
+      <div class="row">
+        <div class="col-md-4">
+          <label>Employee ID:</label>
+          <input
+            type="text"
+            formControlName="empid"
+            class="form-control"
+            readonly
+          />
+        </div>
+        <div class="col-md-4">
+          <label>Department:</label>
+          <select formControlName="department" class="form-control">
+            <option value="" selected>Select Department</option>
+            <option *ngFor="let dept of department" [value]="dept.departmentid">
+              {{ dept.NAME | titlecase }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label>Designation:</label>
+          <select formControlName="designation" class="form-control">
+            <option value="" selected>Select Designation</option>
+            <option
+              *ngFor="let desig of designation"
+              [value]="desig.DESIGNATIONID"
+            >
+              {{ desig.NAME | titlecase }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Status:</label>
+          <select formControlName="status" class="form-control">
+            <option value="" selected>Select Status</option>
+            <option *ngFor="let stat of status" [value]="stat.EMPLOYMENTTYPEID">
+              {{ stat.NAME | titlecase }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label>Confirmation Date:</label>
+          <input
+            type="text"
+            id="confirmationDate"
+            class="form-control"
+            placeholder="YYYY-MM-DD"
+            bsDatepicker
+            formControlName="confirmationDate"
+            container="body"
+            [bsConfig]="{
+              dateInputFormat: 'YYYY-MM-DD',
+              isAnimated: true,
+              containerClass: 'theme-dark-blue',
+              adaptivePosition: true
+            }"
+            [maxDate]="maxDate"
+          />
+        </div>
+        <div class="col-md-4">
+          <label>Remarks:</label>
+          <textarea formControlName="remarks" class="form-control"></textarea>
+
+          <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-success mx-2">Update</button>
+            <button
+              type="button"
+              class="btn btn-danger mx-2"
+              (click)="closePopup()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div
+  class="modal hlydysModl"
+  id="PromotionviewModal"
+  [style.display]="PromotionviewModal ? 'block' : 'none'"
+>
+  <div class="modal-dialog modal_top modal-lg">
+    <div class="modal-content">
+      <div class="modal_Myheader">
+        <button type="button" (click)="PromotioncloseformModal()" class="close">
+          <i
+            class="fa fa-times-circle"
+            aria-hidden="true"
+            style="color: red"
+          ></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <object
+          [data]="Promotionview | safe"
+          type="application/pdf"
+          allowtransparency="true"
+          allowfullscreen="true"
+          style="min-height: 95vh; width: 100%"
+        >
+          <a [href]="Promotionview_mob" (click)="closeformModal()"
+            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
+          >
+        </object>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

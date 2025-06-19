@@ -1,0 +1,302 @@
+.container-fluid {
+  width: 98% !important;
+  margin: auto;
+}
+
+.side-nav {
+  background: #fff;
+}
+
+.side-nav li {
+  list-style-type: none;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.side-nav a {
+  text-decoration: none;
+  color: #000;
+}
+
+.side-nav a:hover {
+  color: #0072bc;
+  text-decoration: none;
+}
+
+.search-btn {
+  background: transparent !important;
+  border: none;
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  color: #535353;
+}
+
+.create-jobcode {
+  text-align: right;
+}
+
+.create-jobcode button {
+  background: #0072bc;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+}
+
+.search-box {
+  width: 94%;
+  border: 1px solid #bababa;
+  font-size: 13px;
+  padding: 5px;
+}
+
+.modal.fade {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+}
+
+.modal-dialog {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  max-width: 60%;
+  margin: auto;
+}
+
+.close {
+  background: none !important;
+  color: #000 !important;
+  font-size: 30px;
+}
+
+.modal-header {
+  padding: 0em 1em;
+  border-bottom: none;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 0px;
+}
+
+.form-control {
+  height: 30px;
+  padding: 0px 5px;
+}
+
+.exp {
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 0px 5px;
+  height: 30px;
+}
+
+.exp p {
+  color: #666666;
+  margin-bottom: 0px;
+}
+
+#experience {
+  border: none;
+  height: 28px;
+}
+
+.btnblock {
+  text-align: center;
+}
+
+.btnblock .submit {
+  background: #0072bc;
+  margin-right: 20px;
+  color: #fff;
+}
+
+.btnblock .cancel {
+  background: #e23d3a;
+  color: #fff;
+}
+
+.pipe {
+  margin: 0px 5px;
+}
+
+.sidenavbar {
+  width: 19% !important;
+  margin-right: 10px;
+}
+
+.title {
+  width: 60%;
+}
+
+.title p {
+  color: #000;
+  font-size: 16px !important;
+  font-weight: 500;
+}
+
+.btn-container {
+  position: relative;
+}
+
+.create-jobcode {
+  width: 20%;
+}
+
+.btn {
+  background: #0072bc;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+}
+
+select, input {
+  width: 100%;
+  height: 30px;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 0px 10px;
+}
+
+input {
+  padding: 0px 10px;
+}
+
+.navbar-nav {
+  padding: 10px;
+}
+
+label {
+  margin-bottom: 0px;
+}
+
+p {
+  font-size: 16px;
+}
+
+.product {
+  width: 14.2%;
+  padding-left: 15px;
+}
+
+label {
+  color: #000;
+  font-weight: 600;
+  display: block;
+}
+
+.btn-danger {
+  background: #A72925;
+}
+
+table tr th {
+  background: #0072bc;
+  color: #fff;
+}
+
+table tr th, tr td {
+  padding: 5px;
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+  background: white;
+  border: 1px solid #ced4da;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+}
+
+.list-group-item {
+  padding: 2px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.emp-info {
+  background: #fff;
+  padding: 15px;
+}
+
+.text-danger {
+  font-size: 12px;
+}
+
+.sidebar {
+  background: #fff;
+  padding: 0px 15px;
+}
+
+.sidebar li {
+  list-style-type: none;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.active {
+  color: #0072bc;
+  font-weight: 600;
+}
+
+.asset-history {
+  background: #fff;
+  padding: 15px !important;
+}
+.asset-history label {
+  font-size: 12px;
+}
+.asset-history select, .asset-history input {
+  font-size: 12px;
+}
+
+.history {
+  border: 1px solid grey;
+  border-radius: 20px;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+.filters {
+  border: 1px solid #acacac;
+  border-radius: 10px;
+}
+
+.filters input, .filters select {
+  border: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 776px) {
+  .col-md-7, .col-md-1, .col-md-2 {
+    padding-right: 15px !important;
+  }
+}/*# sourceMappingURL=asset-data.component.css.map */

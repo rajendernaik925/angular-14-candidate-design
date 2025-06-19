@@ -1,0 +1,120 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+        HR/HRMS
+      </li>
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+<div class="homeContnr">
+    <div class="imgContiner">
+      <h1>HR/HRMS</h1>
+      <img src="./././assets/img/manager/homeBG.svg" alt="homeBG">
+    </div>
+      <!-- Our Info card -->
+ <div class="card ourInfo" >
+     
+    <div class="crdsGrid">
+
+      <ul>
+        <!-- <ng-container  *ngFor="let x of Ryts"> -->
+        
+        
+        <li>
+            <a class="form_16" (click)='showFormModal()'>
+            <span>AL</span>
+            <p>Appointment letter</p> 
+          </a>
+        </li>
+
+        <!-- <li>
+          <a class="hike_letter">
+          <span>AL</span>
+          <p>Hike letter</p> 
+        </a>
+      </li> -->
+
+        <!-- <li *ngIf="x.Unfreeze_dates == 'true'">
+          <a [routerLink]="['/unfreezeDates']">
+          <span>UD</span>
+          <p>Unfreeze Dates</p> 
+        </a>
+      </li> -->
+        
+      <!-- </ng-container> -->
+      </ul>  
+    </div>
+ 
+    <!-- <div class="crdsGrid">
+
+      <ul >
+        <ng-container  *ngFor="let x of Ryts">
+        <li *ngIf="x.Initiate_Assessment_Process == 'true'">
+          <a [routerLink]="['/assessmentProcess']">
+          <span>AP</span>
+          <p>Assessment Process</p>
+        </a>
+        </li>
+ 
+        <li *ngIf="x.Assessment_Approvals_Report== 'true'">
+          <a [routerLink]="['/assessmentProcessReport']">
+          <span>APR</span>
+          <p>Assessment Process Report</p>
+        </a>
+        </li>
+        <li *ngIf="x.Assessment_Extended_Report== 'true'">
+            <a [routerLink]="['/assessmentExtendedReport']">
+            <span>AER</span>
+            <p>Assessment Extended Report</p> 
+          </a>
+        </li>
+        <li *ngIf="x.Assessment_Permant_Report== 'true'">
+            <a [routerLink]="['/assessmentPermanentReport']">
+            <span>APR</span>
+            <p>Assessment Permanent Report</p> 
+          </a>
+        </li>
+      </ng-container>
+      </ul>
+     
+    
+    </div> -->
+ 
+    <!-- <div class="crdsGrid">
+
+      <ul>
+        <ng-container  *ngFor="let x of Ryts">
+        <li *ngIf="x.profile_dashboard == 'true'">
+          <a [routerLink]="['/profileRequests']">
+          <span>PR</span>
+          <p>Profile Requests</p>
+        </a>
+        </li>
+        </ng-container>
+        </ul>
+        </div>
+  </div> End Our Info  -->
+</div>
+  </div>
+
+
+  <div class="modal hlydysModl" id="form16Modal"  [style.display]="form16Modal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal_top modal-lg"> 
+      <div class="modal-content"> 
+        <div class="modal_Myheader"> 
+          <button type="button" (click)="closeformModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true" style="color: red;" ></i></button>
+        </div> 
+        <div class="modal-body"> 
+          <object [data]="form16|safe" type="application/pdf" allowtransparency="true" allowfullscreen="true" style="min-height:95vh;width:100%;">
+              <a [href]="form16_mob" (click)="closeformModal()"><span class="btn btn-primary">View/Download</span> the PDF file.</a>
+            </object>   
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

@@ -1,0 +1,131 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Assign Employee Flexi Policy
+            </li>
+        </span>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+   <div class="container-fluid">
+
+    <div class="card empInfoBlock">    
+        <form [formGroup]="flexiPolcyForm" (ngSubmit)="getList()">         
+        <div class="leavesEnble"> 
+            <div class="bs_date">
+                <label>Division:</label>
+                <div>
+                <select formControlName="businessunitid" class="form-control"
+                [ngClass]="{ 'red_bordr': showError }"
+                (change)='onOptionsSelected()' >
+                    <option [value]="" disabled selected>{{default}}</option>
+                    <option value="" *ngFor="let item of BU_list" [value]="item.BID">{{item.BUNAME}}</option>
+                </select>
+                <div *ngIf="showError" class="invalid_fdbck">Division is required</div>
+                </div>
+            </div>
+            <div class="bs_date">
+                <label>Employee Id:</label>
+                <input type="text" formControlName="userid" (keypress)="numberOnly($event)" maxlength = "7" />
+            </div>
+            <div>
+                <ul>
+                    <li class="v_cntr"> <input type="radio" formControlName="reporttype" value="Assign_Policy" id="ap"  
+                        (click)="setradio('Assign_Policy')" 
+                        [ngClass]="{ 'is-invalid': submitted && f.reporttype.errors }"/>
+                        <label for="ap">Assign Policy</label>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li class="v_cntr"> <input type="radio" formControlName="reporttype" value="Remove_Policy" id="rp"
+                        (click)="setradio('Remove_Policy')"
+                        [ngClass]="{ 'is-invalid': submitted && f.reporttype.errors }" />
+                        <label for="rp">Remove Policy</label></li>
+                </ul> 
+            </div>
+            
+        </div>
+        <div class="btn_block">
+            <button class="themeBtn">Get Data</button>
+        </div> 
+    </form>
+    </div>
+
+
+    <div class="card empInfoBlock">
+        <h5>Employee Information</h5>
+        <div class="myTableScroll"> 
+          <table>
+
+            <thead>
+                <tr>
+                  <th class="sticky-col"><span>Name</span></th>
+                  <th class="sticky-col"><span>Emp ID</span></th>
+                  <th class="sticky-col"><span>Status</span></th>
+                  <th class="sticky-col"><span>Office</span></th> 
+                  <th class="sticky-col"><span>Division</span></th> 
+                  <th class="sticky-col"><span>Department</span></th>  
+                  <th class="sticky-col"><span>Action</span></th>   
+                </tr> 
+            </thead>
+             
+
+    
+            <tbody *ngIf="flxiTableData">
+                <ng-container *ngIf="isData == 0; else flxi_TableData "> 
+                <tr>
+                    <td colspan="8">
+                     <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+                    </td>
+                </tr>
+                </ng-container>
+                <ng-template #flxi_TableData>
+                    <tr *ngFor="let item of flxiTableData">
+                        <td class="min_Width">{{item.EmpName}}</td>
+                        <td>{{item.Employeeid}}</td>
+                        <td>{{item.STATUS}}</td>
+                        <td>{{item.OFFICE}}</td>
+                        <td class="min_Width">{{item.DIVISION}}</td>
+                        <td class="min_Width">{{item.DEPARTMENT}}</td>
+                        <td > 
+                            <button class="actnBtn" 
+                            [ngClass]="{'cncl': item.ADD=='Remove', 'apprv': item.ADD=='ADD', 'Asgnd': item.ADD=='ASSIGNED', 'Rmvd': item.ADD=='Removed' }"
+                            (click)="flxyAction(item, $event)">{{item.ADD}}</button> 
+                        </td> 
+                        <!-- <td>
+                            <button class="actnBtn cncl">Cancel</button> 
+                        </td>  -->
+                    </tr>
+                </ng-template>
+               
+               
+                 
+            </tbody>
+        </table> 
+    </div>
+    </div>
+        
+        <div class="card gydLines">
+            <h5>Note : Guidelines</h5>
+            <ul>
+                <li><span>On select of division then click on GetData, all related division wise data will display.</span></li>
+                <li><span>For Single Employee, enter employee id then click on GetData, Employee wise search data will display.</span></li>
+                <li><span>On Radio selection Assign Policy is for assigning flexi policy to the employee.</span></li>
+                <li><span>On Radio selection Remove Policy is for removing existing employee from flexi policy.</span></li>
+                <li><span>Once selection done then click on GetData Button to view employee data.</span></li>
+                <li><span>On click action button (i.e., Add/Remove) you can assign or remove employee from flexi policy.</span></li>
+                <li><span>Any other information is required please contact to Admin.</span></li>
+
+            </ul>
+        </div>
+   </div>
+
+
+   <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>    

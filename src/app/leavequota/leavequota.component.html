@@ -1,0 +1,186 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb"> 
+      <span>
+        <!-- <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+        <li class="breadcrumb-item" [routerLink]="['/profileRequests']">Profile Requests</li> -->
+        <li class="breadcrumb-item active" aria-current="page">
+          Office Summary: Eligible Employees (Current Year)
+        </li>
+    </span> 
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    
+    <div class="bgWyt"> 
+      <div class="search-hero">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchText"
+        autocomplete="off" placeholder="Search by Employee Name / ID / BU" 
+        (ngModelChange)="applySearchFilter()"  (keydown)="allowOnlyLettersAndSpaces($event)"/>
+ 
+    </div>
+    
+    <div class="myTableScroll empinfo" >
+      <table >
+        <thead>
+          <tr>
+            <th class="sticky-col first-col"><span>Emp Name</span></th>
+            <th class="sticky-col second-col"><span>Emp ID</span></th>
+            <th class="sticky-col"><span>DOJ</span></th>  
+            <th class="sticky-col"><span>Business Unit</span></th> 
+            <th class="sticky-col"><span>Department</span></th> 
+            <th class="sticky-col"><span>Designation</span></th> 
+          
+            <th class="sticky-col"><span>Action</span></th> 
+          </tr>
+        </thead>
+        <tbody *ngIf="listOfReqsts">
+          <tr *ngIf="listOfReqsts.length == 0">
+            <td colspan="9">
+             <h2 class="noData">No Records</h2>
+            </td>
+          </tr>
+          <tr *ngFor="let item of listOfReqsts;let i=index;">
+            <!-- <td class="sticky-col s_no" >{{i+1}}</td> -->
+            <td class="sticky-col first-col">{{item.Employeename}}</td>
+            <td class="sticky-col second-col">{{item.EmployeeSeq}}</td>
+            <td>{{item.DOJ}}</td> 
+            <td>{{item.BUNAME}}</td> 
+            <td>{{item.Department}}</td>
+            <td>{{item.Designation}}</td>
+            <!-- <td>{{item.STATUS}}</td> -->
+            <td><a data-toggle="modal" data-target="#veiwModal" (click)='showmyModal();View(item);'  class="_proccss">View</a></td>
+             
+        </tr>
+        
+     
+        </tbody>
+      </table> 
+    </div>
+    </div>
+  </div>
+  <div class="modal detailsModl _csvew" id="veiwModal" [style.display]="veiwModal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl fullwidthmodel" *ngIf="empData">
+      <div class="modal-content"> 
+        <div class="modal-header" style="align-items: center">
+          <div class="modal_title_img">
+            <h5><span class="label">Employee History :</span> {{empData.Employeename}} (<span class="label">ID:</span> {{empData.EmployeeSeq}}) |<span class="label"> DOJ:</span> {{empData.DOJ}} | <span class="label">Experience:</span> {{empData.Experience}}</h5>
+           </div>
+          <button type="button" (click)="closeVeiwModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        </div> 
+<div class="modal-body">
+    <ng-container *ngIf="modalType == ''">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="myTableScroll popuptable">
+            <table>
+                <thead>
+                  <tr>
+                    <th class="sticky-col prev" colspan="6"><span>Assigned</span></th>
+                  </tr>
+                  <tr>
+                    <th>Leave Type</th>
+                    <th>Total</th>
+                    <th>Avail</th>
+                    <th>Used</th>
+                    <th>Hr Deduction</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let leaves of leavedata">
+                    <td>{{ leaves.NAME }}</td>
+                    <td>
+                      <ng-container *ngIf="editingLeave === leaves; else showTotal">
+                        <!-- Reactive form input for QUANTITY -->
+                        <input type="text" [formControl]="leaveForm.get('QUANTITY')"    pattern="^[0-9]{1,3}$"  
+                        maxlength="3" 
+                        minlength="1" 
+                        inputmode="numeric" (keypress)="onlyNumbers($event)"  style="width:50%" autocomplete="off"/>
+                      </ng-container>
+                      <ng-template #showTotal>
+                        <!-- Default display for Total when not editing -->
+                        {{ leaves.QUANTITY }}
+                      </ng-template>
+                    </td>
+                    <td>{{ leaves.AVAILABLEQTY }}</td>
+                    <td>{{ leaves.USEDQTY }}</td>
+                    <td>{{ leaves.HOLD }}</td>
+                    <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3|| leaves.LEAVETYPEID === 4; else disabledButton">
+                      <td>
+                        <!-- Button changes between Edit and Update -->
+                        <button  class="action" type="button" (click)="Action(leaves, editingLeave === leaves ? 'Update' : 'Edit')" 
+                         *ngIf="sublocation !== 'HYD' && sublocation !== 'ASSAM'">  
+                          {{ editingLeave === leaves ? 'Update' : 'Edit' }}
+                        </button>
+                      </td>
+                    </ng-container>
+                    <ng-template #disabledButton>
+                      <td>
+                        <!-- Lock button for other leave types -->
+                        <button class="action" type="button" (click)="Action(leaves, 'Lock')">Lock</button>
+                      </td>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div> 
+        <div class="col-md-6"> 
+            <div class="myTableScroll maxtable">
+                <table>                   
+                    <thead>
+                        <tr> 
+                            <th class="sticky-col req" colspan="6"><span>Unassigned</span></th>   
+                        </tr>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>Total</th>
+                            <!-- <th>Avail</th>
+                            <th>Used</th> -->
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let leaves of unassignedlist">
+                        <td>{{ leaves.NAME }}</td>
+                        <td>
+                          <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3||leaves.LEAVETYPEID === 4; else na">
+                            <input type="text" id="Total" name="Total" placeholder="Add Quantity" [(ngModel)]="leaves.Total"
+                              maxlength="3" minlength="1" inputmode="numeric"
+                              #totalInput="ngModel" (keypress)="onlyNumbers($event)"  autocomplete="off"/>
+                          </ng-container>
+                          <ng-template #na>NA</ng-template>
+                        </td>
+                        <td>
+                          <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3||leaves.LEAVETYPEID === 4; else Enable">
+                            <button class="action" type="button" (click)="Action(leaves, 'Add')">Add</button>
+                          </ng-container>
+                          <ng-template #Enable>
+                            <button class="action" type="button" (click)="Action(leaves,'Assign')">Assign</button>
+                          </ng-template>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                </table>
+            </div> 
+        </div>           
+      </div>
+    </ng-container>
+  </div> 
+      </div>
+    </div> 
+  </div>  
+
+
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>  

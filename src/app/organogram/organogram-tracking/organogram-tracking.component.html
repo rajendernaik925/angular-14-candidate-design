@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+<div class="card vh-100 py-1 border-0 mt-3">
+    <div class="card-body py-1">
+        <div class="d-flex align-items-center gap-2">
+            <h4 class="fw-bold mb-0 mr-4">Reporting Manager</h4>
+            <div class="col-md-3 mb-3">
+                <div class="card border-0 p-1 bg-dark shadow border-radius">
+                    <div class="card-body p-1 d-flex align-items-center">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp9XXU7SVb7ZkED-wSC9xKUgvs7qD8ypvLxpjllkTcd_pv_ne1jpQrbvCme2MEXMMIMBM&usqp=CAU"
+                            width="50" height="50" alt="Profile Image" class="rounded-circle mr-2">
+                        <div class="d-flex flex-column">
+                            <span class="fw-bold text-white">Chiranjeevi</span>
+                            <span class="text-muted small text-white">Sr. Project Manager</span>
+                            <span class="text-muted small text-white">Ex: 12 years</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="d-flex align-items-center gap-2">
+            <h5 class="fw-bold mb-0 mr-4">Teams</h5>
+        </div>
+        <div class="mt-4 mt-4-custom d-flex flex-wrap gap-3 justify-content-start">
+            <div class="team-card cursor-pointer p-1 shadow border-radius mr-2"
+                *ngFor="let team of teams; let i = index" [ngClass]="{'bg-dark text-white': selectedTeamIndex === i}"
+                (click)="trackingPage(i)">
+                <div class="card-body p-1 d-flex align-items-center">
+                    <span class="fw-bold">{{ team.name }}</span>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- Add Publish button if needed -->
+        <!-- <button class="btn btn-primary" (click)="publish()">Publish</button> -->
+    </div>
+</div>
+
+<ng-template #jobDialog>
+    <h2 mat-dialog-title>Team: {{ teams[selectedTeamIndex].name }}</h2>
+    <mat-dialog-content>
+        <p>Team ID: {{ teams[selectedTeamIndex].id }}</p>
+        <p>Manager: Rajender</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #publishDialog>
+    <h2 mat-dialog-title>Publish</h2>
+    <mat-dialog-content>
+        <p>Confirm publishing team data.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button color="primary">Publish</button>
+    </mat-dialog-actions>
+</ng-template>

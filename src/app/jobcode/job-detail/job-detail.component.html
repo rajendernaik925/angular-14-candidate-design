@@ -1,0 +1,205 @@
+<div class="">
+  <app-nav></app-nav>
+</div>
+
+<div class="mt-3">
+  <div class="row">
+    <div class="col-md-2 mb-2">
+      <div class="card border-0 p-0">
+        <div class="card-body p-2">
+          <app-side-bar></app-side-bar>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 slide-in">
+      <div class="card border-0 shadow-sm">
+        <div *ngIf="jobCodeResData?.jcReferenceId" class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <span class="me-2 cursor-pointer" (click)="back()">
+                <i class="bi bi-chevron-left"></i>
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                  class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                </svg> -->
+              </span>
+              <span class="fw-bold fs-2" style="margin-left: 10px;">
+                Job Code - ({{ jobCodeResData?.jcReferenceId }})
+              </span>
+            </div>
+            <button class="btn btn-sm text-light"
+              [ngClass]="jobCodeResData?.publishStatus === 1001 ? 'custom-bg' : 'bg-warning'" (click)="publish()">
+              {{ jobCodeResData?.publishStatus === 1001 ? 'Publish' : 'Edit Publish' }}
+            </button>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-4 border-end pe-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <span class="opacity-50 d-block fs-5">Job Title</span>
+                  <span class="d-block fw-bold fs-5">{{jobCodeResData?.jobTitleName}}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="d-block opacity-50 fs-5">Reporting Manager</span>
+                  <span class="d-block fw-bold fs-5">{{jobCodeResData?.reportingName}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <span class="opacity-50 d-block fs-5">Experience</span>
+                  <span class="d-block fw-bold fs-5">{{jobCodeResData?.expMin}}-{{jobCodeResData?.expMax}}
+                    Year's</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="d-block opacity-50 fs-5">CTC</span>
+                  <span class="d-block fw-bold fs-5">{{jobCodeResData?.ctcMin}}-{{jobCodeResData?.ctcMax}}</span>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <span class="d-block opacity-50 fs-5">Published By</span>
+                  <span class="d-block fw-bold fs-5">{{jobCodeResData?.publishedBy}}</span>
+                </div>
+                <div class="col-md-6">
+                  <span class="d-block opacity-50 fs-5">Published Date</span>
+                  <span class="d-block fw-bold fs-5">
+                    {{ jobCodeResData?.publishedDate ? (jobCodeResData.publishedDate | date:'dd-MM-yyyy') : '--' }}
+                  </span>
+                </div>
+              </div>
+              <!-- <div class="d-block mt-3">
+                <span class="d-block opacity-50 fs-5">Prefered Companies</span>
+                <span class="d-block fw-bold fs-5">{{jobCodeResData?.preferredCompany}}</span>
+              </div>
+              <div class="d-block mt-3">
+                <span class="d-block opacity-50 fs-5">Description</span>
+                <span class="d-block fw-bold fs-5">{{jobCodeResData?.description || '--'}}</span>
+              </div> -->
+            </div>
+            <div class="col-md-8 full-height">
+              <div *ngIf="safeUrl">
+
+                <!-- ✅ Display PDF File -->
+                <!-- <iframe *ngIf="getFileType(jobCodeResData?.jobDescriptionFile) === 'pdf'" [src]="safeUrl" width="100%"
+                  height="350" frameborder="0" type="application/pdf">
+                </iframe> -->
+
+                <iframe *ngIf="safeUrl" [src]="safeUrl" width="100%" height="350" frameborder="0"></iframe>
+
+
+                <!-- ✅ Display Image File (PNG or JPG) -->
+                <img
+                  *ngIf="getFileType(jobCodeResData?.jobDescriptionFile) === 'png' || getFileType(jobCodeResData?.jobDescriptionFile) === 'jpg'"
+                  [src]="safeUrl" width="100%" height="350" class="styled-iframe" />
+
+                <!-- ✅ Display DOC/DOCX File via Google Docs Viewer -->
+                <iframe *ngIf="getFileType(jobCodeResData?.jobDescriptionFile) === 'doc'" [src]="safeUrl" width="100%"
+                  height="350" frameborder="0">
+                </iframe>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div *ngIf="!jobCodeResData?.jcReferenceId" class="card-body d-flex justify-content-center align-items-center">
+          <div class="text-center fw-bold fs-4">
+            <img src="https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/xxNZvglgy1.gif"
+              width="150px" height="150px" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+<ng-template #publishDialog>
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <span class="fw-bold">Job Code - ({{ jobCodeResData?.jcReferenceId || 'Job Code' }}) - Publish</span>
+      <span class="hover cursor-pointer" (click)="close()">
+        <i class="bi bi-x-circle fs-4"></i>
+      </span>
+    </div>
+    <form [formGroup]="publishForm" (ngSubmit)="submit()">
+      <div>
+        <h5 class="">Select Publish Mode <span class="text-danger">*</span></h5>
+        <div class="d-flex">
+          <div class="form-check me-5">
+            <input class="form-check-input" type="radio" id="publishMode1" formControlName="publishMode"
+              [value]="'Online'" />
+            <label class="form-check-label fw-bold" for="publishMode1">Online</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="publishMode2" formControlName="publishMode"
+              [value]="'Offline'" />
+            <label class="form-check-label fw-bold" for="publishMode2">Offline</label>
+          </div>
+        </div>
+        <div *ngIf="submitted && publishForm.get('publishMode')?.invalid" class="text-danger fs-5">
+          Publish Mode is required.
+        </div>
+      </div>
+      <!-- Show Business Unit checkboxes dynamically for offline -->
+      <!-- <div *ngIf="publishForm.get('publishMode')?.value === 'Offline'" class="mt-3">
+        <h5 class="">Select Business Unit <span class="text-danger">*</span></h5>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="hhclCheckbox" [checked]="true" [disabled]="true" />
+          <label class="form-check-label fw-bold" for="hhclCheckbox">HHCL</label>
+        </div>
+      </div> -->
+
+      <!-- Show Business Unit checkboxes dynamically for online -->
+      <div *ngIf="publishForm.get('publishMode')?.value === 'Online'" class="mt-3">
+        <h5 class="">Select Business Unit <span class="text-danger">*</span></h5>
+        <div formGroupName="businessUnit" class="scroll-container">
+          <div class="row">
+            <div class="col-md-6 mb-2" *ngFor="let unit of businessUnits">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [id]="unit.name" [formControlName]="unit.name" />
+                <label class="form-check-label fs fw-bold" [for]="unit.name">
+                  {{ unit.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div
+          *ngIf="submitted && publishForm.get('publishMode')?.value === 'Online' && (!selectedBusinessUnits || selectedBusinessUnits.length === 0)"
+          class="text-danger fs-5">
+          At least one Business Unit must be selected for Online mode.
+        </div>
+
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <button type="submit" class="btn btn-sm custom-bg text-light me-3 w-50">
+          Publish
+        </button>
+        <!-- <button
+          type="submit"
+          class="btn custom-bg text-light me-3 w-50"
+          [disabled]="publishForm.invalid || (publishForm.get('publishMode')?.value === 'Online' && !hasSelectedBusinessUnit())"
+        >
+          Submit
+        </button> -->
+        <button type="button" class="btn btn-sm btn-danger w-50" (click)="cancel()">
+          Exit
+        </button>
+      </div>
+    </form>
+
+
+
+  </div>
+</ng-template>

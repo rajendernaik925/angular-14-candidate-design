@@ -1,0 +1,580 @@
+a.nav-link 
+  margin: 0px 8px
+li.nav-item:nth-child(6) a.nav-link,
+li.nav-item:nth-child(7) a.nav-link,
+li.nav-item:nth-child(8) a.nav-link,
+li.nav-item:nth-child(9) a.nav-link    
+  margin: 0 2px
+img.logo
+  max-width: 200px
+img.logo1
+  max-height: 48px  
+
+.iconnectNav
+  border-bottom: 1px dashed #0072bc
+  a.nav-link 
+    font-weight: 600
+    opacity: .7
+    color: #101010!important
+    user-select: none
+    i
+      cursor: pointer
+  ._home
+    i.fa
+      font-size: 2em
+      color: #101010 
+  ._shrtNme
+    padding: 4px 0px    
+  li.dropdown  
+    .dropdown-menu 
+      left: initial
+      right: -5px
+      min-width: 290px 
+      background: rgba(0, 0, 0, 0.85)
+      color: white 
+      padding: 0
+      // overflow: hidden
+      &::after
+        border: solid
+        border-color: #0c0c0c transparent 
+        border-width: 0 .4em .4em .4em
+        top: -0.4em
+        content: ""
+        display: block
+        right: 1em
+        position: absolute
+        z-index: 99
+      >p          
+        margin: 0
+        padding: 8px 10px 
+        border-bottom: 1px solid #dddddd7a
+        font-size: 14px
+        background: #0c0c0c
+        overflow: hidden
+      a
+        cursor: pointer
+        color: #ddd
+        padding: 6px 10px
+        font-size: 15px
+        letter-spacing: 0.5px
+        -webkit-animation-name: fadeInLeft
+        animation-name: fadeInLeft
+        -webkit-animation-duration: .1s
+        animation-duration: .1s
+        -webkit-animation-fill-mode: both
+        animation-fill-mode: both
+        &:hover      
+          background-color: transparent
+          color: #fff
+        &:focus, &:active, &:visited     
+          background: none
+          border: none
+          box-shadow: none 
+        &:nth-child(2)
+          animation-delay: .15s
+        &:nth-child(3)
+          animation-delay: .20s  
+        &:nth-child(4)
+          animation-delay: .25s
+          
+        
+.inOutTime
+  display: flex
+  flex-flow: row
+  min-width: 150px
+  justify-content: space-between
+  border: 1px solid #ececec
+  div
+    display: flex
+    flex-flow: column
+    justify-content: flex-start
+    align-items: center
+    width: 50%
+    -webkit-backface-visibility: visible !important
+    backface-visibility: visible !important
+    -webkit-animation-name: flipInX
+    animation-name: flipInX
+    -webkit-animation-duration: .75s
+    animation-duration: .75s
+    -webkit-animation-fill-mode: both
+    animation-fill-mode: both
+    &:nth-child(1)
+      border-right: 1px solid #ececec
+    &:nth-child(2)  
+      animation-delay: .5s
+    label
+      margin: 0
+      display: block
+      // background: #7a86fa
+      background: #f7f9fb
+      width: 100%
+      text-align: center
+      color: #101010
+      font-size: 12px
+      font-weight: bold
+      line-height: 1
+      padding-top: 4px
+      padding-bottom: 2px
+      margin-bottom: 5px
+      text-transform: uppercase
+    span  
+      color: #7a86fa
+      -webkit-text-stroke: 1px #7d7d7dcf
+      font-size: 18px
+      padding: 0 6px
+      font-weight: bolder
+      // text-shadow: 0px -2px #fff, 1px -1px #7a86fa, 1px -2px #06060698
+      letter-spacing: 1.5px
+      line-height: 1
+.inOutTime._wfh
+  min-width: 100px
+  div 
+    width: 100%
+    border: 0
+    label
+      margin-bottom: 8px
+      
+div#PasswrdModal   
+  .modal-dialog
+    -webkit-animation-name: fadeInDown
+    animation-name: fadeInDown
+    -webkit-animation-duration: .3s
+    animation-duration: .3s
+    -webkit-animation-fill-mode: both
+    animation-fill-mode: both
+  label
+    margin-bottom: 4px
+  p
+    margin-bottom: 6px
+  .alert-danger
+    color: #e63813
+    background-color: #f7e5e6
+    border-color: #f5c6cb
+    padding: 2px 10px
+  button.btn 
+    margin: 0 0.5em
+    min-width: 100px
+  input.form-control
+    outline: none
+    box-shadow: none  
+  ._footr
+    p 
+      font-size: 14px
+    ul 
+      padding-left: 2em
+      margin: 0
+      li 
+        font-size: 14px
+
+.reltv
+  position: relative
+  .abslt
+    position: absolute
+    bottom: 0
+    background: white
+
+.hyt90
+  height: 80px
+  position: relative
+    
+.iconnectNav
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  z-index: 999
+  border-top: 8px solid #0072bc
+  min-height: 85px
+#myModal
+  z-index: 999999999
+.modal
+  transition: transform .3s ease-out  
+  &::after
+    position: absolute
+    content: ''
+    background: black
+    opacity: .5
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    z-index: -1
+  .close 
+    outline: none
+    box-shadow: none  
+
+div#PasswrdModal 
+  overflow: hidden
+.fa_home
+  background: url('../../assets/img/icons/home-1.svg')no-repeat
+  // width: 42px
+  // height: 32px
+  display: block
+  width: 38px
+  height: 38px
+  background-size: contain
+  background-position: center
+  margin: 0 auto
+.fa_search, .fa_cog, .fa_bell, .fa_signOut
+  background: url('../../assets/img/dashboard/menu-icons.svg')no-repeat
+  width: 24px
+  height: 26px
+  background-position: 0px 0px
+  display: inline-block
+.fa_cog
+  background: url('../../assets/img/dashboard/menu-icons.svg')no-repeat
+  background-position: -41px 0px
+.fa_bell  
+  background: url('../../assets/img/dashboard/menu-icons.svg')no-repeat
+  background-position: -124px 0px
+.fa_signOut
+  background: url('../../assets/img/dashboard/menu-icons.svg')no-repeat
+  background-position: -164px 0px
+
+a.nav-link sup
+  top: -2.2em
+  left: -5px
+  background: #0072bc
+  padding: 3px
+  color: white
+  font-size: 12px
+  border-radius: 5px
+  letter-spacing: 1px  
+.navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus
+  outline: none!important
+  box-shadow: none!important  
+
+.timerModal
+  display: flex
+  justify-content: center
+  align-items: center  
+  height: 100%
+  .modal-content
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: auto
+    max-height: 450px
+    max-width: 480px
+    margin: 0 auto
+    padding: 2em
+  img 
+    max-height: 150px  
+  .sessionTimebutns
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    max-width: 220px
+    width: 100%
+    margin: 1.25em auto
+    margin-bottom: 0
+  button.themeBtn
+    font-size: 14px
+    padding: 8px 10px
+    border: none
+    border-radius: 5px
+    min-width: 90px
+    background-color: #22cb68
+    color: white
+    outline: none
+    box-shadow: none  
+    text-transform: uppercase
+    &._logout
+      background-color: rgb(237, 136, 4)
+
+  h2 
+    font-size: 22px
+    color: #101010
+    b
+      font-weight: 600
+
+li._home
+  a.nav-link    
+    opacity: 1!important
+    padding: 0 0.95rem!important
+    span
+      font-size: 12px
+      margin: 0
+      font-weight: bold
+      padding: 0
+      line-height: 1
+      display: block  
+      color: #0c0c0c
+      text-transform: uppercase
+      text-align: center
+
+span.proImgCircle
+  // width: 40px
+  // height: 40px
+  // border-radius: 50%
+  // border: 1px solid #7a86fa
+  overflow: hidden
+  display: block
+  text-align: center      
+  img 
+    max-width: 40px
+    display: none
+  h3      
+    // background: #e4eaf0
+    background: #f9fafc
+    color: #101010
+    font-size: 20px
+    margin: 0
+    padding: 5px 4px
+    line-height: 1.5
+    min-width: 44px
+    max-height: 44px
+    overflow: hidden
+    text-align: center
+    user-select: none
+    border: 1px solid #7a86fa
+    border-radius: 50%
+
+.pfleOptions
+  overflow: hidden    
+  padding: 0.25em 0.25em 0.5em 0.25em
+
+.notification-container
+  position: relative
+  padding-left: 0.95rem !important
+  
+._notification
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 50px
+  height: 50px
+
+.bell-icon 
+  font-size: 25px
+  color: #0072bc
+  position: relative
+  z-index: 2 
+  cursor: pointer
+
+.wave 
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 20px
+  height: 20px
+  background: rgba(225, 27, 34, 0.5) 
+  border-radius: 50%
+  transform: translate(-50%, -50%)
+  z-index: 1
+  animation: wave-effect 1.5s infinite ease-out
+
+.wave-2 
+  animation-delay: 0.75s
+
+@keyframes wave-effect 
+  0% 
+    transform: translate(-50%, -50%) scale(1.5)
+    opacity: 1
+  
+  100% 
+    transform: translate(-50%, -50%) scale(2.5)
+    opacity: 0
+
+.notification-badge 
+  position: absolute
+  top: 5px
+  right: 5px
+  background-color: #e11b22
+  color: white
+  font-size: 12px
+  font-weight: bold
+  padding: 1px 6px
+  border-radius: 50%
+  min-width: 18px
+  text-align: center
+  z-index: 3 
+  cursor: pointer
+.notification-container 
+  position: relative
+  display: inline-block
+
+.custom-popup 
+  position: absolute
+  top: 50px
+  left: 50%
+  transform: translateX(-50%)
+  background: white
+  color: black
+  border-radius: 5px
+  font-size: 14px
+  font-weight: bold
+  white-space: nowrap
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2)
+  text-align: center
+  width: 250px
+  display: none
+  max-width: 250px
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2)
+  text-align: center
+  white-space: normal
+  word-wrap: break-word
+  overflow-wrap: break-word
+.notification-container:hover .custom-popup
+  display: block
+
+.custom-popup .popup-arrow 
+  position: absolute
+  top: -10px
+  left: 50%
+  transform: translateX(-50%)
+  width: 0
+  height: 0
+  border-left: 10px solid transparent
+  border-right: 10px solid transparent
+  border-bottom: 10px solid #0072bc
+.popup-description p 
+  margin-bottom: 0px
+.popup-content
+  background: #ededed
+  padding: 8px 5px
+.popup-item
+  padding: 6px
+  background: #fff
+  border-radius: 4px
+  align-items: center
+  cursor: pointer
+.popup-item:last-child  
+  margin-bottom: 0px !important
+.highlight-btn 
+  margin-top: 10px
+  padding: 5px 10px
+  background: red
+  color: white
+  border: 2px solid black
+  font-weight: bold
+  cursor: pointer
+  border-radius: 3px
+.popup-footer 
+  display: flex
+  justify-content: flex-end
+  margin-top: 8px
+
+.popup-btn
+  border: none
+  border-radius: 3px
+  color: #e11b22
+  text-decoration: underline
+  white-space: nowrap
+  display: inline-block
+  font-size: 10px !important
+.popup-description p
+  font-size: 12px
+  line-height: 1.4
+.notification-icon
+  background: #0072bc
+  color: #fff
+  padding: 5px 7px
+  border-radius: 50%
+@media screen and ( max-width: 767px )
+  li.nav-item._home 
+    a.nav-link 
+      padding-right: 0 !important 
+ 
+  span.proImgCircle h3      
+    min-width: 30px
+    max-height: 30px
+    padding: 0px
+  .fa_home
+    height: 30px
+    width: 30px
+.notification-container 
+  position: relative
+  display: inline-block
+
+  .nav-item
+    list-style: none
+    cursor: pointer
+    position: relative
+
+  .custom-popup
+    position: absolute
+    top: 50px
+    right: 0
+    background: white
+    color: black
+    border-radius: 5px
+    font-size: 14px
+    font-weight: bold
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2)
+    width: 280px
+    max-width: 90vw
+    display: none
+    z-index: 1000
+
+    .popup-content
+      background: #ededed
+      padding: 8px 5px
+      border-radius: 5px
+
+    .popup-item
+      display: flex
+      align-items: center
+      padding: 8px
+      background: white
+      border-radius: 4px
+      margin-bottom: 6px
+      cursor: pointer
+
+      &:last-child
+        margin-bottom: 0px
+
+      .notification-icon
+        background: #0072bc
+        color: #fff
+        padding: 5px 10px
+        border-radius: 50%
+        font-weight: bold
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 30px
+        height: 30px
+        text-transform: uppercase
+
+      .popup-description
+        flex-grow: 1
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        font-size: 13px
+        padding-left: 10px
+        white-space: normal
+        word-wrap: break-word
+        overflow-wrap: break-word
+
+      .popup-link a
+        color: #e11b22
+        text-decoration: underline
+        font-size: 14px
+
+  // Hover Effect to Show Popup
+  &:hover .custom-popup
+    display: block
+
+// Responsive Adjustments
+@media screen and (max-width: 767px)
+  .notification-container
+    margin-left:10px
+  .notification-container .custom-popup
+    left: -40px !important
+    max-width: 280px
+  .custom-popup .popup-arrow
+    left: 80% !important
+  ._notification
+    padding-left: 20px
+    height: 40px
+  .wave
+    display: none
+  .notification-badge
+    position: absolute
+    top: 0px
+    right: 5px
+

@@ -1,0 +1,138 @@
+.col-md-2
+  padding-right: 0  
+.custom-bg
+  background-color: #0072BC 
+.fs-custom
+  font-size: 12px  
+.custom-text
+  color: #0072bc   
+.small-header
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 1.6
+
+.small-header-th 
+  font-size: 12px
+  padding: 5px 10px
+  line-height: 2.0
+
+.cursor-pointer
+  cursor: pointer
+th, td
+  white-space: nowrap // Prevent text from wrapping to the next line
+  overflow: hidden     // Hide any overflowing content
+  text-overflow: ellipsis // Add ellipsis (...) if content overflows    
+
+.scroll-container
+  max-height: calc(100vh - 238px)
+  overflow-y: scroll // Keep scrolling functionality
+  display: block
+  max-width: 100%
+  position: relative
+
+  // Hide scrollbar for Webkit-based browsers (Chrome, Safari, Edge)
+  &::-webkit-scrollbar
+    display: none
+
+  // Hide scrollbar for Firefox
+  scrollbar-width: none
+
+  // Hide scrollbar for Internet Explorer 10+
+  -ms-overflow-style: none
+
+thead th
+  position: -webkit-sticky
+  position: sticky
+  top: 0px
+  background: #0072BC
+  padding-top: 0
+
+input:focus, select:focus, textarea:focus
+  border-color: black !important // Override Bootstrap default blue
+  box-shadow: none !important // Remove default Bootstrap shadow
+
+// Make the input fields smaller
+input, select, textarea
+  font-size: 0.875rem // Small font size
+  padding: 0.25rem 0.5rem // Reduce padding for a smaller look
+  height: auto // Ensure height is adjusted correctly 
+
+
+button
+  &:active
+    box-shadow: none !important
+    outline: none !important
+.fw-bold
+  font-weight: bold
+   
+
+
+
+
+
+//offcanvas
+
+$offcanvas-width: 300px
+$offcanvas-bg: white
+$offcanvas-shadow: -2px 0 5px rgba(0, 0, 0, 0.2)
+$offcanvas-transition: right 0.3s ease-in-out
+$z-index-offcanvas: 1050
+
+.offcanvas-right
+  position: fixed
+  top: 0
+  right: -$offcanvas-width
+  width: $offcanvas-width
+  height: 100%
+  background-color: $offcanvas-bg
+  box-shadow: $offcanvas-shadow
+  transition: $offcanvas-transition
+  z-index: $z-index-offcanvas
+  overflow-y: auto
+
+  &.show
+    right: 0
+
+.offcanvas-header
+  padding: 1rem
+  border-bottom: 1px solid #dee2e6
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+.offcanvas-body
+  padding: 1rem
+
+.Hover:hover 
+  color: red  
+
+.text-decoration-underline
+  text-decoration: underline 
+
+
+@keyframes zoomIn
+  0%
+    transform: scale(0)
+    opacity: 0
+  100%
+    transform: scale(1)
+    opacity: 1
+
+.animate-zoom
+  animation: zoomIn 0.5s ease-out
+
+
+
+.custom-action-btn 
+  line-height: 1.5
+  font-size: 12px
+  border-radius: 5px
+  border: none
+  &:active,
+  &:focus 
+    border: none
+    outline: none
+
+.custom-hr
+  border: 1px solid #0072BC !important
+    

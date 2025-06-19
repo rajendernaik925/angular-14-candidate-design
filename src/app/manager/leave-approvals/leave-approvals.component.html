@@ -1,0 +1,146 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/managerApprovals']">
+        Manager Approvals
+      </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Leave Approvals
+    </li>
+    </span>
+    <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+
+  <!-- <div class="loader" *ngIf="isLoading">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+  </div> -->
+
+  <div class="tableSectn">
+    <div class="flxEnd">
+      <h5>Summary</h5>
+    </div>
+
+    <div class="myTableScroll"> 
+        <table>
+          <thead>
+            <tr>
+              <th class="sticky-col"><span>Name</span></th>
+              <th class="sticky-col"><span>Emp ID</span></th>
+              <th class="sticky-col"><span>Duration</span></th>
+              <th class="sticky-col"><span>No.Of Days</span></th> 
+              <th class="sticky-col"><span>Leave Type</span></th> 
+              <th class="sticky-col"><span>Reason</span></th> 
+              <th class="sticky-col"><span>Status</span></th> 
+              <th class="sticky-col"><span>Action</span></th>   
+            </tr>
+          </thead>
+           
+
+          <tbody>
+            <tr *ngFor="let item of leaveReqstData">
+              <td class="min_Width">{{item.name}}</td>
+              <td>{{item.id}}</td>
+              <td class="min_Width">{{item.duration.split('<--->')[0]}} <b>to</b> {{item.duration.split('<--->')[1]}}</td>
+              <td>{{item.days}}</td>
+              <td>{{item.leave_TYPE}}</td>
+              <td [tooltip]="item.message" content-type="template"  placement="bottom" [show-delay]="100" [hide-delay]="100" class="min_Width">
+                <span class="lmtTxt">{{item.message}}</span>
+            </td>
+            <ng-template #HtmlContent>
+              {{item.message}}
+            </ng-template>
+              <td>
+                <span class="lv_status aprvd"
+                [ngClass]="{'aprvd': item.flag == 'A', 'pndng':item.flag == 'P', 'rjctd':item.flag == 'R', 'rjctdBy':item.flag == 'MC'}">
+                  <ng-container *ngIf="item.flag == 'MC' || item.flag == 'R'">Rejected</ng-container>
+                  <ng-container *ngIf="item.flag == 'A' ||item.flag == 'P'">{{item.manager_Status}}</ng-container>                 
+                </span>
+              </td>
+              <td class="min_Width">
+                <ng-container *ngIf="item.flag== 'P'"> 
+                  <button class="actnBtn apprv" (click)="leaveAction($event,item,'A')" >APPROVE</button> 
+                  <button class="actnBtn" (click)="leaveAction($event,item,'R')" >REJECT</button> 
+              </ng-container>
+                <ng-container *ngIf="item.flag== 'A'"> 
+                  <button class="actnBtn" (click)="leaveAction($event,item,'MC')" >CANCEL</button> 
+              </ng-container>
+               
+              </td>
+            </tr>
+
+            <tr *ngIf="noData">
+              <td colspan="9"><h2 class="noData">No Records Found&nbsp;</h2></td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+  </div>
+
+<div class="card gydLines">
+  <h5 class="mb-3">Note : <span>Please Submit your approvals before payroll closing.</span> </h5>
+  <h5>Leave Approvals :</h5>
+  <ul>
+    <li>Please submit your approvals prior to payroll process.</li>
+    <li>Rejected or Cancelled Leaves will not be displayed in the list.</li>
+    <li>If required, Manager can cancel an approved leave and inform to employee.</li>
+    <li>Approved leaves will only be considered during payroll process, remaining will be considered as LOP.</li>
+    <li>Please contact HR for further information or queries.</li>
+  </ul>
+</div>
+
+</div>
+
+
+
+<!-- Reason Form Modal -->
+<div #outsideElement>
+  <div class="modal-view-container">
+    <div #modalView class="modal view">
+      <div class="modal-view-details">
+          <!-- <input type="text" [(ngModel)]="leaveSumry"  hidden/> -->
+          <ng-container *ngIf="actionType == 'R' ||actionType == 'MC' ">
+            <form [formGroup]="ReasonForm" (ngSubmit)="submitReason()" >              
+              <div class="form-group">
+              <label>Leave your Comments<sup>*</sup></label>
+              <textarea class="form-control" rows="3" formControlName="reasonComment" ></textarea>
+              <div *ngIf="f.reasonComment.touched && f.reasonComment.invalid" class="alert alert-danger">
+                  <div *ngIf="f.reasonComment.errors.required">Reason is required</div>
+                  <div *ngIf="f.reasonComment.errors.minlength">Reason should be minimum 2 characters</div>
+                  <div *ngIf="f.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+                </div> 
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="btn btn-success" type="submit" [disabled]="ReasonForm.invalid">Submit</button>
+                <button class="btn btn-warning" type="reset" (click)="closeModal()">Back</button>
+
+            </div>
+            </form>  
+          </ng-container>  
+          <ng-container *ngIf="actionType == 'A'">
+            <form [formGroup]="ReasonFormApprve" (ngSubmit)="submitApprveReason()" >              
+              <div class="form-group">
+              <label>Leave your Comments (optional)</label>
+              <textarea class="form-control" rows="3" formControlName="reasonComment"   ></textarea>
+              <div *ngIf="g.reasonComment.touched && g.reasonComment.invalid" class="alert alert-danger"> 
+                  <div *ngIf="g.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+                </div> 
+            </div>
+            <div class="form-group mb-0 text-center">
+                <button class="btn btn-success" type="submit" [disabled]="ReasonFormApprve.invalid">Submit</button>
+                <button class="btn btn-warning" type="reset" (click)="closeModal()">Back</button> 
+            </div>
+            </form>    
+          </ng-container>     
+      <button (click)="closeModal()" class="clsModl">X</button> 
+    </div>
+    </div>
+  </div>
+  </div>

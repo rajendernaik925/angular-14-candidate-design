@@ -1,0 +1,665 @@
+
+@mixin comon_btn_td
+  font-size: 12px  
+  padding: 4px 12px
+  background: #7a86fa
+  min-width: max-content
+  max-width: max-content
+
+.breadcrumb 
+  li.active
+    color: #101010
+    cursor: initial  
+.noData
+  margin: 0em auto
+  text-align: center
+  font-size: 26px
+  color: #767676
+  background-color: #f3f5f8
+  padding: 2em
+.loader.transLoadr
+  content: ""
+  position: fixed
+  width: 100%
+  height: 100%
+  background: #fdfdfd6b
+  top: 0
+  left: 0
+  z-index: 999999  
+
+svg.bi.bi-x-circle 
+  color: red
+
+table.custom_width
+  tr
+    &:hover
+      background: #b9bec3 !important
+    th
+      white-space: nowrap
+    td.center_img
+      text-align: center
+    td
+      width: max-content
+      white-space: nowrap
+      min-width: max-content
+      max-width: max-content !important
+      button.actnBtn
+        @include comon_btn_td
+      button.actnBtn.hold
+        @include comon_btn_td
+        background: #3c3c3c
+        border: 1px solid #3c3c3c
+      button.actnBtn.release
+        @include comon_btn_td
+        background: #0072bc
+        border: 1px solid #0072bc
+      button.actnBtn.generate
+        @include comon_btn_td
+        background: #34a852
+        border: 1px solid #34a852
+    td.condion_text
+      color: #0072bc
+      font-weight: 700
+      text-align: center
+      span.condion_text.failed
+        color: #ff0000 
+    td.condion_text.failed
+      color: #ff0000
+      
+    
+
+div.myTableScroll
+  min-width: 100%
+
+         
+
+
+
+
+    
+
+
+
+  
+ 
+  
+
+
+div.myTableScroll
+  max-width: 100%
+  max-height: 350px
+  overflow: scroll
+  position: relative
+
+  table
+    position: relative
+    // border-collapse: collapse
+    border-collapse: initial
+    width: 100%    
+
+  td, th
+    padding: 0.45em 0.75em
+    text-align: left     
+    min-width: 120px 
+    max-width: 220px 
+    font-size: 13px
+    &:nth-child(1), &:nth-child(2)
+      min-width: 50px    
+      max-width: 50px 
+    p
+      margin: 0
+      font-size: 14px
+    b 
+      opacity: .85  
+  thead th
+    position: -webkit-sticky    
+    /* for Safari
+    position: sticky
+    top: 0
+    background: #e4eaf0
+    color: #101010
+    z-index: 9
+    &:nth-child(2)
+      z-index: 99 
+    &:first-child
+      // left: 0
+      z-index: 1 
+    span
+      font-weight: 600
+      font-size: 13px
+      color: #101010
+      text-transform: uppercase
+    b 
+      font-weight: 600
+      font-size: 24px
+      vertical-align: middle
+      padding-left: 5px
+  tbody th
+    position: -webkit-sticky
+    /* for Safari
+    position: sticky
+    left: 0
+    background: #FFF
+    border-right: 1px solid #CCC
+  tbody 
+    tr
+      background: #f1f4f7 
+      &:nth-child(even)
+        background-color: #f7f9fb
+    tr.warnBg 
+      background-color: #fcd855    
+    tr.holyday
+      background-color: #a5db5e
+  tbody td  
+    text-align: left
+    padding: 0.35em 0.75em    
+      
+    .lmtTxt
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 1
+      -webkit-box-orient: vertical
+    h5
+      font-size: 18px
+    span._compltd
+      color: #328d05
+    span._proccss
+      color: #0072bc
+    span._pending
+      color: #e46c03  
+    span._rejctd
+      color: #ed0423   
+  .sticky-col
+    position: sticky
+    position: -webkit-sticky
+    background-color: #fafbfc 
+  .min_Width
+    min-width: 230px  
+
+
+
+
+
+.theBody
+  position: relative
+  border: 1px solid #e4eaf0
+  padding-top: 45px
+  background: #e4eaf0
+  border-top: 3px solid #fff 
+.table_contnr
+  overflow-y: auto
+  max-height: 380px
+  height: auto 
+  z-index: 99
+
+  table
+    border-spacing: 0
+    width: 100%
+
+  tr
+    background-color: #f7f9fb
+
+    &:nth-child(even)
+      background-color: #f1f4f7
+
+  td
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 8px 8px
+    text-align: left
+    // min-width: 100px
+    min-width: 130px
+    font-size: 12px
+    text-transform: uppercase
+    &:nth-child(4)
+      min-width: 90px
+    &:nth-child(3)
+      min-width: 230px   
+      font-weight: 600
+      font-size: 13px
+    &:nth-child(2)
+      min-width: 60px    
+    &:nth-child(1)   
+      min-width: 60px    
+      max-width: 60px  
+      position: relative
+      text-align: center
+    span._compltd
+      color: #328d05
+    span._proccss
+      color: #2900ff
+    span._extnd
+      color: #ed0423     
+    h2.noData  
+      text-transform: initial
+  th
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 10px 5px
+    text-align: left
+    height: 0
+    line-height: 0
+    padding-top: 0
+    padding-bottom: 0
+    color: transparent
+    border: none
+    white-space: nowrap
+    font-size: 14px
+    min-width: 60px
+
+    div
+      position: absolute
+      background: transparent
+      color: #101010
+      padding: 14px 5px
+      top: 0
+      line-height: normal
+      border-left: 0px solid #fff
+      font-weight: 500
+      font-size: 16px
+      min-width: 90px
+    &:nth-child(2) div
+      min-width: 60px 
+    &:first-child div
+      border: none    
+      min-width: 50px    
+      max-width: 50px  
+      text-align: center
+      padding: 8px 5px
+    &:nth-child(3) div
+      min-width: 230px  
+.tableSection     
+  position: relative
+  padding: 1em
+  background: #fff
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015)
+  border-radius: 2px
+      
+.flxEnd
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: .5em
+  h5
+    font-size: 20px
+    font-weight: 600
+    color: #101010
+    margin-bottom: .15em  
+  a.pdfDwnld 
+    padding: 8px
+    background: #e4eaf0
+    border-radius: 3px
+    cursor: pointer
+    img 
+      max-height: 26px   
+      
+
+button.actnBtn
+  font-size: 14px 
+  display: block
+  text-align: center
+  padding: 8px 4px
+  background: #7a86fa
+  color: #fff
+  min-width: 120px
+  max-width: 120px
+  border: 1px solid #7a86fa
+  border-radius: 4px
+  outline: none
+  box-shadow: none        
+  margin: 0 auto
+  opacity: 1
+  text-transform: uppercase
+  &:disabled
+    opacity: 0.7 
+.flxFootr 
+  display: flex
+  justify-content: flex-end
+  min-height: 75px
+  align-items: center
+  background: white
+  padding-right: 1em
+  
+
+ 
+.search-hero 
+  height: 40px
+  position: absolute
+  top: 0.5em
+  right: 1em
+  width: 100%
+  max-width: 400px
+  i.fa 
+    position: absolute
+    line-height: 1.6
+    font-size: 1.3em
+    background: white
+    width: 40px
+    height: 40px
+    text-align: center
+    color: rgba(16,16,16,0.7)
+    border: 1px solid #ced4da
+    border-right: 0
+    border-top-left-radius: 5px
+    border-bottom-left-radius: 5px
+  input 
+    font-size: 16px
+    height: 40px
+    padding-left: 2.5em
+    outline: none
+    box-shadow: none
+    border: 1px solid #ced4da
+    // text-transform: capitalize
+    &::placeholder
+      color: #b0b0b0
+      font-size: 16px
+
+.themeBtn
+  display: inline-block
+  width: 100%
+  border-width: 1px
+  border-style: solid
+  padding: 8px 10px
+  outline: 0
+  background: #7a86fa
+  border-color: #7a86fa
+  color: #fff
+  font-size: 18px
+  text-transform: uppercase    
+  border-radius: 3px        
+._details
+  text-align: center 
+  width: 100%
+  padding: 1em
+  border: 1px solid rgba(0, 0, 0, 0.085)  
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.025)
+  border-radius: 8px   
+  margin-bottom: 1em
+  h6
+    font-size: 20px
+    color: #101010
+    margin-bottom: 0
+  .themeBtn   
+    font-size: 16px  
+    max-width: 160px 
+
+
+
+.styled-checkbox
+  position: absolute
+  opacity: 0
+  width: 28px
+  height: 28px
+  z-index: 1
+  + label
+    position: relative
+    cursor: pointer
+    padding: 2px
+    font-size: 16px
+    color: #101010    
+    top: 0px
+    margin: 0
+    &:before
+      content: ""
+      margin-right: 0px
+      display: inline-block
+      vertical-align: middle
+      width: 25px
+      height: 25px
+      background: #e4eaf0
+      box-shadow: 0 0 0 3px #e4eaf0
+      border: 4px solid #fff
+  &:hover + label:before
+    background: #7a86fa
+  &:focus + label:before
+    // box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12)
+  &:checked + label:before
+    background: #7a86fa
+    border: none
+  &:disabled
+    cursor: not-allowed  
+  &:disabled + label
+    color: #e4eaf0
+    cursor: auto
+    &:before
+      box-shadow: none
+      background: #ddd
+  &:checked + label:after
+    content: ""
+    position: absolute
+    left: 7px
+    top: 13px
+    background: white
+    width: 4px
+    height: 4px
+    box-shadow: 4px 0 0 white, 4px 0 0 white, 4px -4px 0 white, 4px -12px 0 white, 4px -12px 0 white, 4px -8px 0 white
+    transform: rotate(45deg)  
+
+
+  
+
+._empRating 
+  border: 1px solid rgba(0, 0, 0, 0.085)  
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.025)
+  border-radius: 8px   
+  margin-bottom: 1em
+  background-color: #fff
+  width: 100%
+  padding: 2em
+  table     
+    margin-bottom: 0
+    tr
+      background: #f7f9fb
+      &:nth-child(even)
+        background-color: #f1f4f7
+    tr th, tr td
+      padding: .5em 1em
+      min-width: 180px
+    tr th
+      background: #e4eaf0  
+      color: #101010
+      font-weight: 600
+    tr>td
+      span
+        min-height: 170px
+        display: flex
+        justify-content: center
+        align-items: center
+        font-weight: 600
+        color: #101010
+    ul
+      list-style-type: circle
+      padding: 0em 0em 0em 1.5em
+      margin: 0
+    .v_center
+      vertical-align: middle
+      text-align: center
+      input[type="radio"]
+        width: 25px
+        height: 25px
+        cursor: pointer
+        webkit-appearance: none
+        -moz-appearance: none
+        appearance: none
+        display: inline-block
+        padding: 3px
+        /* background-color only for content */
+        background-clip: content-box
+        border: 2px solid #bbbbbb
+        background-color: #e4eaf0
+        border-radius: 50%
+        outline: none
+        box-shadow: none
+      input[type="radio"]:checked 
+        background-color: #7a86fa
+
+.assmntForm 
+  padding: 2em 0em
+  h3
+    margin-top: 1em
+    margin-bottom: 1em
+    font-size: 20px
+    color: #101010
+  .form-group
+    display: flex
+    flex-flow: column
+    width: 100%
+    label
+      font-size: 18px
+      margin-bottom: 6px
+      color: #101010
+      font-weight: 600
+    textarea
+      border-width: 1px
+      border-style: solid
+      background: #fff
+      border-color: #bbb
+      outline: none
+      box-shadow: none
+      max-height: 300px
+      min-height: 120px
+      padding: 10px
+      font-size: 16px
+      border-radius: 3px
+      color: #101010
+  input[type="radio"]
+    width: 25px
+    height: 25px
+    cursor: pointer
+    webkit-appearance: none
+    -moz-appearance: none
+    appearance: none
+    display: inline-block
+    padding: 3px
+    /* background-color only for content */
+    background-clip: content-box
+    border: 2px solid #bbbbbb
+    background-color: #e4eaf0
+    border-radius: 50%
+    outline: none
+    box-shadow: none
+    vertical-align: middle
+  input[type="radio"]:checked 
+    background-color: #7a86fa    
+  ul
+    list-style-type: none
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+    max-width: 900px
+    margin-bottom: 0
+    li
+      flex: 0 0 25%
+      max-width: 25%
+      margin-bottom: 1.25em
+  .styled-checkbox
+    position: absolute
+    opacity: 0
+
+    + label
+      position: relative
+      cursor: pointer
+      padding: 5px
+      font-size: 16px
+      color: #101010
+      
+      &:before
+        content: ""
+        margin-right: 10px
+        display: inline-block
+        vertical-align: middle
+        width: 25px
+        height: 25px
+        background: #e4eaf0
+        box-shadow: 0 0 0 3px #e4eaf0
+        border: 3px solid #fff
+
+    &:hover + label:before
+      background: #7a86fa
+      
+
+    &:focus + label:before
+      // box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12)
+
+    &:checked + label:before
+      background: #7a86fa
+      border: none
+    &:disabled + label
+      color: #e4eaf0
+      cursor: auto
+
+      &:before
+        box-shadow: none
+        background: #ddd
+
+    &:checked + label:after
+      content: ""
+      position: absolute
+      left: 10px
+      top: 16px
+      background: white
+      width: 4px
+      height: 4px
+      box-shadow: 4px 0 0 white, 4px 0 0 white, 4px -4px 0 white, 4px -12px 0 white, 4px -12px 0 white, 4px -8px 0 white
+      transform: rotate(45deg)    
+  button.btn.themeBtn
+    max-width: 280px
+    margin: .5em auto  
+    outline: none
+    box-shadow: none
+.inlneFlx
+  display: flex    
+  justify-content: flex-start
+  align-items: flex-start  
+  margin-bottom: 2em
+  p
+    margin: 0
+    margin-right: 1em
+    font-size: 16px
+    sup
+      font-size: 20px
+      top: -2px
+  input + label
+    margin: 0 5px
+    margin-bottom: 0
+    font-size: 16px
+    cursor: pointer
+  input[type="text"] 
+    box-sizing: border-box
+    display: inline-block 
+    min-width: 200px
+    border-width: 1px
+    border-style: solid
+    padding: 6px 10px
+    outline: 0
+    font-family: inherit
+    font-size: 0.95em 
+    background: #fff
+    border-color: #bbb
+    color: #555 
+
+.flex_btn_img
+  display: flex
+  gap: 10px
+.summary_note 
+  display: flex
+  gap: 10px
+  justify-content: flex-end
+  margin-top: 15px
+  margin-bottom: 10px
+  h5
+    margin-bottom: 0px
+    color: #e23d3a
+    font-weight: 600
+    font-size: 16px
+  p
+    margin-bottom: 0px
+    img
+      padding-left: 5px
+      padding-right: 5px
+    
+    
+  
+

@@ -1,0 +1,207 @@
+.breadcrumb 
+  li.active
+    color: #101010
+    cursor: initial
+
+.card 
+  border: 1px solid rgba(0, 0, 0, 0.05)  
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015)
+  border-radius: 8px    
+
+.flxEnd
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: .5em
+  h5
+    font-size: 20px
+    font-weight: 600
+    color: #101010
+    margin-bottom: 0em
+  .select-css
+    outline: none
+    box-shadow: none
+    min-width: 200px
+    max-width: 100%
+    background: #e4eaf0
+    text-transform: uppercase
+    font-weight: 600
+    color: #101010
+    font-size: 14px
+    line-height: 1.4  
+    margin-left: 1em
+  a.pdfDwnld 
+    padding: 3px 8px
+    background: #e4eaf0
+    border-radius: 5px
+    cursor: pointer
+    margin-left: 10px
+    border: 1px solid #ced4da
+    img 
+      max-height: 26px   
+
+.tableSectn 
+  padding: 1em
+  background: #fff
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015)
+  border-radius: 8px         
+  margin-bottom: 1em 
+.theBody
+  position: relative
+  border: 1px solid #e4eaf0
+  padding-top: 45px
+  background: #e4eaf0
+  border-top: 3px solid #fff
+  
+.table_contnr
+  overflow-y: auto
+  min-height: 200px
+  max-height: 55vh
+
+  table
+    border-spacing: 0
+    width: 100%
+
+  tr
+    background-color: #f7f9fb
+
+    &:nth-child(even)
+      background-color: #f1f4f7
+
+  td
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 8px 8px
+    text-align: left
+    min-width: 125px
+    font-size: 13px
+    text-transform: uppercase
+    .lmtTxt
+      overflow: hidden
+      text-overflow: ellipsis
+      display: -webkit-box
+      -webkit-line-clamp: 1
+      -webkit-box-orient: vertical
+    &:first-child
+      min-width: 165px 
+  th
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 10px 5px
+    text-align: left
+    height: 0
+    line-height: 0
+    padding-top: 0
+    padding-bottom: 0
+    color: transparent
+    border: none
+    white-space: nowrap
+    font-size: 14px
+    &:first-child
+      div
+        min-width: 165px 
+    div
+      position: absolute
+      background: transparent
+      color: #101010
+      padding: 14px 5px
+      top: 0
+      line-height: normal
+      border-left: 0px solid #fff
+      font-weight: 500
+      font-size: 16px
+      min-width: 100px
+
+    &:first-child div
+      border: none         
+
+
+
+
+
+div.myTableScroll
+  max-width: 100%
+  max-height: 300px
+  overflow: scroll
+  position: relative
+
+  table
+    position: relative
+    // border-collapse: collapse
+    border-collapse: initial
+    width: 100%    
+
+  td, th
+    padding: 0.25em
+    text-align: center     
+    min-width: 120px
+    
+    p
+      margin: 0
+      font-size: 14px
+  thead th
+    position: -webkit-sticky    
+    /* for Safari
+    position: sticky
+    top: 0
+    background: #eaeef3
+    color: #101010
+    border-bottom: 2px solid #fff
+    &:nth-child(even)
+      background-color: #f6f8fa
+    &:nth-child(2)
+      z-index: 99  
+          
+    &:first-child
+      left: 0
+      z-index: 1
+    label
+      transform: rotate(-90deg)
+      font-size: 12px
+      display: inline-block
+      padding-right: 0.3em
+      color: #e23d3a
+    span
+      font-weight: 400
+      font-size: 14px
+    b 
+      font-weight: 600
+      font-size: 24px
+      vertical-align: middle
+      padding-left: 5px
+    
+  tbody th
+    position: -webkit-sticky
+    /* for Safari
+    position: sticky
+    left: 0
+    background: #FFF
+    border-right: 1px solid #CCC
+  tbody td
+    background: #eaeef3  
+    &:nth-child(even)
+      background-color: #f6f8fa
+    i.fa.fa-link  
+      color: #e23d3a  
+  .sticky-col
+    position: sticky
+    position: -webkit-sticky
+    background-color: #fafbfc
+
+  .first-col 
+    min-width: 220px
+    // max-width: 100px
+    left: 0px
+    text-align: left
+    p
+      margin: 0
+
+  .second-col
+    width: 50px
+    min-width: 50px
+    // max-width: 150px 
+    left: 220px
+    z-index: 1       
+    p
+      margin: 0                              

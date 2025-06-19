@@ -1,0 +1,116 @@
+<div class="container empLogin">
+  <div class="row my-5">
+    <div class="_name">
+      <h6>Utilities</h6>
+    </div>
+    <div class="_logOutBtn">
+      <a (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+    </div>
+    <div class="_back">
+      <a [routerLink]="['/home']">Back</a>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <h2>
+        The ultimate collection of <br />digital resources.
+      </h2>
+    </div>
+  </div> -->
+  <!-- <div class="row justify-content-end">
+    <div class="col-md-4">
+      <div class="search-bar position-relative">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search with application name"
+          />
+          <i class="fa fa-search position-absolute"></i>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="login_cards row">
+    <div (click)="navToVendor(LoginUsername,LoginPassword)">
+      <a class="empCard human-resources">
+        <div class="">
+          <img src="././assets/utilities/vendormanagement.svg" alt="vendor" />
+        </div>
+        <p>Vendor Management</p>
+      </a>
+    </div>
+    <!-- <div (click)="navToQRCode()">
+      <a class="empCard human-resources">
+        <div class="">
+          <img src="././assets/utilities/QR.svg" alt="vendor" />
+        </div>
+        <p>QR Code Management</p>
+      </a>
+    </div> -->
+    <div [routerLink]="['/qr-management']">
+      <a class="empCard human-resources">
+        <div class="">
+          <img src="././assets/utilities/QR.svg" alt="vendor" />
+        </div>
+        <p>QR Code Management</p>
+      </a></div>
+
+    <div *ngIf="!isInvalidCredentials">
+      <div (click)="navToECards()">
+        <a class="empCard human-resources">
+          <div>
+            <img src="././assets/utilities/eCards.svg" alt="eCards" />
+          </div>
+          <p>e Cards</p>
+        </a>
+      </div>
+    </div>
+    <!-- <div (click)="navToHetero()">
+      <a class="empCard human-resources">
+        <div class="">
+          <img src="././assets/utilities/hetero.svg" alt="vendor" />
+        </div>
+        <p>Hetero Healthcare</p>
+      </a>
+    </div>
+    <div (click)="navToAzista()">
+      <a class="empCard human-resources">
+        <div class="">
+          <img src="././assets/utilities/azista_logo.svg" alt="vendor" />
+        </div>
+        <p>Azista Industries</p>
+      </a>
+    </div> -->
+    <!-- <div>
+      <a class="empCard human-resources">
+        <div>
+          <img src="././assets/utilities/barcode.svg" alt="barcode" />
+        </div>
+        <p>Bar Code</p>
+      </a>
+    </div> -->
+    <!-- <div>
+      <a class="empCard human-resources">
+        <div>
+          <img
+            src="././assets/utilities/Dailytasksheet.svg"
+            alt="Daily Task Sheet"
+          />
+        </div>
+        <p>Daily Task Sheet</p>
+      </a>
+    </div>
+    <div>
+      <a class="empCard human-resources">
+        <div>
+          <img
+            src="././assets/utilities/Assetmanagement.svg"
+            alt="Asset Management"
+          />
+        </div>
+        <p>Asset Management</p>
+      </a>
+    </div> -->
+  </div>
+</div>

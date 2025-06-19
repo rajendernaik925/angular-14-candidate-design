@@ -1,0 +1,701 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div> 
+
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">  
+    <li class="breadcrumb-item active" aria-current="page">
+      MASTER CREATION
+    </li>    
+    <li class="_date">
+      Logged in from {{myDate | momentDate: 'dddd, DD'}}<sup>{{(myDate | momentDate: 'D') | dateSuffix}}</sup>
+      {{myDate | momentDate: 'MMM yyyy, hh:mm A'}}
+    </li> 
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/create-university" routerLinkActive="active">Create University</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/create-department" routerLinkActive="active">Create Department</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/assign-department" routerLinkActive="active">Assign Department to BU</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/create-designation" routerLinkActive="active">Create Designation</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/assign-designation" routerLinkActive="active">Assign Designation to BU</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/mastercreation/create-qualification" routerLinkActive="active">Create Qualification</a>
+    </li>
+  </ul>
+  <!-- <div class="loader attDnceLoadr" *ngIf="isLoading"> -->
+    <!-- <div class="bg_icon"></div> -->
+    <!-- <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div> -->
+  <!-- </div> -->
+  <div class="content">
+    <div *ngIf="selectedView === 'create-university'">
+      <div class="create-university">
+        <div class="container-fluid"  id="department">
+          <form [formGroup]="universityForm" (ngSubmit)="insertUniversity()">
+            <div class="row">
+        <div class="col-md-4 form-group">
+                <label for="name" class="university-name">University Name:</label>
+                <input type="text" id="name" formControlName="name" class="form-control" 
+       (input)="convertToUpperCase($event)" 
+       (keydown)="allowOnlyLettersAndSpaces($event)" 
+       (blur)="universityForm.get('name')?.markAsTouched()"  (copy)="onCopy($event)" (paste)="onPaste($event)"> 
+              </div>
+              <div class="col-md-2">
+                <input type="submit" [value]="isEditing ? 'Update' : 'Create'" class="create" [ngClass]="{
+                  'update-btn': isEditing,
+                  'create-btn': !isEditing
+                }" [disabled]="universityForm.invalid || isLoading">
+                <button type="button" (click)="resetForm()" class="btn create btn-secondary">Reset</button>
+              </div>
+             
+            </div>
+            <div class="row">
+              <div class="col-md-4" *ngIf="universityForm.get('name')?.invalid && universityForm.get('name')?.touched" id="invalid-feedback">
+                <small id="error" class="university-name-error" *ngIf="universityForm.get('name')?.hasError('required')">
+                University Name is required.
+                </small>
+            </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-md-8 create-name">
+              <h4>Create University</h4>
+            </div>
+            <div class="col-md-4">
+            <div class="search-hero">
+              <i aria-hidden="true" class="fa fa-search"></i>
+              <input type="text" name="search" autocomplete="off" placeholder="Search by Name" 
+              class="form-control ng-pristine ng-valid ng-touched" ng-reflect-name="search"
+               [(ngModel)]="searchTermUniversity" (ngModelChange)="applySearchFilter()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+            </div>
+          </div>
+          </div>
+          <div id="table">
+            <table class="table w-100 table-striped">
+              <thead class="table-header">
+                <tr>
+                  <th class="sno">S.No</th>
+                  <th>University Name</th>
+                  <th class="action">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!universityslist || universityslist.length === 0">
+                  <td colspan="100%" class="text-center">No data Found</td>
+                </tr>
+                <tr *ngFor="let universe of universityslist; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td style="display:none;">{{universe.UNIVERSITYID}}</td>
+                  <td>{{universe.NAME}}</td>
+                  <td><button class="btn btn-primary" (click)="editUniversity(universe.UNIVERSITYID,universe.NAME)">Edit</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Create Department View -->
+    <div *ngIf="selectedView === 'create-department'">
+      <div class="create-department">
+        <div class="container-fluid" id="department">
+          <form [formGroup]="departmentForm" (ngSubmit)="insertDepartment()">
+          <div class="row">
+            <div class="col-md-3" id="dept">
+              <div class="d-flex align-items-center text-truncate">
+              <label for="name">Dept Name:</label>
+              <input type="text" id="name" name="name"  formControlName="name" (keydown)="allowOnlyLettersAndSpaces($event)" 
+               (input)="convertToUpperCase($event)" (blur)="departmentForm.get('name')?.markAsTouched()" (copy)="onCopy($event)" (paste)="onPaste($event)">
+             </div>
+               <div *ngIf="departmentForm.get('name')?.invalid && departmentForm.get('name')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="departmentForm.get('name')?.hasError('required')">
+                  Department Name is required.
+                 </small>
+              </div>
+            </div>
+            <div class="col-md-2" id="dept">
+              <div class="d-flex align-items-center text-truncate">
+              <label for="name">Short Code:</label>
+              <input type="text" id="code" name="short-code"  formControlName="code" (keydown)="allowOnlyLettersAndSpaces($event)"  
+              (input)="convertToUpperCase($event)" (blur)="departmentForm.get('code')?.markAsTouched()" (copy)="onCopy($event)" (paste)="onPaste($event)">
+              </div>
+              <div *ngIf="departmentForm.get('code')?.invalid && departmentForm.get('code')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="departmentForm.get('code')?.hasError('required')">
+                  Department Code is required.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2" id="dept">
+              <div class="d-flex align-items-center text-truncate">
+              <label>Status:</label>
+              <select class="form-control" id="status" name="status" formControlName="status"
+               (keydown)="allowOnlyLettersAndSpaces($event)"  (input)="convertToUpperCase($event)" (blur)="departmentForm.get('status')?.markAsTouched()">
+                <option value="" >--SELECT--</option>
+                <option value="1001">ACTIVE</option>
+                <!-- <option value="1002">INACTIVE</option> -->
+              </select>
+              </div>
+              <div *ngIf="departmentForm.get('status')?.invalid && departmentForm.get('status')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="departmentForm.get('status')?.hasError('required')">
+                  Department status is required.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2" id="create">
+              <input type="submit" value="Create" class="create" [ngClass]="{
+                'update-btn': isDepartment,
+                'create-btn': !isDepartment
+              }" [value]="isDepartment ? 'Update' : 'Create'" [disabled]="departmentForm.invalid || isLoading">
+              <button type="button" (click)="resetFormDepartments()" class="btn create btn-secondary">Reset</button>
+            </div>
+          </div>
+          </form>
+          <div class="row">
+            <div class="col-md-8 create-name">
+              <h4>Create Department</h4>
+            </div>
+            <div class="col-md-4">
+            <div class="search-hero">
+              <i aria-hidden="true" class="fa fa-search"></i>
+              <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+              ng-reflect-name="search" [(ngModel)]="searchTermDepartment" (ngModelChange)="applySearchFilterDepartment()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+              
+            </div>
+          </div>
+          </div>
+
+        <div id="table">
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th class="sno">S.No</th>
+                <th>Department Name</th>
+                <th>Short Code</th>
+                <th>Status</th>
+              <th class="action">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!departmentslist || departmentslist.length === 0">
+                <td colspan="100%" class="text-center">No data Found</td>
+              </tr>
+              <tr *ngFor="let depts of departmentslist;let i = index">
+                <td>{{i+1}}</td>
+                <td style="display: none;">{{depts.departmentid}}</td>
+                <td>{{depts.NAME}}</td>
+                <td>{{depts.code}}</td>
+                <ng-container *ngIf="depts.status === 1001">
+                  <td>ACTIVE</td>
+                </ng-container>
+                <ng-container *ngIf="depts.status === 1002">
+                  <td>INACTIVE</td>
+                </ng-container>                
+                <td><button class="btn btn-primary" (click)="editDepartment(depts.departmentid, depts.NAME, depts.code, depts.status,depts.sectionid)" >Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="selectedView === 'assign-department'">
+      <div class="assign-department">
+        <div class="container-fluid" id="department">
+          <div class="row">
+            <div class="col-md-6 d-flex">
+          <label for="name">Business Unit:</label>
+          <select [(ngModel)]="selectedBusinessUnit"  (change)="onBusinessUnitChange()" class="form-control">
+            <option value="" selected>--SELECT--</option>
+            <option *ngFor="let bu of businessunitList" [value]="bu.BUSINESSUNITID">{{ bu.BUNAME }}</option>
+          </select>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 create-name">
+            <h4>Departments List</h4>
+          </div>
+          <div class="col-md-4">
+          <div class="search-hero">
+            <i aria-hidden="true" class="fa fa-search"></i>
+            <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+            ng-reflect-name="search" ng-reflect-model="" [(ngModel)]="searchTermAssignDepartment" (ngModelChange)="applySearchFilterDepartmentAssign()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+          </div>
+        </div>
+        </div>
+        <div id="table">
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th class="sno">S.No</th>
+                <th>Departments</th>
+                <th>code</th>
+                <th style="display:none;">Sections</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!departmentslists || departmentslists.length === 0">
+                <td colspan="100%" class="text-center">No data Found</td>
+              </tr>
+              <tr *ngFor="let dept of departmentslists;let i = index">
+                <td>{{i+1}}</td>
+                <td style="display:none">{{dept.departmentid}}</td>
+                <td class="d-flex align-items-center">
+                  <input 
+                  type="checkbox" 
+                  [(ngModel)]="dept.isChecked" 
+                  (change)="onCheckboxChange(dept)"
+                  [disabled]="!isBusinessUnitSelected" 
+                />
+                  {{ dept.NAME }}
+                </td>
+                <td>{{dept.code}}</td>
+                <td style="display:none;">{{dept.status}}</td>
+                <!-- <td>{{dept.sectionid}}</td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <button class="btn btn-primary" (click)="onSubmit(updateCheckedDepartments())" [disabled]="!isBusinessUnitSelected">ASSIGN</button>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedView === 'create-designation'">
+    <div class="create-designation">
+      <div class="container-fluid" id="department">
+        <form [formGroup]="designationForm" (ngSubmit)="insertDesignation()">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="d-flex align-items-center text-truncate">
+              <label for="name">Designation Name:</label>
+              <input type="text" id="name" name="name" formControlName="name" 
+                     (input)="convertToUpperCase($event)" 
+                     (keydown)="allowOnlyLettersAndSpaces($event)" 
+                     (blur)="designationForm.get('name')?.markAsTouched()" (copy)="onCopy($event)" (paste)="onPaste($event)">
+              </div>
+              <div *ngIf="designationForm.get('name')?.invalid && designationForm.get('name')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="designationForm.get('name')?.hasError('required')">
+                  Designation Name is required.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="d-flex align-items-center text-truncate">
+              <label for="code">Short Code:</label>
+              <input type="text" id="code" name="short-code" formControlName="code" 
+                     (input)="convertToUpperCase($event)" 
+                     (keydown)="allowOnlyLettersAndSpaces($event)" 
+                     (blur)="designationForm.get('code')?.markAsTouched()" (copy)="onCopy($event)" (paste)="onPaste($event)">
+              </div>
+              <div *ngIf="designationForm.get('code')?.invalid && designationForm.get('code')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="designationForm.get('code')?.hasError('required')">
+                  Short Code is required.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="d-flex align-items-center text-truncate">
+              <label>Status:</label>
+              <select class="form-control" id="status" name="status" formControlName="status" 
+                      (blur)="designationForm.get('status')?.markAsTouched()">    
+                      <option value="" >--SELECT--</option>
+                <option value="1001">ACTIVE</option>
+                <!-- <option value="1002">INACTIVE</option> -->
+              </select>
+            </div>
+              <div *ngIf="designationForm.get('status')?.invalid && designationForm.get('status')?.touched" id="invalid-feedback">
+                 <small id="error" *ngIf="designationForm.get('status')?.hasError('required')">
+                  Status is required.
+                </small>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="submit" [value]="isDesignation ? 'Update' : 'Create'" class="create" [ngClass]="{
+                'update-btn': isDesignation,
+                'create-btn': !isDesignation
+              }" [disabled]="designationForm.invalid || isLoading">
+              <button type="button" (click)="resetFormDesignation()" class="btn create btn-secondary">Reset</button>
+            </div>
+           
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-md-8 create-name">
+            <h4>Create Designation</h4>
+          </div>
+          <div class="col-md-4">
+          <div class="search-hero">
+            <i aria-hidden="true" class="fa fa-search"></i>
+            <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+            ng-reflect-name="search" ng-reflect-model="" [(ngModel)]="searchTermDesignation" 
+            (ngModelChange)="applySearchDesignation()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+          </div>
+        </div>
+        </div>
+        <div id="table">
+          <table class="table w-100">
+            <thead>
+              <tr>
+                <th class="sno">S.No</th>
+                <th>Designation Name</th>
+                <th>Short Code</th>
+                <th>Status</th>
+                <th class="action">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="!designationslist || designationslist.length === 0">
+                <td colspan="100%" class="text-center">No data Found</td>
+              </tr>
+              <tr *ngFor="let design of designationslist; let i = index">
+                <td>{{i+1}}</td>
+                <td style="display:none;">{{design.designationid}}</td>
+                <td>{{design.name}}</td>
+                <td>{{design.code}}</td>
+                <ng-container *ngIf="design.status === 1001">
+                  <td>ACTIVE</td>
+                </ng-container>
+                <ng-container *ngIf="design.status === 1002">
+                  <td>INACTIVE</td>
+                </ng-container>
+                <td><button class="btn btn-primary" (click)="editDesignation(design.designationid, design.name, design.code, design.status)">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+</div>
+  <div *ngIf="selectedView === 'assign-designation'">
+    <div class="assign-department">
+      <div class="container-fluid" id="department">
+        <div class="row">
+          <div class="col-md-6 d-flex">
+        <label for="name">Business Unit:</label>
+        <select [(ngModel)]="selectedBusinessUnitDesignation"  (change)="onBusinessUnitChangeDesignation()" class="form-control">
+          <option value="" selected>--SELECT--</option>
+          <option *ngFor="let bu of businessunitList" [value]="bu.BUSINESSUNITID">{{ bu.BUNAME }}</option>
+        </select>
+      </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 create-name">
+          <h4>Designations List</h4>
+        </div>
+        <div class="col-md-4">
+        <div class="search-hero">
+          <i aria-hidden="true" class="fa fa-search"></i>
+          <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+          ng-reflect-name="search" ng-reflect-model="" [(ngModel)]="searchTerms" 
+          (ngModelChange)="applySearchDesignationassign()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+        </div>
+      </div>
+      </div>
+      <div id="table">
+        <table class="table w-100">
+          <thead>
+            <tr>
+              <th class="sno">S.No</th>
+              <th>Departments</th>
+              <th>code</th>
+              <th style="display:none;">Sections</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!designationslists || designationslists.length === 0">
+              <td colspan="100%" class="text-center">No data Found</td>
+            </tr>
+            <tr *ngFor="let design of designationslists;let i = index">
+              <td>{{i+1}}</td>
+              <td style="display:none;">{{design.designationid}}</td>
+              <td class="d-flex align-items-center">
+                <input 
+                type="checkbox" 
+                [(ngModel)]="design.isChecked" 
+                (change)="onCheckboxChangeDesignation(design)"
+                [disabled]="!isBusinessUnitDesignationSelected" 
+              />
+                {{ design.name }}
+              </td>
+              <td>{{design.code}}</td>
+              <td style="display:none;">{{design.status}}</td>
+            </tr>
+          </tbody>
+        </table>
+     </div>
+     <div class="row">
+      <div class="col-md-12 text-center my-2">
+        <button class="btn btn-primary" (click)="onSubmitDesignation(updateCheckedDesignations())" [disabled]="!isBusinessUnitSelected">ASSIGN</button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedView === 'create-qualification'">
+    <div class="create-qualification">
+      <div class="container-fluid" id="department">
+          <div class="row">
+          </div>
+       
+<div class="radio-container">
+  <input type="radio" id="createQualificationLevel" name="creationType" value="qualification" [(ngModel)]="selectedRadio" (change)="setSelection('qualification')">
+  <label for="createQualificationLevel">Create Qualification Level</label>
+
+  <input type="radio" id="createBranch" name="creationType" value="branch" [(ngModel)]="selectedRadio" (change)="setSelection('branch')">
+  <label for="createBranch">Create Branch</label>
+</div>
+<div *ngIf="selectedRadio === 'qualification'">
+  <form class="qualification-form" [formGroup]="qualificationForm" (ngSubmit)="insertQualification()">
+    <div class="container-fluid mt-20">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="d-flex align-items-center text-truncate">
+            <label for="education">Education Level:</label>
+            <select class="form-control" class="input" id="education" name="education" formControlName="educationLevelId" 
+  (keydown)="allowOnlyLettersAndSpaces($event)" (input)="convertToUpperCase($event)" 
+  (change)="educationLevelS($event)">
+  <option value="" selected>--SELECT--</option>
+  <option *ngFor="let level of educationlevellist" [value]="level.educationlevelid" 
+    [selected]="selectedEducationLevelId === level.educationlevelid">
+    {{ level.NAME }}
+  </option>
+</select>
+</div>
+            <div *ngIf="qualificationForm.get('educationLevelId')?.touched && qualificationForm.get('educationLevelId')?.invalid">
+              <small class="text-danger" *ngIf="qualificationForm.get('educationLevelId')?.hasError('required')">Education level is required.</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+          <div class="d-flex align-items-center text-truncate">
+            <label for="qualificationName">Qualification Name:</label>
+            <input type="text" class="input"  id="qualificationName" formControlName="qualificationName" name="qualificationName" (input)="convertToUpperCase($event)" 
+            (keydown)="allowOnlyLettersAndSpaces($event)">
+          </div>
+            <div *ngIf="qualificationForm.get('qualificationName')?.touched && qualificationForm.get('qualificationName')?.invalid">
+              <small class="text-danger" *ngIf="qualificationForm.get('qualificationName')?.hasError('required')">Qualification Name is required.</small>
+              <small class="text-danger" *ngIf="qualificationForm.get('qualificationName')?.hasError('minlength')">Qualification Name must be at least 3 characters long.</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center text-truncate">
+              <label for="code">Qualification Short Code:</label>
+              <input type="text" class="input" id="code" formControlName="code" name="code" (input)="convertToUpperCase($event)" 
+              (keydown)="allowOnlyLettersAndSpaces($event)">
+            </div>
+              <div *ngIf="qualificationForm.get('code')?.touched && qualificationForm.get('code')?.invalid">
+                <small class="text-danger" *ngIf="qualificationForm.get('code')?.hasError('required')">Qualification Code is required.</small>
+              </div>
+          </div>
+          <div class="col-md-2 ">
+            <input type="submit" [value]="isEditingqualification ? 'Update' : 'Create'" class="create" [ngClass]="{
+              'update-btn': isEditingqualification,
+              'create-btn': !isEditingqualification
+            }" [disabled]="qualificationForm.invalid || isLoading">
+            <button type="button" (click)="resetFormEducationlevel()" class="btn create btn-secondary">Reset</button>
+          </div>
+        <div class="col-md-4" style="display:none;">
+          <div class="d-flex align-items-center text-truncate">
+            <label for="qualificationId">Qualification ID:</label>
+            <input type="text" class="input" id="qualificationId" formControlName="qualificationId" name="qualificationId" (input)="convertToUpperCase($event)" 
+            (keydown)="allowOnlyLettersAndSpaces($event)">
+          </div>
+            <div *ngIf="qualificationForm.get('qualificationId')?.touched && qualificationForm.get('qualificationId')?.invalid">
+              <small class="text-danger" *ngIf="qualificationForm.get('qualificationId')?.hasError('required')"> Qualification ID is required.</small>
+            </div>
+        </div>
+        
+       
+        </div>
+        <div class="row qualification-code" >
+        <div class="col-md-4" style="display:none;">
+          <div class="d-flex align-items-center text-truncate">
+            <label for="code">Qualification Code:</label>
+            <input type="text" class="input" id="code" formControlName="code" name="code" (input)="convertToUpperCase($event)" 
+            (keydown)="allowOnlyLettersAndSpaces($event)">
+          </div>
+            <div *ngIf="qualificationForm.get('code')?.touched && qualificationForm.get('code')?.invalid">
+              <small class="text-danger" *ngIf="qualificationForm.get('code')?.hasError('required')">Qualification Code is required.</small>
+              <small class="text-danger" *ngIf="qualificationForm.get('code')?.hasError('pattern')">Qualification Code must be alphanumeric (letters and numbers only).</small>
+            </div>
+        </div>
+        
+        <div class="col-md-2 " style="display:none;">
+          <input type="submit" [value]="isEditingqualification ? 'Update' : 'Create'" class="create" [ngClass]="{
+            'update-btn': isEditingqualification,
+            'create-btn': !isEditingqualification
+          }" [disabled]="qualificationForm.invalid || isLoading">
+          <button type="button" (click)="resetFormEducationlevel()" class="btn create btn-secondary">Reset</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-8 create-name">
+      <h4>Create Qualification</h4>
+    </div>
+    <div class="col-md-4">
+    <div class="search-hero">
+      <i aria-hidden="true" class="fa fa-search"></i>
+      <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+      ng-reflect-name="search" [(ngModel)]="searchTermQualification" (ngModelChange)="applySearchFilterQualification()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+    </div>
+  </div>
+</div>
+  <div id="table">
+    <table class="table w-100">
+      <thead>
+        <tr>
+          <th class="sno">Sno</th>
+          <!-- <th>Qualification Id</th> -->
+          <th>Qualification Name</th>
+          <th>Code</th>
+          <!-- <th>Qualification DisplayName </th> -->
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!qualificationslist || qualificationslist.length === 0">
+          <td colspan="100%" class="text-center">No data Found</td>
+        </tr>
+        <tr *ngFor="let qualification of qualificationslist;let i = index">
+          <td>{{i+1}}</td>
+          <!-- <td>{{qualification.QUALIFICATIONID}}</td> -->
+          <td>
+            {{ qualification.QUALIFICATIONNAME }}
+          </td>
+          <td>{{qualification.CODE}}</td>
+          <!-- <td>{{qualification.QUALIFICATIONDISPLAYNAME}}</td> -->
+          <td><button class="btn btn-primary" (click)="editQualification(qualification)">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+ </div>
+</div>
+<div *ngIf="selectedRadio === 'branch'">
+  <form class="qualification-form" [formGroup]="branchForm" (ngSubmit)="insertBranchs()">
+    <div class="container-fluid mt-20">
+      <div class="row">
+      <div class="col-md-4">
+        <div class="d-flex align-items-center text-truncate">
+          <label for="qualificationid">Qualification:</label>
+          <select class="form-control" class="input" id="qualificationid" formControlName="qualificationid"
+                 (keydown)="allowOnlyLettersAndSpaces($event)" (input)="convertToUpperCase($event)" (change)="qualificationlevels($event)">
+                  <option value="" selected>--SELECT--</option>
+                  <option *ngFor="let qualification of qualificationlist" [value]="qualification.QUALIFICATIONID">
+                      {{ qualification.QUALIFICATIONNAME }}
+                   </option>
+           </select>
+          </div>
+            <div *ngIf="branchForm.controls['qualificationid'].invalid && branchForm.controls['qualificationid'].touched" class="text-danger">
+           <small>Please select a qualification.</small>
+        </div>
+        </div>
+      
+      <div class="col-md-4" Style="display:none;">
+        <div class="d-flex align-items-center text-truncate">
+          <label for="branchid">Branch ID:</label>
+          <input type="text" class="input" id="branchid" formControlName="branchid" name="branchid" (input)="convertToUpperCase($event)" 
+          (keydown)="allowOnlyLettersAndSpaces($event)">
+        </div>
+        <div *ngIf="branchForm.controls['branchid'].invalid && branchForm.controls['branchid'].touched" class="text-danger">
+          <small>Please enter a branch ID.</small>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="d-flex align-items-center text-truncate">
+          <label for="branchname">Branch Name:</label>
+          <input type="text"  class="input" id="branchname" formControlName="branchname" name="branchname" (input)="convertToUpperCase($event)" 
+          (keydown)="allowOnlyLettersAndSpaces($event)">
+        </div>
+        <div *ngIf="branchForm.controls['branchname'].invalid && branchForm.controls['branchname'].touched" class="text-danger">
+          <small>Please enter a valid branch name.</small>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <input type="submit" [value]="isEditingbranch ? 'Update' : 'Create'" class="create" 
+          [ngClass]="{'update-btn': isEditingbranch, 'create-btn': !isEditingbranch}" [disabled]="branchForm.invalid || isLoading">
+        <button type="button" (click)="resetFormbanch()" class="btn create btn-secondary">Reset</button>
+      </div>
+     </div>
+     <div class="row qualification-code" >
+      <!-- <div class="col-md-4" style="display:none;">
+        <div class="d-flex align-items-center text-truncate">
+          <label for="branchdisplayname">Display Name:</label>
+          <input type="text" class="input" id="branchdisplayname" formControlName="branchdisplayname" name="branchdisplayname" (input)="convertToUpperCase($event)" 
+          (keydown)="allowOnlyLettersAndSpaces($event)">
+        </div>
+        <div *ngIf="branchForm.controls['branchdisplayname'].invalid && branchForm.controls['branchdisplayname'].touched" class="text-danger">
+          <small>Please enter a valid display name.</small>
+        </div>
+      </div> -->
+     
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-md-8 create-name">
+      <h4>Create Branch</h4>
+    </div>
+    <div class="col-md-4">
+    <div class="search-hero">
+      <i aria-hidden="true" class="fa fa-search"></i>
+      <input type="text" name="search" autocomplete="off" placeholder="Search by Name" class="form-control ng-pristine ng-valid ng-touched" 
+      ng-reflect-name="search" [(ngModel)]="searchTermBranch" (ngModelChange)="applySearchFilterBranch()" (input)="restrictInput($event)" (copy)="onCopy($event)" (paste)="onPaste($event)">
+    </div>
+  </div>
+</div>
+  <div id="table">
+    <table class="table w-100">
+      <thead>
+        <tr>
+          <th class="sno">S.No</th>
+          <!-- <th>Qualification Id</th> -->
+          <!-- <th>Branch Id</th> -->
+          <th>Branch Name</th>
+          <!-- <th>Display Name</th> -->
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!branchslist || branchslist.length === 0">
+          <td colspan="6" class="text-center">No data Found</td>
+        </tr>
+        <tr *ngFor="let branch of branchslist; let i = index">
+          <td>{{i + 1}}</td>
+          <!-- <td>{{branch.qualificationid}}</td> -->
+          <!-- <td>{{branch.branchid}}</td> -->
+          <td>{{branch.branchname}}</td>
+          <!-- <td>{{branch.branchdisplayname}}</td> -->
+          <td><button class="btn btn-primary" (click)="editbranch(branch)">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+  </div>
+  </div>
+  </div>
+</div>

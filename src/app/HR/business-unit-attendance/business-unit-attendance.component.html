@@ -1,0 +1,477 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb p_3">
+      <span>
+        <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+        <li class="breadcrumb-item active" aria-current="page">Business Unit Attendance</li>
+      </span>
+     
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="tableSectn">
+      <div class="flxEnd">
+        <h5>Summary</h5>
+        <div class="d-flex">
+        <select class="form-control select-css" >
+          <option value="opt1">Current Month</option>
+          <option value="opt2">Other Month</option>
+        </select>
+        <select class="form-control select-css" >
+            <option value="opt1">AZISTA - NUTRITION </option>
+            <option value="opt2">Other</option>
+          </select>
+          <a class="pdfDwnld">
+            <img src="./././assets/img/dashboard/file-download.svg" alt="">
+        </a>
+        </div>
+      </div>
+  
+        
+
+
+    <div class="myTableScroll">
+      <table>
+        <thead>
+          <tr>
+           <th class="sticky-col first-col">Name</th>
+            <th class="sticky-col second-col"><label>LINK</label></th>
+            <th><span>MON</span><b>01</b></th>
+            <th><span>TUE</span><b>02</b></th>
+            <th><span>WED</span><b>03</b></th>
+            <th><span>THU</span><b>04</b></th>
+            <th><span>FRI</span><b>05</b></th>
+            <th><span>SAT</span><b>06</b></th>
+            <th><span>SUN</span><b>07</b></th>
+            <th><span>MON</span><b>08</b></th>
+            <th><span>TUE</span><b>09</b></th>
+            <th><span>WED</span><b>10</b></th>
+            <th><span>THU</span><b>11</b></th>
+            <th><span>FRI</span><b>12</b></th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td class="sticky-col first-col">
+                <p>12219</p>
+                <p><b>RAJESH PALAMANGALAM</b></p>
+                <p>Web Designer - IT</p>
+              </td>
+              <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+            <td>
+              <p><b>NEW YEAR DAY</b></p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+            <td>
+              <p><b>09:36:42 - 18:47:13</b></p>
+              <p><small>Total Duration</small></p>
+              <p>9.4 hrs</p>
+            </td>
+           
+           </tr>
+          
+           <tr>
+            <td class="sticky-col first-col">
+              <p>12219</p>
+              <p><b>RAJESH PALAMANGALAM</b></p>
+              <p>Web Designer - IT</p>
+            </td>
+            <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+          <td>
+            <p><b>NEW YEAR DAY</b></p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+          <td>
+            <p><b>09:36:42 - 18:47:13</b></p>
+            <p><small>Total Duration</small></p>
+            <p>9.4 hrs</p>
+          </td>
+         
+         </tr>
+
+         <tr>
+          <td class="sticky-col first-col">
+            <p>12219</p>
+            <p><b>RAJESH PALAMANGALAM</b></p>
+            <p>Web Designer - IT</p>
+          </td>
+          <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+        <td>
+          <p><b>NEW YEAR DAY</b></p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+        <td>
+          <p><b>09:36:42 - 18:47:13</b></p>
+          <p><small>Total Duration</small></p>
+          <p>9.4 hrs</p>
+        </td>
+       
+       </tr>
+       <tr>
+        <td class="sticky-col first-col">
+          <p>12219</p>
+          <p><b>RAJESH PALAMANGALAM</b></p>
+          <p>Web Designer - IT</p>
+        </td>
+        <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+      <td>
+        <p><b>NEW YEAR DAY</b></p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+      <td>
+        <p><b>09:36:42 - 18:47:13</b></p>
+        <p><small>Total Duration</small></p>
+        <p>9.4 hrs</p>
+      </td>
+     
+     </tr>
+    
+     <tr>
+      <td class="sticky-col first-col">
+        <p>12219</p>
+        <p><b>RAJESH PALAMANGALAM</b></p>
+        <p>Web Designer - IT</p>
+      </td>
+      <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+    <td>
+      <p><b>NEW YEAR DAY</b></p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+    <td>
+      <p><b>09:36:42 - 18:47:13</b></p>
+      <p><small>Total Duration</small></p>
+      <p>9.4 hrs</p>
+    </td>
+   
+   </tr>
+
+   <tr>
+    <td class="sticky-col first-col">
+      <p>12219</p>
+      <p><b>RAJESH PALAMANGALAM</b></p>
+      <p>Web Designer - IT</p>
+    </td>
+    <td class="sticky-col second-col"><i class="fa fa-link" aria-hidden="true"></i></td>
+  <td>
+    <p><b>NEW YEAR DAY</b></p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+  <td>
+    <p><b>09:36:42 - 18:47:13</b></p>
+    <p><small>Total Duration</small></p>
+    <p>9.4 hrs</p>
+  </td>
+ 
+ </tr>
+           
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+
+  </div>

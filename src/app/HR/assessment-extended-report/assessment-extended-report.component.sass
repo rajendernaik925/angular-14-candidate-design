@@ -1,0 +1,128 @@
+.breadcrumb 
+  li.active
+    color: #101010
+    cursor: initial  
+
+.tableSection     
+  padding: 1em
+  background: #fff
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015)
+  border-radius: 2px
+      
+.flxEnd
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: .5em
+  h5
+    font-size: 20px
+    font-weight: 600
+    color: #101010
+    margin-bottom: .15em  
+  a.pdfDwnld 
+    padding: 8px
+    background: #e4eaf0
+    border-radius: 3px
+    cursor: pointer
+    img 
+      max-height: 26px   
+
+.loader.transLoadr
+  content: ""
+  position: fixed
+  width: 100%
+  height: 100%
+  background: #fdfdfd6b
+  top: 0
+  left: 0
+  z-index: 999999 
+.noData
+  margin: 0em auto
+  text-align: center
+  font-size: 26px
+  color: #767676
+  background-color: #f3f5f8
+  padding: 2em
+
+div.myTableScroll
+  max-width: 100%
+  max-height: 450px
+  overflow: scroll
+  position: relative
+
+  table
+    position: relative
+    // border-collapse: collapse
+    border-collapse: initial
+    width: 100%    
+
+  td, th
+    padding: 0.25em
+    text-align: center     
+    min-width: 130px 
+    white-space: nowrap 
+    p
+      margin: 0
+      font-size: 14px
+  thead th
+    position: -webkit-sticky    
+    /* for Safari
+    position: sticky
+    top: 0
+    background: #eaeef3
+    color: #101010
+    &:nth-child(2)
+      z-index: 99 
+    &:first-child
+      left: 0
+      z-index: 1
+    &:nth-child(even)
+      background-color: #f6f8fa  
+    span
+      font-weight: 700
+      font-size: 13px
+      color: #101010
+      text-transform: uppercase
+    b 
+      font-weight: 600
+      font-size: 24px
+      vertical-align: middle
+      padding-left: 5px
+  tbody th
+    position: -webkit-sticky
+    /* for Safari
+    position: sticky
+    left: 0
+    background: #FFF
+    border-right: 1px solid #CCC
+  tbody tr:hover td
+    background: #ecff7d 
+  tbody td
+    background: #eaeef3  
+    font-size: 13px
+    text-align: left
+    padding: 0.35em .85em
+    &:nth-child(even)
+      background-color: #f6f8fa
+    span._compltd
+      color: #328d05
+    span._proccss
+      color: #0072bc
+    span._pending
+      color: #e46c03  
+    span._rejctd
+      color: #ed0423   
+  .sticky-col
+    position: sticky
+    position: -webkit-sticky
+    background-color: #fafbfc
+  .first-col 
+    left: 0px
+    min-width: 260px
+  .second-col
+    width: 50px
+    min-width: 50px
+    // max-width: 150px 
+    left: 260px
+    z-index: 1               

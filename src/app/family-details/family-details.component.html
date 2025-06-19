@@ -1,0 +1,804 @@
+last code
+
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">Family Details</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="container-fluid" id="family-details">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="form_details">
+        <h2>Employee Details</h2>
+
+        <form
+          [formGroup]="employeeForm"
+          (ngSubmit)="onSubmit()"
+          class="employee-form"
+          autocomplete="off"
+        >
+          <div class="row"></div>
+          <form
+            [formGroup]="employeeForm"
+            autocomplete="off"
+            (ngSubmit)="onUpdate()"
+            novalidate
+          >
+            <div class="row">
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="empid">Employee ID </label>
+                  <input
+                    type="text"
+                    (paste)="onPaste($event)"
+                    class="form-control"
+                    [value]="this.userData.user.empID"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="pan">
+                    PAN Number <span class="important">*</span>
+                  </label>
+                  <input
+                    formControlName="pan"
+                    type="text"
+                    (paste)="onPaste($event)"
+                    id="pan"
+                    required
+                    (keypress)="restrictToPAN($event)"
+                    class="form-control"
+                  />
+                </div>
+                <div class="text-danger">
+                  <div
+                    *ngIf="
+                      employeeForm.get('pan')?.invalid &&
+                      employeeForm.get('pan')?.touched
+                    "
+                  >
+                    <small *ngIf="employeeForm.get('pan')?.errors?.required"
+                      >PAN Number is required.</small
+                    >
+                    <small *ngIf="employeeForm.get('pan')?.errors?.pattern"
+                      >Please enter a valid PAN format.</small
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Aadhaar Number -->
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="aadhar"
+                    >Aadhaar Number <span class="important">*</span></label
+                  >
+                  <input
+                    formControlName="aadhar"
+                    type="text"
+                    (paste)="onPaste($event)"
+                    class="form-control"
+                    id="aadhar"
+                    (keypress)="restrictToNumbers($event)"
+                    required
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    employeeForm.get('aadhar').invalid &&
+                    employeeForm.get('aadhar').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="employeeForm.get('aadhar').errors?.required">
+                    Aadhaar Number is required.
+                  </div>
+                  <div *ngIf="employeeForm.get('aadhar').errors?.minlength">
+                    Aadhaar Number must be 12 digits long.
+                  </div>
+                  <div *ngIf="employeeForm.get('aadhar').errors?.maxlength">
+                    Aadhaar Number must be 12 digits long.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mobile Number -->
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="mobile"
+                    >Mobile Number <span class="important">*</span></label
+                  >
+                  <input
+                    formControlName="mobile"
+                    type="text"
+                    (paste)="onPaste($event)"
+                    class="form-control"
+                    id="mobile"
+                    required
+                    (keypress)="restrictToNumbers($event)"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    employeeForm.get('mobile').invalid &&
+                    employeeForm.get('mobile').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="employeeForm.get('mobile').errors?.required">
+                    Contact Number is required.
+                  </div>
+                  <div *ngIf="employeeForm.get('mobile').errors?.pattern">
+                    Contact Number must be a 10-digit number.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- WhatsApp Number -->
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="whatsappNumber"
+                    >WhatsApp No. <span class="important">*</span></label
+                  >
+                  <input
+                    formControlName="whatsappNumber"
+                    type="text"
+                    (paste)="onPaste($event)"
+                    class="form-control"
+                    id="whatsappNumber"
+                    required
+                    (keypress)="restrictToNumbers($event)"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    employeeForm.get('whatsappNumber').invalid &&
+                    employeeForm.get('whatsappNumber').touched
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="employeeForm.get('whatsappNumber').errors?.required"
+                  >
+                    WhatsApp Number is required.
+                  </div>
+                  <div
+                    *ngIf="employeeForm.get('whatsappNumber').errors?.pattern"
+                  >
+                    WhatsApp Number must be a 10-digit number.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label for="maritalStatus">
+                    Marital Status <span class="important">*</span>
+                  </label>
+                  <select
+                    formControlName="maritalStatus"
+                    class="form-control"
+                    id="maritalStatus"
+                  >
+                    <option value="" disabled selected>
+                      Select your status
+                    </option>
+                    <option value="married">MARRIED</option>
+                    <option value="unmarried">UNMARRIED</option>
+                  </select>
+                </div>
+                <div
+                  *ngIf="
+                    employeeForm.get('maritalStatus').invalid &&
+                    employeeForm.get('maritalStatus').touched
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="employeeForm.get('maritalStatus').errors?.required"
+                  >
+                    Marital status is required.
+                  </div>
+                </div>
+              </div>
+              <!-- File Upload -->
+              <div class="form-group col-md-6">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <div>
+                    <input
+                      type="file"
+                      id="empFile"
+                      (change)="onFileSelected($event)"
+                      accept="image/*,.pdf"
+                      #empFileInput
+                      required
+                      style="display: none"
+                    />
+                    <ng-container *ngIf="uploadfile">
+                      <label for="empFile" id="empfile" class="file">
+                        Upload File <span class="important">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        (paste)="onPaste($event)"
+                        id="selectedFileName"
+                        [value]="selectedFileName"
+                        placeholder="No file selected"
+                        readonly
+                        formControlName="empFile"
+                        required
+                      />
+                      <button
+                        type="button"
+                        class="btn family-btn"
+                        (click)="empFileInput.click()"
+                      >
+                        Attach
+                      </button>
+                    </ng-container>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    employeeForm.get('empFile')?.invalid &&
+                    employeeForm.get('empFile')?.touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="employeeForm.get('empFile').errors?.required">
+                    Aadhar is required.
+                  </div>
+                </div>
+                <div *ngIf="viewfile">
+                  <label class="uploadedfile">Uploaded File </label>
+                  <button
+                    type="button"
+                    (click)="openEmpFileModal(); $event.stopPropagation()"
+                    class="view-file border-0"
+                  >
+                    View File
+                  </button>
+                </div>
+                <div
+                  class="modal fade"
+                  tabindex="-1"
+                  [ngClass]="{ show: isEmpFileModalOpen }"
+                  [style.display]="isEmpFileModalOpen ? 'block' : 'none'"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Aadhar File</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          (click)="closeEmpFileModal()"
+                          aria-label="Close"
+                        >
+                          X
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div *ngIf="imageSrc">
+                          <img [src]="imageSrc" alt="Uploaded Image" />
+                        </div>
+                        <div *ngIf="pdfSrc">
+                          <iframe
+                            [src]="pdfSrc"
+                            width="100%"
+                            height="500px"
+                          ></iframe>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-3 text-right" style="display: none">
+                <div class="d-flex justify-content-end">
+                  <!-- Edit and Update buttons -->
+                  <button
+                    type="button"
+                    (click)="onEdit()"
+                    *ngIf="edit"
+                    class="btn btn-primary"
+                    style="display: none"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="submit"
+                    *ngIf="update"
+                    class="btn btn-success"
+                    style="display: none"
+                  >
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="row">
+              <div class="form-group col-md-12 text-right">
+                <div class="d-flex justify-content-end">
+
+                  <button
+                    type="button"
+                    (click)="onEdit()"
+                    *ngIf="edit"
+                    class="btn btn-primary"
+                  >
+                    Edit
+                  </button>
+                  <button type="submit" *ngIf="update" class="btn btn-success">
+                    Update
+                  </button>
+                </div>
+              </div>
+            </div> -->
+          </form>
+          <!-- <div class="row note">
+            <p>Please enter valid data.</p>
+          </div> -->
+          <button
+            type="button"
+            (click)="addEmployeeDetails()"
+            *ngIf="showbutton"
+            class="btn family-btn"
+            [disabled]="isAddFamilyButtonDisabled"
+          >
+            Add Family Members
+          </button>
+
+          <div formArrayName="forms" id="forms">
+            <div
+              *ngFor="let form of forms.controls; let i = index"
+              [formGroupName]="i"
+              class="marital-section row"
+            >
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Relation: <span class="important">*</span></label>
+                  <select
+                    formControlName="relation"
+                    class="form-control"
+                    required
+                  >
+                    <option
+                      *ngFor="let option of relationOptions"
+                      [value]="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                </div>
+
+                <div
+                  *ngIf="
+                    form.get('relation').invalid && form.get('relation').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('relation').errors?.required">
+                    Relation is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Name: <span class="important">*</span></label>
+                  <input
+                    formControlName="name"
+                    class="form-control"
+                    (keypress)="restrictToLetters($event)"
+                    required
+                  />
+                </div>
+                <div
+                  *ngIf="form.get('name').invalid && form.get('name').touched"
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('name').errors?.required">
+                    Name is required.
+                  </div>
+                  <div *ngIf="form.get('name').errors?.minlength">
+                    Name must be at least 3 characters long.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Gender: <span class="important">*</span></label>
+                  <select
+                    formControlName="gender"
+                    class="form-control"
+                    required
+                  >
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">MALE</option>
+                    <option value="female">FEMALE</option>
+                  </select>
+                </div>
+                <div
+                  *ngIf="
+                    form.get('gender').invalid && form.get('gender').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('gender').errors?.required">
+                    Gender is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Date of Birth: <span class="important">*</span></label>
+                  <input
+                    formControlName="dob"
+                    type="text"
+                    (paste)="onPaste($event)"
+                    class="form-control"
+                    id="datePicker"
+                    bsDatepicker
+                    [max]="today"
+                    required
+                    readonly
+                  />
+                </div>
+                <div
+                  *ngIf="form.get('dob').invalid && form.get('dob').touched"
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('dob').errors?.required">
+                    DOB is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Blood Group: <span class="important">*</span></label>
+                  <select
+                    class="form-control"
+                    formControlName="bloodGroup"
+                    required
+                  >
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </div>
+                <div
+                  *ngIf="
+                    form.get('bloodGroup').invalid &&
+                    form.get('bloodGroup').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('bloodGroup').errors?.required">
+                    BloodGroup is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Aadhar Number: <span class="important">*</span></label>
+                  <input
+                    formControlName="aadhar"
+                    class="form-control"
+                    required
+                    (keypress)="restrictToNumbers($event)"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    form.get('aadhar').invalid && form.get('aadhar').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('aadhar').errors?.required">
+                    Aadhar Number is required.
+                  </div>
+                  <div *ngIf="form.get('aadhar').errors?.minlength">
+                    Aadhaar Number must be 12 digits long.
+                  </div>
+                  <div *ngIf="form.get('aadhar').errors?.maxlength">
+                    Aadhaar Number must be 12 digits long.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-4">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <label>Occupation: <span class="important">*</span></label>
+                  <input
+                    formControlName="occupation"
+                    class="form-control"
+                    required
+                    (keypress)="restrictToLetters($event)"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    form.get('occupation').invalid &&
+                    form.get('occupation').touched
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="form.get('occupation').errors?.required">
+                    Occupation is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <div class="d-flex align-items-baseline text-truncate">
+                  <!-- File Upload Section -->
+                  <div>
+                    <label for="familyDetailsFile" id="familyDetailsFile"
+                      >Upload File: <span class="important">*</span></label
+                    >
+                    <input
+                      type="file"
+                      id="multiplefiles"
+                      (change)="onFamilyFilesSelected($event, i)"
+                      accept=".jpg, .jpeg, .png, .pdf"
+                      #familyFilesInput
+                      required
+                    />
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    forms.at(i).get('files').touched &&
+                    forms.at(i).get('files').invalid
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="forms.at(i).get('files').errors?.required">
+                    File upload is required.
+                  </div>
+                  <div *ngIf="forms.at(i).get('files').errors?.fileErrors">
+                    {{ forms.at(i).get("files").errors.fileErrors }}
+                  </div>
+                </div>
+                <!-- <div *ngIf="getErrorMessage('files', i)" class="text-danger">
+                  {{ getErrorMessage("files", i) }}
+                </div> -->
+              </div>
+              <div class="col-md-2">
+                <div class="remove">
+                  <button
+                    type="button"
+                    (click)="removeEmployeeDetails(i)"
+                    class="btn family-btn remove-btn"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <div class="row" style="width: 100%; margin: auto"><hr /></div>
+            </div>
+            <button
+              *ngIf="forms.length > 0 && savebtn"
+              type="button"
+              (click)="onSaveFamilyDetails()"
+              class="btn family-btn"
+            >
+              Save Family Details
+            </button>
+          </div>
+          <button
+            *ngIf="submitbtn"
+            type="submit"
+            class="btn family-btn"
+            id="submitbtn"
+          >
+            Submit
+          </button>
+          <!-- <button
+            *ngIf="submitbtn"
+            type="submit"
+            class="btn family-btn"
+            id="submitbtn"
+            [disabled]="isDisabled"
+          >
+            Submit
+          </button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" id="members-info">
+  <ng-container *ngIf="familyMembers.length > 0" id="members">
+    <h6>Family Details</h6>
+    <div *ngFor="let member of familyMembers; let i = index" id="members">
+      <div class="form-group">
+        <label for="relation-{{ i }}" class="relation"
+          >Relation {{ i + 1 }}:</label
+        >
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4" style="display: none">
+          <label for="sno-{{ member.sno }}">Serial Number:</label>
+          <input
+            id="sno-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [value]="member.sno"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="name-{{ member.sno }}">Name:</label>
+          <input
+            id="name-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [(ngModel)]="member.name"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="relation-{{ member.sno }}">Relation:</label>
+          <input
+            id="relation-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [(ngModel)]="member.relation"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="gender-{{ member.sno }}">Gender:</label>
+          <input
+            id="gender-{{ member.sno }}"
+            class="form-control"
+            type="text"
+            (paste)="onPaste($event)"
+            [(ngModel)]="member.gender"
+            disabled
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="dob-{{ member.sno }}">Date of Birth:</label>
+          <input
+            id="dob-{{ member.sno }}"
+            type="date"
+            class="form-control"
+            [(ngModel)]="member.dob"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="bloodGroup-{{ member.sno }}">Blood Group:</label>
+          <input
+            id="bloodGroup-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [(ngModel)]="member.bloodGroup"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="aadhar-{{ member.sno }}">Aadhaar:</label>
+          <input
+            id="aadhar-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [(ngModel)]="member.aadhar"
+            disabled
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          <label for="occupation-{{ member.sno }}">Occupation:</label>
+          <input
+            id="occupation-{{ member.sno }}"
+            type="text"
+            (paste)="onPaste($event)"
+            class="form-control"
+            [(ngModel)]="member.occupation"
+            disabled
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="image-{{ member.sno }}" id="family-file"
+            >Uploaded File:</label
+          >
+          <button (click)="openSecondModal(member)" class="view-file border-0">
+            View File
+          </button>
+        </div>
+        <div class="col-md-4">
+          <div class="remove">
+            <button
+              type="button"
+              (click)="removeFamilyMember(member.sno)"
+              class="btn family-btn remove-btn"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+        <hr />
+        <!-- Modal -->
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          tabindex="-1"
+          [ngClass]="{ show: isModalOpen }"
+          [style.display]="isModalOpen ? 'block' : 'none'"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Aadhar File</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  (click)="closeModal()"
+                  aria-label="Close"
+                >
+                  X
+                </button>
+              </div>
+              <div class="modal-body">
+                <img
+                  *ngIf="selectedImageUrl"
+                  [src]="selectedImageUrl"
+                  alt="Uploaded Image"
+                  style="width: 100%"
+                />
+                <div *ngIf="pdfImageUrl">
+                  <iframe
+                    [src]="pdfImageUrl"
+                    width="100%"
+                    height="500px"
+                    style="border: none"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="bg_icon"></div>
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

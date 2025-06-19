@@ -1,0 +1,98 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Attendance Reader Status
+            </li>
+        </span>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+   <div class="container-fluid p_5">
+ 
+    <div class="card empInfoBlock">
+        <div class="flx">
+        <h5>Attendance Reader Status</h5>        
+            <ul class="_loctns">
+                <li class="v_cntr"> <input type="radio" name="category" value="yes" id="hyd" /><label for="hyd">HYDERABAD</label>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li class="v_cntr"> <input type="radio" name="category" value="no" id="assam"/><label for="assam">ASSAM</label></li>
+            </ul> 
+        </div>
+        <div class="theBody">
+            <div class="table_contnr">
+          <table>
+            <thead>
+              <tr class="header">
+                <th>
+                    Payroll Dates
+                  <div>Payroll Dates</div>
+                </th>
+                <th>
+                    Log Dates
+                  <div>Log Dates</div>
+                </th>
+                <th>Remark
+                    <div>Remark</div>
+                </th>
+                  
+                <th>
+                    Action
+                  <div>Action</div>
+                </th>
+              </tr>
+            </thead>
+    
+            <tbody>
+                <tr>
+                    <td>06-02-2021</td>
+                    <td>06-02-2021</td>
+                    <td><span class="succssMsg">Log updated</span></td>                 
+                    <td> 
+                        <button class="actnBtn apprv" >Reopen</button> 
+                    </td> 
+                </tr>
+                <tr> 
+                    <td>06-02-2021</td>
+                    <td>06-02-2021</td>
+                    <td><span class="errMsg">logs Running</span></td>  
+                    <td>
+                        <button class="actnBtn cncl">Running</button> 
+                    </td> 
+                </tr>
+                <tr>
+                    <td>06-02-2021</td>
+                    <td>06-02-2021</td>
+                    <td><span class="succssMsg">Log updated</span></td>                 
+                    <td> 
+                        <button class="actnBtn apprv">Reopen</button> 
+                    </td> 
+                </tr>
+                <tr>
+                    <td>06-02-2021</td>
+                    <td>06-02-2021</td>
+                    <td><span class="succssMsg">Log updated</span></td>                 
+                    <td> 
+                        <button class="actnBtn apprv">Reopen</button> 
+                    </td> 
+                </tr>
+                <tr>
+                    <td>06-02-2021</td>
+                    <td>06-02-2021</td>
+                    <td><span class="succssMsg">Log updated</span></td>                 
+                    <td> 
+                        <button class="actnBtn apprv">Reopen</button> 
+                    </td> 
+                </tr>
+                 
+                 
+            </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+        
+         
+   </div>

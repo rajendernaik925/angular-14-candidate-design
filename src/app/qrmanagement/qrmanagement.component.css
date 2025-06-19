@@ -1,0 +1,218 @@
+.empLogin {
+  overflow: hidden;
+}
+
+.empLogin h2 {
+  overflow: hidden;
+  font-size: 28px;
+  color: #101010;
+  font-weight: 600;
+  margin: 1.5em;
+  text-align: center;
+}
+
+.qr-fieldset {
+  width: 60%;
+  border: 1px solid #c1c1c1;
+  padding: 15px;
+  text-align: center;
+}
+
+.qr-legend {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  padding: 0 10px;
+  width: auto;
+  margin: auto;
+  color: #e11b22;
+}
+
+.empCard {
+  display: block;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.empCard:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.credentialing {
+  --bg-color:#77b3d4;
+  --bg-color-light:#e2fced;
+  --text-color-hover:#4c5656;
+  --box-shadow-color:rgba(184, 249, 211, 0.48);
+}
+
+.tds {
+  --bg-color:#b8f9d3;
+  --bg-color-light:#e2fced;
+  --text-color-hover:#4c5656;
+  --box-shadow-color:rgba(184, 249, 211, 0.48);
+}
+
+.human-resources {
+  --bg-color:#dce9ff;
+  --bg-color-light:#f1f7ff;
+  --text-color-hover:#4c5656;
+  --box-shadow-color:rgba(220, 233, 255, 0.48);
+}
+
+.empCard {
+  width: 170px;
+  height: 80px;
+  padding: 10px;
+  background: #fafafa;
+  border: 1px solid #cacaca;
+  border-radius: 7px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease-out;
+  text-decoration: none !important;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.empCard:hover {
+  transform: translateY(-5px) scale(1.005) translateZ(0);
+  background: #fff;
+  box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11), 0 24px 46px var(--box-shadow-color);
+}
+.empCard:hover .overlay {
+  transform: scale(4) translateZ(0);
+}
+.empCard:hover .circle {
+  border-color: var(--bg-color-light);
+  background: var(--bg-color);
+}
+.empCard:hover .circle:after {
+  background: var(--bg-color-light);
+}
+.empCard:hover p {
+  color: var(--text-color-hover);
+}
+.empCard:active {
+  transform: scale(1) translateZ(0);
+  box-shadow: 0 15px 24px rgba(0, 0, 0, 0.11), 0 15px 24px var(--box-shadow-color);
+}
+.empCard p {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  margin-top: 5px;
+  margin-left: 15px;
+  z-index: 1000;
+  line-height: 16px;
+  text-align: left;
+  transition: color 0.3s ease-out;
+  text-decoration: none !important;
+}
+.empCard .circle {
+  margin-top: 5px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+.empCard .circle svg {
+  z-index: 10000;
+  transform: translateZ(0);
+}
+
+img {
+  height: 50px;
+  width: 50px;
+  z-index: 9;
+}
+img.tds .circle img {
+  max-width: 75px;
+}
+
+._logOutBtn {
+  position: absolute;
+  right: 3em;
+}
+
+._back {
+  position: absolute;
+  right: 9em;
+}
+
+._name {
+  position: absolute;
+  left: 3em;
+}
+
+._name h6 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+._logOutBtn a, ._back a {
+  background: #382b2b;
+  text-decoration: none;
+  color: white !important;
+  padding: 6px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+._logOutBtn a:hover, ._back a:hover {
+  opacity: 1;
+}
+
+.search-bar input {
+  border-radius: 20px;
+  height: 40px;
+}
+
+.fa-search {
+  right: 0px;
+  background: #000;
+  padding: 12px;
+  border-radius: 20px;
+}
+
+h2 {
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+}
+
+.breadcrumb {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.breadcrumb li {
+  color: #000;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 776px) {
+  ._back {
+    right: 1em;
+  }
+  .qr-fieldset {
+    width: 100%;
+  }
+}/*# sourceMappingURL=qrmanagement.component.css.map */

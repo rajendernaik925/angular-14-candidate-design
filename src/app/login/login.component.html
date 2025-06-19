@@ -1,0 +1,229 @@
+
+<div class="container-fluid bgImg">
+  
+  <div class="row">
+  <div class="col-sm-6">
+    <div class="login" *ngIf="showLoginForm">
+ 
+        <h2 class="login-header">Log in to Your Account</h2>
+        <p class="txtCntr">Fill the below details to access your profile</p>
+        <form [formGroup]="loginForm " class="login-container" (ngSubmit)="login()">      
+          <div class="form-group">   
+            <label>Employee ID <sup>*</sup></label>
+            <input type="text" formControlName="userName" (keypress)="numberOnly($event)" maxlength = "7">
+            <div *ngIf="f.userName.touched && f.userName.invalid" class="alert alert-danger">
+              <div *ngIf="f.userName.errors.required">Employee Id is required</div>
+              <div *ngIf="f.userName.errors.minlength">Employee Id should be minimum 5 characters</div>
+              <div *ngIf="f.userName.errors.cannotContainSpace">Employee Id can not contain space</div>
+            </div> 
+        </div>      
+        <div class="form-group" (capsLock)="capsOn=$event"> 
+            <label>Password <sup>*</sup></label> <span *ngIf="capsOn" class="warn">Caps Locked</span>
+            <input 
+            class="pswd"
+            [type]="fieldTextType ? 'text' : 'password'"
+            formControlName="password">
+            <span class="input-group-text">
+              <!-- <i class="fa" 
+              [ngClass]="{ 
+                'fa-eye-slash': !fieldTextType,
+                'fa-eye': fieldTextType
+                }"
+              (click)="toggleFieldTextType()"></i> -->
+              <!-- monkey  -->
+            <span class="password "
+            [ngClass]="{ 
+              '': !fieldTextType,
+              'show': fieldTextType
+              }" (click)="toggleFieldTextType()">
+              <div class="monkey-hands">
+                <svg>
+                  <use xlink:href="#monkey-hands" />
+                </svg>
+              </div>
+              <div class="monkey">
+                <svg>
+                  <use xlink:href="#monkey" />
+                </svg>
+              </div>
+            </span>
+            </span>
+
+
+            
+              
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <symbol xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 64 64" id="monkey-hands">
+                <path fill="#89664C" d="M9.4,32.5L2.1,61.9H14c-1.6-7.7,4-21,4-21L9.4,32.5z"/><path fill="#FFD6BB" d="M15.8,24.8c0,0,4.9-4.5,9.5-3.9c2.3,0.3-7.1,7.6-7.1,7.6s9.7-8.2,11.7-5.6c1.8,2.3-8.9,9.8-8.9,9.8
+              s10-8.1,9.6-4.6c-0.3,3.8-7.9,12.8-12.5,13.8C11.5,43.2,6.3,39,9.8,24.4C11.6,17,13.3,25.2,15.8,24.8"/><path fill="#89664C" d="M54.8,32.5l7.3,29.4H50.2c1.6-7.7-4-21-4-21L54.8,32.5z"/><path fill="#FFD6BB" d="M48.4,24.8c0,0-4.9-4.5-9.5-3.9c-2.3,0.3,7.1,7.6,7.1,7.6s-9.7-8.2-11.7-5.6c-1.8,2.3,8.9,9.8,8.9,9.8
+              s-10-8.1-9.7-4.6c0.4,3.8,8,12.8,12.6,13.8c6.6,1.3,11.8-2.9,8.3-17.5C52.6,17,50.9,25.2,48.4,24.8"/>
+              </symbol>
+              <symbol xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 64 64" id="monkey">
+                <ellipse cx="53.7" cy="33" rx="8.3" ry="8.2" fill="#89664c"/><ellipse cx="53.7" cy="33" rx="5.4" ry="5.4" fill="#ffc5d3"/><ellipse cx="10.2" cy="33" rx="8.2" ry="8.2" fill="#89664c"/><ellipse cx="10.2" cy="33" rx="5.4" ry="5.4" fill="#ffc5d3"/><g fill="#89664c"><path d="m43.4 10.8c1.1-.6 1.9-.9 1.9-.9-3.2-1.1-6-1.8-8.5-2.1 1.3-1 2.1-1.3 2.1-1.3-20.4-2.9-30.1 9-30.1 19.5h46.4c-.7-7.4-4.8-12.4-11.8-15.2"/><path d="m55.3 27.6c0-9.7-10.4-17.6-23.3-17.6s-23.3 7.9-23.3 17.6c0 2.3.6 4.4 1.6 6.4-1 2-1.6 4.2-1.6 6.4 0 9.7 10.4 17.6 23.3 17.6s23.3-7.9 23.3-17.6c0-2.3-.6-4.4-1.6-6.4 1-2 1.6-4.2 1.6-6.4"/></g><path d="m52 28.2c0-16.9-20-6.1-20-6.1s-20-10.8-20 6.1c0 4.7 2.9 9 7.5 11.7-1.3 1.7-2.1 3.6-2.1 5.7 0 6.1 6.6 11 14.7 11s14.7-4.9 14.7-11c0-2.1-.8-4-2.1-5.7 4.4-2.7 7.3-7 7.3-11.7" fill="#e0ac7e"/><g fill="#3b302a"><path d="m35.1 38.7c0 1.1-.4 2.1-1 2.1-.6 0-1-.9-1-2.1 0-1.1.4-2.1 1-2.1.6.1 1 1 1 2.1"/><path d="m30.9 38.7c0 1.1-.4 2.1-1 2.1-.6 0-1-.9-1-2.1 0-1.1.4-2.1 1-2.1.5.1 1 1 1 2.1"/><ellipse cx="40.7" cy="31.7" rx="3.5" ry="4.5"/><ellipse cx="23.3" cy="31.7" rx="3.5" ry="4.5"/></g>
+              </symbol>
+            </svg>  
+            <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.cannotContainSpace">Password can not contain space</div>
+              <div *ngIf="f.password.errors.minlength">Password must be 6 or more chars in length</div>
+            </div>
+          </div> 
+      
+      
+          <div class="flx_lbls">
+            <div>
+              <input type="checkbox" id="rememberMe"  formControlName="rememberMe" />
+               <label for="rememberMe">Remember me</label>
+            </div>
+            <div>
+              <p><a (click)="forgtPswdForm()">Forgot Password?</a></p>
+            </div>
+          </div>
+          <div class="form-group"> 
+            <button type="submit" [disabled]="loginForm.invalid" class="loginBtn">Log in</button>
+          </div>
+        </form>
+         
+      </div> 
+
+
+
+ 
+
+
+<!-- **********************Forgot Password********************  -->
+
+     <div class="outrFrgtsectn">
+      <div class="forgotPswd" *ngIf="showForgtForm">
+        <div class="_hdr">
+          <h2 class="the-header">Forgot Password</h2>
+          <button class="skipBtn" (click)="skipForgtForm()">Back</button>
+        </div>
+
+        <form [formGroup]="frgtPswdForm " class="login-container" (ngSubmit)="empVerify()" >
+          <fieldset [disabled]="isDisabled">
+            <div class="flxRow" *ngIf="hideEmpLabel">
+              <div class="form-group w70 pb_1">
+                <label>Employee ID <sup>*</sup>: &nbsp;<b >{{emp_ID}}</b></label>
+              </div>
+            </div>
+          <div class="flxRow" *ngIf="showEmpInput">
+              <div class="form-group w70">   
+                <label>Employee ID <sup>*</sup></label>
+                <input type="text" formControlName="empID" (keypress)="numberOnly($event)" maxlength = "7" /> 
+                <div *ngIf="g.empID.touched && g.empID.invalid" class="alert alert-danger">
+                  <div *ngIf="g.empID.errors.required">Employee Id is required</div>
+                  <div *ngIf="g.empID.errors.minlength">Emp.id should be min. 5 characters</div> 
+                </div>             
+              </div>   
+              <div class="form-group w30" > 
+                <button type="submit" [disabled]="frgtPswdForm.invalid" class="loginBtn">Verify</button>
+              </div>
+          </div>
+        </fieldset>
+        </form>
+
+        <form class="showRegMob" *ngIf="isEmp">
+        <div class="flxRow">
+          <label>Mobile Number <small>(If you want to update Mobile Number, Please contact HR)</small></label>
+          </div>
+          <div class="flxRow">
+            <div class="form-group w70">   
+              <input type="text" *ngIf="RegMobNumber == undefined" [value]="" placeholder="&nbsp;" readonly />       
+              <input type="text" *ngIf="RegMobNumber != undefined" [value]="RegMobNumber" placeholder="&nbsp;" readonly/>                      
+            </div>   
+            <div class="form-group w30"> 
+              <button appNoDoubleClickBtn class="loginBtn" 
+              [disabled]="RegMobNumber == undefined" (click)='getOTP()'>Get OTP</button>
+            </div>
+        </div>
+      </form>
+      
+        <form class="formOTP" *ngIf="showOtpForm">
+        <!-- <form class="formOTP" > -->
+
+          <div class="alert alert-success alert-dismissible fade show otpAlert" role="alert" *ngIf="showAlert">
+            The OTP has been Sent to your Mobile No.
+             <!-- We’ve sent a One Time Password (OTP) to the mobile number above. Please enter it to complete verification -->
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="hideAlert()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="flxRow">
+            <div class="form-group ">                 
+            <label>OTP<sup>*</sup></label>
+              <!-- <input type="text" (keypress)="numberOnly($event)" maxlength = "6" />   -->
+              <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" [config]="config"></ng-otp-input>
+            </div>   
+            <!-- <div class="form-group "> 
+              <p>Enter <strong>OTP</strong> Received on Registered Mobile No. &amp; <strong>"Press TAB"</strong></p>
+            </div> -->
+            <div class="form-group" *ngIf="resendOtpBtn">
+              <button class="loginBtn" (click)="resendOTP()">Resend OTP</button>
+            </div>
+            <div class="form-group otpSuccessAlert" *ngIf="isValidOTP">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+              </svg>
+            </div>
+        </div>
+        </form>
+        <form class="formPsswd" [formGroup]="generatePswdForm" (ngSubmit)="generatePassword()" *ngIf="showPaswdForm">
+          <div class="">
+            <div class="form-group ">                 
+            <label>New Password<sup>*</sup> 
+              <span>&nbsp;&nbsp;<i
+                class="fa"
+                [ngClass]="{
+                  'fa-eye-slash': !fieldTextType1,
+                  'fa-eye': fieldTextType1
+                }"
+                (click)="togglePswd()"
+              ></i></span>
+            </label>
+              <input [type]="fieldTextType1 ? 'text' : 'password'" formControlName="newPasswrd" blockCopyPaste/>  
+              <div *ngIf="h.newPasswrd.touched && h.newPasswrd.invalid" class="alert alert-danger">
+                <div *ngIf="h.newPasswrd.errors.required">Password is required</div> 
+                <div *ngIf="h.newPasswrd.errors.maxlength">Password max length 15 characters</div>
+                <div *ngIf="h.newPasswrd.errors.pattern"> minimum one letter [a-z(OR)A-Z], minimum one special Character [!,@,#,$,&] and Number[0-9]</div>               
+                <div *ngIf="h.newPasswrd.errors.minlength">Password must be 6 or more characters in length</div>
+              </div>                          
+            </div>   
+            <div class="form-group ">                 
+              <label>Confirm Password<sup>*</sup></label>
+                <input [type]="fieldTextType1 ? 'text' : 'password'" formControlName="confrmPassword" blockCopyPaste />       
+                <div *ngIf="h.confrmPassword.touched && h.confrmPassword.invalid" class="alert alert-danger">
+                  <div *ngIf="h.confrmPassword.errors.required">Password is required</div> 
+                  <div *ngIf="h.confrmPassword.errors.minlength">Password must be 6 or more characters in length</div>     
+                  <div *ngIf="h.confrmPassword.errors.notEquivalent">Password mismatch</div>       
+                </div>                      
+            </div> 
+        </div>
+        <div class="flxRow">
+          <div class="w50">
+             <button type="submit" [disabled]="generatePswdForm.invalid" class="loginBtn">Confirm</button>
+          </div>
+          <div class="w50">
+            <button class="loginBtn" (click)="resetfrgtForm()">Reset</button>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1"></div>
+  <div class="col-sm-5">
+    <div [ngClass]=" 'bgImgRyt'+ ' ' + 'type' + '-' + classNum"></div>
+  </div>
+</div>
+
+</div>
+<!-- <div class="loader" *ngIf="isLoading"> -->
+  <!-- <div class="bg_icon"></div> -->
+  <!-- <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+  </div>
+</div> -->

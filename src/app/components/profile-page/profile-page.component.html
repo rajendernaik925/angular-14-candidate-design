@@ -1,0 +1,689 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div> 
+  <nav aria-label="breadcrumb">
+  <ol class="breadcrumb p_3">
+    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+      
+  </ol>
+  </nav>
+  <div class="container-fluid" *ngIf='empData!=null'>
+    <div class="flxRow topROw">
+  
+        <!-- profile card  -->
+        <div class="card myProfile" style="width: 19rem">
+          <img
+            class="card-img-top"
+            src="./././assets/img/dashboard/user-bg-image.png"
+            alt="Card image cap"/>
+  
+            <div class="alert alert-success alert-dismissible fade show profileImgAlert" role="alert" *ngIf="showAlert">
+              Awesome!. You've Changed your Profile Pic Successfully ! 
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="hideAlert()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+  
+            <!-- default profilepic  -->
+            <div *ngIf="profilepic ==='0'">
+                  <div class="profile-pic" *ngIf="isMale">
+                    <img
+                      src="./././assets/img/dashboard/user-male.svg"
+                      alt="profile-pic"/>  
+                  </div>
+                  <div class="profile-pic" *ngIf="isFemale">
+                    <img
+                      src="./././assets/img/dashboard/user-female.svg"
+                      alt="profile-pic"/>
+                  </div> 
+            </div> 
+  
+            <!-- uploaded Profile pic  -->
+            <div class="profile-pic" *ngIf="profilepic !=='0' || currentFile">
+              <img [src]="imgURL" height="200" />
+            </div>
+  
+  
+            <form [formGroup]="myForm" (ngSubmit)="submit()" class="uploadPic">
+              <div class="fileUpload">
+              <input formControlName="file" id="file" type="file" class="form-control"
+              (change)="onFileChange($event)" accept="image/png, image/jpeg" />
+              <label for="file" class="btn-2"><i class="fa fa-camera" aria-hidden="true"></i></label>
+              <div class="rmvePic" *ngIf="showDeleteIcon" ><label (click)="removeProfilePic()"><i class="fa fa-trash"></i></label></div>
+            </div> 
+            
+            <!-- <div *ngIf="showConfirmBtn" > 
+              <button class="btn btn-primary" type="submit"><i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
+            </div> -->
+  
+            <div class="abslt" *ngIf="showCropper">
+            <div class="cropBlck">
+              <image-cropper 
+                  [imageChangedEvent]="imageChangedEvent" 
+                  [maintainAspectRatio]="true" 
+                  [aspectRatio]="4 / 4"
+                  [resizeToWidth]="256" 
+                  format="png" 
+                  (imageCropped)="imageCropped($event)" 
+                  (imageLoaded)="imageLoaded()"
+                  (cropperReady)="cropperReady()" 
+                  (loadImageFailed)="loadImageFailed()"></image-cropper>
+              <div class="btnsBlock">
+                  <button class="btn crop" type="submit" (click)="cropImg()">Crop &amp; Save</button>
+                  <button class="btn cancel" (click)="resetUpload()">Cancel</button>
+              </div>
+            </div>
+          </div>
+            </form>
+  
+  
+          <div class="card-body text-center">
+            <p>
+               <span>{{ empData.empID }}</span> 
+            </p>
+            <h5 class="card-title">
+                {{ empData.name }}
+            </h5>
+            <p class="card-text">{{ empData.designation }}</p>
+            <p>
+              <small>{{ empData.employmenttype }}</small>
+            </p>
+            
+            <p>
+              <small>{{ empData.department }}</small>
+            </p>
+            <p>
+              <small>Joined On&nbsp;
+                <b>{{ empData.doj}}</b>
+                <!-- <b>{{ empData.doj | date: "dd MMM y" }}</b> -->
+              </small>
+            </p>
+            <p>
+              <small><b>{{ empData.division }}</b></small>
+            </p>
+  
+            <p *ngIf="empData.reportee"><small>Reporting Manager <b>{{empData.reportee.split("-")[1]}}</b></small></p>
+           
+          </div>
+        </div><!--End profile card  -->
+   
+    <div class="profle_adrss">
+    <div class="card ">
+        <div class="flx_inline">
+            <h5>Address Info</h5>
+            
+        </div>
+  
+        <div class="flxRow">
+          <div class="col_6 Comm_Addrs _Addrs">
+            <h6><b>Communication Address</b>
+              <ng-container *ngIf="CAddrss_flag; else actualView"> 
+                <small>(<span>Update in Progress</span>)</small>  
+            </ng-container>
+            <!-- <a *ngIf="RequestStatus==''" (click)='showEditModal("commAddress")'>Edit</a> -->
+              <ng-template #actualView> 
+              <a (click)='showEditModal("commAddress")'>&nbsp;<i class="fa fa-pencil " aria-hidden="true"></i></a>
+             </ng-template>
+            </h6>
+            <p *ngIf="empData.communicationaddress">{{empData.communicationaddress}}
+              <span *ngIf="empData.communicationaddress2.length!= '0'">{{empData.communicationaddress2}}, </span>
+              <span *ngIf="empData.communicationaddress3.length!= '0'">{{empData.communicationaddress3}}, </span>
+              <span *ngIf="empData.communicationaddress4.length!= '0'">{{empData.communicationaddress4}}, </span>
+              <span *ngIf="empData.commcity.length!= '0'">{{empData.commcity}}, </span>
+              <span *ngIf="empData.commstate.length!= '0'">{{empData.commstate}}</span>
+              <span *ngIf="empData.comm_ZIP.length!= '1'">, {{empData.comm_ZIP}}</span></p>
+          </div>
+          <div class="col_6 Perm_Addrs _Addrs" >
+            <h6><b>Permanent Address</b>  
+            <ng-container *ngIf="PAddrss_flag; else actualView1">
+              <!-- <span><i class="fa fa-spinner fa-fw fa-pulse" aria-hidden="true"></i></span> -->
+              <small>(<span>Update in Progress</span>)</small>
+            </ng-container>
+            <ng-template #actualView1>
+            <a (click)='showEditModal("permanentaddress")'>&nbsp;<i class="fa fa-pencil " aria-hidden="true"></i></a>
+          </ng-template>
+            </h6>
+            <p *ngIf="empData.permanentaddress">{{empData.permanentaddress}}
+              <span *ngIf="empData.permanentaddress2.length!= '0'">{{empData.permanentaddress2}}, </span>
+              <span *ngIf="empData.permanentaddress3.length!= '0'">{{empData.permanentaddress3}}, </span>
+              <span *ngIf="empData.permanentaddress4.length!= '0'">{{empData.permanentaddress4}}, </span>
+              <span *ngIf="empData.pcity.length!= '0'">{{empData.pcity}}, </span>
+              <span *ngIf="empData.pstate.length!= '0'">{{empData.pstate}}</span>
+              <span *ngIf="empData.pzipcode.length!= '1'">, {{empData.pzipcode}}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="card accnt_info">
+        <h5>Account Information</h5>
+        <div>
+          <ul>
+            <li><label>PAN Number 
+              <ng-container *ngIf="PanInfo_flag; else actualView4">
+                <small>(<span class="_prgrs">Update in Progress</span>)</small>
+              </ng-container>
+              <ng-template #actualView4>
+                <a (click)='showEditModal("PanInfo")' class="_edit"><i class="fa fa-pencil " aria-hidden="true"></i></a>
+              </ng-template> 
+            </label><span>{{empData.pan}}</span></li>
+            <li><label>ESI Number</label><span>{{empData.esino}}</span></li>
+            <li><label>PF Number</label><span>{{empData.pfno}}</span></li>
+            <li><label>PF UAN</label><span>{{empData.pfuan}}</span></li>
+          </ul>
+            <h6 class="_bankDtls">Bank Details
+              <ng-container *ngIf="AccountInfo_flag; else actualView3">
+              <small>(<span class="_prgrs">Update in Progress</span>)</small>
+              </ng-container>
+              <ng-template #actualView3>
+                <a (click)='showEditModal("AccountInfo")' class="_edit"><i class="fa fa-pencil " aria-hidden="true"></i></a>
+              </ng-template>
+            </h6>
+            <ul> 
+            <li><label>Bank Name
+              
+            </label><span>{{empData.bankname}}</span></li>
+            <li><label>Bank Acct Number</label><span>{{empData.accountno}}</span></li>
+  
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card profle_cntct"  style="width: 18rem">
+        <div class="flx_inline">
+            <h5>Contact Info</h5>
+            <!-- <a>Update</a> -->
+        </div>
+  
+        <div class="flxCol">
+          <img src="./././assets/img/profile/professional-contact-icon.svg" alt="professional-contact-icon"/>
+          <h6>Professional Contact</h6>
+          <p>{{empData.proemail}}</p>
+          <p>{{empData.professional_MOBILE}}</p>
+        </div>
+  
+        <div class="flxCol">
+          <img src="./././assets/img/profile/personal-contact-icon.svg" alt="personal-contact-icon"/>
+          <h6>Personal Contact</h6>
+          <p>{{empData.pemail}}</p>
+          <p>{{empData.personal_MOBILE}}</p>
+        </div>
+    </div>
+  </div>
+  
+  <div class="flxRow">
+  <div class="card iceCrd _Addrs" style="width: 19rem">
+    <h5>Emergency Contact  
+      <ng-container *ngIf="EC_Addrss_flag; else actualView2">
+      <small>(<span>Update in Progress</span>)</small>
+      </ng-container>
+      <ng-template #actualView2>
+      <a (click)='showEditModal("EmergencyContact")' class="_edit"><i class="fa fa-pencil " aria-hidden="true"></i></a>
+    </ng-template>
+    </h5>
+  
+    <b>Contact Person</b>
+    <p>{{empData.contactpersonname}}</p>
+  
+    <b>Relation</b>
+    <p>{{empData.relationname}}</p>
+
+    <b>Address</b>
+    <p>{{empData.iceaddress}} {{empData.iceaddress2}} {{empData.iceaddress3}} {{empData.iceaddress4}} 
+      {{empData.icecity}} {{empData.icestate}}</p>
+  
+    <b>Contact Number</b>
+    <p>{{empData.icemobile}}</p>
+  </div>
+  
+  <div class="card wrkExprnce">
+    <h5>Work Experience Details</h5>
+    <div class="expRow" *ngIf= 'myExp != 0'>
+      <label>Total Experience</label>
+      <h3><span *ngIf= 'totalExpYrs>=1'>{{totalExpYrs}}&nbsp;year<span *ngIf='totalExpYrs>1'>s</span></span>&nbsp;
+        <span *ngIf= 'totalExpMonths>=1'>{{totalExpMonths}}&nbsp;month<span *ngIf= 'totalExpMonths>1'>s</span></span></h3>
+    </div>
+      <div class="expRow" > 
+          <label *ngIf='location == "AZISTA"'>Azista Experience</label>
+          <label *ngIf='location == "HHC"'>Hetero Experience</label> 
+        <ng-container *ngIf='empWorkingDays < 31  ; else actualWRkngDays'>
+          <h3><span> {{empWorkingDays}}</span> Days</h3>
+        </ng-container>
+
+        <ng-template #actualWRkngDays> 
+          <h3><span *ngIf= 'curntExpYrs>=1'>{{curntExpYrs}}&nbsp;year<span *ngIf='curntExpYrs>1'>s</span></span>&nbsp;
+          <span *ngIf= 'curntExpmonths>=1'>{{curntExpmonths}}&nbsp;month<span *ngIf= 'curntExpmonths>1'>s</span></span></h3>
+        </ng-template>
+      </div> 
+     
+  
+      <ul *ngIf="pastExprncs">
+        <li *ngFor="let item of pastExprncs"><label>Worked as</label>&nbsp;<b>{{item.designation}}</b>&nbsp;<label>for </label>
+          <span *ngIf='item.experience.split(".")[0]>=1'> 
+            {{item.experience.split(".")[0]}} year<span *ngIf='item.experience.split(".")[0]>1'>s</span> 
+          </span>
+          <span *ngIf='item.experience.split(".")[1]>=1'> 
+            {{item.experience.split(".")[1]}} month<span *ngIf='item.experience.split(".")[1]>1'>s</span>
+          </span>
+          at <b>{{item.employername}}</b>  </li>
+  
+         
+        <!-- <li><label>Worked in</label>&nbsp;<b>AMPLELOGIC LTD</b> 1 years, 7 months as <b>WEB DESIGNER</b> - Is Relevant</li>
+        <li><label>Worked in</label>&nbsp;<b>VIVO BIO TECH LTD</b> 3 years, 6 months as <b>SR WEB DESIGNER</b> - Is Relevant</li>       -->
+      </ul>
+  </div>
+  </div>
+  
+  </div>
+
+ 
+
+
+
+  <!-- modal  -->
+<div class="modal _Modal"  [style.display]="EditModal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal-lg modal-dialog-centered modal_content_left">
+
+      <div class="modal-content" *ngIf="theForm == 'commAddress'"> 
+        <div class="modal-header">
+          <div class="modal_title_img">
+           <h5>Change Request - Communication Address</h5>
+          </div>
+          <button type="button" (click)="closeEditModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        </div> 
+        <div class="modal-body" >
+            <form [formGroup]="commAddrssForm"  >
+              <div class="form-group">
+                <label>Address 1</label>
+                <input type="text" formControlName="C_Address" maxlength="150" class="form-control" /> 
+                <!-- <textarea formControlName="C_Address"  rows="2" class="form-control"></textarea>  -->
+              </div>
+              <div class="dflx">
+                <div class="form-group">
+                  <label>Address 2</label>
+                  <input type="text" formControlName="C_Address2" maxlength="150" class="form-control" />     
+                </div>
+                <div class="form-group">
+                  <label>Address 3</label>
+                  <input type="text" formControlName="C_Address3" maxlength="150" class="form-control" />     
+                </div>
+              </div>
+              <div class="dflx">
+                <div class="form-group">
+                  <label>Address 4</label>
+                  <input type="text" formControlName="C_Address4" maxlength="150" class="form-control" />     
+                </div>
+               
+                <div class="form-group">
+                  <label>State</label>
+                  <!-- <select formControlName="C_State" class="form-control"
+                   #mySelect 
+                   (change)="onStateChange(mySelect.value)"> 
+                    <option *ngFor="let item of C_stateList; let i = index" [value]="item.LOCATIONID">
+                      {{item.NAME}}
+                    </option>
+                  </select>     -->
+                  <select formControlName="C_State" class="form-control" 
+                  #mySelect 
+                  (change)="onStateChange(mySelect.value, $event )"> 
+                   <option *ngFor="let item of C_stateList; let i = index" [value]="item.LOCATIONID">
+                     {{item.NAME}}
+                   </option>
+                 </select>  
+                </div>
+
+
+              </div>
+                <div class="dflx">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select formControlName="C_City" class="form-control" 
+                    #CitySelect 
+                    (change)="onCityChange(CitySelect.value, $event )">   
+                      <option *ngFor="let item of C_cityList; let i = index" [value]="item.LOCATIONID" >
+                        {{item.NAME}}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <!-- <div class="form-group">
+                    <label>Upload Related Documents</label>
+                    <input type="file" class="form-control" />
+                  </div> -->
+                  <div class="form-group">
+                    <label>Zip Code</label>
+                    <input type="text" formControlName="C_Zip"
+                    [ngClass]="{ 'is-invalid': CommSubmitted && e.C_Zip.errors }" 
+                     (keypress)="numberOnly($event)" maxlength="6" class="form-control" appRestrictWhiteSpace/>
+                     <div *ngIf="CommSubmitted && e.C_Zip.errors" class="invalid-feedback">
+                      <div *ngIf="e.C_Zip.errors.required">Zip Code is required</div>
+                      <div *ngIf="e.C_Zip.errors.minlength">Zip Code Should be minimum 5 digits</div> 
+                    </div>      
+                  </div>
+
+                </div>
+            </form>
+
+            <div class="Btns_Block">
+              <button class="btn btn-primary SendToHR"  type="submit" (click)="validateCOMMAddrssForm()"
+              [disabled]='CommdisableButton'>Send Request to HR</button>  
+              <button class="btn btn-danger CancleReqst" (click)="closeEditModal()">Cancel</button>
+            </div> 
+                       
+        </div>  
+      </div>
+    <!-- End of Communication Address -->
+
+    <div class="modal-content" *ngIf="theForm == 'permanentaddress' ">
+      <div class="modal-header">
+        <div class="modal_title_img">
+         <h5>Change Request - Permanent Address</h5>
+        </div>
+        <button type="button" (click)="closeEditModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+      <div class="modal-body" >
+        <form [formGroup]="PerAddrssForm">
+          <div class="form-group">
+            <label>Address 1</label>
+            <input type="text" formControlName="P_Address" maxlength="150" class="form-control" />  
+          </div>
+          <div class="dflx">
+            <div class="form-group">
+              <label>Address 2</label>
+              <input type="text" formControlName="P_Address2" maxlength="150" class="form-control" />     
+            </div>
+            <div class="form-group">
+              <label>Address 3</label>
+              <input type="text" formControlName="P_Address3" maxlength="150" class="form-control" />     
+            </div>
+          </div>
+          <div class="dflx">
+            <div class="form-group">
+              <label>Address 4</label>
+              <input type="text" formControlName="P_Address4" maxlength="150" class="form-control" />     
+            </div>
+           
+            <div class="form-group">
+              <label>State</label> 
+              <select formControlName="P_State" class="form-control"  #mySelect1 
+              (change)="onStateChange1(mySelect1.value, $event )"> 
+               <option *ngFor="let item of C_stateList; let i = index" [value]="item.LOCATIONID">
+                 {{item.NAME}}
+               </option>
+             </select>  
+            </div> 
+          </div>
+
+          <div class="dflx">
+            <div class="form-group">
+              <label>City</label>
+              <select formControlName="P_City" class="form-control" #CitySelect 
+              (change)="onCityChange1(CitySelect.value, $event )"> 
+                <option *ngFor="let item of C_cityList1; let i = index" [value]="item.LOCATIONID" >
+                  {{item.NAME}}
+                </option>
+              </select>
+            </div> 
+            <div class="form-group">
+              <label>Zip Code</label>
+              <input type="text" formControlName="P_Zip"
+              [ngClass]="{ 'is-invalid': PerSubmitted && pA.P_Zip.errors }" 
+               (keypress)="numberOnly($event)" maxlength="6" class="form-control" appRestrictWhiteSpace/>    
+               <div *ngIf="PerSubmitted && pA.P_Zip.errors" class="invalid-feedback">
+                <div *ngIf="pA.P_Zip.errors.required">Zip Code is required</div>
+                <div *ngIf="pA.P_Zip.errors.minlength">Zip Code Should be minimum 5 digits</div> 
+              </div> 
+            </div> 
+          </div>
+
+          <div class="Btns_Block">
+            <button class="btn btn-primary SendToHR" type="submit" (click)="validatePERMNTADDRSForm()"
+            [disabled]='PermntDisableButton' >Send Request to HR</button>  
+            <button class="btn btn-danger CancleReqst" (click)="closeEditModal()">Cancel</button>
+          </div> 
+
+        </form>
+      </div>
+    </div>
+    <!-- End of Permanent Address -->
+
+    <div class="modal-content" *ngIf="theForm == 'EmergencyContact'">
+      <div class="modal-header">
+        <div class="modal_title_img">
+         <h5>Change Request - Emergency Contact</h5>
+        </div>
+        <button type="button" (click)="closeEditModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+      <div class="modal-body" >
+        
+        <form [formGroup]="EmrgncyContactForm" class="emrgncyContctForm">
+          <div class="dflx">
+            <div class="form-group">
+              <label>Contact Person First Name</label>
+              <input type="text" formControlName="frstName" class="form-control" appRestrictWhiteSpace/>     
+            </div>
+            <div class="form-group"> 
+              <label>Contact Person Last Name</label>
+              <input type="text" formControlName="lastName" class="form-control" appRestrictWhiteSpace/>     
+            </div>
+          </div>
+          <div class="dflx">
+            <div class="form-group">
+              <label>Relation</label>  
+              <select formControlName="relation" class="form-control" #RlSelect 
+              (change)="onRelationChange(RlSelect.value, $event )"> 
+               <option *ngFor="let item of relationship_List; let i = index" [value]="item.RELATIONID">
+                 {{item.RELATIONNAME}}
+               </option> 
+             </select>   
+            </div>
+            <div class="form-group">
+               <label>Contact Number</label>
+              <input type="text" formControlName="icemobile" class="form-control"
+               (keypress)="numberOnly($event)" maxlength = "10" 
+               [ngClass]="{ 'is-invalid': ICESubmitted && f.icemobile.errors }" 
+               appRestrictWhiteSpace />   
+              <div *ngIf="ICESubmitted && f.icemobile.errors" class="invalid-feedback">
+                <!-- <div *ngIf="f.icemobile.errors.required">Contact Number is required</div> -->
+                <div *ngIf="f.icemobile.errors.minlength">Contact Number should be minimum 10 digits</div>
+                <div *ngIf="f.icemobile.errors.maxlength">Contact Number Maximum 10 digits allowed</div>
+              </div>     
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Address 1</label>
+            <input type="text" formControlName="iceaddress" maxlength="150" class="form-control" />  
+          </div>
+          <div class="dflx">
+            <div class="form-group">
+              <label>Address 2</label>
+              <input type="text" formControlName="iceaddress2" maxlength="150" class="form-control" />     
+            </div> 
+            <div class="form-group">
+              <label>Address 3</label>
+              <input type="text" formControlName="iceaddress3" maxlength="150" class="form-control" />     
+            </div>  
+          </div>
+          <div class="dflx flx3">
+            <div class="form-group">
+              <label>Address 4</label>
+              <input type="text" formControlName="iceaddress4" maxlength="150" class="form-control" />     
+            </div>
+           
+            <div class="form-group">
+              <label>State</label> 
+              <select formControlName="icestate" class="form-control" #ecSelect 
+              (change)="onStateChange2(ecSelect.value, $event )"> 
+               <option *ngFor="let item of C_stateList; let i = index" [value]="item.LOCATIONID">
+                 {{item.NAME}}
+               </option>
+             </select>   
+            </div> 
+          
+            <div class="form-group">
+              <label>City</label>
+              <select formControlName="icecity" class="form-control" #ecCitySelect 
+              (change)="onCityChange2(ecCitySelect.value, $event )"> 
+                <option *ngFor="let item of C_cityList2; let i = index" [value]="item.LOCATIONID" >
+                  {{item.NAME}}
+                </option>
+              </select> 
+            </div>  
+          </div>
+
+          <div class="Btns_Block">
+            <button class="btn btn-primary SendToHR" type="submit" (click)="validateECForm()"
+             [disabled]="ICEDisableButton">Send Request to HR</button>  
+            <button class="btn btn-danger CancleReqst" type="button" (click)="closeEditModal()">Cancel</button>
+          </div> 
+
+        </form>
+      </div>
+    </div>
+    <!-- End of ICE/Emergency Contact -->
+
+     
+
+    <div class="modal-content" *ngIf="theForm == 'AccountInfo'"> 
+      <div class="modal-header">
+        <div class="modal_title_img">
+         <h5>Change Request - Account Details</h5>
+        </div>
+        <button type="button" (click)="closeEditModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+      <div class="modal-body"> 
+
+        <form [formGroup]="AccountInfoForm" class="AccntInfoForm" >
+          <div class="dflx"> 
+            <div class="form-group">
+              <label>Bank Name</label> 
+              <select formControlName="Bank_Name" class="form-control" #bank
+              (change)="onBankChange(bank.value, $event )"> 
+                <option *ngFor="let item of banksList; let i = index" [value]="item.BANKID">{{item.BANKNAME}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Bank IFSC Number</label>
+              <input type="text" formControlName="Bank_ifsc_Number" maxlength="11"
+              [ngClass]="{ 'is-invalid': submitted && g.Bank_ifsc_Number.errors }" class="form-control" appRestrictWhiteSpace/> 
+              <span *ngIf="submitted && g.Bank_ifsc_Number.errors" class="invalid-feedback">
+                <span *ngIf="g.Bank_ifsc_Number.errors.required">IFSC Number Required</span> 
+                <span *ngIf="g.Bank_ifsc_Number.errors.minlength">Minimum Length of 11 digits </span>  
+              </span>    
+            </div> 
+          </div>
+          <div class="dflx">
+            
+            <div class="form-group">
+              <label>Bank Account Number</label>
+              <input type="text" formControlName="Bank_Acct_Number" maxlength="20" (keypress)="numberOnly($event)"
+              [ngClass]="{ 'is-invalid': submitted && g.Bank_Acct_Number.errors }" class="form-control" appRestrictWhiteSpace/> 
+               <span *ngIf="submitted && g.Bank_Acct_Number.errors" class="invalid-feedback">
+                <span *ngIf="g.Bank_Acct_Number.errors.required">Account Number Required</span> 
+                <span *ngIf="g.Bank_Acct_Number.errors.minlength">Minimum 9 digits Required</span>  
+              </span>     
+            </div> 
+            <div class="form-group">
+              <label>Upload Passbook(img/pdf) <sup>*</sup></label>   
+              <label for="passbook" class="uploadBtn"><img src="./././assets/img/upload.png" />
+                <span *ngIf="!passbookFileName">Choose File To Upload</span>
+                <span *ngIf="passbookFileName"> 
+                  <span>{{(passbookFileName.length>25)? (passbookFileName | slice:0:25)+'..'+ (passbookFileName.substring(passbookFileName.lastIndexOf('.') + 1, passbookFileName.length) || passbookFileName) :(passbookFileName)}} </span>
+                </span>
+              </label>
+              <!-- #passbook_file -->
+              <input type="file" (change)="uploadPassbook($event)" #passbook id="passbook" formControlName="Bank_Passbook_file"
+                accept="application/pdf,image/png, image/jpeg, image/jpg" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && g.Bank_Passbook_file.errors }" style="width: 0;height:0; padding: 0;visibility: hidden;"/>
+                <span *ngIf="submitted && g.Bank_Passbook_file.errors" class="invalid-feedback">
+                  <span *ngIf="g.Bank_Passbook_file.errors.required">Passbook Required</span> 
+                </span>
+                <span  *ngIf="isFileUploaded && g.Bank_Passbook_file.invalid && (g.Bank_Passbook_file.dirty || g.Bank_Passbook_file.touched)" class="custom_validtn">
+                 <span *ngIf="g.Bank_Passbook_file.errors.invalidFile">
+                   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Upload image/pdf file Only.
+                  </span>
+                </span>
+            </div>
+          </div>
+          </form>
+
+          <div class="Btns_Block">
+            <button class="btn btn-primary SendToHR" type="submit" (click)="validateBankForm()"
+            [disabled]="disableButton">Send Request to HR</button>  
+            <button class="btn btn-danger CancleReqst" (click)="closeEditModal()">Cancel</button>
+          </div>
+                   
+      </div> 
+    </div>
+    <!-- End of Account Information -->
+
+
+    <div class="modal-content" *ngIf="theForm == 'PanInfo'"> 
+      <div class="modal-header">
+        <div class="modal_title_img">
+         <h5>Change Request - PAN</h5>
+        </div>
+        <button type="button" (click)="closeEditModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+      </div> 
+
+      <div class="modal-body"> 
+        <form [formGroup]="PanInfoForm" class="PanInfoForm">
+          <div class="dflx">
+          <div class="form-group">
+              <label>PAN Number</label>
+              <input type="text" formControlName="PAN_Number" maxlength="10"
+              class="form-control" (input)="handleInput($event.target.value)"/>  
+              <span  *ngIf="p.PAN_Number.touched &&p.PAN_Number.errors" class="custom_validtn">
+                <span *ngIf="p.PAN_Number.errors.invalidNumber">
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Invalid Pan Number.
+                </span>
+                <span *ngIf="p.PAN_Number.errors.required">
+                    Pan Number Required
+                </span> 
+              </span>   
+              <span *ngIf="ExistPan" class="custom_validtn">Given Pan Number Already Exist.</span>
+          </div>
+          <div class="form-group">
+            <label>Upload Pan Card(img/pdf) <sup>*</sup></label>   
+            <label for="panFile" class="uploadBtn"><img src="./././assets/img/upload.png" />
+              <span *ngIf="!panFileName">Choose File To Upload</span>
+              <span *ngIf="panFileName"> 
+                <!-- {{panFileName.substring(panFileName.lastIndexOf('.') + 1, panFileName.length) || panFileName}}  -->
+                <span>{{(panFileName.length>25)? (panFileName | slice:0:25)+'..'+ (panFileName.substring(panFileName.lastIndexOf('.') + 1, panFileName.length) || panFileName) :(panFileName)}} </span>
+              </span>
+            </label>
+            <!-- #pan_file -->
+            <input type="file" (change)="uploadPan($event)" #panFile id="panFile" formControlName="Pan_file"
+              accept="application/pdf,image/png, image/jpeg, image/jpg" class="form-control" 
+              [ngClass]="{ 'is-invalid': panSubmitted && p.Pan_file.errors }" style="width: 0;height:0; padding: 0;visibility: hidden;"/>
+              <span *ngIf="panSubmitted && p.Pan_file.errors" class="invalid-feedback">
+                <span *ngIf="p.Pan_file.errors.required">PAN Required</span> 
+              </span>
+              <span  *ngIf="isFileUploaded && p.Pan_file.invalid && (p.Pan_file.dirty || p.Pan_file.touched)" class="custom_validtn">
+               <span *ngIf="p.Pan_file.errors.invalidFile">
+                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Upload image/pdf file Only.
+                </span>
+              </span>
+          </div>
+        </div>
+        </form>
+        <div class="Btns_Block">
+          <button class="btn btn-primary SendToHR" type="submit" (click)="send_to_HR4()"
+           [disabled]="ExistPan">Send Request to HR</button>  
+          <button class="btn btn-danger CancleReqst" (click)="closeEditModal()">Cancel</button>
+        </div>
+      </div> 
+    </div>
+
+
+  </div> 
+</div> 
+
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div> 

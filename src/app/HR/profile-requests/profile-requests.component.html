@@ -1,0 +1,118 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <span>
+        <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+        <li class="breadcrumb-item active" aria-current="page">Profile Requests</li>
+      </span> 
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="bgWyt"> 
+
+      <div class="row" *ngIf="countArray">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary Theme_Btn" (click)="getApiData()">
+              <i class="fa fa-refresh "
+              [ngClass]="{'fa-spin': spinnr, ' ': !spinnr}"
+               aria-hidden="true"></i></button>
+          </div>
+          
+        </div>
+        <div class="col-md-12" *ngIf="countArray.length=='0'">
+          <h2 class="noData fadeIn">No Requests Found</h2>
+        </div>
+        <ng-container *ngIf="countArray.length!='0'">
+          <ng-container *ngFor="let item of countArray">
+          <div class="col-md-4" *ngIf="item.REQUESTTYPE =='COMMADD'">
+            <div class="card Nav_Card fadeIn" [routerLink]="['/commnctnAddrssReqsts']">
+              <div class="card-body">
+                <div>
+                  <h2>Communication Address</h2> 
+                </div>
+                <div class="_count">
+                  <div class="concentric-circles">
+                    <span>{{item.COUNT}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="item.REQUESTTYPE =='PERADD'">
+            <div class="card Nav_Card fadeIn" [routerLink]="['/permntAddrssReqsts']">
+              <div class="card-body">
+                <div>
+                  <h2>Permanent Address</h2>
+                </div>
+                <div class="_count">
+                  <div class="concentric-circles">
+                    <span>{{item.COUNT}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="item.REQUESTTYPE =='ICEADD'">
+            <div class="card Nav_Card fadeIn" [routerLink]="['/iceAddressReqsts']">
+              <div class="card-body">
+                <div> 
+                  <h2>Emergency Contact</h2>
+                </div>
+                <div class="_count">
+                  <div class="concentric-circles">
+                    <span>{{item.COUNT}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4"  *ngIf="item.REQUESTTYPE =='BANKADD'">
+            <div class="card Nav_Card fadeIn" [routerLink]="['/bankAddrssReqsts']">  
+              <div class="card-body">
+                <div> 
+                  <h2>Bank Account</h2>
+                </div>
+                <div class="_count">
+                  <div class="concentric-circles">
+                    <span>{{item.COUNT}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4"  *ngIf="item.REQUESTTYPE =='PANADD'">
+            <div class="card Nav_Card fadeIn" [routerLink]="['/panReqsts']">  
+              <div class="card-body">
+                <div> 
+                  <h2>PAN Card</h2>
+                </div>
+                <div class="_count">
+                  <div class="concentric-circles">
+                    <span>{{item.COUNT}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          </ng-container>
+        </ng-container>
+      </div>
+ 
+    </div>
+  </div>
+
+
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+
+
+   

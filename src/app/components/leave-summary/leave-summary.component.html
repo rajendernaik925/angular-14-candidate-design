@@ -1,0 +1,210 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Leave Summary</li>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+    </ol>
+</nav>  
+
+<div class="container-fluid">
+    <div class="flxRow">
+        <div class="card">
+            <h5>Used Leaves</h5>
+            <div class="flxItms">
+                <ul *ngIf="leaveData">
+                    <ng-container *ngFor="let item of leaveData">                    
+                    <li *ngIf="item.leavetype == 'CL'">
+                         <h3>{{item.usedqty}}</h3> 
+                        <p>Casual Leave</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'SL'">
+                         <h3>{{item.usedqty}}</h3> 
+                        <p>Sick Leave</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'EL'">
+                         <h3>{{item.usedqty}}</h3>  
+                        <p>Earned Leave</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'OD'">
+                        <h3>{{item.usedqty}}</h3> 
+                        <p>On Duty</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'WFH'">
+                        <h3>{{item.usedqty}}</h3>     
+                        <p>Work From Home</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'LOP'">
+                         <h3>{{item.usedqty}}</h3> 
+                        <p>Loss of Pay</p>
+                    </li>
+                    <li *ngIf="item.leavetype == 'MRL'">
+                         <h3>{{item.usedqty}}</h3>    
+                        <p>Marriage Leave</p>
+                    </li>
+                </ng-container>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h5>Leave Types</h5>
+            <div class="flxItms col3">
+                <ul>
+                    <li>
+                        <b>CL</b>
+                        <p>Casual Leave</p>
+                    </li>                   
+                    <li>
+                        <b>EL</b>
+                        <p>Earned Leave</p>
+                    </li>
+                    
+                    <li>
+                        <b>WFH</b>
+                        <p>Work From Home</p>
+                    </li>
+                    <li>
+                        <b>SL</b>
+                        <p>Sick Leave</p>
+                    </li>
+                    <li>
+                        <b>OD</b>
+                        <p>On Duty</p>
+                    </li>
+                    <li>
+                        <b>LOP</b>
+                        <p>Loss Of Pay</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="loader" *ngIf="isLoading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+      </div>
+    <div class="tableSectn">
+        <div class="flxEnd">
+            <h5>Leave Summary Report</h5>
+        <!-- <select name="selectMonth" id="aantal" class="form-control select-css">
+          <option value="option1">Feb</option>
+          <option value="option2">Mar</option>
+       </select> -->
+      </div>
+      <div class="myTableScroll" *ngIf="leaveSummary"> 
+          <table>
+            <thead>
+                <tr>
+                    <th class="sticky-col"><span>Applied Date</span></th>
+                    <th class="sticky-col"><span>From Date</span></th>
+                    <th class="sticky-col"><span>To Date</span></th>
+                    <th class="sticky-col"><span>No of Days</span></th> 
+                    <th class="sticky-col"><span>Leave Type</span></th> 
+                    <th class="sticky-col minWdth"><span>Reason</span></th> 
+                    <th class="sticky-col minWdth"><span>Action by</span></th> 
+                    <th class="sticky-col"><span>Status</span></th> 
+                    <th class="sticky-col"><span>Actions</span></th> 
+                  </tr>
+               
+            </thead>
+
+            <tbody>  
+                <tr *ngFor="let item of leaveSummary">
+                      <td>{{item.applieddate | date: "dd-MMM-y" }}</td>
+                      <td>{{item.from_DATE | date: "dd-MMM-y"}}</td>
+                      <td>{{item.to_DATE | date: "dd-MMM-y"}}</td>
+                      <td>{{item.days}}</td>
+                      <td>{{item.leave_TYPE}}</td>
+                      <td [tooltip]="item.message" content-type="template"  placement="bottom" [show-delay]="100" [hide-delay]="100"  class="minWdth">                         
+                          <span class="lmtTxt">{{item.message}}</span>
+                        </td>
+                        <ng-template #HtmlContent>                            
+                            {{item.message}}
+                        </ng-template>
+                      <td class="minWdth">
+                          <ng-container *ngIf="item.approvedname == '0'; else approvedBy" >
+                              -- --
+                          </ng-container>
+                          <ng-template #approvedBy>{{item.approvedname}}</ng-template>
+                          
+                        </td>
+                      <td>
+                          <span class="lv_status" 
+                          [ngClass]="{'aprvd': item.flag_S == 'A', 'pndng':item.flag_S == 'P', 'rjctd':item.flag_S == 'R', 'rjctdBy':item.flag_S == 'MC'}">                        
+                        <ng-container *ngIf="item.flag_S == 'MC' || item.flag_S == 'R'">Rejected</ng-container>
+                        <ng-container *ngIf="item.flag_S == 'A' || item.flag_S == 'P'">{{item.flag}}</ng-container>    
+                        </span>
+                      </td>
+                    <td>
+                        <ng-container *ngIf="item.from_DATE > dateCompre && (item.flag_S == 'P' ); else noBtn">                           
+                            <button class="actnBtn" (click)="openModal(); leaveCancl($event,item)" >CANCEL</button>
+                            <!-- <span class="lv_status aprvd">Approved</span> -->
+                        </ng-container>
+                        <ng-template #noBtn>
+                            <button class="actnBtn dsbl">
+                              -- NA --
+                            </button>
+                        </ng-template>
+                    </td>
+                  </tr>   
+                  <tr *ngIf="noData">
+                    <td colspan="9"><h2 class="noData">No Records Found&nbsp;</h2></td>
+                  </tr>
+               
+            </tbody>
+          </table>
+         
+      </div>
+    </div>
+
+
+    <div class="card gydLines">
+        <h5>Note : Guidelines for Cancel Leave</h5>
+        <ul>
+            <li>Employee Can able to cancel the Leave before Manager approval</li>
+            <li>Leave cancel is possible before < From Date,Ex:Leave applied From 02-JAN-20XX to 05-JAN-20XX ,Leave cancel is eligible Before 02-JAN-20XX</li>
+            <li>After approval also your manager can cancel or Reject your leave</li>
+            <li>Approved Leaves only considered in the payroll other wise it will be considered as LOP</li>
+            <li>Leaves should be approved from your Reporting Manger before closing the payroll</li>
+            <li>Cancelled Leaves will not be displayed in the Summary report.</li>
+            <li>Any other information is required please contact HR</li>
+        </ul>
+    </div>
+</div>
+
+
+
+<!-- Reason Form Modal -->
+<div #outsideElement>
+    <div class="modal-view-container">
+      <div #modalView class="modal view">
+        <div class="modal-view-details">
+            <input type="text" [(ngModel)]="leaveSumry"  hidden/>
+            <form [formGroup]="ReasonForm" (ngSubmit)="submitReason()" >              
+                <div class="form-group">
+                <label>Reason for Leave Cancel ? <sup>*</sup></label>
+                <textarea class="form-control" rows="3" formControlName="reasonComment" name="comments" ></textarea>
+                <div *ngIf="f.reasonComment.touched && f.reasonComment.invalid" class="alert alert-danger">
+                    <div *ngIf="f.reasonComment.errors.required">Reason is required</div>
+                    <div *ngIf="f.reasonComment.errors.minlength">Reason should be minimum 5 characters</div>
+                    <div *ngIf="f.reasonComment.errors.maxlength">Reason max limit 150 characters</div>
+                </div> 
+              </div>
+              <div class="form-group mb-0 text-center">
+                  <button class="btn btn-success" type="submit" [disabled]="ReasonForm.invalid">Submit</button>
+                  <button class="btn btn-warning" type="reset" (click)="closeModal()">Back</button>
+
+              </div>
+              </form>           
+        <button (click)="closeModal()" class="clsModl">X</button> 
+      </div>
+      </div>
+    </div>
+    </div>

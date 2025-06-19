@@ -1,0 +1,44 @@
+{
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/manifest.webmanifest",
+          "/styles.css",
+          "/main-es2015.js",
+          "/polyfills-es2015.js",
+          "/runtime-es2015.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "resources": {
+        "files": [
+          "/assets/**"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "https://sso.heterohealthcare.com/iconnect/**"
+      ],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "30m",
+        "timeout": "5s",
+        "strategy": "performance"
+      }
+    }
+  ]
+}

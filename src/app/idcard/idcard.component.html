@@ -1,0 +1,408 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/']">Home</li>
+      <li class="breadcrumb-item active" aria-current="page">Idcard</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="tableSection">
+    <div class="flxEnd">
+      <h5>Summary</h5>
+    </div>
+
+    <div *ngIf="isData == 0; else assmntDataTable">
+      <h2 class="noData">
+        No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i>
+      </h2>
+    </div>
+    <ng-template #assmntDataTable>
+      <div class="search-hero">
+        <i class="fa fa-search" aria-hidden="true"></i>
+
+        <input
+          class="form-control"
+          type="text"
+          name="search"
+          [(ngModel)]="searchText"
+          (ngModelChange)="filterEmployees()"
+          autocomplete="off"
+          placeholder="Search by Employee Name / ID / BU"
+        />
+      </div>
+      <div class="summary_note">
+        <h5>Note:</h5>
+        <p>
+          <img src="./././assets/img/checkcirclefill.svg" alt="homeBG" /><span
+            >Data Filled</span
+          >
+        </p>
+        <p>
+          <img src="./././assets/img/xcircle.svg" alt="homeBG" /><span
+            >Data Not Filled</span
+          >
+        </p>
+      </div>
+      <div class="myTableScroll">
+        <table class="custom_width">
+          <thead>
+            <tr>
+              <th class="sticky-col"><span>Emp ID</span></th>
+              <th class="sticky-col"><span>Name</span></th>
+              <th class="sticky-col text-center"><span>Business Unit</span></th>
+              <th class="sticky-col text-center"><span>Date Of Join</span></th>
+              <th class="sticky-col text-center"><span>Cost Center</span></th>
+              <th class="sticky-col text-center"><span>Code</span></th>
+              <th class="sticky-col text-center">
+                <span>Designation Check</span>
+              </th>
+              <th class="sticky-col text-center">
+                <span>Department Check</span>
+              </th>
+              <th class="sticky-col text-center"><span>Address</span></th>
+              <th class="sticky-col text-center"><span>Blood Group</span></th>
+              <th class="sticky-col text-center"><span>Upload image</span></th>
+              <th class="sticky-col text-center"><span>Action</span></th>
+            </tr>
+            <tr class="header"></tr>
+          </thead>
+
+          <tbody>
+            <tr
+              *ngFor="let item of employees; let i = index"
+              [ngClass]="{
+                'highlighted-row':
+                  editingRowId === item.employeeId || item.isEditing
+              }"
+            >
+              <td>{{ item.employeeId }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.buName }}</td>
+              <td class="center_img">{{ item.dateOfJoin }}</td>
+              <td class="center_img">{{ item.costCenter }}</td>
+              <td class="center_img">{{ item.code }}</td>
+              <td
+                class="center_img"
+                *ngIf="!item.designationCheck; else elseBlock"
+              >
+                <img src="./././assets/img/xcircle.svg" alt="Not Checked" />
+              </td>
+              <ng-template #elseBlock>
+                <td class="center_img">
+                  <img
+                    src="./././assets/img/checkcirclefill.svg"
+                    alt="Checked"
+                  />
+                </td>
+              </ng-template>
+              <td
+                class="center_img"
+                *ngIf="!item.departmentCheck; else elseBlock"
+              >
+                <img src="./././assets/img/xcircle.svg" alt="homeBG" />
+              </td>
+              <ng-template #elseBlock>
+                <td class="center_img">
+                  <img
+                    src="./././assets/img/checkcirclefill.svg"
+                    alt="homeBG"
+                  />
+                </td>
+                <!-- Replace with your else content -->
+              </ng-template>
+
+              <td>
+                <select [(ngModel)]="item.addressId">
+                  <option
+                    *ngFor="let address of addresses"
+                    [value]="address.id"
+                    [selected]="address.id === item.addressId"
+                  >
+                    {{ address.companyName }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <select [(ngModel)]="item.bloodGroupId">
+                  <option
+                    *ngFor="let bloodgroup of bloodgroupvalue"
+                    [value]="bloodgroup.bloodGroupId"
+                    [selected]="bloodgroup.bloodGroupId === item.bloodGroupId"
+                  >
+                    {{ bloodgroup.bloodGroupName }}
+                  </option>
+                </select>
+              </td>
+
+              <td>
+                <div
+                  *ngIf="item.imageBytes != null; else noImage"
+                  class="image-section"
+                >
+                  <button
+                    (click)="viewImage(item)"
+                    class="view-image"
+                    *ngIf="!item.isEditing && item.viewImg"
+                  >
+                    View Image
+                  </button>
+                  <div
+                    class="modal"
+                    *ngIf="selectedImage"
+                    (click)="closeModal()"
+                  >
+                    <div class="modal-content">
+                      <span class="close" (click)="closeModal()">&times;</span>
+                      <img
+                        [src]="selectedImage"
+                        alt="Employee Image"
+                        class="modal-image"
+                        width="300"
+                        height="500"
+                      />
+                    </div>
+                  </div>
+                  <div *ngIf="item.isEditing">
+                    <label
+                      *ngIf="!fileUploaded"
+                      for="fileInput"
+                      class="change-profile-btn"
+                      id="profile"
+                      >Change Profile</label
+                    >
+                    <input
+                      id="file"
+                      type="file"
+                      class="form-control"
+                      (change)="onFileChange($event, item)"
+                      id="fileInput"
+                      accept="image/*"
+                      style="display: none"
+                    />
+                    <div *ngIf="item.selectedImage">
+                      <p>{{ item.selectedImage.name }}</p>
+                    </div>
+                  </div>
+                  <button (click)="UNDO()" class="save" *ngIf="item.undo">
+                    Undo
+                  </button>
+                </div>
+
+                <ng-template #noImage>
+                  <label
+                    *ngIf="!item.fileUploaded"
+                    for="fileInput{{ item.employeeId }}"
+                    class="change-profile-btn"
+                    id="profile"
+                    class="upload"
+                  >
+                    Upload Profile
+                  </label>
+                  <input
+                    id="fileInput{{ item.employeeId }}"
+                    type="file"
+                    class="form-control"
+                    (change)="onFileChange($event, item)"
+                    accept="image/*"
+                    style="display: none"
+                  />
+                  <div *ngIf="item.selectedImage">
+                    <p>{{ item.selectedImage.name }}</p>
+                  </div>
+                </ng-template>
+              </td>
+              <td>
+                <!-- Edit/Update button (Visible if fields are empty or '1') -->
+                <button
+                  *ngIf="isEditable(item)"
+                  (click)="
+                    editEmployeeImage(item, item.isEditing ? 'update' : 'edit')
+                  "
+                  class="save"
+                >
+                  {{ item.isEditing ? "Update" : "Edit" }}
+                </button>
+
+                <!-- Save button (Visible if fields are not empty or not '1') -->
+                <button
+                  *ngIf="!isEditable(item)"
+                  (click)="insertEmployeeImage(item)"
+                  class="save"
+                >
+                  Save
+                </button>
+
+                <!-- Generate PDF button (Visible if fields are valid) -->
+                ||
+                <button
+                  *ngIf="isEditable(item)"
+                  (click)="VIEWPDF(item)"
+                  class="save generate-pdf"
+                >
+                  View Pdf
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="employees.length === 0">
+              <td colspan="11">
+                <h2 class="noData">
+                  <i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;No
+                  Records Found for - "{{ searchText }}"
+                </h2>
+              </td>
+            </tr>
+            <!-- </ng-container> -->
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<div class="modal pdf-modal" *ngIf="showModal">
+  <div class="modal-content">
+    <button (click)="closeModal1()" class="close">X</button>
+    <div
+      *ngFor="let employeeData of IDCARDDEATILS; let i = index"
+      id="id-card"
+      class="idcard"
+    >
+      <div class="row">
+        <div class="col-md-12" style="text-align: center">
+          <button (click)="downloadPdf(employeeData)" class="save download-pdf">
+            Download Pdf
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="section1"
+        id="section1-{{ employeeData.employeeId }}"
+        [ngStyle]="{
+          'background-image': 'url(' + baseUrl + '/idcard/image/' + employeeData.backgroundImagename + ')',
+          'background-size': 'cover',
+          'background-repeat': 'no-repeat',
+          position: 'relative'
+        }"
+        [ngClass]="getBackgroundStyle(employeeData.backgroundImagename)"
+      >
+        <div class="img">
+          <img
+            *ngIf="employeeData.imageUrl"
+            [src]="employeeData.imageUrl"
+            alt="Profile Image"
+            width="200"
+            height="300"
+          />
+        </div>
+        <table>
+          <tr>
+            <td>NAME</td>
+            <td>:</td>
+            <td>{{ employeeData.name }}</td>
+          </tr>
+          <tr>
+            <td>EMPLOYEE ID</td>
+            <td>:</td>
+            <td>{{ employeeData.employeeId }}</td>
+          </tr>
+          <tr>
+            <td>DESIGNATION</td>
+            <td>:</td>
+            <td>{{ employeeData.designation }}</td>
+          </tr>
+          <tr>
+            <td>DEPARTMENT</td>
+            <td>:</td>
+            <td>{{ employeeData.department }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="section2" id="section2-{{ employeeData.employeeId }}">
+        <div class="back-address">
+          <p>
+            This ID Card is the property of <b>Hetero Healthcare Limited</b>. If
+            found, please return it to the address below.
+          </p>
+          <h6>{{ employeeData.companyName }}</h6>
+          <p class="address">
+            {{ employeeData.address }}
+          </p>
+          <p class="blood-group">
+            Blood Group: {{ employeeData.bloodGroupName }}
+          </p>
+          <p class="footer-text">
+            This Card is issued for identification purpose only and does not
+            authorize the holder to represent the Company in any manner
+            whatsoever.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showCropper" class="modal abslt">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal2()">&times;</span>
+
+    <!-- Employee Data Section -->
+    <div class="employee-data row">
+      <div
+        *ngFor="let item of showCropperData; let i = index"
+        class="col-md-10"
+      >
+        <div class="employee-details">
+          <p class="name">Employee Id: {{ item.employeeId }}</p>
+          <p class="name">Employee Name: {{ item.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Cropper Section -->
+    <div class="cropBlck">
+      <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 4"
+        [resizeToWidth]="256"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper>
+
+      <div class="btnsBlock">
+        <button
+          class="btn crop"
+          type="button"
+          (click)="cropImg(showCropperData)"
+        >
+          Crop & Save
+        </button>
+        <button class="btn cancel" type="button" (click)="resetUpload()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

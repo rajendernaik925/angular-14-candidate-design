@@ -1,0 +1,61 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <span>
+            <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+            <li class="breadcrumb-item active" aria-current="page">
+                 Payslips Upload
+            </li>
+        </span>    
+        <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+</nav> 
+
+<div class="container-fluid">
+    <div class="card empInfoBlock">    
+        <form [formGroup]="flexiPolcyForm" (ngSubmit)="onSubmit(fileInput)">         
+            <div class="leavesEnble"> 
+                <div class="bs_date">
+                    <label>Payperiod:</label>
+                    <div>
+                        <select formControlName="businessunitid" class="form-control"
+                                [ngClass]="{ 'red_bordr': showError }"
+                                (change)='onOptionsSelected()'>
+                            <option [value]="" disabled selected>{{default}}</option>
+                            <option *ngFor="let item of BU_list" [value]="item.PAYPERIOD">{{item.PAYPERIOD}}</option>
+                        </select>
+                        <div *ngIf="showError" class="invalid_fdbck">
+                            Payperiod is required
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="bs_date">
+                    <label>Upload CSV:</label>
+                    <input type="file" #fileInput (change)="onFileChange($event)" accept=".csv" />
+                    <div *ngIf="csvError" class="invalid_fdbck">Please upload a valid CSV file</div>
+                </div> 
+        
+              
+                <div class="btn_block btncenter custom_flex">
+                    <a href="assets/Payslips.csv" download>
+                        <i class="fa fa-download" aria-hidden="true"></i> Download Format
+                    </a>
+                    <button type="submit" class="themeBtn" [disabled]="isLoading">Upload</button>
+                </div>
+            </div>
+        </form>
+         
+            
+         
+    </div>
+</div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>

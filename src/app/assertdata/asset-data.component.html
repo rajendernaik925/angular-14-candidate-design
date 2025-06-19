@@ -1,0 +1,293 @@
+ 
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">Team Assets</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 pr-0">
+      <app-sidebar></app-sidebar>
+      <!-- <ul class="nav navbar-nav side-nav mb-2">
+        <li class="pb-2">
+            <a 
+                routerLink="/asset" (click)="goBack()"
+                routerLinkActive="active-link" 
+                [routerLinkActiveOptions]="{ exact: true }">
+                Employee Assets
+            </a>
+        </li>
+        <li>
+            <a 
+                routerLink="/assethistory" 
+                routerLinkActive="active-link" 
+                [routerLinkActiveOptions]="{ exact: true }">
+                Asset Request History
+            </a>
+        </li>
+    </ul> -->
+    </div>
+    <div class="col-md-10">
+      <div class="jobcode-section">
+
+        <div *ngIf="!selectedEmp">
+          <div class="row">
+            <div class="col-md-8 title">
+              <h6>Employee Information</h6>
+            </div>
+            <!-- <div class="col-md-4 search-container">
+              <input type="text" class="search-box" placeholder="Search with Employee Id or Name"
+                [(ngModel)]="searchText" (ngModelChange)="applySearchFilter()" />
+              <button class="search-btn">
+                <i class="fa fa-search"></i>
+              </button>
+            </div> -->
+          </div>
+         
+          <div class="row">
+            <div class="col-md-12 overflow-scroll">
+              <table class="table" style="background: #F6F8FA;">
+                <thead>
+                  <tr class="text-center">
+                    <th>Employee ID</th>
+                    <th>Full Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Assets</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <tr *ngIf="managerEmp.length === 0">
+                    <td colspan="9" Style="text-align: center;">No data found</td>
+                  </tr> 
+                  <tr *ngFor="let emp of managerEmp" class="hover-box" (click)="toggleViewMore(emp)">
+                    <td>{{ emp.EmpId }}</td>
+                    <td>{{ emp.Name | titlecase }}</td>
+                    <td>{{ emp.Dept | titlecase }}</td>
+                    <td>{{ emp.Desg | titlecase }}</td>
+                    <td>
+                      <span *ngIf="emp.Assets; else showButton" [tooltip]="emp.Assets" placement="bottom">
+                        {{ emp.Assets | slice:0:8 }}
+                      </span>
+                      <ng-template #showButton>
+                        <button class="btn btn-primary" (click)="onRaiseButtonClick(emp)">Raise</button>
+                      </ng-template>
+                    </td>
+                
+                    <td class="view-more text-center" (click)="viewMoreClick($event, emp)">
+                      <!-- <img src="./assets/img/dashboard/eye.svg" alt="view more"> -->
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      
+         <div class="row" *ngIf="selectedEmp && selectedEmps !== 'king'">
+          <div class="col-md-10">
+            <!-- <p ><img src="././assets/img/icons/arrow-left 2.png" style="width:18px;" (click)="goBack()"> -->
+            <p><i class="fa fa-arrow-left" (click)="goBack()"></i> {{ selectedEmp ? selectedEmp.EmpId : 'No Employee Selected' }} - Raise Asset Request</p>
+          </div>
+          <div class="col-md-2 d-flex justify-content-end">
+            <button class="btn" (click)="selectedEmps = 'king'">Raise Request</button>
+          </div>
+        
+          <div class="col-md-12 d-flex" style="margin-bottom:12px">
+           
+            <div *ngFor="let asset of assets">
+              <a class="btn asset_name" (click)="assignAsset(asset)" [ngClass]="{'active-link1': selectedAssetType === asset.asset_type_id}">
+                {{ asset.asset_name }}
+              </a>
+            </div>
+          
+          </div>
+        
+          <div class="col-md-12">
+          <div class="loop overflow-scroll">
+            <div *ngFor="let data of assetdata" class="asset-data mt-2">
+              <div class="row">
+                <div class="col-md-12">
+                  <p class="asset-code">{{data.assetCode}}</p>
+                </div>
+              </div>
+          
+              <div class="row mt-1" id="asset">
+                <div class="col-md-3 assign-date" *ngIf="data.assignedDate">
+                  <label class="d-block">Assigned Date</label>
+                  <input type="text" [value]="data.assignedDate" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 assign-date" *ngIf="data.withdrawnDate">
+                  <label class="d-block">Withdraw Date</label>
+                  <input type="text" [value]="data.withdrawnDate" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.brand">
+                  <label class="d-block">Brand</label>
+                  <input type="text" placeholder="brand" [value]="data.brand" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.ram">
+                  <label class="d-block">RAM</label>
+                  <input type="text" placeholder="RAM" [value]="data.ram" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.os">
+                  <label class="d-block">Operating System</label>
+                  <input type="text" placeholder="os" [value]="data.os" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.processor">
+                  <label class="d-block">Processor</label>
+                  <input type="text" placeholder="processor" [value]="data.processor" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.graphicCard">
+                  <label class="d-block">Graphic Card</label>
+                  <input type="text" placeholder="graphic card" [value]="data.graphicCard" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.ssd">
+                  <label class="d-block">SSD</label>
+                  <input type="text" placeholder="ssd" [value]="data.ssd" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.hdd">
+                  <label class="d-block">HDD</label>
+                  <input type="text" placeholder="hdd" [value]="data.hdd" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product pr-2" *ngIf="data.charger !== null && (selectedAssetType === 1 || selectedAssetType === 3)">
+                  <label class="d-block">Charger</label>
+                  <input type="text" placeholder="charger" [value]="data.charger ? 'Yes' : 'No'" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.storageCapacity">
+                  <label class="d-block">Storage Capacity</label>
+                  <input type="text" placeholder="storage capacity" [value]="data.storageCapacity" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.storageType">
+                  <label class="d-block">Storage Type</label>
+                  <input type="text" placeholder="storage type" [value]="data.storageType" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.mailId">
+                  <label class="d-block">Mail Id</label>
+                  <input type="text" placeholder="mail id" [value]="data.mailId" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.mailPassword">
+                  <label class="d-block">Mail Password</label>
+                  <input type="text" placeholder="mail password" [value]="data.mailPassword" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 product" *ngIf="data.mailUsage">
+                  <label class="d-block">Mail Storage</label>
+                  <input type="text" placeholder="mail storage" [value]="data.mailUsage" [disabled]="true" />
+                </div>
+          
+                <div class="col-md-3 assign-date" *ngIf="data.cardNumber">
+                  <label class="d-block">Card Number</label>
+                  <input type="text" [value]="data.cardNumber" [disabled]="true" />
+                </div>
+              </div>
+          
+            </div>
+          </div> 
+      </div>
+    </div>
+        <div *ngIf="selectedEmp && selectedEmps=='king'">
+          <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-9" >
+              <p><i class="fa fa-arrow-left" (click)="goBack()"></i>
+                {{ selectedEmp ? selectedEmp.EmpId : 'No Employee Selected' }} - Raise Asset Request</p>
+            </div>
+            
+            <div class="col-md-3 d-flex justify-content-end">
+              <button class="btn" (click)="raiseAssetRequest()">Send Asset Request</button>
+            </div>
+          </div>
+
+          <form *ngIf="asset.length > 0" [formGroup]="raiseAssetRequestForm" (ngSubmit)="raiseAssetRequest()" style="margin-top:-10px">
+            <div formArrayName="items">
+              <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
+                class="row mt-4 d-flex align-items-end">
+                <div class="col-md-2 pr-0">
+                  <label class="d-block">Select Asset Type</label>
+                  <select
+                  formControlName="assetType"
+                  (change)="onAssetTypeChange($event, i)"
+                >
+                  <option value="" disabled selected>Select</option>
+                  <option
+                    *ngFor="let asset of getFilteredAssetList(i)"
+                    [value]="asset.assetTypeId"
+                  >
+                    {{ asset.assetName }}
+                  </option>
+                </select>
+                  <!-- <select formControlName="assetType" class="form-control" >
+                    <option value="" selected disabled>Select</option>
+                    <option *ngFor="let value of asset" [value]="value.assetTypeId">
+                      {{ value.assetName }}
+                    </option>
+                  </select> -->
+                  <div *ngIf="item.get('assetType').invalid && item.get('assetType').touched" class="text-danger">
+                    Asset type is required
+                  </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.get('assetType').value !== '9'">
+                  <label class="d-block">Description</label>
+                  <input formControlName="description" type="text" class="form-control" />
+                  <div *ngIf="item.get('description').invalid && item.get('description').touched" class="text-danger">
+                    Description is required
+                  </div>
+                </div>
+                <div class="col-md-9" *ngIf="item.get('assetType').value === '9'">
+                  <label class="d-block">Domains</label>
+                  <select formControlName="description" class="form-control">
+                    <option value="" disabled>Select</option>
+                    <option *ngFor="let value of domains" [value]="value.name">
+                      {{ value.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-1 pl-0 d-flex justify-content-end">
+                  <button type="button" class="btn btn-danger" (click)="removeItem(i)" [disabled]="isRemoveDisabled(i)">Remove</button>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-secondary" (click)="addItem()">Add Item</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

@@ -1,0 +1,462 @@
+<!-- <div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<div class="container-fluid mt-3">
+  <div class="row g-2">
+    <div class="col-md-12">
+      <div class="card py-1 border-0">
+        <div class="card-body py-1">
+
+          <div class="row mb-2 align-items-center">
+            <div class="col-md-3">
+              <span class="fw-bold text-dark">
+                <i class="bi bi-arrow-left-circle-fill me-2" style="cursor: pointer;" (click)="goBack()"></i>
+                Unscheduled Candidates
+                <span class="badge bg-dark text-white">{{ rows.length }}</span>
+              </span>
+            </div>
+            <div class="col-md-9 d-flex justify-content-end align-items-center">
+              <input type="search" class="form-control form-control-sm search-input" placeholder="🔍 Search"
+                [formControl]="searchQuery" aria-level="Search" style="max-width: 150px; font-size: 13px;">
+            </div>
+          </div>
+          <div class="scroll-container p-0">
+            <table class="table table-bordered">
+              <thead class="custom-bg">
+                <tr class="text-light">
+                  <th *ngFor="let col of columns" class="small-header-th sticky-col"
+                    [ngClass]="{'text-center': col.center}">
+                    {{ col.label }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="paginatedRows.length > 0; else noData">
+                <tr *ngFor="let row of paginatedRows" class="table-hoverr ">
+                  <td *ngFor="let col of columns" class="small-header"
+                    [ngClass]="{'text-uppercase': col.uppercase, 'text-center': col.center}">
+                    <ng-container *ngIf="col.clickable && col.key === 'candidateId'; else normalCell">
+                      <button class="border-none custom-bg mr-2 text-white custom-action-btn px-2"
+                        (click)="viewDetails(row[col.key])">
+                        View
+                      </button>
+                      <button class="border-none bg-warning text-white custom-action-btn px-2"
+                        (click)="handleAction(row[col.key])">
+                        Send Reminder
+                      </button>
+                    </ng-container>
+                    <ng-template #normalCell>
+                      <span [innerHTML]="highlightMatch(row[col.key])"></span>
+                    </ng-template>
+
+                  </td>
+                </tr>
+              </tbody>
+
+              <ng-template #noData>
+                <tbody class="bg-white">
+                  <tr>
+                    <td [attr.colspan]="columns.length">
+                      <div class="d-flex justify-content-center align-items-center">
+                        <div class="">
+                          <img
+                            src="https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/xxNZvglgy1.gif"
+                            width="150px" height="150px" alt="">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+          <hr *ngIf="rows.length > 0" class="custom-hr mb-2 mt-1">
+          <div class="d-flex justify-content-between align-items-center mt-1" *ngIf="rows.length > 0">
+            <span class="small badge bg-secondary text-white">
+              Showing {{ startIndex }} to {{ endIndex }} of {{ rows.length }} Records
+            </span>
+
+            <ul class="pagination pagination-sm mb-1">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+                  [ngClass]="{'custom-bg': currentPage > 1, 'bg-secondary': currentPage === 1}">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+
+              <li class="page-item mr-2">
+                <span class="px-3 py-1 small text-dark fw-bold border rounded bg-light">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </span>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages"
+                  [ngClass]="{'custom-bg': currentPage < totalPages, 'bg-secondary': currentPage === totalPages}">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #aboutCandidateDialog>
+  <div class="animate-zoom">
+    <div class="container">
+      <div class="row mb-2 align-items-center">
+        <div class="col-md-10">
+          <div *ngIf="candidateData?.candidatePersonalInformationDetails?.firstName" class="d-flex">
+            <span class="small text-uppercase mr-2">
+              Name: {{ candidateData?.candidatePersonalInformationDetails?.firstName }}
+            </span>
+            <span class="small text-muted mr-2">|</span>
+
+            <span class="small text-uppercase mr-2">
+              Job Code: {{ candidateData?.candidatePersonalInformationDetails?.jcReferanceId }}
+            </span>
+            <span class="small text-muted mr-2">|</span>
+
+            <span class="small text-uppercase">
+              Designation: {{ candidateData?.candidatePersonalInformationDetails?.designationName }}
+            </span>
+          </div>
+
+          <span *ngIf="!candidateData?.candidatePersonalInformationDetails?.firstName"
+            class="fw-bold custom-text">Details</span>
+        </div>
+        <div class="col-md-2 d-flex justify-content-end align-items-center">
+          <span class="cursor-pointer Hover" (click)="close()">
+            <i class="bi bi-x-circle"></i>
+          </span>
+        </div>
+      </div>
+      <hr class="m-0 p-0 text-dark border mb-2">
+
+      <div *ngIf="candidateData?.candidatePersonalInformationDetails?.firstName; else noCandidateData"
+        class="scroll-container">
+        <div class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Basic Details</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Name:</strong>
+              {{ candidateData?.candidatePersonalInformationDetails?.firstName }}
+              <span>{{ candidateData?.candidatePersonalInformationDetails?.lastName }}</span>
+            </div>
+            <div class="col-md-3">
+              <strong>Gender:</strong> {{ candidateData?.candidatePersonalInformationDetails?.genderName || 'N/A' }}
+            </div>
+            <div class="col-md-3">
+              <strong>Mobile:</strong> {{ candidateData?.candidatePersonalInformationDetails?.mobileNumber }}
+            </div>
+            <div class="col-md-2">
+              <strong>DOB:</strong> {{ candidateData?.candidatePersonalInformationDetails?.dob }}
+            </div>
+            <div class="col-md-4">
+              <strong>Email:</strong> {{ candidateData?.candidatePersonalInformationDetails?.email }}
+            </div>
+            <div class="col-md-4">
+              <strong>Marital Status:</strong> {{ candidateData?.candidatePersonalInformationDetails?.maritalStatusName
+              }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Communication Address</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="mb-0">
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressA }},
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressB }},
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressC }}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p class="mb-0"><strong>Postal Code:</strong> {{
+                candidateData?.candidateCommunicationAddressDetails?.postalCode }}</p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>State:</strong> {{ candidateData?.candidateCommunicationAddressDetails?.stateName
+                }}</p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>City:</strong> {{ candidateData?.candidateCommunicationAddressDetails?.cityName }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card p-3 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Permanent Address</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="mb-0">
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressA }},
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressB }},
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressC }}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p class="mb-0"><strong>Postal Code:</strong> {{
+                candidateData?.candidatePermanentAddressDetails?.postalCode }}</p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>State:</strong> {{ candidateData?.candidatePermanentAddressDetails?.stateName }}
+              </p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>City:</strong> {{ candidateData?.candidatePermanentAddressDetails?.cityName }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-2 mb-3" *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher">
+          <span class="custom-text text-decoration-underline"><strong>Salary Expectation</strong></span>
+
+         
+          <div class="d-flex justify-content-start">
+            <span class="mr-5"><strong>Current Salary:</strong> ₹{{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.currentSalary }}</span>
+            <span><strong>Expected Salary:</strong> ₹{{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.expectedSalary }}</span>
+          </div>
+
+      
+          <div>
+            <span><strong>Job Description:</strong> {{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.description }}</span>
+          </div>
+        </div>
+
+
+
+        <div class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Education</strong></span>
+          <table class="table table-bordered" *ngIf="candidateData?.candidateEducationDetails?.length">
+            <thead class="table-dark">
+              <tr class="small-header">
+                <th>Type</th>
+                <th>University</th>
+                <th>Qualification</th>
+                <th>Year</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let edu of candidateData?.candidateEducationDetails">
+                <td class="small-header">{{ edu?.educationTypeName }}</td>
+                <td class="small-header">{{ edu?.universityName }}</td>
+                <td class="small-header">{{ edu?.qualificationName }}</td>
+                <td class="small-header">{{ edu?.yearOfPassing }}</td>
+                <td class="small-header">{{ edu?.percentage }}%</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <div class="card p-2 mb-3">
+          <div class="row mb-1">
+            <div class="col">
+              <span class="custom-text text-decoration-underline fs-4"><strong>Experience</strong></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Experience Type:</strong>
+              {{ candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher ? 'Fresher' : 'Experienced'
+              }}
+            </div>
+            <div class="col-md-6">
+              <strong>Notice Period:</strong>
+              {{ candidateData.candidateExperienceDetails.candidateJoiningDetails.joiningName }}
+            </div>
+          </div>
+
+          <table class="table table-bordered"
+            *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher">
+            <thead class="table-dark">
+              <tr class="small-header">
+                <th>Company</th>
+                <th>Total Experience (Years)</th>
+                <th>Last Working Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let exp of candidateData.candidateExperienceDetails.candidateCompanyDetails">
+                <td class="small-header">{{ exp.companyName }}</td>
+                <td class="small-header">{{ exp.totalExp }}</td>
+                <td class="small-header">{{ exp.lastWorkingDate | date: 'dd-MM-yyyy' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+
+
+        <div *ngIf="candidateData.candidateInterviewDetails.length > 0" class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline">
+            <strong>Interview</strong>
+          </span>
+
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th class="custom-th small-header">Candidate ID</th>
+                  <th class="custom-th small-header">Interview Date</th>
+                  <th class="custom-th small-header">Interview Time</th>
+                  <th class="custom-th small-header">Interviewer ID</th>
+                  <th class="custom-th small-header">Round Name</th>
+                  <th class="custom-th small-header">Location</th>
+                  <th class="custom-th small-header">Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let exp of candidateData.candidateInterviewDetails">
+                  <tr *ngIf="exp.interviewTime">
+                    <td class="custom-td small-header">{{ exp.roundNo }}</td>
+                    <td class="custom-td small-header">{{ exp.interviewDate | date: 'dd-MMM-yyyy' }}</td>
+                    <td class="custom-td small-header">{{ exp.interviewTime }}</td>
+                    <td class="custom-td small-header">{{ exp.interviewBy }}</td>
+                    <td class="custom-td small-header">{{ exp.level }}</td>
+                    <td class="custom-td small-header text-break">{{ exp.locationName }}</td>
+                    <td class="custom-td small-header text-break">
+                      <ng-container *ngIf="exp.candidateInterviewFeedBackDTO?.length > 0; else pending">
+                        <button class="btn btn-sm custom-bg text-white text-break"
+                          [disabled]="!exp?.candidateInterviewFeedBackDTO?.length"
+                          (click)="feedbackView(exp,candidateData?.candidatePersonalInformationDetails?.firstName,candidateData?.candidatePersonalInformationDetails?.email)"
+                          tabindex="-1">
+                          View
+                        </button>
+
+
+                      </ng-container>
+                      <ng-template #pending>
+                        <span class="text-muted">Pending</span>
+                      </ng-template>
+                    </td>
+
+                  </tr>
+                </ng-container>
+              </tbody>
+
+            </table>
+          </div>
+
+
+          <div *ngIf="!candidateData?.candidateInterviewDetails?.length" class="text-muted text-center">
+            No interview details available.
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #noCandidateData>
+        <div class="alert alert-warning text-center">
+          No Candidate data available.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vendor Form Request</title> 
+</head>-->
+
+<body style="margin:0; padding:0; font-family: Arial, sans-serif;">
+  <div style="background-color:#d0e3ea; padding:20px;">
+    <img src="https://www.heterohealthcare.com/assets/img/hhcllogo.svg?Version=4.68" alt="Hetero Healthcare"
+      style="max-width:200px;">
+  </div>
+  <div style="padding:30px 30px 5px 30px; background-color:#fff;">
+    <p>Dear Mr./Ms. <strong>E-one moli energy corp</strong>,</p>
+
+    <p>
+      Please complete and submit your vendor form using the link provided below.
+      Ensure all required fields are accurately filled out. We appreciate your prompt response.
+    </p>
+
+    <p style="color:hotpink; font-style:italic;">
+      Vendor Reference No: <strong>AZ6000V414</strong>
+    </p>
+
+      <strong style="font-weight:bold;">Vendor Details:</strong>
+      <!-- <p style="margin:5px 100px; font-weight: bold;">Vendor Details: </p> -->
+      <p style="margin:5px 50px;">Vendor Name: <strong>E-ONE MOLI ENERGY CORP</strong></p>
+      <p style="margin:5px 50px;">Vendor Type: <strong>V004-Sun.Creditors-Packing Material</strong></p>
+      <p style="margin:5px 50px;">Industry Type: <strong>1003-CAPITAL</strong></p>
+      <p style="margin:5px 50px;">Company Name: <strong>5000-HETERO HEALTHCARE LTD.</strong></p>
+
+
+
+    <p style="margin-top: 10px;">
+      Kindly click this URL and fill your details:
+    </p>
+
+    <p>
+      <a href="#" style="
+        background-color:#0072BC;
+        color:#fff;
+        padding:9px 9px;
+        text-decoration:none;
+        border-radius:5px;
+        display:inline-block;
+        font-weight:bold;">
+        Click Here
+      </a>
+    </p>
+  </div>
+  <div style="background-color:#e94c4c; padding:20px; color:#fff; position: relative;">
+    <div style="text-align:left;">
+      <p style="margin:0;">
+        &copy; Copyright &copy; 2024 All Rights Reserved by
+        <a href="#" style="color:#fff; text-decoration:underline;">Hetero Healthcare Limited.</a>
+      </p>
+      <p style="margin:5px 0;">
+        <a href="mailto:vendormanagement@heterohealthcare.com" style="color:#fff; text-decoration:underline;">
+          Contact Us : vendormanagement&#64;heterohealthcare.com
+        </a>
+      </p>
+    </div>
+    <div style="position:absolute; top:20px; right:20px;">
+      <a href="#" style="margin:0 10px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/145/145802.png" alt="Facebook" style="vertical-align:middle;">
+      </a>
+      <a href="#" style="margin:0 10px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/145/145812.png" alt="Twitter" style="vertical-align:middle;">
+      </a>
+      <a href="#" style="margin:0 5px;">
+        <img src="https://cdn-icons-png.flaticon.com/24/145/145807.png" alt="LinkedIn" style="vertical-align:middle;">
+      </a>
+    </div>
+  </div>
+</body>
+
+<!-- </html> -->

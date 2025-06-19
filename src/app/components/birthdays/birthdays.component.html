@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+  <span>
+    <li class="breadcrumb-item active" aria-current="page">Birthdays List</li>
+  </span>
+    <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+  </ol>
+</nav>
+<div class="container">
+  <div class="bdaysSectn">
+      <div class="flxEnd"> 
+      <select name="selectMonth" class="form-control select-css" [(ngModel)]="selectMonth" (change)= 'callDOB($event)'>
+        <option *ngFor="let option of options" [value]="option">{{option}}</option>
+     </select>
+    </div>
+    <div class="myTableScroll"> 
+        <table>
+          <thead>
+            <th class="sticky-col"><span>Name</span></th>
+            <th class="sticky-col"><span>Date</span></th>
+            <th class="sticky-col"><span>Business Unit</span></th>
+            <th class="sticky-col"><span>Department</span></th>
+            <th class="sticky-col"><span>Email</span></th>  
+             
+          </thead>
+          <tbody *ngIf="birthdayList">
+             <ng-container *ngIf ='isBday == "1" '>          
+           
+            <ng-container *ngFor="let item of birthdayList ">
+
+                <!-- {{i}} -->
+            <tr *ngIf= 'item.filtermonth == selected_month'>                 
+                <td>{{ item.ename }}</td>
+                <td>{{ item.dateofbirth | date : 'MMM d' }}, {{item.dayname}}</td>
+                <td>{{ item.buname }}</td>
+                <td>{{ item.department }}</td>
+                <!-- <td><a href="mailto:{{item.email}}" *ngIf="item.email !== ''">
+                  <img src="./././assets/img/email.png" alt="email" />
+                  Send Wishes</a> 
+                </td> -->
+                <td><a href="mailto:{{item.email}}" *ngIf="(item.email !== '')&& (item.email !== 'NA')">
+                  {{item.email}}</a></td>
+              </tr>
+            </ng-container>
+            
+              
+            </ng-container> 
+            <!-- <div *ngIf ='noBdayy==0&&isBdayy==0'> 
+                <tr>
+                    <td colspan="5">No Birthdays in {{selected_month}}</td>
+                </tr>
+            </div> -->
+           
+          </tbody>
+        </table>
+       
+    </div>
+    <p class="_note"><b>Note:</b> Click on email-id to Send Birthday Wishes over Email.</p>
+  </div>
+</div>
+
+ 
+
+
+
+<div class="rltv">
+  <img src="./././assets/img/decortn-bg.png" alt="decortn-bg" class="flags-bg"/>
+  <img src="./././assets/img/cake-icon.png" alt="cake-icon" class="cake-bg"/>
+  <img src="./././assets/img/gifts-icon.png" alt="gifts-icon" class="gifts-bg"/>
+
+</div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+  </div>
+</div>

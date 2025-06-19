@@ -1,0 +1,86 @@
+.p_5
+  padding-left: 50px
+  padding-right: 50px  
+.breadcrumb 
+  li.active
+    color: #101010
+    cursor: initial
+.card 
+  width: 100%   
+  background-color: white
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.035)
+  border-radius: 8px 
+  padding: 1em
+  margin-bottom: 1em 
+ 
+.card.infoBlock  
+  h5
+    font-size: 18px
+
+.theBody
+  position: relative
+  border: 1px solid #e4eaf0
+  padding-top: 45px
+  background: #e4eaf0
+  border-top: 3px solid #fff 
+.table_contnr
+  overflow-y: auto
+  min-height: 30vh  
+  max-height: 45vh
+  z-index: 99
+
+  table
+    border-spacing: 0
+    width: 100%
+
+  tr
+    background-color: #f7f9fb
+
+    &:nth-child(even)
+      background-color: #f1f4f7
+
+  td
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 8px 8px
+    text-align: left
+    // min-width: 100px
+    min-width: 155px
+    font-size: 12px
+    text-transform: uppercase
+    &:nth-child(1), &:nth-child(3)
+      font-size: 14px  
+    span.succssMsg 
+      color: #30a701
+    span.errMsg
+      color: #ed0423  
+     
+  th
+    border-bottom: 2px solid #fff
+    color: #101010
+    padding: 10px 5px
+    text-align: left
+    height: 0
+    line-height: 0
+    padding-top: 0
+    padding-bottom: 0
+    color: transparent
+    border: none
+    white-space: nowrap
+    font-size: 14px
+
+    div
+      position: absolute
+      background: transparent
+      color: #101010
+      padding: 14px 5px
+      top: 0
+      line-height: normal
+      border-left: 0px solid #fff
+      font-weight: 500
+      font-size: 16px
+      min-width: 100px
+
+    &:first-child div
+      border: none        

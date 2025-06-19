@@ -1,0 +1,237 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div> 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">  
+            <li class="breadcrumb-item active" aria-current="page">
+                Vaccination Details
+            </li>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+
+  <div class="container-fluid p_5">
+        <div class="card infoBlock">
+            <h5>Employee Vaccination</h5>
+            <div class="myTableScroll" *ngIf="empData">
+                <form [formGroup]="empForm">
+                <table>
+                <thead>
+                    <tr>
+                    <th class="sticky-col first-col"><span>Emp ID</span></th>
+                    <th class="sticky-col second-col"><span>Emp Name</span></th>              
+                    <th class="sticky-col"><span>Emp Age</span></th> 
+                    <th class="sticky-col"><span>Emp Status</span></th> 
+                    <th class="sticky-col"><span>Vaccine Type</span></th>
+                    <th class="sticky-col"><span>1<sup>st</sup> Dose</span></th>
+                    <th class="sticky-col"><span>2<sup>nd</sup> Dose</span></th>
+                    <th class="sticky-col"><span>Action</span></th>  
+                    </tr>
+                </thead>
+
+                <tbody >
+                    <tr >
+                    <td class="sticky-col first-col">{{empData.EmpCode}}</td>
+                    <td class="sticky-col second-col">{{empData.Fullname}}</td>
+                    <td><span *ngIf="empData.AGE">{{(empData.AGE).split(" ")[0]}} Years</span></td>   
+                    <td>{{empData.STATUS}}</td> 
+                    <td class="_dropdwn"> 
+                        <select  class="form-control" formControlName="VACCINEID"
+                        [ngClass]="{ 'is-invalid': submitted && f.VACCINEID.errors, 'red_bordr': showError }"
+                         (change)='onVaccineSelected($event)' > 
+                            <option disabled selected [ngValue]=''>{{defaultVal}}</option>
+                            <option *ngFor="let option of vaccineTypes"
+                            class="optionsList" [value]="option.SNO">{{option.NAME}}</option>
+                        </select> 
+                        <span *ngIf="submitted && f.VACCINEID.errors" class="invalid-feedback">
+                            <span *ngIf="f.VACCINEID.errors.required">Select Vaccine Type</span>
+                        </span>
+                        <span *ngIf="showError" class="invalid_feedback"> Select Vaccine Type.</span>
+                    </td>
+                    <td class="_date"> 
+                        <input type="checkbox" formControlName="FIRST_DOSE"
+                        [ngClass]="{ 'is-invalid': submitted && f.FIRST_DOSE.errors}"
+                         [value]="empData.FIRST_DOSE" (change)="checkDose1($event)" />
+                        <input type="text" class="form-control" formControlName="FIRST_DOSE_DATE"
+                            placeholder="dd-mmm-yyyy"  
+                            [ngClass]="{ 'is-invalid': submitted && f.FIRST_DOSE_DATE.errors}"
+                            bsDatepicker                      
+                            [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'DD-MMM-YYYY' }"
+                            [minDate]="FromDatemin"
+                            [maxDate]="Datemax"   
+                            (onHidden)="date1Change($event)"                    
+                            readonly /> 
+                            <span *ngIf="submitted && f.FIRST_DOSE.errors" class="invalid-feedback">
+                                <span *ngIf="f.FIRST_DOSE.errors.required">Select Date</span>
+                            </span>
+                            <span *ngIf="submitted &&f.FIRST_DOSE_DATE.errors" class="invalid-feedback">
+                                <span *ngIf="f.FIRST_DOSE_DATE.errors.required">Select Date</span>
+                            </span>
+                    </td>
+                    <td class="_date">
+                        <input type="checkbox" formControlName="SECOND_DOSE" [value]="empData.SECOND_DOSE" (change)="checkDose2($event)"   /> 
+                        <input type="text" class="form-control" 
+                            formControlName="SECOND_DOSE_DATE"
+                            placeholder="dd-mmm-yyyy"
+                            [ngClass]="{ 'is-invalid': submitted && f.SECOND_DOSE_DATE.errors}"
+                            bsDatepicker                      
+                            [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'DD-MMM-YYYY' }"
+                            [minDate]="ToDatemin"
+                            [maxDate]="Datemax"  
+                            (bsValueChange)="date2Change($event)"                   
+                            readonly />
+                            <span *ngIf="submitted &&f.SECOND_DOSE_DATE.errors" class="invalid-feedback">
+                                <span *ngIf="f.SECOND_DOSE_DATE.errors.required">Select Date</span>
+                            </span>
+                    </td>
+
+                    <td style="text-align: center;">
+                        <button class="btn btn_save mr-1" (click)="submitEMPData()"
+                        [disabled]="disableButton">Save</button>
+                        <!-- <button class="btn btn_othr ml-1">Other</button>  -->
+                    </td>  
+                    
+                </tr>
+                </tbody>
+                </table> 
+            </form>
+            </div>
+
+
+            <br>
+             <!-- ***********************Family Vaccination ************************* -->
+            <h5 class="_hddng">Family Vaccination <i class="fa "
+                [ngClass]="{'fa-toggle-off': !toggleFmlyVccntn,
+                            'fa-toggle-on': toggleFmlyVccntn}"
+                     aria-hidden="true" (click)="familyData()"></i></h5> 
+            <ng-container *ngIf="toggleFmlyVccntn"> 
+                <div class="myTableScroll tbl2"> 
+                   
+                        <!--Use formArray to create multiple, smaller forms'-->
+                       
+                    <table>
+                    <thead>
+                        <tr>
+                            <th class="sticky-col first-col"><span>Person Name</span></th>
+                            <th class="sticky-col second-col"><span>Relation</span></th>              
+                            <th class="sticky-col _age"><span>Age</span></th> 
+                            <th class="sticky-col"><span>is Dependent</span></th> 
+                            <th class="sticky-col minWdth"><span>Aadhar Number</span></th>
+                            <th class="sticky-col minWdth_mob"><span>Mobile Number</span></th> 
+                            <th class="sticky-col minWdth_vcn"><span>Vaccine Type</span></th> 
+                            <th class="sticky-col m200"><span>1<sup>st</sup> Dose</span></th>
+                            <th class="sticky-col m200"><span>2<sup>nd</sup> Dose</span></th>
+                            <th class="sticky-col"><span>Action</span></th> 
+                        </tr>
+                    </thead>
+
+                   
+                    </table> 
+
+ 
+           
+            <ng-container *ngFor="let item of fmlyData; let i = index; ">
+                <form [formGroup]="teamForm" >
+                    <table>
+                        
+                        <tbody>
+                            <tr  (click)="getRow(item)">
+                            
+                                <td class="sticky-col first-col">{{item.NAME}}</td>
+                                <td class="sticky-col second-col">{{item.RELATIONNAME}}</td>
+                                <td class="_age"><span *ngIf="item.AGE">{{(item.AGE).split(" ")[0]}} Years</span></td>   
+                                <td>{{item.ISDEPENDENT}}</td> 
+                                <td class="minWdth">
+                                    <!-- if Data Exist --> 
+                                    <input type="text" class="form-control" [value]="item.AADHAR"  *ngIf="item.AADHAR" disabled/> 
+
+                                    <!-- if NoData  -->
+                                    <input type="text" class="form-control" formControlName="aadhar{{i}}"
+                                    (keypress)="numberOnly($event)" maxlength="12"
+                                     placeholder="Aadhar Number" *ngIf="!item.AADHAR" blockCopyPaste/> 
+                                </td>   
+                                <td class="minWdth_mob"> 
+                                    <!-- if Data Exist -->
+                                    <input type="text" class="form-control"  [value]="item.MOBILE"  *ngIf="item.MOBILE" disabled/>
+
+                                    <!-- if NoData  -->
+                                    <input type="text" class="form-control" formControlName="mobile{{i}}"
+                                    (keypress)="numberOnly($event)"
+                                     maxlength="10"
+                                     placeholder="Mobile Number" *ngIf="!item.MOBILE" blockCopyPaste/> 
+                                </td> 
+                                
+                                <td class="minWdth">
+                                    <!-- if Data Exist -->
+                                    <select class="form-control"  *ngIf="vaccineTypes && item.VACCINEID!='0'" disabled>  
+                                        <option class="optionsList">{{vaccineTypes[item.VACCINEID-1].NAME}}</option> 
+                                    </select>
+
+                                    <!-- if NoData  -->
+                                    <select class="form-control" formControlName="vaccineid{{i}}"  *ngIf="item.VACCINEID == '0'"
+                                        (change)='onVaccineChange(i,$event)' > 
+                                        <option disabled selected [value]='defaultVal1'>{{defaultVal1}}</option>
+                                        <option *ngFor="let option of vaccineTypes"
+                                        class="optionsList" [value]="option.SNO">{{option.NAME}}</option>
+                                    </select>
+                                </td>   
+                                <td class="_date">
+                                    <!-- if Data Exist -->
+                                    <input type="checkbox" [attr.checked]="true" *ngIf="item.FIRST_DOSE_DATE" disabled/>
+                                    <input type="text" class="form-control" *ngIf="item.FIRST_DOSE_DATE" [value]="item.FIRST_DOSE_DATE|date: 'dd-MMM-yyyy'" disabled />
+                                   
+                                    <!-- if NoData  -->
+                                    <input type="checkbox" formControlName="first_dose{{i}}" (change)="checkFmlyDose1(i,$event)" *ngIf="!item.FIRST_DOSE_DATE"/>
+                                    <input type="text" class="form-control" placeholder="dd-mmm-yyyy" *ngIf="!item.FIRST_DOSE_DATE"  
+                                        formControlName="first_dose_date{{i}}"  
+                                        bsDatepicker                      
+                                        [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'DD-MMM-YYYY'}"
+                                        (bsValueChange)="dose1fdate(i,$event)"
+                                        [minDate]="FromDatemin"
+                                        [maxDate]="Datemax"  
+                                        readonly />  
+    
+                                </td>
+                                <td class="_date">
+                                    <!-- if Data Exist -->
+                                    <input type="checkbox" [attr.checked]="true" *ngIf="item.SECOND_DOSE_DATE" disabled/>
+                                    <input type="text" class="form-control" *ngIf="item.SECOND_DOSE_DATE" [value]="item.SECOND_DOSE_DATE|date: 'dd-MMM-yyyy'" disabled />
+
+                                    <!-- if NoData  -->
+                                    <input type="checkbox" formControlName="second_dose{{i}}" (change)="checkFmlyDose2(i,$event)" *ngIf="!item.SECOND_DOSE_DATE"/>
+                                    <input type="text" class="form-control" placeholder="dd-mmm-yyyy" *ngIf="!item.SECOND_DOSE_DATE"
+                                        formControlName="second_dose_date{{i}}" 
+                                        bsDatepicker  
+                                        [minDate]="dose2minDate"   
+                                        [maxDate]="Datemax"                   
+                                        [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'DD-MMM-YYYY' }"
+                                        readonly />
+                            </td> 
+                            <td style="text-align: center;">
+                                <button  class="btn btn_save m-auto" *ngIf="item.FIRST_DOSE_DATE && item.SECOND_DOSE_DATE" disabled>Save</button>
+                                <button class="btn btn_save m-auto" (click)="submitFmly(i, item)"  *ngIf="!item.FIRST_DOSE_DATE || !item.SECOND_DOSE_DATE">Save</button> 
+                            </td>  
+                        
+                            </tr>
+                
+                    </tbody>
+                </table>
+                </form>
+            </ng-container>
+
+        
+        </div>
+    </ng-container>
+        </div>
+</div>
+
+
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>

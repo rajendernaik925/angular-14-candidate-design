@@ -1,0 +1,118 @@
+.custom-bg {
+  background-color: #0072BC;
+}
+
+.scroll-container {
+  max-height: calc(100vh - 219px);
+  overflow-y: auto;
+  display: block;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.small-header {
+  font-size: 14px;
+  padding: 5px 10px;
+  line-height: 1.8;
+}
+
+.form-control-file {
+  border: 2px solid #ced4da;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #f8f9fa;
+}
+
+.custom-file input[type=file]:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+input::-moz-placeholder {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+input::placeholder {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.hover:hover {
+  color: red;
+}
+
+.fs-5 {
+  font-size: 18px;
+}
+
+.fs-4 {
+  font-size: 23px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.Hover:hover {
+  color: red !important;
+}
+
+th, td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
+.viewHover:hover {
+  color: red;
+  text-decoration: underline;
+}
+
+.fs-small {
+  font-size: 0.8rem;
+}
+
+input[type=number] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+thead th {
+  position: sticky;
+  top: 0px;
+  background: #0072BC;
+  padding-top: 0;
+}
+
+.col-md-3 {
+  padding-right: 0px;
+}
+
+.custom-status-open {
+  color: green;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 2px;
+  background: hsl(143, 54.6%, 76.7%);
+}/*# sourceMappingURL=vacancy.component.css.map */

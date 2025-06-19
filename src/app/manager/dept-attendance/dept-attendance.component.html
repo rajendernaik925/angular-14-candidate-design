@@ -1,0 +1,136 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb p_3">
+      <span>
+        <li class="breadcrumb-item" [routerLink]="['/managerApprovals']">
+          Manager Approvals
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Department Attendance</li>
+      </span>
+     
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="tableSectn">
+      <div class="flxEnd">
+        <h5>IN-OUT Summary 
+          <ng-container *ngIf="LeadName">
+           <span>-&nbsp;{{LeadName|titlecase}}&nbsp;Team</span>
+          </ng-container>
+        </h5>
+        <div class="rytAlign">
+          <div class="custom-control custom-switch custom-switch-lg">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="customSwitch2"
+              [(ngModel)]="payperiodSwitch" 
+              (change)="handleSelected()"/>
+            <label class="custom-control-label" for="customSwitch2">
+              Pay Period
+            </label>
+          </div> 
+          
+  
+         <select class="form-control select-css" 
+          [ngModel]="selectedLevel" (ngModelChange)='onChangeMonth($event)'>
+          <option *ngFor="let level of options" [ngValue]="level" >                    
+            {{level.monthname}}-{{level.year}}    
+          </option>
+        </select> 
+        
+        </div> 
+      </div>
+   
+
+    <div class="myTableScroll">
+ 
+
+      <table *ngIf="deptAttendance">
+        <thead>
+          <tr>
+           <!-- <th class="sticky-col first-col">Name</th>
+            <th class="sticky-col second-col"><label>LINK</label></th>
+            <th><span>MON</span><b>01</b></th>
+            <th><span>TUE</span><b>02</b></th>
+            <th><span>WED</span><b>03</b></th>
+            <th><span>THU</span><b>04</b></th>
+            <th><span>FRI</span><b>05</b></th>
+            <th><span>SAT</span><b>06</b></th>
+            <th><span>SUN</span><b>07</b></th>
+            <th><span>MON</span><b>08</b></th>
+            <th><span>TUE</span><b>09</b></th>
+            <th><span>WED</span><b>10</b></th>
+            <th><span>THU</span><b>11</b></th>
+            <th><span>FRI</span><b>12</b></th> -->
+            <th *ngFor="let head of deptAttendance[0] |keys">
+              <span *ngIf="head =='isManager'; else theData ">
+                <label>LINK</label>
+              </span>
+              <ng-template #theData>
+                <!-- {{head| momentDate: "DD-MM-YYYY"}} -->
+                <span *ngIf="head =='ID'">ID</span>
+                <span *ngIf="head =='NAME'">NAME</span>
+                <span *ngIf="head !='NAME' && head !='ID'">{{head| momentDate: "DD-MM-YYYY"}}</span>  
+              </ng-template>
+             
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+
+          <tr *ngFor="let item of deptAttendance ">           
+            <!-- <td *ngFor="let list of item | keys">{{item[list]}}</td>         -->
+            <!-- <td *ngFor="let list of item | keys">
+              <span *ngIf="item.isManager =='none'; else theData ">
+              link
+            </span>
+            <ng-template #theData>
+              {{item[list]}}
+            </ng-template>
+            </td>         --> 
+          <td class="sticky-col first-col">{{item.ID}}</td>
+          <td class="sticky-col second-col">{{item.NAME}}</td>
+          <td *ngIf="item.isManager != 'none'">
+           <a target="_blank" (click)="nxtLevel(item)"  [routerLink]="['/deptAttendance/true']"><i class="fa fa-link" aria-hidden="true" ></i></a> 
+          </td>
+          <td *ngIf="item.isManager == 'none'">
+           &nbsp;
+          </td>
+          <ng-container *ngFor="let list of item | keys ; let i=index ">
+            <td *ngIf="i>= 3">
+            <span [ngStyle]='{ background: item[list].split("~")[1]}' class="d-block">
+              {{item[list].split("~")[0]}}
+            </span> 
+            </td>
+          </ng-container>
+          </tr>
+
+ 
+           
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+
+
+
+  </div>
+
+
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>

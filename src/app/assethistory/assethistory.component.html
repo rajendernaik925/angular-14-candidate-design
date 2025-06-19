@@ -1,0 +1,204 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb ">
+    <ol class="breadcrumb p_3">
+      <span>
+        <li class="breadcrumb-item active" aria-current="page">Team Assets</li>
+      </span>
+      <li class="_date">
+        Logged in from {{ myDate | momentDate : "dddd, DD"
+        }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+        {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+      </li>
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 pr-0">
+        <app-sidebar></app-sidebar>
+      </div> 
+      <!-- <ul class="nav navbar-nav side-nav mb-2">
+        <li class="pb-2">
+            <a 
+                routerLink="/asset" (click)="goBack()"
+                routerLinkActive="active-link" 
+                [routerLinkActiveOptions]="{ exact: true }">
+                Employee Assets
+            </a>
+        </li>
+        <li>
+            <a 
+                routerLink="/assethistory" (click)="goBack()"
+                routerLinkActive="active-link" 
+                [routerLinkActiveOptions]="{ exact: true }">
+                Asset Request History
+            </a>
+        </li>
+    </ul> -->
+          <div class="col-md-10">
+            <div class="jobcode-section">
+             
+              <div *ngIf="!selectedRequest">
+                <div class="row">
+                  <div class="col-md-8 title m-auto">
+                    <h6>Asset Request History</h6>
+                  </div>
+                  
+                    <div class="col-md-4 search-container">
+                        <input
+                          type="text"
+                          class="search-box"
+                          placeholder="Search with Employee Id or Name" [(ngModel)]="searchText" (ngModelChange)="applySearchFilter()"
+                        />
+                        <button class="search-btn">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                      <div class="table-responsive" style="padding: 0px 15px">
+                        <table class="table" style="background: #F6F8FA;width: 100%;">
+                            <thead>
+                                <tr >
+                                    <th>Req ID</th>
+                                    <th>Req.Date</th>
+                                    <th>Requested Assets</th>
+                                    <th>Status</th>
+                                    <th>Employee ID</th>
+                                    <th>Full Name</th>
+                                    <!-- <th class="text-center" >Department</th> -->
+                                    <th>Designation</th>
+                                    <!-- <th>Requested Asset</th> -->
+                                    <!-- <th>Status</th> -->
+                                    <th>View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        <tr *ngIf="rmEmployeelist.length === 0">
+                          <td colspan="9" Style="text-align: center;">No data found</td>
+                        </tr>
+                        <tr *ngFor="let data of rmEmployeelist" class="hover-box"  (click)="toggleViewMore(data)">
+                          <td >{{data.RequestId}}</td>
+                          <!-- <td>{{data.RequestDate }}</td> -->
+                          <td>{{ data.RequestDate | date:'dd-MM-yyyy' }}</td>
+                          <td>
+                            <span [tooltip]="data.Assets" placement="bottom">
+                              {{ data.Assets | slice:0:20 }}
+                            </span>
+                          </td>
+                          
+                          <td class="text-center" width="10%">{{getStatus(data.RequestStatus)}}</td>
+                          <td>{{data.Id}}</td>
+                          <td>{{data.Name| titlecase}}</td>
+                          <!-- <td>{{data.Dept}}</td> -->
+                          <td>{{data.Desg| titlecase}}</td>
+                         
+                          <!-- <td class="text-center" width="10%">{{getStatus(data.RequestStatus)}}</td> -->
+                          <td class="text-center" (click)="toggleViewMore(data)" class="view-more"><i class="fa fa-eye" aria-hidden="true"></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="selectedRequest">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <p class="asset-name"><i class="fa fa-arrow-left" (click)="goBack()"> </i> {{selectedRequest.Id}} - Requested Assets </p>
+                            </div>
+                          </div>
+                         <div class="loop overflow-scroll">
+                            <div *ngFor="let item of selectedRequest?.Items" class="asset-data mt-2">
+                                <div class="row">
+                                  <div class="col-md-3">
+                                    <label class="d-block">Item ID</label>
+                                    <p class="id">{{ item.ItemId }}</p>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <label class="d-block">Requested Date</label>
+                                    <p>{{ selectedRequest?.RequestDate }}</p>
+                                  </div> 
+                                 
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1005 || item.ItemStatus === 1006">
+                                    <label class="d-block">Assigned Date</label>
+                                    <p>{{ item.AssignedDate || '--' }}</p>
+                                  </div>
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1005 || item.ItemStatus === 1006">
+                                    <label class="d-block">Assigned By</label>
+                                    <p>{{ item.AssignedBy ? (item.AssignedBy | titlecase) : '--' }}</p>
+                                  </div>
+                              
+                                  <!-- Processed Date and Processed By: Only shown for ItemStatus 1001 or 1002 -->
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1001 || item.ItemStatus === 1002">
+                                    <label class="d-block">Processed Date</label>
+                                    <p>{{ item.ProcessedDate || '--' }}</p>
+                                  </div>
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1001 || item.ItemStatus === 1002">
+                                    <label class="d-block">Processed By</label>
+                                    <p>{{ item.ProcessedBy ? (item.ProcessedBy | titlecase) : '--' }}</p>
+                                  </div>
+                              
+                                  <!-- Rejected Date and Rejected By: Only shown for ItemStatus 1003 -->
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1003">
+                                    <label class="d-block">Rejected Date</label>
+                                    <p>{{ item.RejectedDate || '--' }}</p>
+                                  </div>
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1003">
+                                    <label class="d-block">Rejected By</label>
+                                    <p>{{ item.RejectedBy ? (item.RejectedBy | titlecase) : '--' }}</p>
+                                  </div>
+                              
+                                  <!-- Prepared Date and Prepared By: Only shown for ItemStatus 1004 -->
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1004">
+                                    <label class="d-block">Prepared Date</label>
+                                    <p>{{ item.PreparedDate || '--' }}</p>
+                                  </div>
+                                  <div class="col-md-3" *ngIf="item.ItemStatus === 1004">
+                                    <label class="d-block">Prepared By</label>
+                                    <p>{{ item.PreparedBy ? (item.PreparedBy | titlecase) : '--' }}</p>
+                                  </div>
+                                  
+                                  <!-- <div class="col-md-3 ack">
+                                   <button>Acknowledge</button>
+                                </div> -->
+                                </div>
+                           
+                                <div class="row">
+                                    <div class="col-md-2 pr-0">
+                                      <label class="d-block">Asset Type</label>
+                                      <input type="text"   value="{{ item.AssetType }}" disabled/>
+                                    </div>
+                                    <div class="col-md-10">
+                                      <label class="d-block">Description</label>
+                                      <input type="text"   value="{{ item.ItemDes }}" disabled/>
+                                    </div>
+                                  </div>
+                                  <div class="row mt-3">
+                                    <div class="col-md-2 pr-0">
+                                      <label class="d-block">Status</label>
+                                      <input type="text"   value="{{getItemStatus(item.ItemStatus)}}" disabled/>
+                                      
+                                    </div>
+                                     
+                                      <div class="col-md-10">
+                                        <label class="d-block">Remarks</label>
+                                        <input type="text"   value="{{ item.ItDes }}" disabled/>
+                                      </div>
+                                    </div>
+                              </div>  
+                          </div>  
+                        </div>
+                        </div> 
+                  </div>
+              </div>
+              
+        
+              <div class="loader transLoadr" *ngIf="isLoading">
+                <div class="spinner">
+                  <div class="bounce1"></div>
+                  <div class="bounce2"></div>
+                  <div class="bounce3"></div>
+                </div>
+              </div>  
+      
+      

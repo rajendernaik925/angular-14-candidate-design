@@ -1,0 +1,495 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">HR Hiring</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD" }}
+      <sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2 pr-0">
+      <ul class="sidebar">
+        <li
+          (click)="changeView('raiseAsset')"
+          [class.active]="selectedView === 'raiseAsset'"
+        >
+          Raise Asset
+        </li>
+        <li
+          (click)="changeView('assetHistory')"
+          [class.active]="selectedView === 'assetHistory'"
+        >
+          Asset History
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-10">
+      <div class="jobcode-section">
+        <div *ngIf="selectedView === 'raiseAsset'">
+          <form [formGroup]="employeeDeviceForm" (ngSubmit)="onSubmit()">
+            <!-- Employee Information Section -->
+            <div class="emp-info">
+              <h5 class="mb-2">Employee Information</h5>
+              <div class="row mb-1">
+                <div class="col-md-3">
+                  <label for="empName" class="form-label"
+                    >Employee Name <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="empName"
+                    class="form-control"
+                    formControlName="empName"
+                    placeholder="Enter Name"
+                  />
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('empName')?.invalid &&
+                      employeeDeviceForm.get('empName')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Employee Name is required.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="contactNum" class="form-label"
+                    >Contact Number <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="contactNum"
+                    class="form-control"
+                    formControlName="contactNum"
+                    (keypress)="allowOnlyDigits($event)"
+                    maxlength="10"
+                    placeholder="Enter Contact Number"
+                  />
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('contactNum')?.invalid &&
+                      employeeDeviceForm.get('contactNum')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Contact Number is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      employeeDeviceForm
+                        .get('contactNum')
+                        ?.hasError('pattern') &&
+                      employeeDeviceForm.get('contactNum')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please enter a valid 10-digit contact number.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="bu" class="form-label"
+                    >BU Name <span style="color: red">*</span></label
+                  >
+                  <select id="bu" class="form-select" formControlName="bu">
+                    <option value="" selected disabled>Select BU</option>
+                    <option
+                      *ngFor="let businessunit of bu"
+                      [value]="businessunit.id"
+                    >
+                      {{ businessunit.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('bu')?.invalid &&
+                      employeeDeviceForm.get('bu')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    BU Name is required.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="department" class="form-label"
+                    >Department <span style="color: red">*</span></label
+                  >
+                  <select
+                    id="department"
+                    class="form-select"
+                    formControlName="department"
+                  >
+                    <option value="" selected disabled>
+                      Select Department
+                    </option>
+                    <option *ngFor="let dept of departments" [value]="dept.id">
+                      {{ dept.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('department')?.invalid &&
+                      employeeDeviceForm.get('department')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Department is required.
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-3">
+                  <label for="designation" class="form-label"
+                    >Designation <span style="color: red">*</span></label
+                  >
+                  <select
+                    id="designation"
+                    class="form-select"
+                    formControlName="designation"
+                  >
+                    <option value="" selected disabled>
+                      Select Designation
+                    </option>
+                    <option *ngFor="let des of designations" [value]="des.id">
+                      {{ des.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('designation')?.invalid &&
+                      employeeDeviceForm.get('designation')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Designation is required.
+                  </div>
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label for="reportingManager" class="form-label"
+                    >Reporting Manager <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    placeholder="Search Managers"
+                    class="form-control"
+                    [value]="reportingManager.value"
+                    [formControl]="reportingManager"
+                    (input)="searchManagers()"
+                  />
+                  <ul
+                    class="list-group position-absolute w-90 mt-1"
+                    *ngIf="
+                      reportingManager.value?.length >= 2 &&
+                      filteredManagers.length > 0
+                    "
+                    style="z-index: 1000; max-height: 200px; overflow-y: auto"
+                  >
+                    <li
+                      *ngFor="let manager of filteredManagers"
+                      class="list-group-item"
+                      (click)="selectManager(manager)"
+                      style="cursor: pointer"
+                    >
+                      {{ manager.id }} - {{ manager.name }}
+                    </li>
+                  </ul>
+                  <div
+                    *ngIf="
+                      employeeDeviceForm.get('managerId')?.invalid &&
+                      employeeDeviceForm.get('managerId')?.touched
+                    "
+                    class="text-danger"
+                  >
+                    Please select a valid Reporting Manager from the list.
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="tentativeJoiningDate" class="form-label"
+                    >Tentative Joining Date
+                    <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="date"
+                    id="tentativeJoiningDate"
+                    class="form-control"
+                    formControlName="tentativeJoiningDate"
+                  />
+                  <div
+                    class="text-danger"
+                    *ngIf="
+                      employeeDeviceForm.get('tentativeJoiningDate')?.touched &&
+                      employeeDeviceForm.get('tentativeJoiningDate')?.invalid
+                    "
+                  >
+                    Tentative Joining Date is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="emp-info mt-2">
+              <div class="row">
+                <div class="col-md-12">
+                  <div formArrayName="assetRows">
+                    <div
+                      *ngFor="let row of assetRows.controls; let i = index"
+                      [formGroupName]="i"
+                    >
+                      <div class="row mt-2">
+                        <div class="col-md-2">
+                          <label
+                            >Select Asset Type
+                            <span style="color: red">*</span></label
+                          >
+                          <select formControlName="assetType">
+                            <option value="" disabled selected>Select</option>
+                            <option
+                              *ngFor="let asset of assets"
+                              [value]="asset.id"
+                            >
+                              {{ asset.name }}
+                            </option>
+                          </select>
+                          <div
+                            *ngIf="
+                              row.get('assetType')?.invalid &&
+                              row.get('assetType')?.touched
+                            "
+                            class="text-danger"
+                          >
+                            Asset Type is required.
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label>Count <span style="color: red">*</span></label>
+                          <input
+                            formControlName="count"
+                            type="number"
+                            min="1"
+                            placeholder="Count"
+                          />
+                          <div
+                            *ngIf="
+                              row.get('count')?.invalid &&
+                              row.get('count')?.touched
+                            "
+                            class="text-danger"
+                          >
+                            Count is required.
+                          </div>
+                        </div>
+
+                        <div class="col-md-7">
+                          <label
+                            >Description
+                            <span style="color: red">*</span></label
+                          >
+                          <input
+                            formControlName="description"
+                            type="text"
+                            placeholder="Description"
+                          />
+                          <div
+                            *ngIf="
+                              row.get('description')?.invalid &&
+                              row.get('description')?.touched
+                            "
+                            class="text-danger"
+                          >
+                            Description is required.
+                          </div>
+                        </div>
+
+                        <div
+                          class="col-md-1 d-flex align-items-end justify-content-end"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="removeRow(i)"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Add Row Button -->
+              <div class="row mt-2 ml-1">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="addRow()"
+                >
+                  <i class="fa fa-plus"></i> Add
+                </button>
+              </div>
+            </div>
+            <!-- Submit Button Inside Form -->
+            <div class="row justify-content-center mt-2">
+              <div class="col-md-1">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <div class="col-md-1">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="onReset()"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div *ngIf="selectedView === 'assetHistory'">
+        <div class="asset-history">
+          <div class="row">
+            <div class="col-md-6">
+              <h5 class="mb-2">Asset History</h5>
+            </div>
+
+            <!-- <form class="history" (ngSubmit)="onSubmitHistory()">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="bu">BU</label>
+          <select id="bu" class="form-select" formControlName="bu" (change)="onBUChange()">
+            <option value="" selected disabled>Select All</option>
+            <option *ngFor="let businessunit of bu" [value]="businessunit.id">
+              {{ businessunit.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="department">Department</label>
+          <select id="department" class="form-select" formControlName="department">
+            <option value="" selected disabled>Select Department</option>
+            <option *ngFor="let dept of departments" [value]="dept.id">
+              {{ dept.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="assetType">Asset Type</label>
+          <select id="assetType" class="form-select" formControlName="assetType">
+            <option value="" selected disabled>Select Asset Type</option>
+            <option *ngFor="let asset of assets" [value]="asset.id">
+              {{ asset.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="tentativeFromDate">From Date</label>
+          <input
+            type="date"
+            id="tentativeFromDate"
+            class="form-control"
+            formControlName="tentativeFromDate"
+          />
+        </div>
+
+        <div class="col-md-2">
+          <label for="tentativeToDate">To Date</label>
+          <input
+            type="date"
+            id="tentativeToDate"
+            class="form-control"
+            formControlName="tentativeToDate"
+          />
+        </div>
+
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-primary mt-4">
+            Filter
+          </button>
+        </div>
+      </div>
+    </form> -->
+
+            <div class="col-md-6">
+              <div class="row filters">
+                <div class="col-md-2">
+                  <label for="filterDropdown">Department</label>
+                  <select
+                    id="filterDropdown"
+                    (change)="filterTable($event.target.value)"
+                  >
+                    <option value="">Select All</option>
+                    <option
+                      *ngFor="let department of uniqueDepartments"
+                      [value]="department"
+                    >
+                      {{ department }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-2">
+                  <label for="filterDropdown">BU</label>
+                  <select
+                    id="filterDropdown"
+                    (change)="filterTable($event.target.value)"
+                  >
+                    <option value="">Select All</option>
+                    <option *ngFor="let bu of uniqueBu" [value]="bu">
+                      {{ bu }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table-bordered table table-wrapper">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Contact Number</th>
+                <th>Reporting Manager</th>
+                <th>Joining Date</th>
+                <th>Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let asset of filteredAssetList">
+                <td>{{ asset.requestId }}</td>
+                <td>{{ asset.empId }}</td>
+                <td>{{ asset.empName }}</td>
+                <td>{{ asset.deptName }}</td>
+                <td>{{ asset.desName }}</td>
+                <td>{{ asset.contactNum }}</td>
+                <td>{{ asset.reportingManager || "N/A" }}</td>
+                <td>{{ asset.tentativeJoiningDate }}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let item of asset.items">
+                      {{ item.asset }} ({{ item.count }}) - {{ item.remarks }}
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

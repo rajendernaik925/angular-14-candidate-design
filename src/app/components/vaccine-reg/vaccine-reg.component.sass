@@ -1,0 +1,198 @@
+.p_5
+  padding-left: 50px
+  padding-right: 50px  
+.card 
+  width: 100%   
+  background-color: white
+  border: 1px solid rgba(0, 0, 0, 0.05)
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.035)
+  border-radius: 8px 
+  padding: 1em
+  margin-bottom: 1em 
+ 
+.card.infoBlock  
+  h5
+    font-size: 18px
+div.myTableScroll
+  max-width: 100%
+  max-height: 450px
+  overflow: scroll
+  position: relative
+
+  table
+    position: relative
+    // border-collapse: collapse
+    border-collapse: initial
+    width: 100%    
+
+  td, th
+    padding: 0.25em
+    text-align: center     
+    min-width: 100px 
+    white-space: nowrap 
+    p
+      margin: 0
+      font-size: 14px
+  thead th
+    position: -webkit-sticky    
+    /* for Safari
+    position: sticky
+    top: 0
+    background: #0072bc
+    line-height: 1.8
+    color: #101010
+    &:nth-child(2)
+      z-index: 99 
+    &:first-child
+      left: 0
+      z-index: 1
+    &:nth-child(even)
+      background-color: #0072bc
+    span
+      font-weight: 700
+      font-size: 13px
+      color: white
+      text-transform: uppercase
+    b 
+      font-weight: 600
+      font-size: 24px
+      vertical-align: middle
+      padding-left: 5px
+  tbody th
+    position: -webkit-sticky
+    /* for Safari
+    position: sticky
+    left: 0
+    background: #FFF
+    border-right: 1px solid #CCC
+  tbody tr:hover td
+    // background: #ecff7d 
+  tbody td
+    background: #f6f8fa  
+    font-size: 13px
+    text-align: left
+    padding: 0.35em .85em
+    vertical-align: baseline
+    &:nth-child(even)
+      background-color: #f6f8fa
+    span._compltd
+      color: #328d05
+    span._proccss
+      color: #0072bc
+    span._pending
+      color: #e46c03  
+    span._rejctd
+      color: #ed0423  
+  td._dropdwn
+    min-width: 235px 
+  td._date
+    min-width: 180px
+    max-width: 180px  
+    input[type="text"] 
+      background-color: white
+      display: inline-block
+      max-width: 135px
+      font-size: 14px
+      &:disabled
+        background-color: #e8e9e9
+    input[type="checkbox"] 
+      width: 22px
+      height: 22px
+      vertical-align: middle
+      margin-right: 5px
+      cursor: pointer
+  .sticky-col
+    position: sticky
+    position: -webkit-sticky
+    background-color: #fafbfc
+  .first-col 
+    left: 0px
+    min-width: 60px
+  .second-col
+    width: 230px
+    min-width: 230px
+    // max-width: 150px 
+    left: 60px
+    z-index: 1    
+
+  button.btn_othr
+    background-color: #c57f01
+    border-color: #c57f01
+    color: white
+  button.btn_save
+    background-color: #0072bc
+    border-color: #0072bc
+    color: white
+  input, select, button
+    outline: 0!important
+    box-shadow: none!important
+    font-size: 14px
+
+  select
+    min-width: 214px
+    max-width: 200px
+    font-weight: 600
+    font-size: 13px
+    text-transform: uppercase
+div.myTableScroll.tbl2    
+  table
+    .first-col 
+      left: 0px
+      min-width: 210px
+      white-space: break-spaces
+    .second-col
+      width: 100px
+      min-width: 100px
+      // max-width: 150px 
+      left: 210px
+      z-index: 1  
+    td, th
+      padding: 0.25em
+      text-align: center     
+      min-width: 130px   
+    td._date
+      min-width: 200px
+      max-width: 230px  
+      input[type="text"] 
+        background-color: white
+        display: inline-block
+        max-width: 150px        
+        font-size: 14px
+
+      input[type="checkbox"] 
+        width: 22px
+        height: 22px
+        vertical-align: middle
+        margin-right: 5px
+        cursor: pointer  
+    td.minWdth
+      min-width: 220px  
+    td.minWdth_mob
+      min-width: 160px    
+      max-width: 170px  
+    td._age, th._age
+      min-width: 80px  
+      max-width: 80px  
+  th.sticky-col.minWdth, th.sticky-col.minWdth_vcn 
+    min-width: 220px!important
+  th.sticky-col.minWdth_mob  
+    min-width: 160px
+  th.sticky-col.m200
+    min-width: 200px  
+
+h5._hddng
+  i.fa
+    font-size: 1.7em
+    color: #0072bc
+    vertical-align: middle     
+    cursor: pointer
+.invalid_feedback  
+  border: 0 
+  color: #ba0202     
+  left: 10px 
+  font-size: 13px  
+  overflow: hidden
+.invalid-feedback 
+  span
+    color: #ba0202     
+    font-size: 13px  

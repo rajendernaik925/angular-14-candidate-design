@@ -1,0 +1,198 @@
+.replaced {
+  background-color: orange;
+  transition: background-color 0.3s ease;
+}
+
+.replaced-fade {
+  animation: fadeOut 2s forwards;
+}
+
+.bulkuploadbtns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  font-size: 14px;
+}
+
+.flex_grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0px;
+}
+.flex_grid label {
+  width: -moz-max-content;
+  width: max-content;
+  white-space: nowrap;
+  margin-bottom: 0px;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 350px;
+  overflow: scroll;
+  position: sticky;
+  top: 0;
+  color: #101010;
+  z-index: 1;
+}
+div.myTableScroll thead th {
+  position: sticky;
+  top: 0;
+  background: #e4eaf0;
+  color: #101010;
+  z-index: 9;
+  border: 2px solid #fff;
+}
+div.myTableScroll tbody td {
+  text-align: left;
+  padding: 0.35em 0.75em;
+  white-space: nowrap;
+  border: 2px solid #fff;
+  width: -moz-max-content;
+  width: max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
+  max-width: -moz-max-content !important;
+  max-width: max-content !important;
+}
+div.myTableScroll tbody td:first-child {
+  width: 50px !important;
+}
+div.myTableScroll tbody td:nth-child(2) {
+  width: 150px !important;
+}
+div.myTableScroll th, div.myTableScroll td {
+  padding: 0.45em 0.75em;
+  text-align: left;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.custom_width tr:nth-child(even) {
+  background-color: #f1f4f7;
+}
+.custom_width tr:nth-child(odd) {
+  background-color: #f7f9fb;
+}
+.custom_width tr:hover {
+  background: #b9bec3 !important;
+}
+
+.employeeData {
+  position: relative;
+  padding: 1em;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 2px;
+  margin-top: 20px;
+}
+
+table.custom_width {
+  width: 100%;
+}
+
+.rtbtns {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  align-items: center;
+}
+.rtbtns .btn {
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: normal;
+}
+
+.bulkuploadbtns .btn {
+  font-size: 14px;
+}
+
+.tble_heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.customh2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 0.15em;
+}
+
+span.new {
+  background: #0069d9;
+  color: #fff;
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 0;
+}
+span.already {
+  background: #6c757d;
+  color: #fff;
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 0;
+}
+span.correction {
+  background: #c82333;
+  color: #fff;
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 0;
+}
+span.invalid {
+  background: #ffc107;
+  color: #000;
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 0;
+}
+
+.btn {
+  font-size: 14px;
+}
+
+a.totalcount {
+  color: #000;
+  font-weight: 600;
+  font-size: 18px;
+  text-decoration: none;
+}
+a.totalcount span {
+  color: #c82333;
+}
+
+.form-control {
+  font-size: 14px;
+}
+
+.breadcrumb {
+  margin-bottom: 0px !important;
+}
+
+@keyframes fadeOut {
+  0% {
+    background-color: orange;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.noData {
+  width: 100%;
+  margin: 0em auto;
+  text-align: center;
+  font-size: 26px;
+  color: #767676;
+  background-color: #f3f5f8;
+  padding: 2em;
+}/*# sourceMappingURL=bulk-upload.component.css.map */

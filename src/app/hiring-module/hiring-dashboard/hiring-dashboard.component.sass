@@ -1,0 +1,315 @@
+.col-md-2
+  padding-right: 0  
+.border-red
+  border: 1px solid red
+.border-custom
+  border: 1px solid #0072BC 
+.border-green
+  border: 1px solid green  
+.bg-green
+  background: green 
+.bg-custom
+  background: #0072BC
+.pad
+  padding-right: 0  
+.chart-container
+  display: flex
+  justify-content: space-around
+  flex-wrap: wrap
+
+.chart
+  width: 100%
+  height: 320px
+  min-width: 300px
+.cursor-pointer
+  cursor: pointer 
+
+
+
+$card-hover-scale: 1.02
+$card-hover-translateY: -5px
+$card-shadow-hover: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2)
+
+.dashboard-card
+  transition: transform 0.3s ease, box-shadow 0.3s ease
+  cursor: pointer
+
+  &:hover
+    transform: translateY($card-hover-translateY) scale($card-hover-scale)
+    box-shadow: $card-shadow-hover
+
+  .card-body
+    text-align: center
+
+    .card-title
+      text-transform: uppercase
+      font-weight: 600
+      font-size: 0.875rem
+
+    .display-5
+      font-size: 2.5rem
+      font-weight: 700
+
+    p
+      font-size: 0.75rem
+      margin-bottom: 0
+
+
+.scroll-container
+  max-height: calc(100vh - 140px)
+  overflow-y: scroll
+  display: block
+  max-width: 100%
+  position: relative
+
+  // Hide scrollbar for WebKit-based browsers (Chrome, Safari)
+  &::-webkit-scrollbar
+    display: none
+
+  // Hide scrollbar for Firefox
+  scrollbar-width: none
+
+
+
+.btn:focus, .btn:active 
+  outline: none !important
+  box-shadow: none !important
+
+
+
+
+
+
+.toggle-icon-btn
+  position: absolute
+  top: 15px
+  right: -12px
+  z-index: 1050
+  background-color: #0072bc
+  color: white
+  border: none
+  border-radius: 50%
+  width: 28px
+  height: 28px
+  display: flex
+  align-items: center
+  justify-content: center
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
+  cursor: pointer
+  transition: all 0.3s ease
+
+  i
+    font-size: 14px
+
+  &:hover
+    background-color: darken(#0072bc, 10%)
+.toggle-icon-btn-collapsed
+  position: absolute
+  top: 15px
+  left: 20px
+  transform: translateX(-80%)
+  z-index: 1050
+  background-color: #0072bc
+  color: white
+  border: none
+  border-radius: 50%
+  width: 28px
+  height: 28px
+  display: flex
+  align-items: center
+  justify-content: center
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
+  cursor: pointer
+  transition: all 0.3s ease
+
+  i
+    font-size: 14px
+
+  &:hover
+    background-color: darken(#0072bc, 10%)
+.chart-container
+  max-width: 100%
+
+select.form-select
+  min-width: 140px
+
+
+
+// Custom Select styles
+.custom-select
+  background-color: #f4f6f9 // Light grey background
+  border: 1px solid #ced4da // Border color
+  border-radius: 8px // Rounded corners
+  padding: 2px 5px // Padding for better spacing
+  transition: all 0.3s ease-in-out // Smooth transition on focus
+  height: 30px
+
+  // Change background on hover
+  &:hover
+    background-color: #e9ecef
+    border-color: #adb5bd
+
+  // Focus effect with shadow
+  &:focus
+    background-color: #fff
+    background-color: #f4f6f9
+    border-color: #495057
+    box-shadow: 0 0 5px black // Blue glow effect
+
+  // Style the dropdown icon
+  &::after
+    content: ' ▼' // Adds a downward arrow
+    color: #6c757d
+    font-size: 12px
+    position: absolute
+    right: 10px
+    top: 50%
+    transform: translateY(-50%)
+.fw-bold
+  font-weight: bold
+.Hover
+  cursor: pointer
+  transition: background-color 0.8s ease, transform 0.3s ease
+
+  &:hover
+    background-color: #f0f0f0
+    // transform: translateY(-5px)
+
+
+
+
+
+
+//chat bot
+
+
+// Variables
+$chatbox-width: 300px
+$chatbox-bg: #fff
+$chatbox-header-bg: #0072BC
+$chatbox-header-color: #fff
+$chatbox-border: 1px solid #ccc
+$chatbox-radius: 10px
+$chatbox-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+$chat-icon-size: 40px
+$chat-gap: 5px
+
+// Chatbot Icon
+.chatbot-icon
+  position: fixed
+  bottom: 30px
+  right: 20px
+  font-size: $chat-icon-size
+  cursor: pointer
+  z-index: 999
+  transition: transform 0.3s ease
+
+  &:hover
+    transform: scale(1.1)
+
+// Chatbox
+.chatbox
+  position: fixed
+  bottom: 80px
+  right: 20px
+  width: $chatbox-width
+  background-color: $chatbox-bg
+  border: $chatbox-border
+  border-radius: $chatbox-radius
+  box-shadow: $chatbox-shadow
+  z-index: 1000
+  display: flex
+  flex-direction: column
+
+  &-header
+    background-color: $chatbox-header-bg
+    color: $chatbox-header-color
+    padding: 10px
+    border-top-left-radius: $chatbox-radius
+    border-top-right-radius: $chatbox-radius
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    .close-btn
+      background: none
+      border: none
+      color: $chatbox-header-color
+      font-size: 16px
+      cursor: pointer
+      transition: transform 0.2s ease
+
+      &:hover
+        transform: rotate(90deg)
+
+  &-body
+    padding: 10px
+    height: 150px
+    overflow-y: auto
+    font-size: 14px
+    color: #333
+
+  &-footer
+    display: flex
+    padding: 10px
+    gap: $chat-gap
+
+    input
+      flex: 1
+      padding: 5px
+      border: 1px solid #ccc
+      border-radius: 4px
+      outline: none
+
+      &:focus
+        border-color: $chatbox-header-bg
+
+    button
+      padding: 5px 10px
+      background-color: $chatbox-header-bg
+      color: $chatbox-header-color
+      border: none
+      border-radius: 4px
+      cursor: pointer
+      transition: background 0.3s ease
+
+      &:hover
+        background-color: darken($chatbox-header-bg, 10%)
+
+
+
+.chatbox-body
+  display: flex
+  flex-direction: column
+  gap: 5px
+  padding: 10px
+  height: 300px
+  overflow-y: auto
+  &::-webkit-scrollbar
+    display: none
+  scrollbar-width: none 
+  -ms-overflow-style: none // IE 10+
+
+
+.bot-message
+  align-self: flex-start
+  background-color: #e1e1e1
+  color: #000
+  padding: 5px 10px
+  border-radius: 10px
+  max-width: 70%
+
+.user-message
+  align-self: flex-end
+  background-color: #0072BC
+  color: #fff
+  padding: 5px 10px
+  border-radius: 10px
+  max-width: 70%
+
+.typing-indicator
+  font-style: italic
+  color: #999
+  align-self: flex-start
+
+

@@ -1,0 +1,55 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+        Manager Approvals
+      </li>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+<div class="homeContnr">
+    <div class="imgContiner">
+      <h1>Manager Approvals</h1>
+      <img src="./././assets/img/manager/homeBG.svg" alt="homeBG">
+    </div>
+      <!-- Our Info card -->
+ <div class="card ourInfo" >
+     
+    <div class="crdsGrid">
+
+      <ul>
+        <li *ngIf = "isMngr == 'Y'">
+          <a [routerLink]="['/leaveApprovals']">
+          <span>LA</span>
+          <p>Leave Approvals</p>
+        </a>
+        </li>
+        <li *ngIf = "isMngr == 'Y'">
+          <a [routerLink]="['/attendanceApprovals']">
+          <span>AA</span>
+          <p>Attendance Approvals</p>
+        </a>
+        </li>
+        <li *ngIf = "isMngr == 'Y'">
+          <a [routerLink]="['/deptAttendance/id']">
+          <span>DA</span>
+          <p>Department Attendance</p>
+        </a>
+        </li>
+
+        <!-- <li *ngIf="assmntAccess == true">
+          <a [routerLink]="['/assesmentForm']">
+          <span>AF</span>
+          <p>Assesment Form</p>
+        </a>
+        </li> -->
+      </ul>
+     
+    
+    </div>
+  </div> <!--End Our Info  -->
+</div>
+  </div>

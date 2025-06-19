@@ -1,0 +1,225 @@
+.breadcrumb li.active {
+  color: #101010;
+  cursor: initial;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 8px;
+}
+
+.flxEnd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.flxEnd h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 0em;
+}
+.flxEnd .select-css {
+  outline: none;
+  box-shadow: none;
+  min-width: 200px;
+  max-width: 100%;
+  background: #e4eaf0;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #101010;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-left: 1em;
+}
+.flxEnd a.pdfDwnld {
+  padding: 3px 8px;
+  background: #e4eaf0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+  border: 1px solid #ced4da;
+}
+.flxEnd a.pdfDwnld img {
+  max-height: 26px;
+}
+
+.tableSectn {
+  padding: 1em;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 8px;
+  margin-bottom: 1em;
+}
+
+.theBody {
+  position: relative;
+  border: 1px solid #e4eaf0;
+  padding-top: 45px;
+  background: #e4eaf0;
+  border-top: 3px solid #fff;
+}
+
+.table_contnr {
+  overflow-y: auto;
+  min-height: 200px;
+  max-height: 55vh;
+}
+.table_contnr table {
+  border-spacing: 0;
+  width: 100%;
+}
+.table_contnr tr {
+  background-color: #f7f9fb;
+}
+.table_contnr tr:nth-child(even) {
+  background-color: #f1f4f7;
+}
+.table_contnr td {
+  border-bottom: 2px solid #fff;
+  color: #101010;
+  padding: 8px 8px;
+  text-align: left;
+  min-width: 125px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.table_contnr td .lmtTxt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.table_contnr td:first-child {
+  min-width: 165px;
+}
+.table_contnr th {
+  border-bottom: 2px solid #fff;
+  color: #101010;
+  padding: 10px 5px;
+  text-align: left;
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.table_contnr th:first-child div {
+  min-width: 165px;
+}
+.table_contnr th div {
+  position: absolute;
+  background: transparent;
+  color: #101010;
+  padding: 14px 5px;
+  top: 0;
+  line-height: normal;
+  border-left: 0px solid #fff;
+  font-weight: 500;
+  font-size: 16px;
+  min-width: 100px;
+}
+.table_contnr th:first-child div {
+  border: none;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 300px;
+  overflow: scroll;
+  position: relative;
+}
+div.myTableScroll table {
+  position: relative;
+  border-collapse: initial;
+  width: 100%;
+}
+div.myTableScroll td, div.myTableScroll th {
+  padding: 0.25em;
+  text-align: center;
+  min-width: 120px;
+}
+div.myTableScroll td p, div.myTableScroll th p {
+  margin: 0;
+  font-size: 14px;
+}
+div.myTableScroll thead th {
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #eaeef3;
+  color: #101010;
+  border-bottom: 2px solid #fff;
+}
+div.myTableScroll thead th:nth-child(even) {
+  background-color: #f6f8fa;
+}
+div.myTableScroll thead th:nth-child(2) {
+  z-index: 99;
+}
+div.myTableScroll thead th:first-child {
+  left: 0;
+  z-index: 1;
+}
+div.myTableScroll thead th label {
+  transform: rotate(-90deg);
+  font-size: 12px;
+  display: inline-block;
+  padding-right: 0.3em;
+  color: #e23d3a;
+}
+div.myTableScroll thead th span {
+  font-weight: 400;
+  font-size: 14px;
+}
+div.myTableScroll thead th b {
+  font-weight: 600;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+div.myTableScroll tbody th {
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+}
+div.myTableScroll tbody td {
+  background: #eaeef3;
+}
+div.myTableScroll tbody td:nth-child(even) {
+  background-color: #f6f8fa;
+}
+div.myTableScroll tbody td i.fa.fa-link {
+  color: #e23d3a;
+}
+div.myTableScroll .sticky-col {
+  position: sticky;
+  position: -webkit-sticky;
+  background-color: #fafbfc;
+}
+div.myTableScroll .first-col {
+  min-width: 220px;
+  left: 0px;
+  text-align: left;
+}
+div.myTableScroll .first-col p {
+  margin: 0;
+}
+div.myTableScroll .second-col {
+  width: 50px;
+  min-width: 50px;
+  left: 220px;
+  z-index: 1;
+}
+div.myTableScroll .second-col p {
+  margin: 0;
+}/*# sourceMappingURL=business-unit-attendance.component.css.map */

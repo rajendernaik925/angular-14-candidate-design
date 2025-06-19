@@ -1,0 +1,821 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+
+<div class="container-flui mt-3">
+  <div class="row g-2 position-relative">
+    <div class="col-md-2 mb-2 position-relative sidebar-wrapper">
+      <div class="card border-0 p-0 shadow">
+        <div class="card-body p-2">
+          <app-asset-manager-side-bar></app-asset-manager-side-bar>
+        </div>
+        <!-- <button *ngIf="closeButton" class="toggle-icon-btn d-none d-md-block" (click)="toggleSidebar()">
+          <i class="bi" [ngClass]="isSidebarOpen ? 'bi-chevron-left' : 'bi-chevron-right'"></i>
+        </button> -->
+      </div>
+    </div>
+    <!-- <button *ngIf="!isSidebarOpen && closeButton" class="toggle-icon-btn-collapsed d-none d-md-block"
+      (click)="toggleSidebar()">
+      <i class="bi bi-chevron-right"></i>
+    </button> -->
+    <div class="pad col-md-10">
+      <div class="card py-1 border-0">
+        <div class="card-body py-1">
+          <div class="row mb-2 align-items-center">
+            <div class="col-md-3">
+              <span class="fw-bold text-dark">
+                Process
+                <span class="badge badge-light  badge bg-dark text-white">{{totalRecords}}</span>
+              </span>
+            </div>
+            <div class="col-md-9 d-flex justify-content-end align-items-center">
+              <input type="search" class="form-control form-control-sm search-input" placeholder="🔍 Search"
+                [formControl]="searchQuery" aria-level="Search" style="max-width: 150px; font-size: 13px;">
+              <!-- <i class="fa fa-search"></i> -->
+              <!-- <button type="button" (click)="toggleOffcanvas()" class="btn btn-sm custom-bg text-light">
+                Filter Options
+              </button> -->
+            </div>
+          </div>
+          <div class="scroll-container p-0">
+            <table class="table table-bordered">
+              <thead class="custom-bg">
+                <tr class="text-light">
+                  <th *ngFor="let col of columns" class="small-header sticky-col"
+                    [ngClass]="{'text-center': col.center}">
+                    {{ col.label }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="rows.length > 0; else noData">
+                <tr *ngFor="let row of rows" class="table-hoverr">
+                  <td *ngFor="let col of columns" class="small-header"
+                    [ngClass]="{'text-uppercase': col.uppercase, 'text-center': col.center}">
+
+                    <ng-container *ngIf="col.key === 'status'; else default">
+                      <span *ngIf="row.status === 1001" class="text-success fw-bold">Open</span>
+                      <span *ngIf="row.status === 1003" class="text-info fw-bold">Hold</span>
+                      <span *ngIf="row.status === 1005" class="text-danger fw-bold">Closed</span>
+                    </ng-container>
+
+                    <ng-template #default>
+                      <ng-container *ngIf="col.key === 'employeeid'; else normal">
+                        <button class="border-none custom-bg text-white custom-action-btn px-2"
+                          (click)="handleAction(row.employeeid, row.interviewStatus)">
+                          View
+                        </button>
+
+                      </ng-container>
+
+                      <ng-template #normal>
+                        <span [innerHTML]="highlightMatch(row[col.key])"></span>
+                      </ng-template>
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+
+              <ng-template #noData>
+                <tbody>
+                  <tr>
+                    <td [attr.colspan]="columns.length">
+                      <div class="d-flex justify-content-center align-items-center my-3">
+                        <div class="">
+                          <!-- No data available -->
+                          <img
+                            src="https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/xxNZvglgy1.gif"
+                            width="150px" height="150px" alt="">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </div>
+
+          <hr *ngIf="rows.length > 0" class="custom-hr mb-2 mt-1">
+          <div class="d-flex justify-content-between align-items-center mt-1" *ngIf="rows.length > 0">
+            <span class="small badge bg-secondary text-white">
+              Showing {{ startIndex }} to {{ endIndex }} of {{ totalRecords }} Records
+            </span>
+
+            <ul class="pagination pagination-sm mb-1">
+              <!-- Previous Page Button -->
+              <li class="page-item">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+                  [class.disabled]="currentPage === 1"
+                  [ngClass]="{'custom-bg': currentPage > 1, 'bg-secondary': currentPage === 1}">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+
+              <!-- Page Number Display -->
+              <li class="page-item mr-2 d-none d-md-block">
+                <span class="px-3 py-1 small text-dark fw-bold border rounded bg-light">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </span>
+              </li>
+
+              <!-- Next Page Button -->
+              <li class="page-item">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage + 1)" [disabled]="currentPage >= totalPages"
+                  [class.disabled]="currentPage >= totalPages"
+                  [ngClass]="{'custom-bg': currentPage < totalPages, 'bg-secondary': currentPage >= totalPages}">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- loader -->
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+
+
+<ng-template #aboutCandidateDialog>
+  <div class="animate-zoom">
+    <div class="container">
+      <div class="row mb-2 align-items-center">
+        <div class="col-md-9">
+          <div class="d-flex">
+            <!-- <span class="fw-bold custom-text mr-3">Candidate Details </span> -->
+            <span class="small text-uppercase mr-2">
+              Name: {{ candidateData?.candidatePersonalInformationDetails?.firstName }}
+            </span>
+            <span class="small text-muted mr-2">|</span>
+
+            <!-- <span class="small text-uppercase mr-2">
+              Email: {{ candidateData?.candidatePersonalInformationDetails?.email }}
+            </span>
+            <span class="small text-muted mr-2">|</span>  -->
+
+            <span class="small text-uppercase mr-2">
+              Job Code: {{ candidateData?.candidatePersonalInformationDetails?.jcReferanceId }}
+            </span>
+            <span class="small text-muted mr-2">|</span>
+
+            <span class="small text-uppercase">
+              Designation: {{ candidateData?.candidatePersonalInformationDetails?.designationName }}
+            </span>
+
+
+          </div>
+
+          <span *ngIf="!candidateData?.candidatePersonalInformationDetails?.firstName"
+            class="fw-bold custom-text">Details</span>
+        </div>
+        <div class="col-md-3 d-flex justify-content-end align-items-center">
+          <button *ngIf="disableFeedBack" type="button"
+            class="border-none custom-bg text-white custom-action-btn px-2 py-1 mr-2" (click)="viewFeedbackForm()">
+            Feedback Form
+          </button>
+          <span class="cursor-pointer text-danger Hover" (click)="close()">
+            <i class="bi bi-x-circle"></i>
+          </span>
+        </div>
+      </div>
+      <hr class="m-0 p-0 text-dark border mb-2">
+
+      <div *ngIf="candidateData?.candidatePersonalInformationDetails?.firstName; else noCandidateData"
+        class="scroll-container">
+        <div class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Basic Details</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Name:</strong>
+              {{ candidateData?.candidatePersonalInformationDetails?.firstName }}
+              <span>{{ candidateData?.candidatePersonalInformationDetails?.lastName }}</span>
+            </div>
+            <div class="col-md-3">
+              <strong>Gender:</strong> {{ candidateData?.candidatePersonalInformationDetails?.genderName || 'N/A' }}
+            </div>
+            <div class="col-md-3">
+              <strong>Mobile:</strong> {{ candidateData?.candidatePersonalInformationDetails?.mobileNumber }}
+            </div>
+            <div class="col-md-2">
+              <strong>DOB:</strong> {{ candidateData?.candidatePersonalInformationDetails?.dob }}
+            </div>
+            <div class="col-md-7 mt-1">
+              <strong>Email:</strong> {{ candidateData?.candidatePersonalInformationDetails?.email }}
+            </div>
+            <div class="col-md-5 mt-1">
+              <strong>Marital Status:</strong> {{ candidateData?.candidatePersonalInformationDetails?.maritalStatusName
+              }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Communication Address</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="mb-0">
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressA }},
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressB }},
+                {{ candidateData?.candidateCommunicationAddressDetails?.comAddressC }}
+              </p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="mb-0"><strong>State:</strong> {{ candidateData?.candidateCommunicationAddressDetails?.stateName
+                }}</p>
+            </div>
+            <div class="col-md-3">
+              <p class="mb-0"><strong>City:</strong> {{ candidateData?.candidateCommunicationAddressDetails?.cityName }}
+              </p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>Postal Code:</strong> {{
+                candidateData?.candidateCommunicationAddressDetails?.postalCode }}</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card p-3 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Permanent Address</strong></span>
+          <div class="row">
+            <div class="col-md-4">
+              <p class="mb-0">
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressA }},
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressB }},
+                {{ candidateData?.candidatePermanentAddressDetails?.perAddressC }}
+              </p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="mb-0"><strong>State:</strong> {{ candidateData?.candidatePermanentAddressDetails?.stateName }}
+              </p>
+            </div>
+            <div class="col-md-3">
+              <p class="mb-0"><strong>City:</strong> {{ candidateData?.candidatePermanentAddressDetails?.cityName }}</p>
+            </div>
+            <div class="col-md-2">
+              <p class="mb-0"><strong>Postal Code:</strong> {{
+                candidateData?.candidatePermanentAddressDetails?.postalCode }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card p-2 mb-3" *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher">
+          <span class="custom-text text-decoration-underline"><strong>Salary Expectation</strong></span>
+
+          <!-- Salary details in the same line -->
+          <div class="d-flex justify-content-start">
+            <span class="mr-5"><strong>Current Salary:</strong> ₹{{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.currentSalary }}</span>
+            <span><strong>Expected Salary:</strong> ₹{{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.expectedSalary }}</span>
+          </div>
+
+          <!-- Job description on a new line -->
+          <div>
+            <span><strong>Job Description:</strong> {{
+              candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.description }}</span>
+          </div>
+        </div>
+
+
+
+        <div class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline"><strong>Education</strong></span>
+          <table class="table table-bordered" *ngIf="candidateData?.candidateEducationDetails?.length">
+            <thead class="table-dark">
+              <tr class="small-header">
+                <th>Type</th>
+                <th>University</th>
+                <th>Qualification</th>
+                <th>Year</th>
+                <th>Percentage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let edu of candidateData?.candidateEducationDetails">
+                <td class="small-header">{{ edu?.educationTypeName }}</td>
+                <td class="small-header">{{ edu?.universityName }}</td>
+                <td class="small-header">{{ edu?.qualificationName }}</td>
+                <td class="small-header">{{ edu?.yearOfPassing }}</td>
+                <td class="small-header">{{ edu?.percentage }}%</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <div class="card p-2 mb-3">
+          <!-- Experience Header Section -->
+          <div class="row mb-1">
+            <div class="col">
+              <span class="custom-text text-decoration-underline fs-4"><strong>Experience</strong></span>
+            </div>
+          </div>
+
+          <!-- Experience Type and Notice Period Side-by-Side -->
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Experience Type:</strong>
+              {{ candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher ? 'Fresher' : 'Experienced'
+              }}
+            </div>
+            <div class="col-md-6">
+              <strong>Notice Period:</strong>
+              {{ candidateData.candidateExperienceDetails.candidateJoiningDetails.joiningName }}
+            </div>
+          </div>
+
+          <!-- Show Table Only if NOT Fresher -->
+          <table class="table table-bordered"
+            *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails.is_Fresher">
+            <thead class="table-dark">
+              <tr class="small-header">
+                <th>Company</th>
+                <th>Total Experience (Years)</th>
+                <th>Last Working Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let exp of candidateData.candidateExperienceDetails.candidateCompanyDetails">
+                <td class="small-header">{{ exp.companyName }}</td>
+                <td class="small-header">{{ exp.totalExp }}</td>
+                <td class="small-header">{{ exp.lastWorkingDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <div class="row mb-2">
+            <div class="col">
+              <h6 class="text-decoration-underline fw-bold mb-0 custom-text">Files <i
+                  class="bi bi-file-earmark-arrow-down-fill"></i></h6>
+            </div>
+          </div>
+
+          <div *ngIf="resumeFile" class="row g-2">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="resumeFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(resumeFile)">
+                  Resume
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="photoFile" class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="photoFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(photoFile)">
+                  Photo
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="aadharFile" class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="aadharFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(aadharFile)">
+                  Aadhar
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="pancardFile" class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="pancardFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(pancardFile)">
+                  PAN Card
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="tenthFile" class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="tenthFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(tenthFile)">
+                  10th
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="InterFile" class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="InterFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(InterFile)">
+                  Intermediate
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="BTechFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="BTechFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(BTechFile)">
+                  B.Tech/Degree
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="paySlipFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="paySlipFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(paySlipFile)">
+                  Payslip
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="ServiceLetterFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="ServiceLetterFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(ServiceLetterFile)">
+                  Service Letter
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="paySlipFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="mTechFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(mTechFile)">
+                  M.Tech/PG
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="paySlipFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="otherFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(otherFile)">
+                  Other File
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card p-2 mb-3">
+          <span class="custom-text text-decoration-underline">
+            <strong>Interview</strong>
+          </span>
+
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th class="custom-th small-header">S.No</th>
+                  <th class="custom-th small-header">Interview Date</th>
+                  <th class="custom-th small-header">Interview Time</th>
+                  <th class="custom-th small-header">Interviewer</th>
+                  <th class="custom-th small-header">Round Name</th>
+                  <th class="custom-th small-header">Interview Type</th>
+                  <th class="custom-th small-header">Status</th>
+                  <th class="custom-th small-header">Feedback</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let exp of candidateData.candidateInterviewDetails">
+                  <tr *ngIf="exp.interviewScheduleId">
+                    <td class="custom-td small-header">{{ exp.roundNo || 'NA' }}</td>
+                    <td class="custom-td small-header">
+                      {{ exp?.interviewDate ? (convertToDateObject(exp.interviewDate) | date:'dd-MMM-yyyy') : '--' }}
+                    </td>
+
+                    <td class="custom-td small-header">{{ exp.interviewTime || 'NA' }}</td>
+                    <td class="custom-td small-header">
+                      {{ (exp.interviewByName ? exp.interviewByName : 'NA') }} - {{ (exp.interviewBy ? exp.interviewBy :
+                      'NA') }}
+                    </td>
+                    <td class="custom-td small-header">
+                      {{ exp.level || 'NA' }} ({{ exp.interviewRoundName || 'Initial' }})
+                    </td>
+                    <td class="custom-td small-header text-break" [attr.title]="exp.locationName || 'Online'"
+                      style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                      data-bs-toggle="tooltip" data-bs-placement="top">
+                      {{ exp.locationName && exp.locationName.trim() !== '' ? 'Offline' : 'Online' }}
+                    </td>
+
+                    <td class="custom-td small-header" [ngSwitch]="exp.status">
+                      <span *ngSwitchCase="1001" class="text-warning">Pending</span>
+                      <span *ngSwitchCase="1002" class="text-danger">Cancelled</span>
+                      <span *ngSwitchCase="1004" class="text-success">Approved</span>
+                      <span *ngSwitchCase="1005" class="text-danger">Rejected</span>
+                      <span *ngSwitchCase="1006" class="text-info">Hold</span>
+                      <span *ngSwitchDefault>{{ exp.status || 'NA' }}</span>
+                    </td>
+                    <td class="custom-td small-header text-break">
+                      <ng-container *ngIf="exp.candidateInterviewFeedBackDTO?.length > 0; else pending">
+                        <button class="btn btn-sm custom-bg text-white text-break" (click)="feedbackView(
+                          exp,
+                          candidateData?.candidatePersonalInformationDetails?.firstName || 'NA',
+                          candidateData?.candidatePersonalInformationDetails?.email || 'NA')">
+                          View
+                        </button>
+                      </ng-container>
+                      <ng-template #pending>
+                        <span class="text-warning">Pending</span>
+                      </ng-template>
+                    </td>
+                  </tr>
+
+                </ng-container>
+              </tbody>
+
+            </table>
+          </div>
+
+
+          <!-- Show message if no interview details are available -->
+          <div *ngIf="!candidateData?.candidateInterviewDetails?.length" class="text-muted text-center">
+            No interview details available.
+          </div>
+        </div>
+      </div>
+
+
+      <ng-template #noCandidateData>
+        <div class="alert alert-warning text-center">
+          No Candidate data available.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #feedbackform>
+  <div class="row mb-2 align-items-center">
+    <div class="col-md-9">
+      <span class="custom-text"> {{ candidateData?.basicDetails?.firstName | uppercase }} FEEDBACK FORM </span>
+    </div>
+    <div class="col-md-3 d-flex justify-content-end align-items-center">
+      <span class="cursor-pointer Hover" (click)="close()">
+        <i class="bi bi-x-circle"></i>
+      </span>
+    </div>
+  </div>
+
+  <div class="scroll-container-with-scroll-bar">
+    <form [formGroup]="feedbackForm" (ngSubmit)="feedbackSubmit()">
+      <table class="table table-bordered mb-0">
+        <thead class="text-center">
+          <tr class="small-header text-white">
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">S.No</th>
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">Factors</th>
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">Excellent</th>
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">Good</th>
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">Average</th>
+            <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">Below Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factor of feedbackFactorsData; let i = index" [formGroup]="feedbackArray.controls[i]">
+            <td class="p-0 text-center small">{{ i + 1 }}</td>
+            <td class="p-0 small text-center">{{ factor.name }}</td>
+            <td class="p-0 text-center">
+              <input type="radio" formControlName="feedbackId" value="1">
+            </td>
+            <td class="p-0 text-center">
+              <input type="radio" formControlName="feedbackId" value="2">
+            </td>
+            <td class="p-0 text-center">
+              <input type="radio" formControlName="feedbackId" value="3">
+            </td>
+            <td class="p-0 text-center">
+              <input type="radio" formControlName="feedbackId" value="4">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!feedbackForm.valid && feedbackForm.touched && areRadioFieldsInvalid()" class="text-danger fs-custom">
+        Please select an option for all factors
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label for="textarea" class="form-label">Comments <span class="text-danger">*</span></label>
+          <textarea id="textarea" class="form-control form-control-sm" rows="1" formControlName="comments"
+            maxlength="500" placeholder="Enter text"></textarea>
+          <div *ngIf="feedbackForm.controls['comments'].invalid && feedbackForm.controls['comments'].touched"
+            class="text-danger fs-custom">
+            Comment is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 align-items-center mt-1">
+        <div [ngClass]="(selectedHrStatus === 1005 || selectedHrStatus === 1006) ? 'col-md-6' : 'col-md-4'">
+          <label for="statusSelect" class="form-label">Status <span class="text-danger">*</span></label>
+          <select id="statusSelect" class="form-select form-control form-control-sm" formControlName="status"
+            (change)="onHrStatusChange($event.target.value)">
+            <option value="">Select</option>
+            <option *ngFor="let item of interviewStatus" [value]="item?.id">{{ item?.name }}</option>
+          </select>
+          <div *ngIf="feedbackForm.controls['status'].invalid && feedbackForm.controls['status'].touched"
+            class="text-danger fs-custom">
+            Status is required.
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-4" *ngIf="selectedHrStatus === 1005 || selectedHrStatus === 1006">
+          <span class="fw-bold custom-text"></span>
+          <div class="flex-grow-1 d-flex justify-content-center"></div>
+          <span class="cursor-pointer Hover">
+            <button type="submit" class="btn btn-sm custom-bg text-light mt-2 w-100">Submit</button>
+          </span>
+        </div>
+
+        <div class="col-md-4" *ngIf="selectedHrStatus !== 1005 && selectedHrStatus !== 1006 && !finalHrRound">
+          <label for="optionSelect" class="form-label">Assign next round <span class="text-danger">*</span></label>
+          <select id="optionSelect" class="form-select form-control form-control-sm" formControlName="interviewRound">
+            <option value="">Select</option>
+            <option *ngFor="let item of interviewRounds" [value]="item?.id">{{ item?.name }}</option>
+          </select>
+          <div
+            *ngIf="feedbackForm.controls['interviewRound'].invalid && feedbackForm.controls['interviewRound'].touched"
+            class="text-danger fs-custom">
+            Next round option is required.
+          </div>
+        </div>
+
+        <div class="col-md-4 position-relative"
+          *ngIf="selectedHrStatus !== 1005 && selectedHrStatus !== 1006 && !finalHrRound">
+          <label for="interview_employeeid" class="form-label">Interviewer <span class="text-danger">*</span></label>
+
+          <!-- Dropdown -->
+          <ul *ngIf="showDropdown && interviewedByList.length > 0"
+            class="dropdown-menu show w-100 position-absolute custom-scroll"
+            style="bottom: 100%; top: auto; z-index: 1050;">
+            <li *ngFor="let item of interviewedByList" (click)="selectInterviewer(item)"
+              class="dropdown-item cursor-pointer">
+              {{ item?.id }} - {{ item?.name }}
+            </li>
+          </ul>
+
+          <!-- Input field -->
+          <input type="text" placeholder="Search interviewer" class="form-control form-control-sm"
+            formControlName="interviewBy" [value]="selectedInterviewerName || ''"
+            (input)="searchInterviewer($event.target.value)" (focus)="showDropdown = true" (blur)="hideDropdown()"
+            autocomplete="off">
+
+          <!-- Validation -->
+          <div *ngIf="feedbackForm.controls['interviewBy'].invalid && feedbackForm.controls['interviewBy'].touched"
+            class="text-danger fs-custom">
+            Interviewer Name is required.
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="finalHrRound && selectedHrStatus === 1004" class="row g-3 align-items-center mt-1">
+        <div class="col-md-3">
+          <label>Join Date:</label>
+          <input type="text" id="interviewDate" class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            formControlName="joiningDate" autocomplete="off" [bsConfig]="{
+                adaptivePosition: true,
+                showWeekNumbers: false,
+                isAnimated: true,
+                containerClass: colorTheme,
+                customTodayClass: 'custom-today-class',
+                dateInputFormat: 'YYYY-MM-DD'
+              }" [minDate]="minDate" bsDatepicker required readonly />
+          <div *ngIf="feedbackForm.controls['joiningDate'].invalid && feedbackForm.controls['joiningDate'].touched"
+            class="text-danger fs-custom">
+            Join Date is required.
+          </div>
+        </div>
+
+
+
+        <div class="col-md-3">
+          <label>Proposed CTC:</label>
+          <input type="text" formControlName="expectedCTC" class="form-control" placeholder="₹ amount"
+            (keypress)="allowNumericWithDot($event)">
+          <div *ngIf="feedbackForm.controls['expectedCTC'].invalid && feedbackForm.controls['expectedCTC'].touched"
+            class="text-danger fs-custom">
+            Expected CTC is required.
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label>Division:</label>
+          <select formControlName="division" class="form-control form-control-sm">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalDivisionsList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['division'].invalid && feedbackForm.controls['division'].touched"
+            class="text-danger fs-custom">
+            Division is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label>Designation:</label>
+          <select formControlName="designation" class="form-control form-control-sm">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalDesignationsList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['designation'].invalid && feedbackForm.controls['designation'].touched"
+            class="text-danger fs-custom">
+            Designation is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label>Department:</label>
+          <select formControlName="department" class="form-control form-control-sm">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalDepartmentsList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['department'].invalid && feedbackForm.controls['department'].touched"
+            class="text-danger fs-custom">
+            Department is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label>State:</label>
+          <select formControlName="state" class="form-control form-control-sm" (change)="onStateChange($event)">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalStatesList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['state'].invalid && feedbackForm.controls['state'].touched"
+            class="text-danger fs-custom">
+            State is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label>HQ:</label>
+          <select formControlName="hq" class="form-control form-control-sm">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalCitiesList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['hq'].invalid && feedbackForm.controls['hq'].touched"
+            class="text-danger fs-custom">
+            HQ is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label>Region:</label>
+          <select formControlName="region" class="form-control form-control-sm">
+            <option value="">Select</option>
+            <option *ngFor="let state of totalRegionsList" [value]="state.id">
+              {{ state.name }}
+            </option>
+          </select>
+          <div *ngIf="feedbackForm.controls['region'].invalid && feedbackForm.controls['region'].touched"
+            class="text-danger fs-custom">
+            Region is required.
+          </div>
+
+        </div>
+
+        <div class="col-md-3 mt-4">
+          <span class="cursor-pointer Hover">
+            <button type="submit" class="btn btn-sm custom-bg text-light mt-2 w-100">Submit</button>
+          </span>
+        </div>
+      </div>
+
+      <div class="d-flex mb-2 align-items-center"
+        *ngIf="selectedHrStatus !== 1005 && selectedHrStatus !== 1006 && !finalHrRound">
+        <span class="fw-bold custom-text"></span>
+        <div class="flex-grow-1 d-flex justify-content-center"></div>
+        <span class="cursor-pointer Hover">
+          <button type="submit" class="btn btn-sm custom-bg text-light mt-2 w-100">Submit</button>
+        </span>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<div *ngIf="showPDF" class="overlay">
+  <div class="pdf-container">
+    <button class="close-btn" (click)="closePDF()">✖</button>
+    <iframe [src]="fileURL" width="100%" height="100%"></iframe>
+  </div>
+</div>
+
+
+
+
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

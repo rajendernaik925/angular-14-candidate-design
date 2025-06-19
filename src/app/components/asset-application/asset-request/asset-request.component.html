@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">HR Hiring</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2" style="padding-right: 0px !important">
+      <ul class="nav navbar-nav side-nav">
+        <li class="pb-2">
+          <a href="#" data-toggle="collapse" data-target="#submenu-1">
+            Employee Assets</a
+          >
+        </li>
+        <li>
+          <a href=""> Asset Request History</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-10">
+      <div class="jobcode-section">
+        <div class="row">
+          <div class="col-md-8">
+            <p><i class="fa fa-arrow-left"></i> 12443 - Raise Asset Request</p>
+          </div>
+
+          <div class="col-md-4 text-right">
+            <button class="btn">Send Asset Request</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <label class="d-block">Select Asset Type</label>
+            <select>
+              <option>Select</option>
+            </select>
+          </div>
+          <div class="col-md-9">
+            <label class="d-block">Description</label>
+            <input type="text" placeholder="Add Description" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,338 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div> 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">  
+            <li class="breadcrumb-item active" aria-current="page">
+                CTC Information
+            </li>    
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav> 
+
+  <div class="container-fluid p_5">
+<div class="card infoBlock">
+    <h5>Summary</h5>
+    <div class="dflxTbls" *ngFor=" let x of EmpInfo">
+        <div class="theBody">
+        <div class="table_contnr">
+            <table>
+            <thead>
+                <tr class="header">
+                    <th colspan="2">
+                        Earnings
+                    <div>Earnings</div>
+                    </th> 
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Gross</td> 
+                    <td><b>{{x.GROSS| number: '.2'}}</b></td> 
+                </tr> 
+                <tr>
+                    <td>Basic</td> 
+                    <td><b>{{x.BASIC| number: '.2'}}</b></td> 
+                </tr> 
+                <tr>
+                    <td>CA</td> 
+                    <td><b>{{x.CA| number: '.2'}}</b></td> 
+                </tr> 
+                <tr>
+                    <td>Education</td> 
+                    <td><b>{{x.EDUCATION| number: '.2'}}</b></td> 
+                </tr> 
+                <tr>
+                    <td>HRA</td>
+                    <td><b>{{x.HRA| number: '.2'}}</b></td>
+                </tr>
+                <tr *ngIf='x.KITALLOWANCE!=0' >
+                    <td>KIT ALLOWANCE</td>
+                    <td><b>{{x.KITALLOWANCE| number: '.2'}}</b></td> 
+                </tr>
+                
+                <tr>
+                    <td>Medical</td>
+                    <td><b>{{x.MEDICAL| number: '.2'}}</b></td>
+                </tr>
+                <tr>
+                    <td>SPL Allow</td>
+                    <td><b>{{x.SPLALLOW| number: '.2'}}</b></td>
+                </tr>
+                
+                <tr *ngIf='x.OtherALLOWANCE!=0'>
+                    <td>Other ALLOWANCE</td>
+                    <td><b>{{x.OtherALLOWANCE| number: '.2'}}</b></td>
+                </tr>
+                <tr *ngIf='x.BONUS!=0'>
+                    <td>BONUS</td>
+                    <td><b>{{x.BONUS| number: '.2'}}</b></td>
+                </tr>
+
+                <tr *ngIf='x.LTA!=0'>
+                    <td>LTA</td>
+                    <td><b>{{x.LTA| number: '.2'}}</b></td>
+                </tr>
+               
+                <tr *ngIf='x.TRAVELALLOWANCE!=0'>
+                    <td>TRANSPORT ALLOWANCE</td>
+                    <td><b>{{x.TRAVELALLOWANCE| number: '.2'}}</b></td>
+                </tr>
+                <tr *ngIf='x.BONUS==0' >
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+
+                <tr *ngIf='x.LTA==0' >
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+
+                <tr *ngIf='x.OtherALLOWANCE==0' >
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                
+                <tr *ngIf='x.KITALLOWANCE==0' >
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                <tr *ngIf='x.TRAVELALLOWANCE==0' >
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+               
+                <tr>
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                 
+                <tr class="ctc_footr">
+                    <td>Total Earnings</td>
+                    <td><b>{{x.EGross| number: '.2'}}</b></td>
+                </tr>
+                <tr class="ctc_footr">
+                    <td>Net Per Month</td>
+                    <td><b>{{x.EGross-x.TotalDeduction| number: '.2'}}</b></td>
+                </tr>
+                <tr class="ctc_footr">
+                    <td>Net Per Year</td>
+                    <td><b>{{(x.EGross-x.TotalDeduction)*12| number: '.2'}}</b></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="theBody">
+            <div class="table_contnr">
+                <table>
+                <thead>
+                    <tr class="header">
+                        <th colspan="2">
+                            Deductions
+                        <div>Deductions</div>
+                        </th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PT</td> 
+                        <td><b>{{x.PT| number: '.2'}}</b></td> 
+                    </tr> 
+                    <tr>
+                        <td>PF</td>
+                        <td><b>{{x.PF| number: '.2'}}</b></td>
+                    </tr>
+                    <tr *ngIf='x.ESI!=0'>
+                        <td>ESI</td>
+                        <td><b>{{x.ESI| number: '.2'}}</b></td>
+                    </tr>
+                    <tr *ngIf='x.ESI==0'>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td><td>&nbsp;</td>
+                    </tr>
+                     
+                    <tr class="ctc_footr">
+                        <td>Total Deductions</td>
+                        <td><b>{{x.TotalDeduction| number: '.2'}}</b></td>
+                    </tr>
+                    <tr class="ctc_footr">
+                        <td>Gross Per Month</td>
+                        <td><b>{{x.EGross| number: '.2'}}</b></td>
+                    </tr>
+                    <tr class="ctc_footr">
+                        <td>Gross Per Year</td>
+                        <td><b>{{x.EGross*12| number: '.2'}}</b></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="theBody">
+                <div class="table_contnr">
+                    <table>
+                    <thead>
+                        <tr class="header">
+                            <th colspan="2">
+                                Annual Benefits
+                            <div>Annual Benefits</div>
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>LTA</td> 
+                            <td><b>{{x.LTAANNUALBENIFITS| number: '.2'}}</b></td> 
+                        </tr>
+                        <tr>
+                            <td>PF</td>
+                            <td><b>{{x.PFANNUALBENIFITS| number: '.2'}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Medical Premium Annual</td>
+                            <td><b>{{x.MEDICALPREMIUMANNUALBENIFITS| number: '.2'}}</b></td>
+                        </tr>
+                        <tr *ngIf='x.ESIANNUALBENIFITS!=0'>
+							<td>ESI</td>
+							<td><b>{{x.ESIANNUALBENIFITS| number: '.2'}}</b></td>
+						</tr>
+                        <tr>
+                            <td>Bonus</td>
+                            <td><b>{{x.BONUSANNUALBENIFITS| number: '.2'}}</b></td>
+                        </tr>
+                        
+                        <tr *ngIf="x.VARIABLEPAY!=0">
+                            <td>VARIABLE PAY</td>
+                            <td><b>{{x.VARIABLEPAY| number: '.2'}}</b></td>
+                        </tr>
+                        <tr *ngIf="x.GRATUITYANNUALBENIFITS!=0">
+                            <td>Gratuity Annual</td>
+                            <td><b>{{x.GRATUITYANNUALBENIFITS| number: '.2'}}</b></td>
+                        </tr>
+                        <tr *ngIf="x.FUELANDMAINTENANCE!=0">
+                            <td>FUEL AND MAINTENANCE</td> 
+                            <td><b>{{x.FUELANDMAINTENANCE| number: '.2'}}</b></td>
+                        </tr>
+                        <tr *ngIf="x.INTERNET!=0">
+                            <td>INTERNET</td> 
+                            <td><b>{{x.INTERNET| number: '.2'}}</b></td>
+                        </tr>
+                            
+                        <tr *ngIf="x.HOUSERENT!=0">
+                            <td>HOUSE RENT</td> 
+                            <td><b>{{x.HOUSERENT| number: '.2'}}</b></td>
+                        </tr>
+                            
+                        <tr *ngIf="x.DRIVERSALARY!=0">
+                            <td>DRIVER SALARY</td> 
+                            <td><b>{{x.DRIVERSALARY| number: '.2'}}</b></td>
+                        </tr>
+
+                        <tr *ngIf="x.ANNUABONUSANNUALBENIFITS!=0">
+                            <td>ANNUALBONUS</td> 
+                            <td><b>{{x.ANNUABONUSANNUALBENIFITS| number: '.2'}}</b></td>
+                        </tr>
+                        
+
+
+                        <tr *ngIf="x.ESIANNUALBENIFITS==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.VARIABLEPAY==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.GRATUITYANNUALBENIFITS==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.FUELANDMAINTENANCE==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.INTERNET==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.HOUSERENT==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.DRIVERSALARY==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr *ngIf="x.ANNUABONUSANNUALBENIFITS==0">
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td>&nbsp;</td>
+                        </tr>
+                        <tr class="ctc_footr">
+                            <td>Total Annual Benefits</td>
+                            <td><b>{{x.TotalAnnualBenefits| number: '.2'}}</b></td>
+                        </tr>
+                        <tr class="ctc_footr">
+                            <td>CTC Per Month</td>
+                            <td><b>{{x.CTCPERMONTH| number: '.2'}}</b></td>
+                        </tr>
+                        <tr class="ctc_footr">
+                            <td>CTC Per Year</td>
+                            <td><b>{{x.CTC| number: '.2'}}</b></td>
+                            <!-- <td><b>{{x.CTC | number: '1.0-0' | noComma}}</b></td> -->                         
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div> 
+    </div>
+</div>
+</div>
+
+
+
+<div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>

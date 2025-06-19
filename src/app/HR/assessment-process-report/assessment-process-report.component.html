@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+  </div>
+  <nav aria-label="breadcrumb ">
+    <ol class="breadcrumb p_3">
+      <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">Assessment Process Report</li>
+    </span>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+      <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+    </ol>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="tableSection">
+      <div class="flxEnd">
+          <h5>Summary</h5>
+          <a class="pdfDwnld" (click)="exportexcel()">
+              <img src="./././assets/img/dashboard/file-download.svg" alt="">
+          </a>
+      </div>
+   
+
+    <div *ngIf="isData == 0; else assmntDataTable ">
+      <h2 class="noData">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i></h2>
+    </div>
+    <ng-template #assmntDataTable>
+
+    <div class="myTableScroll">
+      <table id="assmnt_Table">
+        <thead>
+          <tr>
+            <th class="sticky-col first-col"><span>Emp.Name</span></th>
+            <th class="sticky-col second-col"><span>Emp.ID</span></th>
+            <th class="sticky-col"><span>Current Status</span></th>
+            <th class="sticky-col"><span>Next Level Status</span></th>
+            <th class="sticky-col"><span>Initiated Date</span></th>
+            <th class="sticky-col"><span>Last Update</span></th>
+            <th class="sticky-col"><span>Date of Join</span></th>
+            <th class="sticky-col"><span>Actual Probation EndDate</span></th>
+            <th class="sticky-col"><span>Field Type</span></th>
+            <th class="sticky-col"><span>Employee Type</span></th>
+            <th class="sticky-col"><span>Business Unit</span></th>
+            <th class="sticky-col"><span>Department</span></th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assmntData">
+            <td class="sticky-col first-col">{{item.EMP_NAME}}</td>
+            <td class="sticky-col second-col">{{item.EMP_ID}}</td>
+            <td><span [ngClass]="{'_compltd': item.ProcessedBy.split('-')[0] === 'Completed', '_proccss': item.ProcessedBy.split('-')[0] === 'Processed', '_rejctd': item.ProcessedBy.split('-')[0] === 'Rejected','_extnded': item.ProcessedBy.split('-')[0] === 'Extended' }">{{item.ProcessedBy}}</span></td>
+            <td><span [ngClass]="{'_pending': item.Next_Approver.split('-')[0] === 'Pending', '_rejctd': item.Next_Approver.split('-')[0] === 'Rejected'}">{{item.Next_Approver}}</span></td>
+            <td>{{item.Initiated_Date}}</td>
+            <td>{{item.LUPDATED}}</td>
+            <td>{{item.DOJ}}</td>
+            <td>{{item.ActualProbationEndDate}}</td>
+            <td>{{item.FIELD_TYPE}}</td>
+            <td>{{item.EMP_TYPE}}</td>
+            <td>{{item.BU}}</td>
+            <td>{{item.DEPARTMENT}}</td>
+            
+        </tr>
+           
+        </tbody>
+        </table>
+        </div>
+
+      </ng-template>
+
+    </div>
+  </div>
+
+
+  <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>  

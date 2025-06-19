@@ -1,0 +1,214 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+
+<div class="container-flui mt-3" [ngClass]="isSidebarOpen ? '' : 'container-fluid'">
+  <div class="row g-2 position-relative">
+    <div *ngIf="isSidebarOpen" class="col-md-2 mb-2 position-relative sidebar-wrapper">
+      <div class="card border-0 p-0 ">
+        <div class="card-body p-2">
+          <app-asset-manager-side-bar></app-asset-manager-side-bar>
+        </div>
+        <button class="toggle-icon-btn" (click)="toggleSidebar()">
+          <i class="bi" [ngClass]="isSidebarOpen ? 'bi-chevron-left' : 'bi-chevron-right'"></i>
+        </button>
+      </div>
+    </div>
+    <button *ngIf="!isSidebarOpen" class="toggle-icon-btn-collapsed" (click)="toggleSidebar()">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+    <div class="pad" [ngClass]="isSidebarOpen ? 'col-md-10' : 'col-md-12'">
+      <div class="py-1 pr-3 border-0 scroll-container">
+        <div class="row g-3 mb-3">
+          <div class="col-md-3" [routerLink]="'/shortlisted'">
+            <div class="card Hover  border-0">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-primary fs-6 mb-1">Shortlisted ↗</h6>
+                <h4 class="fw-bold mb-1">{{candidatesCount?.shortlisted || 0}}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" [routerLink]="'/schedule'">
+            <div class="card Hover  border-0">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-primary fs-6 mb-1">Scheduled ↗</h6>
+                <h4 class="fw-bold mb-1">{{candidatesCount?.scheduled || 0}}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" [routerLink]="'/shortlisted'">
+            <div class="card Hover  border-0">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-danger-subtle fs-6 mb-1">Send Remainder ↗</h6>
+                <h4 class="fw-bold mb-1">{{candidatesCount?.unScheduled || 0}}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-3" [routerLink]="'/offer-letter'">
+            <div class="card Hover  border-0">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-success fs-6 mb-1">Approved ↗</h6>
+                <h4 class="fw-bold mb-1">{{ candidatesCount?.approved || 0 }}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row g-3">
+          <div class="col-md-3" [routerLink]="'/hold'">
+            <div class="card Hover border-0 ">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-warning fs-6 mb-1">Hold ↗</h6>
+                <h4 class="fw-bold mb-1">{{ candidatesCount?.hold || 0 }}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" [routerLink]="'/rejected'">
+            <div class="card Hover border-0 ">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-danger fs-6 mb-1">Rejected ↗</h6>
+                <h4 class="fw-bold mb-1">{{ candidatesCount?.rejected || 0 }}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" [routerLink]="'/offer-letter'">
+            <div class="card Hover border-0">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-warning fs-6 mb-1">Offer Initiated ↗</h6>
+                <h4 class="fw-bold mb-1">{{ candidatesCount?.offerLetterInitiated || 0 }}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3" [routerLink]="'/employee-code'">
+            <div class="card Hover border-0 ">
+              <div class="card-body py-2 px-3">
+                <h6 class="text-info fs-6 mb-1">Employee Onboarding ↗</h6>
+                <h4 class="fw-bold mb-1">{{ candidatesCount?.employeeOnboarding || 0}}</h4>
+                <p class="mb-0">Applicants</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="card w-100 py-2 border-0 container m-0 mt-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="mb-0 fw-bold">Over View</h5>
+              <span class="text-muted small">Showing Total Application Status of Year 2025</span>
+            </div>
+
+            <div class="d-flex gap-2">
+              <select class="form-select mr-3 custom-select" style="width: 50px;">
+                <option selected>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+              </select>
+
+              <div class="d-flex gap-2 mb-3">
+                <select class="form-select mr-3 custom-select" [(ngModel)]="statusOne" style="width: 150px;">
+                  <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                </select>
+
+                <select class="form-select mr-3 custom-select" [(ngModel)]="statusTwo" style="width: 150px;">
+                  <option *ngFor="let status of statusList" [value]="status">{{ status }}</option>
+                </select>
+
+                <button class="btn bg-custom text-white btn-sm active mr-2" (click)="compareStatuses()">Compare</button>
+                <button class="btn bg-custom text-white btn-sm active" (click)="speakRemainder()">Today
+                  Activities</button>
+              </div>
+
+              <!-- Bootstrap Modal -->
+              <div class="modal fade" id="differenceModal" tabindex="-1" aria-labelledby="differenceModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="differenceModalLabel">Difference Result</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="fw-bold">Difference:</p>
+                      <pre>{{ differenceResult | json }}</pre>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+
+
+
+          <!-- Full-width chart container -->
+          <div class="w-100 d-flex align-items-center justify-content-center">
+            <div #pieChart class="chart w-100"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="loader attDnceLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+
+  <!-- Chatbot Icon -->
+  <div class="chatbot-icon" *ngIf="!isChatOpen" (click)="toggleChat()">
+    🤖
+  </div>
+
+  <div class="chatbox" *ngIf="isChatOpen">
+    <div class="chatbox-header">
+      <span>Chat Support</span>
+      <button class="close-btn" (click)="toggleChat()">X</button>
+    </div>
+
+    <div class="chatbox-body" #scrollMe>
+      <p class="bot-message">Hi! How can I assist you today?</p>
+
+      <ng-container *ngFor="let msg of messages">
+        <p [ngClass]="{'user-message': msg.sender === 'user', 'bot-message': msg.sender === 'bot'}">{{ msg.text }}</p>
+      </ng-container>
+
+      <!-- Typing indicator -->
+      <span *ngIf="isTyping" class="typing-indicator">Typing...</span>
+    </div>
+
+
+    <div class="chatbox-footer">
+      <input type="text" [(ngModel)]="userMessage" placeholder="Type your message..." (keydown.enter)="sendMessage()" />
+      <button (click)="sendMessage()">Send</button>
+    </div>
+
+
+  </div>

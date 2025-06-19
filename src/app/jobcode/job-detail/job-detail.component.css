@@ -1,0 +1,63 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.border-end {
+  border-right: 2px solid #AAAAAA;
+}
+
+.opacity-50 {
+  opacity: 0.7;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.styled-iframe {
+  border-left: 2px solid #add8e6;
+  border-right: 2px solid #add8e6;
+  border-top: 1px solid rgb(178, 181, 184);
+  border-bottom: 1px solid rgb(178, 181, 184);
+  border-radius: 10px;
+}
+
+.custom-checkbox {
+  transform: scale(1.5);
+}
+
+.me-5 {
+  margin-right: 10px;
+}
+
+.me-3 {
+  margin-right: 10px;
+}
+
+.fs-4 {
+  font-size: 23px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.Hover:hover {
+  color: red !important;
+}
+
+.custom-bg {
+  background-color: #0072BC;
+}
+
+.fs-5 {
+  font-size: 13px;
+}
+
+.col-md-3 {
+  padding-right: 0px;
+}
+
+.pdf-height {
+  max-height: calc(100vh - 219px);
+}/*# sourceMappingURL=job-detail.component.css.map */

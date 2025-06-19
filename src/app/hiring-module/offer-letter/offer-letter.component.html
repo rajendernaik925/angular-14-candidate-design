@@ -1,0 +1,187 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+
+<div class="container-flui mt-3">
+  <div class="row g-2">
+    <div class="col-md-2 mb-2">
+      <div class="card border-0 p-0 shadow">
+        <div class="card-body p-2">
+          <app-asset-manager-side-bar></app-asset-manager-side-bar>
+        </div>
+      </div>
+    </div>
+    <!-- Right side content -->
+    <div class="col-md-10">
+      <div class="card py-1 border-0">
+        <div class="card-body py-1">
+
+          <div class="row mb-2 align-items-center">
+            <div class="col-md-3">
+              <span class="fw-bold text-dark">
+                <!-- <i class="bi bi-arrow-left-circle-fill me-2" style="cursor: pointer;" (click)="goBack()"></i> -->
+                Offer Management
+                <span class="badge bg-dark text-white">{{ rows.length }}</span>
+              </span>
+            </div>
+            <div class="col-md-9 d-flex justify-content-end align-items-center">
+              <input type="search" class="form-control form-control-sm search-input" placeholder="🔍 Search"
+                [formControl]="searchQuery" aria-level="Search" style="max-width: 150px; font-size: 13px;">
+              <!-- <button type="button" (click)="toggleOffcanvas()" class="btn btn-sm custom-bg text-light">
+                Filter Options
+              </button> -->
+            </div>
+          </div>
+          <div class="scroll-container table-responsive-custom" style="overflow-x: auto;" > 
+            <table class="table table-bordered">
+              <thead class="custom-bg">
+                <tr class="text-light">
+                  <th *ngFor="let col of columns" class="small-header-th sticky-col"
+                    [ngClass]="{'text-center': col.center}">
+                    {{ col.label }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="paginatedRows.length > 0; else noData">
+                <tr *ngFor="let row of paginatedRows" class="table-hoverr">
+                  <td *ngFor="let col of columns" class="small-header"
+                    [ngClass]="{ 'text-uppercase': col.uppercase, 'text-center': col.center }"
+                    [hidden]="col.key === 'status' && row['status'] === '1001'">
+
+                    <!-- Action button cell -->
+                    <ng-container *ngIf="col.clickable && col.key === 'employeeId'; else normalCell">
+                      <button *ngIf="row['offerLink'] && row['offerLink'] !== 'N/A'; else generateButton"
+                        class="border-none custom-action-btn px-2 bg-info text-white"
+                        (click)="viewFile(row['offerLink'])">
+                        View
+                      </button>
+
+                      <ng-template #generateButton>
+                        <button class="border-none custom-action-btn px-2"
+                          [ngClass]="row['status'] === '1002' ? 'bg-secondary text-white' : 'bg-success text-white'"
+                          (click)="GenerateOffer(row.candidateId)" [disabled]="row['status'] === '1002'">
+                          {{ row['status'] === '1002' ? 'Generated' : 'Generate' }}
+                        </button>
+                      </ng-template>
+                    </ng-container>
+
+                    <!-- Normal cells -->
+                    <ng-template #normalCell>
+                      <ng-container *ngIf="col.key === 'joiningDate'; else defaultCell">
+                        <!-- Display plain date if offerLink exists -->
+                        <ng-container *ngIf="row['offerLink'] && row['offerLink'] !== 'N/A'; else editableDate">
+                          <span>{{ row[col.key] }}</span>
+                        </ng-container>
+
+                        <!-- Editable date input if offer not generated -->
+                        <ng-template #editableDate>
+                          <input type="text" readonly class="form-control extra-small-input cursor-pointer"
+                            placeholder="dd-mm-yyyy" [bsConfig]="{
+                              adaptivePosition: true,
+                              showWeekNumbers: false,
+                              isAnimated: true,
+                              containerClass: colorTheme,
+                              customTodayClass: 'custom-today-class',
+                              dateInputFormat: 'DD-MM-YYYY',
+                              minDate: today
+                            }" bsDatepicker [ngModel]="row[col.key]" (ngModelChange)="onDateChange($event, row, col.key)"
+                            autocomplete="off" required />
+                        </ng-template>
+                      </ng-container>
+
+                      <ng-template #defaultCell>
+                        <span [innerHTML]="highlightMatch(row[col.key])"></span>
+                      </ng-template>
+                    </ng-template>
+
+                  </td>
+                </tr>
+              </tbody>
+
+
+              <ng-template #noData>
+                <tbody class="bg-white">
+                  <tr>
+                    <td [attr.colspan]="columns.length">
+                      <div class="d-flex justify-content-center align-items-center">
+                        <div class="">
+                          <!-- No data available -->
+                          <img
+                            src="https://assets-v2.lottiefiles.com/a/92920ca4-1174-11ee-9d90-63f3a87b4e3d/xxNZvglgy1.gif"
+                            width="150px" height="150px" alt="">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-template>
+            </table>
+
+
+          </div>
+
+          <!-- Pagination Controls -->
+          <hr *ngIf="rows.length > 0" class="custom-hr mb-1 mt-0">
+          <div class="d-flex justify-content-between align-items-center mt-1" *ngIf="rows.length > 0">
+            <span class="small badge bg-secondary text-white">
+              Showing {{ startIndex }} to {{ endIndex }} of {{ rows.length }} Records
+            </span>
+
+            <ul class="pagination pagination-sm mb-1">
+              <!-- Always show Previous button but disable if on first page -->
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+                  [ngClass]="{'custom-bg': currentPage > 1, 'bg-secondary': currentPage === 1}">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+
+              <li class="page-item mr-2">
+                <span class="px-3 py-1 small text-dark fw-bold border rounded bg-light">
+                  Page {{ currentPage }} of {{ totalPages }}
+                </span>
+              </li>
+              <!-- Always show Next button but disable if on last page -->
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                  (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages"
+                  [ngClass]="{'custom-bg': currentPage < totalPages, 'bg-secondary': currentPage === totalPages}">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="loader attDnceLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+
+<div *ngIf="showPDF" class="overlay">
+  <div class="pdf-container">
+    <button class="close-btn" (click)="closePDF()">✖</button>
+    <iframe [src]="fileURL" width="100%" height="100%"></iframe>
+  </div>
+</div>
+
+<div *ngIf="panAlertMessage" class="custom-alert alert alert-success alert-dismissible fade show"
+  [ngClass]="{ 'slide-in': panAlertMessage, 'slide-out': !panAlertMessage }" role="alert">
+  {{ panAlertMessage }}
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

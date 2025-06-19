@@ -1,0 +1,67 @@
+<!-- <div class="d-flex justify-content-between align-items-center d-md-none mb-2">
+  <span class="fw-bold custom-text">{{ activeTab }}</span>
+  <button class="btn custom-bg text-light me" (click)="toggleSidebar()">☰</button>
+</div>
+<div class="d-flex">
+  <div class="card border-0 flex-fill sidebar"
+       [ngClass]="{'d-none': !isSidebarOpen, 'd-md-block': true}">
+    <div class="card-content p-1">
+      <ul class="list-group list-group-flush border-0">
+        <li *ngFor="let item of sidebarItems">
+          <i [ngClass]="{'active': activeTab.includes(item.route)  && !item.isDropdown} "></i>
+          <a *ngIf="!item.isDropdown"
+             class="links"
+             [routerLink]="item.route"
+             [ngClass]="{'active': activeTab.includes(item.route)}">
+            {{ item.label }}
+          </a>
+          <a *ngIf="item.isDropdown"
+             class="links cursor-pointer"
+             (click)="toggleFunctionalRequirements()">
+            {{ item.label }}
+            <i [ngClass]="homeIcon" class="ms-2 text-dark"></i>
+          </a>
+          <div *ngIf="item.isDropdown && isFunctionalOpen">
+            <ul>
+              <li *ngFor="let subItem of item.subItems"
+                  [ngClass]="{'active': activeTab.includes(subItem.route)}">
+                  <i [ngClass]="{'active': activeTab.includes(subItem.route)}"></i>
+                <a class="links"
+                   [routerLink]="subItem.route"
+                   [ngClass]="{'active': activeTab.includes(subItem.route)}">
+                  {{ subItem.label }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<div class="d-flex justify-content-between align-items-center d-md-none mb-2">
+  <span class="fw-bold custom-text">{{ activeTab | activeUrl }}</span>
+  <button class="btn custom-bg text-light mr-3" (click)="toggleSidebar()">☰</button>
+</div>
+<div class="d-flex">
+  <div class="card border-0 flex-fill sidebar" [ngClass]="{ 'd-none': !isSidebarOpen, 'd-md-block': true }">
+    <div class="card-content">
+      <ul class="list-group list-group-flush border-0">
+        <li *ngFor="let item of sidebarItems"
+            class="sidebar-item border cursor-pointer"
+            [routerLink]="item.route"
+            [ngClass]="{ 'active': isRouteActive(item) }">
+          <i class="{{ item.icon }}"></i>
+          <a class="links d-flex">
+            {{ item.label }}
+          </a>
+          <hr>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

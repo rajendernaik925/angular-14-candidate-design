@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Department Information</li>
+      <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+        {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li>
+    </ol>
+</nav>
+
+<div class="container-fluid">
+
+  <div class="loader" *ngIf="isLoading">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+  </div>
+  <div class="search-hero">
+    <i class="fa fa-search" aria-hidden="true"></i>
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder=" Start searching for a Employee by Name / Department / Designation / Mail-id">
+  </div>
+  <div class="deptList">
+    <ul>
+      <ng-container *ngIf="( departmentList | filter : searchText) as result ">
+      
+      <li *ngFor="let item of result">
+        <div class="card">
+          <div class="rwOne">
+            <div *ngIf="item.profilepic !== '0'" >
+              <img [src]="imgBaseURL+item.profilepic" alt="{{item.empname}}" />
+            </div>
+            <div *ngIf="item.profilepic === '0'">
+              <img src="./././assets/img/dashboard/user-male.svg" alt="user-male" *ngIf='item.genderid == "1"'/>
+              <img src="./././assets/img/dashboard/user-female.svg" alt="user-female" *ngIf='item.genderid == "2"'/>
+           </div>
+            <div class="pl_2">
+              <span>Emp ID : <label>{{item.empid}}</label></span>
+              <span>Division : <label class="_caps">{{item.buname}}</label></span>
+              <span>Department: <label>{{item.department}}</label></span>
+              <span>Designation : <label>{{item.designation}}</label></span>
+            </div>
+          </div>
+          <p><b>{{item.empname}}</b></p>
+          <p>{{item.email}}</p>
+          <p>{{item.mobile}}</p>
+        </div>
+      </li>
+
+       <h2 *ngIf="result.length === 0">No Records Found&nbsp;<i class="fa fa-frown-o" aria-hidden="true"></i> </h2> 
+        
+    </ng-container>
+    </ul>
+  </div>
+</div>
