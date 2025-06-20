@@ -1,6 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 import Swal from 'sweetalert2';
@@ -21,11 +22,14 @@ export class HiringLoginComponent implements OnInit {
   loggedInData: any;
   isLoginExpired: boolean = false;
   logo: string = 'https://sso.heterohealthcare.com/iconnect/assets/img/logo.svg';
+  @ViewChild('Login') Login!: TemplateRef<any>;
+  private dialogRef: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     this.loginForm = this.fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -72,7 +76,7 @@ export class HiringLoginComponent implements OnInit {
           this.loggedInData = res.body;
           console.log("login time : ", this.loggedInData?.createdDateTime)
 
-          // ✅ Check expiration and return early if expired
+          //  Check expiration and return early if expired
           // if (this.checkIfLoginExpired(this.loggedInData?.createdDateTime)) {
           //   this.isLoginExpired = true;
           //   return false; 
@@ -82,6 +86,7 @@ export class HiringLoginComponent implements OnInit {
 
           if (res.status === 200) {
             localStorage.setItem('hiringLoginData', JSON.stringify(res.body));
+            this.closeLogin();
 
             // Optional: clear login data after 5 days
             // const fiveDays = 5 * 24 * 60 * 60 * 1000;
@@ -133,13 +138,13 @@ export class HiringLoginComponent implements OnInit {
         }
       });
     } else {
-      this.isLoading = false; // Ensure loading state is reset
+      this.isLoading = false;
       this.loginForm.markAllAsTouched();
     }
   }
 
   checkIfLoginExpired(createdDateStr: string): boolean {
-    if (!createdDateStr) return true; // If no date, consider it expired
+    if (!createdDateStr) return true;
 
     const createdDate = new Date(createdDateStr);
     const now = new Date();
@@ -150,28 +155,21 @@ export class HiringLoginComponent implements OnInit {
 
 
 
-  featureCards = [
-  {
-    title: 'Appointment',
-    img: 'https://www.heterohealthcare.com/assets/img/Discover-insightsdesk.jpg?Version=4.68',
-    description: 'Easily schedule, manage, and track your medical appointments'
-  },
-  {
-    title: 'Reports',
-    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQno_MwOp___Iv6ynEvwDRHeq9cTXIFqqlmgw&s',
-    description: 'Get access to diagnostic reports securely and quickly'
-  },
-  {
-    title: 'Doctors',
-    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV5I7p75joxiIGRH_ji8bXmU6atXP39RLt6g&s',
-    description: 'Connect with healthcare professionals anytime'
-  },
-  {
-    title: 'Updates',
-    img: 'https://static.vecteezy.com/system/resources/thumbnails/050/539/230/small/chinese-teenage-girl-resting-in-a-hospital-bed-recovering-from-illness-in-a-medical-facility-for-health-and-wellness-posters-cards-and-brochures-photo.jpg',
-    description: 'Stay updated with the latest health insights'
+  toggleLogin(): void {
+    this.dialogRef = this.dialog.open(this.Login, {
+      width: 'auto',
+      height:'auto',
+      hasBackdrop: true,
+    });
   }
-];
+
+  closeLogin(): void {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+      this.dialogRef = null;
+    }
+  }
+
 
 
 

@@ -30,6 +30,8 @@ export class UnscheduledComponent implements OnInit {
   comapnyLogo: string = 'assets/img/icons/company-name.png'
   @ViewChild('aboutCandidateDialog', { static: true }) aboutCandidateDialog!: TemplateRef<any>;
   searchQueryText: string;
+  panAlertMessage: string = null;
+  panAlertTimeout: NodeJS.Timeout;
 
 
   constructor(
@@ -404,6 +406,32 @@ export class UnscheduledComponent implements OnInit {
   goBack() {
     window.history.back();
   }
+
+
+  panAlertType: 'success' | 'danger' = 'success';
+
+  save() {
+    this.showPanAlert('Personal details saved successfully!', 'success');
+  }
+
+  showError() {
+    this.showPanAlert('Error message!', 'danger');
+  }
+
+  private showPanAlert(message: string, type: 'success' | 'danger'): void {
+    this.panAlertMessage = message;
+    this.panAlertType = type;
+
+    clearTimeout(this.panAlertTimeout);
+    this.panAlertTimeout = setTimeout(() => {
+      this.panAlertMessage = null;
+    }, 2000);
+  }
+
+  closeAlert() {
+    this.panAlertMessage = null;
+  }
+
 
 
 
