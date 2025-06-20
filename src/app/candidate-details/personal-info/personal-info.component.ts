@@ -24,7 +24,7 @@ export class personalInfoComponent implements OnInit {
   @ViewChild('hiddenOthersInput') hiddenOthersInput!: ElementRef;
 
   registrationForm: FormGroup;
-   logo: string = 'https://sso.heterohealthcare.com/iconnect/assets/img/logo.svg';
+  logo: string = 'https://sso.heterohealthcare.com/iconnect/assets/img/logo.svg';
   universityOptions: any[] = [];
   qualificationOptions: any[] = [];
   currentYear = new Date().getFullYear();
@@ -76,7 +76,7 @@ export class personalInfoComponent implements OnInit {
   serviceFilePath: string | null = '';
   paySlipFilePath: string | null = '';
   showSidebar = false;
-  today: Date = new Date(); 
+  today: Date = new Date();
 
   // sections = [
   //   { key: 'personalInfo', label: 'Personal Info' },
@@ -1042,7 +1042,7 @@ export class personalInfoComponent implements OnInit {
     // }
     if (Action === 'personal') {
       const personalFields = [
-        'candidateId', 'email', 'mobileNumber', 'dob', 'titleId',
+        'email', 'mobileNumber', 'dob', 'titleId',
         'firstName', 'middleName', 'lastName', 'maritalStatusId', 'bloodGroupId', 'uan', 'passport',
         'genderId', 'fatherName', 'district', 'licence', 'pan', 'adhar', 'resume', 'photo'
       ];
@@ -1061,7 +1061,7 @@ export class personalInfoComponent implements OnInit {
       });
 
       if (!isValid) {
-        this.formFillMessageAlert();
+        this.showAlert("Please fill required fields!", 'danger');
         console.log("Form incomplete: ", sectionData);
         return;
       }
@@ -1078,7 +1078,8 @@ export class personalInfoComponent implements OnInit {
 
       let formData = new FormData();
       sectionData.candidateId = this.jobCodeData?.candidateId;
-
+      formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
+      formData.append('candidateId', this.jobCodeData?.candidateId);
       formData.append('personalInfo', JSON.stringify(sectionData));
       formData.append('personalImageFile', this.selectedFiles['photo']);
       formData.append('personalResumeFile', this.selectedFiles['resume']);
@@ -1391,17 +1392,17 @@ export class personalInfoComponent implements OnInit {
           //   educationArray.clear();
           //   educationArray.push(this.createEducationFormGroup());
           // }
-
-
           // this.selectedFiles = {}
           this.personalUpdate = false;
           this.addressUpadte = false;
-          Swal.fire({
-            title: 'Success',
-            text: 'Successfully completed',
-            icon: 'success',
-            showConfirmButton: true,
-          });
+          // Swal.fire({
+          //   title: 'Success',
+          //   text: 'Successfully completed',
+          //   icon: 'success',
+          //   showConfirmButton: true,
+          // });
+
+          this.showAlert("Successfully completed","success");
           this.setActiveSection(action);
           if (action === 'education') {
             const educationArray = this.registrationForm.get('educationDetails') as FormArray;
@@ -1641,10 +1642,37 @@ export class personalInfoComponent implements OnInit {
   //   return date.toISOString().split('T')[0];
   // }
 
-  logout() {
-    localStorage.removeItem('hiringLoginData');
-    this.router.navigate(['/hiring-login']);
-  }
+  logout(): void {
+  Swal.fire({
+    html: `
+      <div class="mb-3">
+        <img src="assets/img/job-code/logout-gif.gif" alt="logout" style="width:60px; height:60px; " />
+      </div>
+      <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to log out?</h5>
+      <p class="text-muted mb-0" style="font-size: 14px;">
+        You will need to log in again to access your profile and application details.
+      </p>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Log Out',
+    cancelButtonText: 'Cancel',
+    customClass: {
+      popup: 'p-3 rounded-4',
+      htmlContainer: 'text-center',
+      confirmButton: 'btn btn-primary btn-sm w-100 mb-2 shadow-none',
+      cancelButton: 'btn btn-sm btn-outline-secondary w-100',
+    },
+    buttonsStyling: false,
+    width: '500px',
+    backdrop: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem('hiringLoginData');
+      this.router.navigate(['/hiring-login']);
+    }
+  });
+}
+
 
 
   checkDuplicateQualification(index: number): boolean {
@@ -1661,7 +1689,7 @@ export class personalInfoComponent implements OnInit {
     return duplicates.length > 0;
   }
 
-  panAlertMessage: string | null = null;
+  alertMessage: string | null = null;
   private panAlertTimeout: any;
 
   panCardKeydown(event: KeyboardEvent): void {
@@ -1704,17 +1732,15 @@ export class personalInfoComponent implements OnInit {
   }
 
   private showInvalidPanAlert(message: string): void {
-    this.panAlertMessage = message;
+    this.alertMessage = message;
 
     clearTimeout(this.panAlertTimeout);
     this.panAlertTimeout = setTimeout(() => {
-      this.panAlertMessage = null;
+      this.alertMessage = null;
     }, 2000); // alert visible for 2 seconds
   }
 
-  closeAlert() {
-    this.panAlertMessage = null;
-  }
+
 
 
   openTenthFileInput(): void {
@@ -1806,6 +1832,24 @@ export class personalInfoComponent implements OnInit {
     if (!month) return null;
 
     return `${year}-${month}-${day}`;
+  }
+
+
+  alertType: 'success' | 'danger' = 'success';
+
+  private showAlert(message: string, type: 'success' | 'danger'): void {
+    this.alertMessage = message;
+    this.alertType = type;
+
+
+    clearTimeout(this.panAlertTimeout);
+    this.panAlertTimeout = setTimeout(() => {
+      this.alertMessage = null;
+    }, 2000);
+  }
+
+  closeAlert() {
+    this.alertMessage = null;
   }
 
 }

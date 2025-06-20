@@ -24,7 +24,7 @@ th, td
   text-overflow: ellipsis // Add ellipsis (...) if content overflows    
 
 .scroll-container
-  max-height: calc(100vh - 230px)
+  max-height: calc(100vh - 245px)
   overflow-y: scroll // Keep scrolling functionality
   display: block
   max-width: 100%
@@ -172,3 +172,103 @@ $z-index-offcanvas: 1050
   word-wrap: break-word
   word-break: break-word
   white-space: normal // Allows text to wrap properly
+
+
+
+
+
+
+
+// personal page 
+
+.form-label-small
+  font-size: 13px
+  color: #6c757d
+
+.upload-box
+  border: 1px solid #d0d0d0
+  padding: 1rem
+  border-radius: 0.5rem
+  text-align: center
+
+  a
+    display: block
+    margin-top: 0.5rem
+
+.section-title
+  font-weight: bold
+  margin-bottom: 1rem
+
+.form-section
+  margin-bottom: 2rem
+.fw-bold
+  font-weight: 500
+.form-label-small 
+  display: block
+  margin-bottom: 0.25rem
+.fw-boldd
+  font-weight: 800
+.bg-file 
+  background-color: rgba(0, 82, 204, 0.163)
+  backdrop-filter: blur(6px)
+  -webkit-backdrop-filter: blur(6px)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Overlay styles
+
+
+
+.custom-alert
+  position: fixed
+  top: 20px
+  right: 20px
+  min-width: 250px
+  z-index: 1050
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+  transition: opacity 0.4s ease-in-out
+  opacity: 0
+  pointer-events: none
+
+  &.slide-in
+    opacity: 1
+    pointer-events: auto
+
+  &.slide-out
+    opacity: 0
+    pointer-events: none
+
+
+.timer-circle
+  width: 20px
+  height: 20px
+  border: 2px solid transparent
+  border-top: 2px solid #fff
+  border-right: 2px solid #fff
+  border-radius: 50%
+  animation: spin-loader 2s linear forwards
+
+@keyframes spin-loader
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+
+
+
+
+
+

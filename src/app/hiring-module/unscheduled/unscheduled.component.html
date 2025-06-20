@@ -382,81 +382,392 @@
 </div> -->
 
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Vendor Form Request</title> 
-</head>-->
-
-<body style="margin:0; padding:0; font-family: Arial, sans-serif;">
-  <div style="background-color:#d0e3ea; padding:20px;">
-    <img src="https://www.heterohealthcare.com/assets/img/hhcllogo.svg?Version=4.68" alt="Hetero Healthcare"
-      style="max-width:200px;">
+<div class="row">
+  <div class="col-md-2">
+    side bar
   </div>
-  <div style="padding:30px 30px 5px 30px; background-color:#fff;">
-    <p>Dear Mr./Ms. <strong>E-one moli energy corp</strong>,</p>
+  <div class="col-md-10">
+    <div class="container-fluid py-4 card ">
+      <h5 class="mb-4 fw-boldd mt-5">Personal Info</h5>
 
-    <p>
-      Please complete and submit your vendor form using the link provided below.
-      Ensure all required fields are accurately filled out. We appreciate your prompt response.
-    </p>
+      <div class="container scroll-container">
+        <!-- Job Code & Email -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Job Code and Email Address</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <label class="form-label form-label-small ">Jobcode Id</label>
+              <input type="text" class="form-control" value="JC104202506" readonly />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small ">Email Address</label>
+              <input type="email" class="form-control" value="example@email.com" readonly />
+            </div>
+          </div>
+        </div>
 
-    <p style="color:hotpink; font-style:italic;">
-      Vendor Reference No: <strong>AZ6000V414</strong>
-    </p>
+        <!-- Personal Details -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Personal Details</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label form-label-small">Title</label>
+                <select class="form-select w-100">
+                  <option>Mr.</option>
+                  <option>Ms.</option>
+                  <option>Mrs.</option>
+                  <option>Dr.</option>
+                </select>
+              </div>
+            </div>
 
-      <strong style="font-weight:bold;">Vendor Details:</strong>
-      <!-- <p style="margin:5px 100px; font-weight: bold;">Vendor Details: </p> -->
-      <p style="margin:5px 50px;">Vendor Name: <strong>E-ONE MOLI ENERGY CORP</strong></p>
-      <p style="margin:5px 50px;">Vendor Type: <strong>V004-Sun.Creditors-Packing Material</strong></p>
-      <p style="margin:5px 50px;">Industry Type: <strong>1003-CAPITAL</strong></p>
-      <p style="margin:5px 50px;">Company Name: <strong>5000-HETERO HEALTHCARE LTD.</strong></p>
+
+            <div class="col-md-4">
+              <label class="form-label form-label-small">First Name</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Middle Name</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Last Name</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Date of Birth</label>
+              <input type="date" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Father's Name</label>
+              <input type="text" class="form-control" placeholder="Enter Father's Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Gender</label>
+              <select class="form-select w-100">
+                <option selected disabled>Select Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Marital Status</label>
+              <select class="form-select w-100">
+                <option selected disabled>Select Marital Status</option>
+                <option>Single</option>
+                <option>Married</option>
+                <option>Divorced</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Blood Group</label>
+              <select class="form-select w-100">
+                <option selected disabled>Select Blood Group</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>O+</option>
+                <option>O-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Identification Numbers -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Identification Numbers</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">UAN Number (Optional)</label>
+              <input type="text" class="form-control" placeholder="Enter UAN Number" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Passport Number (Optional)</label>
+              <input type="text" class="form-control" placeholder="Enter Passport Number" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Driving Licence Number (Optional)</label>
+              <input type="text" class="form-control" placeholder="Enter Driving Licence Number" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">PAN Number</label>
+              <input type="text" class="form-control" placeholder="Enter PAN Number" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Aadhar Number</label>
+              <input type="text" class="form-control" placeholder="Enter Aadhar Number" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Mobile Number</label>
+              <input type="text" class="form-control" placeholder="Enter Mobile Number" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Resume Upload -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Resume
+            <p class="mb-1 text-muted">Upload only PDF files. File size must be 5MB or less.</p>
+          </div>
+          <div class="col-md-9">
+            <div class="mb-3">
+              <label class="form-label text-muted small">Resume</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-4 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload Resume</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+
+              <!-- Uploaded File Display -->
+              <div class="mt-2">
+                <a href="#" class="text-primary text-decoration-underline fst-italic">Resume.pdf</a>
+                <span class="text-danger ms-1" style="cursor: pointer;">&times;</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Photo (Optional)
+            <p class="mb-1 text-muted">Upload only PDF files. File size must be 5MB or less.</p>
+          </div>
+          <div class="col-md-9">
+            <div class="mb-3">
+              <label class="form-label text-muted small">Photo</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-4 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload photo</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+
+              <!-- Uploaded File Display -->
+              <div class="mt-2">
+                <a href="#" class="text-primary text-decoration-underline fst-italic">photo.pdf</a>
+                <span class="text-danger ms-1" style="cursor: pointer;">&times;</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
 
 
 
-    <p style="margin-top: 10px;">
-      Kindly click this URL and fill your details:
-    </p>
 
-    <p>
-      <a href="#" style="
-        background-color:#0072BC;
-        color:#fff;
-        padding:9px 9px;
-        text-decoration:none;
-        border-radius:5px;
-        display:inline-block;
-        font-weight:bold;">
-        Click Here
-      </a>
-    </p>
-  </div>
-  <div style="background-color:#e94c4c; padding:20px; color:#fff; position: relative;">
-    <div style="text-align:left;">
-      <p style="margin:0;">
-        &copy; Copyright &copy; 2024 All Rights Reserved by
-        <a href="#" style="color:#fff; text-decoration:underline;">Hetero Healthcare Limited.</a>
-      </p>
-      <p style="margin:5px 0;">
-        <a href="mailto:vendormanagement@heterohealthcare.com" style="color:#fff; text-decoration:underline;">
-          Contact Us : vendormanagement&#64;heterohealthcare.com
-        </a>
-      </p>
+        <!-- address -->
+
+        <div class="row mb-2">
+          <div class="col-md-3 fw-bold">Communication address</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label form-label-small">Address1</label>
+                <input type="text" class="form-control" placeholder="Enter First Name" />
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Address2</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Address3</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">State</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">City</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Postal Code</label>
+              <input type="text" class="form-control" placeholder="Enter Father's Name" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+
+          </div>
+          <div class="col-md-9">
+            <input type="checkbox" name="" id="" class="mr-2">
+            <label for="">Permanent Address same as Communication address </label>
+          </div>
+        </div>
+
+
+        <!-- permanent address -->
+
+
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Permanent address</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label form-label-small">Address1</label>
+                <input type="text" class="form-control" placeholder="Enter First Name" />
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Address2</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Address3</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">State</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">City</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Postal Code</label>
+              <input type="text" class="form-control" placeholder="Enter Father's Name" />
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Education Details
+            <p class="mb-1 text-muted">Minimum 3 Qualification are Required.</p>
+          </div>
+          <div class="col-md-9 row g-3">
+
+
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Education level</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Qualification</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Branch</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Institute/college</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">University</label>
+              <input type="text" class="form-control" placeholder="Enter Father's Name" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Year of passing</label>
+              <input type="text" class="form-control" placeholder="Enter Father's Name" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">percentage</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">education type</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Is considered</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">For Wage Review</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <button class="mt-4 btn btn-sm custom-bg text-white">Save and add</button>
+
+            </div>
+            <div class="col-md-4">
+              <button class="mt-4 btn btn-sm btn-outline-danger d-flex align-items-center shadow-none">
+                Remove <i class="bi bi-x ml-2"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Save Button -->
+      <hr>
+      <div class="container">
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-sm bg-danger text-white shadow-none mr-2" (click)="showError()">Error</button>
+          <button class="btn btn-sm custom-bg text-white shadow-none" (click)="save()">Save and Next</button>
+        </div>
+      </div>
+
+
     </div>
-    <div style="position:absolute; top:20px; right:20px;">
-      <a href="#" style="margin:0 10px;">
-        <img src="https://cdn-icons-png.flaticon.com/24/145/145802.png" alt="Facebook" style="vertical-align:middle;">
-      </a>
-      <a href="#" style="margin:0 10px;">
-        <img src="https://cdn-icons-png.flaticon.com/24/145/145812.png" alt="Twitter" style="vertical-align:middle;">
-      </a>
-      <a href="#" style="margin:0 5px;">
-        <img src="https://cdn-icons-png.flaticon.com/24/145/145807.png" alt="LinkedIn" style="vertical-align:middle;">
-      </a>
-    </div>
   </div>
-</body>
+</div>
 
-<!-- </html> -->
+
+<!-- <div
+  *ngIf="panAlertMessage"
+  class="custom-alert alert alert-dismissible fade show"
+  [ngClass]="{
+    'slide-in': panAlertMessage,
+    'slide-out': !panAlertMessage,
+    'alert-success': panAlertType === 'success',
+    'alert-danger': panAlertType === 'danger'
+  }"
+  role="alert"
+>
+  {{ panAlertMessage }}
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div> -->
+<div *ngIf="panAlertMessage" class="custom-alert alert alert-dismissible fade show d-flex align-items-center" [ngClass]="{
+    'slide-in': panAlertMessage,
+    'slide-out': !panAlertMessage,
+    'alert-success': panAlertType === 'success',
+    'alert-danger': panAlertType === 'danger'
+  }" role="alert">
+  <!-- Circular loader -->
+  <div class="timer-circle mr-2"></div>
+
+  <!-- Message -->
+  <div class="flex-grow-1">
+    {{ panAlertMessage }}
+  </div>
+
+  <!-- Close button -->
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

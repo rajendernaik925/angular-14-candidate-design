@@ -1,7 +1,7 @@
 
 .scroll-container
-  //max-height: calc(100vh - 255px)
-  max-height: calc(100vh - 170px)
+  //max-height: calc(100vh - 245px)
+  max-height: calc(100vh - 200px)
   overflow-y: scroll // Keep scrolling functionality
   display: block
   max-width: 100%
@@ -19,7 +19,7 @@
 .custom-text  
   color: #0072BC
 .custom-bg
-  background: #0072BC  
+  background: #0072BC !important
 .fw-bold  
   font-weight: bold
 .disabled
@@ -140,17 +140,7 @@ button
 
 
 
-.custom-alert
-  position: fixed
-  top: 50%          // vertical center
-  left: 50%         // horizontal center
-  transform: translate(-50%, -50%)  // center both ways
-  min-width: 250px
-  z-index: 1050
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2)
-  transition: opacity 0.4s ease-in-out
-  opacity: 0
-  pointer-events: none
+
 
 .custom-alert.slide-in
   opacity: 1
@@ -236,3 +226,150 @@ button.custom-disabled-btn:disabled
   bottom: 0
   background-color: rgba(0, 0, 0, 0.4)
   z-index: 1040
+
+
+
+
+
+
+
+
+
+//personal updated design
+
+
+// personal page 
+
+.form-label-small
+  font-size: 13px
+  color: #6c757d
+
+.upload-box
+  border: 1px solid #d0d0d0
+  padding: 1rem
+  border-radius: 0.5rem
+  text-align: center
+
+  a
+    display: block
+    margin-top: 0.5rem
+
+.section-title
+  font-weight: bold
+  margin-bottom: 1rem
+
+.form-section
+  margin-bottom: 2rem
+.fw-bold-d
+  font-weight: 500
+.form-label-small 
+  display: block
+  margin-bottom: 0.25rem
+.fw-bold
+  font-weight: 800
+.bg-file 
+  background-color: rgba(0, 82, 204, 0.163)
+  backdrop-filter: blur(6px)
+  -webkit-backdrop-filter: blur(6px)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Overlay styles
+
+
+
+.custom-alert
+  position: fixed
+  top: 20px
+  right: 20px
+  min-width: 250px
+  z-index: 1050
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+  transition: opacity 0.4s ease-in-out
+  opacity: 0
+  pointer-events: none
+
+  &.slide-in
+    opacity: 1
+    pointer-events: auto
+
+  &.slide-out
+    opacity: 0
+    pointer-events: none
+
+
+.timer-circle
+  width: 20px
+  height: 20px
+  border: 2px solid transparent
+  border-top: 2px solid #fff
+  border-right: 2px solid #fff
+  border-radius: 50%
+  animation: spin-loader 2s linear forwards
+
+@keyframes spin-loader
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+
+.custom-alert
+  position: fixed
+  top: 20px
+  right: 20px
+  min-width: 250px
+  z-index: 1050
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2)
+  transition: opacity 0.4s ease-in-out
+  opacity: 0
+  pointer-events: none
+
+  &.slide-in
+    opacity: 1
+    pointer-events: auto
+
+  &.slide-out
+    opacity: 0
+    pointer-events: none
+
+
+.timer-circle
+  width: 20px
+  height: 20px
+  border: 2px solid transparent
+  border-top: 2px solid #fff
+  border-right: 2px solid #fff
+  border-radius: 50%
+  animation: spin-loader 2s linear forwards
+
+@keyframes spin-loader
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
+
+
+
+
+
+
+
+
+
+
+
+
