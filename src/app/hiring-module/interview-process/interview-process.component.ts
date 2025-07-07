@@ -32,7 +32,9 @@ export class InterviewProcessComponent implements OnInit {
   showDropdown: boolean = false;
   feedbackForm: FormGroup;
   employeeId: string | null = null;
-  userData: any; minDate: Date = new Date();
+  userData: any;
+  minDate: Date = new Date();
+  maxDate: Date;
   colorTheme = 'theme-dark-blue';
   currentPage = 1;
   pageSize = 10;
@@ -81,7 +83,12 @@ export class InterviewProcessComponent implements OnInit {
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
   ) {
+     const today = new Date();
+    this.minDate = today;
 
+    const after90Days = new Date();
+    after90Days.setDate(today.getDate() + 90);
+    this.maxDate = after90Days;
   }
 
   ngOnInit() {
@@ -119,7 +126,7 @@ export class InterviewProcessComponent implements OnInit {
   initializeForm() {
     this.feedbackForm = this.fb.group({
       comments: ['', Validators.required],
-      status: [0, Validators.required],
+      status: ['', Validators.required],
       interviewRound: [null, Validators.required],
       interviewBy: ['', Validators.required],
       feedbackList: this.fb.array([]),
@@ -213,20 +220,71 @@ export class InterviewProcessComponent implements OnInit {
   //   this.selectedHrStatus = Number(value);
   // }
 
+  // onHrStatusChange(value: number | string) {
+  //   const status = +value;
+  //   this.selectedHrStatus = status;
+
+  //   const f = this.feedbackForm;
+
+  //   // 👇 Set the status manually
+  //   f.get('status')?.setValue(value);
+  //   f.get('status')?.markAsTouched();
+
+  //   this.clearConditionalValidators();
+
+  //   f.get('status')?.setValidators([Validators.required]);
+  //   f.get('comments')?.setValidators([Validators.required]);
+
+  //   if ((status === 1004 || status === 1006) && this.finalHrRound) {
+  //     f.get('joiningDate')?.setValidators([Validators.required]);
+  //     f.get('expectedCTC')?.setValidators([Validators.required, Validators.pattern('^[0-9]*$')]);
+  //     f.get('division')?.setValidators([Validators.required]);
+  //     f.get('designation')?.setValidators([Validators.required]);
+  //     f.get('department')?.setValidators([Validators.required]);
+  //     f.get('state')?.setValidators([Validators.required]);
+  //     f.get('hq')?.setValidators([Validators.required]);
+  //     f.get('region')?.setValidators([Validators.required]);
+
+  //     // ✅ Patch designation and department values if available
+  //     const personalInfo = this.candidateData?.candidatePersonalInformationDetails;
+
+  //     if (personalInfo?.designationId) {
+  //       f.get('designation')?.setValue(personalInfo.designationId);
+  //     }
+
+  //     if (personalInfo?.departmentId) {
+  //       f.get('department')?.setValue(personalInfo.departmentId);
+  //     }
+
+  //     console.log("designationName:", personalInfo?.designationName);
+  //     console.log("designationId:", personalInfo?.designationId);
+  //     console.log("departmentName:", personalInfo?.departmentName);
+  //     console.log("departmentId:", personalInfo?.departmentId);
+  //   } else if (status !== 1005 && status !== 1006 && !this.finalHrRound) {
+  //     f.get('interviewRound')?.setValidators([Validators.required]);
+  //     f.get('interviewBy')?.setValidators([Validators.required]);
+  //   }
+
+  //   Object.keys(f.controls).forEach(key => f.get(key)?.updateValueAndValidity());
+  // }
+
   onHrStatusChange(value: number | string) {
     const status = +value;
     this.selectedHrStatus = status;
+
     const f = this.feedbackForm;
 
-    // First clear all validators
+    // 👇 Always set & touch the status field
+    f.get('status')?.setValue(value);
+    f.get('status')?.markAsTouched();
+
     this.clearConditionalValidators();
 
-    // Always validate status and comments
     f.get('status')?.setValidators([Validators.required]);
     f.get('comments')?.setValidators([Validators.required]);
 
-    // HR Final Round - Approved
-    if (status === 1004 && this.finalHrRound) {
+    if ((status === 1004 || status === 1006) && this.finalHrRound) {
+      // Final HR + status is Selected/Hold
       f.get('joiningDate')?.setValidators([Validators.required]);
       f.get('expectedCTC')?.setValidators([Validators.required, Validators.pattern('^[0-9]*$')]);
       f.get('division')?.setValidators([Validators.required]);
@@ -235,16 +293,59 @@ export class InterviewProcessComponent implements OnInit {
       f.get('state')?.setValidators([Validators.required]);
       f.get('hq')?.setValidators([Validators.required]);
       f.get('region')?.setValidators([Validators.required]);
-    }
-    // TR or other rounds - show interviewer and next round selection
-    else if (status !== 1005 && status !== 1006 && !this.finalHrRound) {
+
+      const personalInfo = this.candidateData?.candidatePersonalInformationDetails;
+      if (personalInfo?.designationId) {
+        f.get('designation')?.setValue(personalInfo.designationId);
+      }
+      if (personalInfo?.departmentId) {
+        f.get('department')?.setValue(personalInfo.departmentId);
+      }
+
+      console.log("designationName:", personalInfo?.designationName);
+      console.log("designationId:", personalInfo?.designationId);
+      console.log("departmentName:", personalInfo?.departmentName);
+      console.log("departmentId:", personalInfo?.departmentId);
+
+    } else if (status !== 1005 && status !== 1006 && !this.finalHrRound) {
+      // Not Hold/Rejected & not final round
       f.get('interviewRound')?.setValidators([Validators.required]);
       f.get('interviewBy')?.setValidators([Validators.required]);
+    } else if ((status === 1005 || status === 1006) && !this.finalHrRound) {
+      // 👇 This was missing in your original code
+      // If Hold/Rejected but NOT final, still enforce comments
+      f.get('comments')?.setValidators([Validators.required]);
     }
 
-    // Update all controls validity
     Object.keys(f.controls).forEach(key => f.get(key)?.updateValueAndValidity());
   }
+
+
+
+
+  onInterviewRoundChange(value: string | number): void {
+    const control = this.feedbackForm.get('interviewRound');
+    control?.setValue(value);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+  }
+
+  onDivisionChange(value: string | number): void {
+    const control = this.feedbackForm.get('division');
+    control?.setValue(value);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+  }
+
+  onDesignationChange(value: string | number): void {
+    const control = this.feedbackForm.get('designation');
+    control?.setValue(value);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+  }
+
+
+
 
 
   clearConditionalValidators() {
@@ -350,8 +451,13 @@ export class InterviewProcessComponent implements OnInit {
     this.interviewStatusCode = interviewStatusCode;
     this.authService.registeredData(employeeId).subscribe({
       next: (res: any) => {
+        console.log("res : ", res)
         this.isLoading = false;
         this.candidateData = res;
+        console.log("data : ", this.candidateData.candidatePersonalInformationDetails?.designationName)
+        console.log("data : ", this.candidateData.candidatePersonalInformationDetails?.designationId)
+        console.log("data : ", this.candidateData.candidatePersonalInformationDetails?.departmentName)
+        console.log("data : ", this.candidateData.candidatePersonalInformationDetails?.departmentId)
         this.resumeFile = res?.candidatePersonalInformationDetails?.resumeFile || null; this.resumeFile = res?.candidatePersonalInformationDetails?.resumeFile || null;
         this.photoFile = res?.candidatePersonalInformationDetails?.imageFile || null;
         this.aadharFile = res?.candidateDocumentDetails?.aadharFile || null;
@@ -393,6 +499,8 @@ export class InterviewProcessComponent implements OnInit {
           // console.log("Last Interview Round Name:", lastInterviewRoundName);
           if (lastInterviewRoundName === 'HR') {
             this.finalHrRound = true;
+          } else {
+            this.finalHrRound = false;
           }
         } else {
           // console.log("No interview details found.");
@@ -439,14 +547,91 @@ export class InterviewProcessComponent implements OnInit {
   //   }
   //   return null;
   // }
+  // feedbackSubmit() {
+  //   const f = this.feedbackForm;
+  //   const formValue = f.value;
+  //   const status = +formValue.status;
+
+  //   // If not Rejected or Hold, check validity
+  //   if (status !== 1005 && status !== 1006 && f.invalid) {
+  //     f.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   this.isLoading = true;
+
+  //   // Format joining date
+  //   if (formValue.joiningDate) {
+  //     const dateObj = new Date(formValue.joiningDate);
+  //     formValue.joiningDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
+  //   }
+
+  //   // Build payload
+  //   const payload: any = {
+  //     ...formValue,
+  //     loginId: this.UserId,
+  //     candidateId: this.candidateId,
+  //     interviewScheduledId: this.interviewScheduleId,
+  //     status,
+  //     ...(!this.finalHrRound ? { roundNo: this.roundNo + 1 } : {})
+  //   };
+
+  //   // Remove interviewer/round if it's the final HR round
+  //   if (this.finalHrRound) {
+  //     delete payload.interviewBy;
+  //     delete payload.interviewRound;
+  //   }
+
+  //   // Filter out null/empty/undefined values manually
+  //   const filteredPayload: any = {};
+  //   for (const key in payload) {
+  //     if (
+  //       payload[key] !== null &&
+  //       payload[key] !== undefined &&
+  //       payload[key] !== ''
+  //     ) {
+  //       filteredPayload[key] = payload[key];
+  //     }
+  //   }
+
+  //   // Submit
+  //   this.authService.feedbackSubmitForm(filteredPayload).subscribe({
+  //     next: (res: any) => {
+  //       this.isLoading = false;
+  //       this.close();
+  //       this.processCandidates();
+  //       this.disableFeedBack = false;
+  //       Swal.fire({
+  //         title: 'Success',
+  //         text: res?.message || "Operation completed successfully",
+  //         icon: 'success',
+  //         showConfirmButton: false,
+  //         timer: 1000,
+  //         timerProgressBar: true,
+  //       });
+  //     },
+  //     error: (_: HttpErrorResponse) => {
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+
   feedbackSubmit() {
     const f = this.feedbackForm;
     const formValue = f.value;
     const status = +formValue.status;
 
-    // If not Rejected or Hold, check validity
-    if (status !== 1005 && status !== 1006 && f.invalid) {
-      f.markAllAsTouched();
+    // Always mark all as touched before validating
+    f.markAllAsTouched();
+
+    // If form is invalid, show SweetAlert and stop
+    if (f.invalid) {
+      Swal.fire({
+        title: 'Missing Information',
+        text: 'Please fill all required fields before submitting.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -465,7 +650,7 @@ export class InterviewProcessComponent implements OnInit {
       candidateId: this.candidateId,
       interviewScheduledId: this.interviewScheduleId,
       status,
-      ...(!this.finalHrRound ? { roundNo: ++this.roundNo } : {})
+      ...(!this.finalHrRound ? { roundNo: this.roundNo + 1 } : {})
     };
 
     // Remove interviewer/round if it's the final HR round
@@ -474,14 +659,10 @@ export class InterviewProcessComponent implements OnInit {
       delete payload.interviewRound;
     }
 
-    // Filter out null/empty/undefined values manually
+    // Filter out null/empty/undefined values
     const filteredPayload: any = {};
     for (const key in payload) {
-      if (
-        payload[key] !== null &&
-        payload[key] !== undefined &&
-        payload[key] !== ''
-      ) {
+      if (payload[key] !== null && payload[key] !== undefined && payload[key] !== '') {
         filteredPayload[key] = payload[key];
       }
     }
@@ -507,6 +688,8 @@ export class InterviewProcessComponent implements OnInit {
       }
     });
   }
+
+
 
   convertToDateObject(dateStr: string): Date | null {
     if (!dateStr) return null;
@@ -749,13 +932,19 @@ export class InterviewProcessComponent implements OnInit {
     })
   }
 
-  onStateChange(event: Event) {
+  onStateChange(event: Event): void {
     const selectedStateId = (event.target as HTMLSelectElement).value;
+
+    const control = this.feedbackForm.get('state');
+    control?.setValue(selectedStateId);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
 
     if (selectedStateId) {
       this.totalCities(selectedStateId);
     }
   }
+
   totalCities(id: any) {
     this.authService.cities(id).subscribe({
       next: (res: any) => {
@@ -767,6 +956,26 @@ export class InterviewProcessComponent implements OnInit {
       }
     })
   }
+
+  onHqChange(event: Event): void {
+    const selectedHqId = (event.target as HTMLSelectElement).value;
+
+    const control = this.feedbackForm.get('hq');
+    control?.setValue(selectedHqId);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+  }
+
+  onRegionChange(event: Event): void {
+    const selectedRegionId = (event.target as HTMLSelectElement).value;
+
+    const control = this.feedbackForm.get('region');
+    control?.setValue(selectedRegionId);
+    control?.markAsTouched();
+    control?.updateValueAndValidity();
+  }
+
+
 
   viewFile(file: any) {
     this.dialog.closeAll();

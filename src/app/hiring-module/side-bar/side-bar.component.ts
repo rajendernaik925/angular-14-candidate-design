@@ -21,15 +21,19 @@ export class assetManagerSideBarComponent implements OnInit {
     {
       label: 'Dashboard',
       route: '/hiring-dashboard',
-      matchRoutes: ['/hiring-dashboard', '/rejected', '/hold'],
+      matchRoutes: ['/hiring-dashboard', '/rejected'],
     },
     {
       label: 'Candidate Shortlisted',
       route: '/shortlisted',
     },
-    {
+     {
       label: 'Interview Scheduling',
       route: '/schedule',
+    },
+    {
+      label: 'Interview Hold',
+      route: '/hold',
     },
     {
       label: 'Interview Process',
@@ -65,10 +69,36 @@ export class assetManagerSideBarComponent implements OnInit {
     this.loadUserRole();
   }
 
+  // loadUserRole(): void {
+  //   this.authService.roles().subscribe({
+  //     next: (res: any[]) => {
+  //       const matchedUser = res.find(user => user.employeeId === this.employeeId && user.role === 'admin');
+  //       const isAdmin = !!matchedUser;
+
+  //       if (isAdmin) {
+  //         this.sidebarItems = [...this.allSidebarItems];
+  //       } else {
+  //         this.sidebarItems = this.allSidebarItems.filter(item => item.label === 'Interview Process');
+  //         if (this.router.url !== '/process') {
+  //           this.router.navigate(['/process']);
+  //         }
+  //       }
+  //     },
+  //     error: (err: HttpErrorResponse) => {
+  //       console.error('Error fetching roles:', err);
+  //       this.sidebarItems = this.allSidebarItems.filter(item => item.label === 'Interview Process');
+  //       if (this.router.url !== '/process') {
+  //         this.router.navigate(['/process']);
+  //       }
+  //     }
+  //   });
+  // }
   loadUserRole(): void {
     this.authService.roles().subscribe({
       next: (res: any[]) => {
-        const matchedUser = res.find(user => user.employeeId === this.employeeId && user.role === 'admin');
+        const matchedUser = res.find(
+          user => user.employeeId.trim() === this.employeeId.trim() && user.role.trim() === 'admin'
+        );
         const isAdmin = !!matchedUser;
 
         if (isAdmin) {

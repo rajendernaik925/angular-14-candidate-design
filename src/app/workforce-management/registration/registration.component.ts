@@ -1093,7 +1093,8 @@ export class RegistrationComponent implements OnInit {
       })
     }
     qualification() {
-      this.authService.qualification().subscribe({
+      const id = 1;
+      this.authService.qualification(id).subscribe({
         next: (res: any) => {
           // console.log("titles : ",res);
           this.qualificationOptions = res;

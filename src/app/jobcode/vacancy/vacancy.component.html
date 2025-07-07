@@ -67,7 +67,7 @@
                     </span>
                   </th>
                   <th class="small-header-th  cursor-pointer" (click)="sortTable('teamName')">
-                    Team
+                    Department
                     <span *ngIf="sortColumn === 'teamName'">
                       <i class="ms-1"
                         [ngClass]="sortDirection === 'asc' ? 'bi bi-chevron-up text-danger' : 'bi bi-chevron-down text-danger'"></i>
@@ -306,7 +306,7 @@
           <div class="col-md-6">
             <label for="workExperience" class="form-label">Work Experience <span class="text-danger">*</span></label>
             <input type="number" id="workExperience text-uppercase" class="form-control form-control-sm"
-              formControlName="workExperience" placeholder="Enter work experience" autocomplete="off"
+              formControlName="workExperience" placeholder="Enter work experience" autocomplete="off" maxlength="2"
               (keydown)="preventNegativeInput($event, $event.target.value)" />
             <div *ngIf="submitted && addCandidateForm.get('workExperience').invalid" class="text-danger fs-small">
               Work Experience is required.

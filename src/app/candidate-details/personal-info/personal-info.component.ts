@@ -26,7 +26,10 @@ export class personalInfoComponent implements OnInit {
   registrationForm: FormGroup;
   logo: string = 'https://sso.heterohealthcare.com/iconnect/assets/img/logo.svg';
   universityOptions: any[] = [];
+  educationLevelOptions: any[] = [];
   qualificationOptions: any[] = [];
+  branchOptions: any[] = [];
+  existingEducationList: any[] = [];
   currentYear = new Date().getFullYear();
   years = Array.from({ length: 100 }, (_, i) => this.currentYear - i);
   activeTab: string = 'personal'
@@ -74,9 +77,18 @@ export class personalInfoComponent implements OnInit {
   payslipFile!: File;
   serviceLetterFile!: File;
   serviceFilePath: string | null = '';
-  paySlipFilePath: string | null = '';
+  paySlipFilePath1: string | null = '';
+  paySlipFilePath2: string | null = '';
+  paySlipFilePath3: string | null = '';
   showSidebar = false;
   today: Date = new Date();
+  selectedPayslip1FileName: string = 'Upload Payslip 1';
+  selectedServiceLetterFileName: string = 'Upload Service Letter';
+  hasExperince: boolean = false;
+  experienceId: any;
+  uploadResume: string = 'Upload Resume'
+  uploadPhoto: string = 'Upload Photo'
+
 
   // sections = [
   //   { key: 'personalInfo', label: 'Personal Info' },
@@ -96,7 +108,9 @@ export class personalInfoComponent implements OnInit {
     private datePipe: DatePipe
   ) {
     this.registrationForm = this.fb.group({
-      educationDetails: this.fb.array([this.createEducationFormGroup()]),
+
+
+      // educationDetails: this.fb.array([this.createEducationFormGroup()]),
       jobCodeId: [{ value: '', disabled: false }, Validators.required],
       email: ['', [Validators.required, Validators.email]],
       firstName: ['', Validators.required],
@@ -116,7 +130,7 @@ export class personalInfoComponent implements OnInit {
       // pan: ['', [Validators.required, Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]],
       pan: ['', [Validators.required]],
       adhar: ['', [Validators.required, Validators.pattern(/^[0-9]{12}$/)]],
-      resume: ['', Validators.required],
+      resume: [''],
       photo: [''],
       // address
       addressA: ['', Validators.required],
@@ -133,11 +147,19 @@ export class personalInfoComponent implements OnInit {
       permanentCityId: ['', Validators.required],
       permanentPostalCode: ['', Validators.required],
       // education
-      // educationTypeId: ['', Validators.required],
-      // university: ['', Validators.required],
-      // qualification: ['', Validators.required],
-      // yearOfPassing: ['', Validators.required],
-      // percentage: ['', Validators.required],
+      educationTypeId: ['', Validators.required],
+      university: ['', Validators.required],
+      qualification: ['', Validators.required],
+      yearOfPassing: ['', Validators.required],
+      percentage: ['', Validators.required],
+
+      educationId: [null],
+      educationLevelId: ['', Validators.required],
+      universityId: ['', Validators.required],
+      branch: [''],
+      college: ['', Validators.required],
+
+
       //documents
       tenth: [],
       twelth: [],
@@ -152,7 +174,9 @@ export class personalInfoComponent implements OnInit {
       companyName: ['', Validators.required],
       totalExperience: ['', Validators.required],
       LastOrStill_Working_Date: ['', Validators.required],
-      payslipFile: [null],
+      payslipFile1: [null, Validators.required],
+      payslipFile2: [null, Validators.required],
+      payslipFile3: [null, Validators.required],
       serviceLetterFile: [null],
       //salary
       currentSalary: ['', Validators.required],
@@ -166,8 +190,8 @@ export class personalInfoComponent implements OnInit {
     this.handleExperienceToggle('fresher');
     const loginData = JSON.parse(localStorage.getItem('hiringLoginData') || '{}');
     this.jobCodeData = loginData;
-    console.log("loggin data : ", this.jobCodeData);
-    console.log("hiring login data : ", this.jobCodeData.email)
+    // console.log("loggin data : ", this.jobCodeData);
+    // console.log("hiring login data : ", this.jobCodeData.email)
     this.registrationForm.get('jobCodeId')?.setValue(this.jobCodeData?.jobCodeRefId);
     this.registrationForm.get('email')?.setValue(this.jobCodeData.email);
     this.registrationForm.get('firstName')?.setValue(this.jobCodeData.name);
@@ -186,7 +210,7 @@ export class personalInfoComponent implements OnInit {
     this.gender();
     this.marriageStatus();
     this.university();
-    this.qualification();
+    this.educationLevel();
     this.joiningTime();
     this.states();
     this.bloodGroup()
@@ -213,23 +237,33 @@ export class personalInfoComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
-
   loadUserData() {
     this.isLoading = true;
     this.authService.registeredData(this.jobCodeData.candidateId).subscribe({
       next: (res: any) => {
         this.loadedData = res;
+        if (this.loadedData?.candidateTrackingDTO?.totalPercentage === '100' && !this.loadedData?.candidateInterviewDetails?.length) {
+          this.completedStatus();
+        }
+
+        this.hasExperince = !res?.candidateExperienceDetails?.candidateJoiningDetails?.is_Fresher;
+        this.experienceId = res?.candidateExperienceDetails?.candidateJoiningDetails?.experienceId;
+        console.log("education details : ", res.candidateEducationDetails);
+        this.existingEducationList = res.candidateEducationDetails;
+
         if (this.loadedData?.candidateInterviewDetails?.length) {
           this.editButtonDisplay = false;
-          this.setActiveSection('status');
-          Swal.fire({
-            title: 'Notice',
-            text: 'You do not have access to edit. Please check the status of your interview rounds.',
-            icon: 'info',
-            showConfirmButton: true,
-            confirmButtonText: 'OK',
-            timerProgressBar: true,
-          });
+          this.InterviewStatus();
+          // this.setActiveSection('status');
+          // Swal.fire({
+          //   title: 'Notice',
+          //   text: 'You do not have access to edit. Please check the status of your interview rounds.',
+          //   icon: 'info',
+          //   showConfirmButton: true,
+          //   confirmButtonText: 'OK',
+          //   timerProgressBar: true,
+          // });
+          // this.showAlert("You do not have access to edit. Please check the status of your interview rounds.",'success')
         }
         // console.log("rajender : ",res.candidatePersonalInformationDetails.candidateInterviewDetails)
         if (
@@ -242,9 +276,19 @@ export class personalInfoComponent implements OnInit {
           (res?.candidateExperienceDetails?.candidateCompanyDetails && res.candidateExperienceDetails.candidateCompanyDetails.length > 0) ||
           res?.candidateExperienceDetails?.candidateSalaryDetails
         ) {
-          console.log("Registered Data:", res?.candidateCommunicationAddressDetails?.postalCode);
+          // console.log("Registered Data:", res?.candidateCommunicationAddressDetails?.postalCode);
 
           this.resumeFile = res?.candidatePersonalInformationDetails?.resumeFile || null;
+
+          // const resumeControl = this.registrationForm.get('resume');
+
+          // if (!this.resumeFile) {
+          //   resumeControl?.setValidators(Validators.required);
+          // } else {
+          //   resumeControl?.clearValidators();
+          // }
+
+          // resumeControl?.updateValueAndValidity();
           this.photoFile = res?.candidatePersonalInformationDetails?.imageFile || null;
           this.tenthFile = res?.candidateDocumentDetails?.tenthFile || null;
           this.aadharFile = res?.candidateDocumentDetails?.aadharFile || null;
@@ -254,10 +298,12 @@ export class personalInfoComponent implements OnInit {
           this.degreeOrBTechFile = res?.candidateDocumentDetails?.degreeFile || null;
           this.othersFile = res?.candidateDocumentDetails?.otherFile || null;
 
-          this.paySlipFilePath = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileA || null;
+          this.paySlipFilePath1 = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileA || null;
+          this.paySlipFilePath2 = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileB || null;
+          this.paySlipFilePath3 = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileC || null;
           this.serviceFilePath = res?.candidateExperienceDetails?.candidateSalaryDetails?.serviceFile || null;
 
-          // if (!this.paySlipFilePath) {
+          // if (!this.paySlipFilePath1) {
           //   this.registrationForm.get('payslipFile')?.setValidators([Validators.required]);
           // } else {
           //   this.registrationForm.get('payslipFile')?.clearValidators();
@@ -296,6 +342,8 @@ export class personalInfoComponent implements OnInit {
             licence: res?.candidatePersonalInformationDetails?.licence || '',
             pan: res?.candidatePersonalInformationDetails?.pan || '',
             adhar: res?.candidatePersonalInformationDetails?.adhar || '',
+            // resume: res?.candidatePersonalInformationDetails?.resume || '',
+            photo: res?.candidatePersonalInformationDetails?.image || '',
 
             // Communication Address
             addressA: res?.candidateCommunicationAddressDetails?.comAddressA || '',
@@ -344,8 +392,7 @@ export class personalInfoComponent implements OnInit {
           this.isAllAddressDataPresent = [res?.candidateCommunicationAddressDetails?.comAddressA]
             .every(field => typeof field === 'string' && field.trim() !== '');
 
-          this.isExperienceBoolean = res?.candidateExperienceDetails?.candidateJoiningDetails?.is_Fresher
-          console.log("experice flag : ", this.isExperienceBoolean)
+          this.isExperienceBoolean = res?.candidateExperienceDetails?.candidateJoiningDetails?.experienceId;
 
           this.handleExperienceToggle(isFresher);
 
@@ -368,24 +415,29 @@ export class personalInfoComponent implements OnInit {
           //   });
           // }
 
-          const educationArray = this.educationArray;
-          educationArray.clear();
 
-          // Always add one empty row for new entry
-          educationArray.push(this.createEducationFormGroup());
+          // const educationArray = this.educationArray;
+          // educationArray.clear(); // clear existing form entries
 
           // Add existing education entries (disabled)
-          if (res?.candidateEducationDetails?.length) {
-            res.candidateEducationDetails.forEach((educationData: any) => {
-              const isDuplicate = this.educationArray.controls.some((control: AbstractControl) =>
-                control.value.qualificationId === educationData.qualificationId
-              );
+          // if (res?.candidateEducationDetails?.length) {
+          //   res.candidateEducationDetails.forEach((educationData: any) => {
+          //     const isDuplicate = educationArray.controls.some((control: AbstractControl) =>
+          //       control.value.qualificationId === educationData.qualificationId
+          //     );
 
-              if (!isDuplicate) {
-                this.educationArray.push(this.createEducationFormGroup(educationData));
-              }
-            });
-          }
+          //     if (!isDuplicate) {
+          //       educationArray.push(this.createEducationFormGroup(educationData)); // disabled row
+          //     }
+          //   });
+          // }
+
+          // educationArray.push(this.createEducationFormGroup());
+
+
+
+
+
         } else {
           this.resumeFile = null;
           this.photoFile = null;
@@ -400,7 +452,7 @@ export class personalInfoComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
-        console.log('HTTP Error:', err);
+        // console.log('HTTP Error:', err);
         this.isLoading = false
       }
     });
@@ -411,107 +463,164 @@ export class personalInfoComponent implements OnInit {
   // get educationArray(): FormArray {
   //   return this.registrationForm.get('educationDetails') as FormArray;
   // }
-  get educationArray(): FormArray {
-    return this.registrationForm.get('educationDetails') as FormArray;
-  }
+  // get educationArray(): FormArray {
+  //   return this.registrationForm.get('educationDetails') as FormArray;
+  // }
 
 
   // createEducationFormGroup(educationData: any = {}): FormGroup {
   //   const formGroup = this.fb.group({
-  //     educationId: [educationData.educationId || null], // Ensure it's correctly mapped
+  //     educationId: [educationData.educationId || null],
   //     educationTypeId: [educationData.educationTypeId || '', Validators.required],
+  //     educationLevelId: [educationData.educationLevelId || '', Validators.required],
+  //     qualification: [educationData.qualificationName || '', Validators.required],
   //     universityId: [educationData.universityId || '', Validators.required],
-  //     qualificationId: [educationData.qualificationId || '', Validators.required],
+  //     branch: [educationData.branch || ''], // make required later conditionally
   //     yearOfPassing: [educationData.yearOfPassing || '', Validators.required],
-  //     percentage: [educationData.percentage || '', Validators.required]
+  //     percentage: [educationData.percentage || '', Validators.required],
+  //     college: [educationData.collegeName || '', Validators.required]
   //   });
 
-  //   if (Object.keys(educationData).length > 0) {
-  //     formGroup.disable();
+  //   if (educationData.educationId) {
+  //     formGroup.disable(); // mark existing record rows as readonly
   //   }
 
   //   return formGroup;
   // }
 
-  createEducationFormGroup(educationData: any = {}): FormGroup {
-    const formGroup = this.fb.group({
-      educationId: [educationData.educationId || null],
-      educationTypeId: [educationData.educationTypeId || '', Validators.required],
-      universityId: [educationData.universityId || '', Validators.required],
-      qualificationId: [educationData.qualificationId || '', Validators.required],
-      yearOfPassing: [educationData.yearOfPassing || '', Validators.required],
-      percentage: [educationData.percentage || '', Validators.required]
-    });
-
-    if (Object.keys(educationData).length > 0) {
-      formGroup.disable(); // Disable existing data group
-    }
-
-    return formGroup;
-  }
 
 
-  deleteFile(fileId: any) {
-    console.log("canddd : ", this.jobCodeData?.candidateId);
 
+  // deleteFile(fileId: any) {
+  //   console.log("canddd : ", this.jobCodeData?.candidateId);
+
+  //   if (!this.jobCodeData?.candidateId || !fileId) {
+  //     console.error("Missing parameters: Employee ID or File ID is undefined.");
+  //     return;
+  //   }
+
+  //   const candidateId = this.jobCodeData?.candidateId;
+  //   this.authService.deleteFile(candidateId, fileId).subscribe({
+  //     next: (res: HttpResponse<any>) => {
+  //       this.loadUserData();
+  //       if (res.status === 200) {
+  //         console.log("res delete file : ", res);
+  //         this.showAlert('Successfully Deleted','success')
+  //         // Swal.fire({
+  //         //   title: 'Success',
+  //         //   text: 'Successfully Deleted',
+  //         //   icon: 'success',
+  //         //   showConfirmButton: false,
+  //         //   timer: 1000,
+  //         //   timerProgressBar: true,
+  //         // });
+  //       } else {
+  //         // Swal.fire({
+  //         //   title: 'Error',
+  //         //   text: 'Delete Failed',
+  //         //   icon: 'error',
+  //         //   showConfirmButton: false,
+  //         //   timer: 1000,
+  //         //   timerProgressBar: true,
+  //         // });
+
+  //         this.showAlert("Delete Failed", 'danger')
+  //       }
+  //     },
+  //     error: (err: HttpErrorResponse) => {
+  //       console.log("error : ", err);
+  //     }
+  //   });
+  // }
+  deleteFile(fileId: any): void {
     if (!this.jobCodeData?.candidateId || !fileId) {
       console.error("Missing parameters: Employee ID or File ID is undefined.");
       return;
     }
 
-    const candidateId = this.jobCodeData?.candidateId;
-    const fileID = fileId
-
-    this.authService.deleteFile(candidateId, fileId).subscribe({
-      next: (res: HttpResponse<any>) => {
-        this.loadUserData();
-        if (res.status === 200) {
-          console.log("res delete file : ", res);
-          Swal.fire({
-            title: 'Success',
-            text: 'Successfully Deleted',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-          });
-        } else {
-          Swal.fire({
-            title: 'Error',
-            text: 'Delete Failed',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-          });
-        }
+    Swal.fire({
+      html: `
+      <div class="mb-3">
+         <img src="https://cdn.dribbble.com/userupload/24380574/file/original-2070b7f112d8cdc5b374a8b7d80f1fc7.gif" alt="delete" style="width:60px; height:60px; border-radius: 15px;" />
+      </div>
+      <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to delete this file?</h5>
+      <p class="text-muted mb-0" style="font-size: 14px;">
+        Deleting this may affect your application records.
+      </p>
+    `,
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        actions: 'd-flex justify-content-center gap-2',
+        confirmButton: 'btn btn-danger btn-sm shadow-none',
+        cancelButton: 'btn btn-sm btn-outline-secondary mr-2',
       },
-      error: (err: HttpErrorResponse) => {
-        console.log("error : ", err);
+      buttonsStyling: false,
+      width: '500px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const candidateId = this.jobCodeData?.candidateId;
+
+        this.authService.deleteFile(candidateId, fileId).subscribe({
+          next: (res: HttpResponse<any>) => {
+            this.loadUserData();
+            if (res.status === 200) {
+              this.showAlert('Successfully Deleted', 'success');
+            } else {
+              this.showAlert("Delete Failed", 'danger');
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            // console.log("error : ", err);
+            this.showAlert("Something went wrong", 'danger');
+          }
+        });
       }
     });
   }
 
+
   deleteExperience(experienceId: number, index: number) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete this experience?',
-      icon: 'warning',
+      html: `
+    <div class="mb-3">
+      <img src="https://cdn.dribbble.com/userupload/24380574/file/original-2070b7f112d8cdc5b374a8b7d80f1fc7.gif" alt="delete" style="width:60px; height:60px; border-radius: 15px;" />
+    </div>
+    <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to remove this Experience?</h5>
+    <p class="text-muted mb-0" style="font-size: 14px;">
+      Deleting this may affect your application records.
+    </p>
+  `,
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        actions: 'd-flex justify-content-center',
+        confirmButton: 'btn btn-danger btn-sm shadow-none',
+        cancelButton: 'btn btn-outline-secondary btn-sm shadow-none mr-2'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
     }).then((result) => {
       if (result.isConfirmed) {
         this.authService.deleteExperience(experienceId).subscribe({
           next: () => {
-            Swal.fire({
-              title: 'Deleted!',
-              text: 'Successfully Deleted',
-              icon: 'success',
-              confirmButtonText: 'OK'
-            });
+            // Swal.fire({
+            //   title: 'Deleted!',
+            //   text: 'Successfully Deleted',
+            //   icon: 'success',
+            //   confirmButtonText: 'OK'
+            // });
+            this.showAlert("Successfully Deleted", "success")
             this.experienceArray.splice(index, 1);
             if (this.experienceArray.length === 0) {
               this.registrationForm.patchValue({
@@ -525,7 +634,7 @@ export class personalInfoComponent implements OnInit {
             }
           },
           error: (err: HttpErrorResponse) => {
-            console.log('Error deleting experience:', err);
+            // console.log('Error deleting experience:', err);
           }
         });
       }
@@ -595,7 +704,7 @@ export class personalInfoComponent implements OnInit {
   }
 
 
-  removeEducation(index: number, educationId: number | null | undefined): void {
+  removeEducation(educationId: number | null | undefined): void {
     if (!educationId) {
       console.error("Invalid educationId:", educationId);
       Swal.fire({
@@ -608,63 +717,64 @@ export class personalInfoComponent implements OnInit {
     }
 
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you really want to delete this education record?',
-      icon: 'warning',
+      html: `
+    <div class="mb-3">
+      <img src="https://cdn.dribbble.com/userupload/24380574/file/original-2070b7f112d8cdc5b374a8b7d80f1fc7.gif" alt="delete" style="width:60px; height:60px; border-radius: 15px;" />
+    </div>
+    <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to delete this Record?</h5>
+    <p class="text-muted mb-0" style="font-size: 14px;">
+      Deleting this may affect your application records.
+    </p>
+  `,
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: true,
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        actions: 'd-flex justify-content-center',
+        cancelButton: 'btn btn-outline-secondary btn-sm shadow-none mr-2',
+        confirmButton: 'btn btn-danger btn-sm shadow-none'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
     }).then((result) => {
       if (result.isConfirmed) {
         this.isLoading = true;
-        console.log("index: ", index);
-        console.log("educationId: ", educationId);
+        // console.log("index: ", index);
+        // console.log("educationId: ", educationId);
 
         this.authService.deleteEducation(educationId).subscribe({
           next: (res: any) => {
             this.isLoading = false;
+            this.showAlert("Education record has been deleted.", "success");
             this.loadUserData();
-            console.log(res);
-            this.educationArray.removeAt(index);
-            Swal.fire({
-              title: 'Deleted!',
-              text: 'Education record has been deleted.',
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 1000,
-              timerProgressBar: true,
-            });
+            // console.log(res);
+            // Swal.fire({
+            //   title: 'Deleted!',
+            //   text: 'Education record has been deleted.',
+            //   icon: 'success',
+            //   showConfirmButton: false,
+            //   timer: 1000,
+            //   timerProgressBar: true,
+            // });
           },
           error: (err: HttpErrorResponse) => {
             this.isLoading = false;
-            console.log("Error deleting education:", err);
+            // console.log("Error deleting education:", err);
           }
         });
       }
     });
   }
 
-
-
-
-
-
   onlyNumbers(event: KeyboardEvent) {
     const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
-
     if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
       event.preventDefault();
-
-      // Show SweetAlert warning
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Input',
-        text: 'Only numbers (0-9) are allowed.',
-        timer: 2000,
-        showConfirmButton: false
-      });
+      this.showAlert("Only numbers (0-9) are allowed.", 'danger')
     }
   }
 
@@ -685,13 +795,14 @@ export class personalInfoComponent implements OnInit {
       // Prevent entering more than two digits before the dot
       if (!currentValue.includes('.') && currentValue.length >= 2) {
         event.preventDefault();
-        Swal.fire({
-          icon: 'warning',
-          title: 'Invalid Input',
-          text: 'You cannot enter more than 2 digits before the dot.',
-          timer: 2000,
-          showConfirmButton: false
-        });
+        this.showAlert("You cannot enter more than 2 digits before the dot.", "danger")
+        // Swal.fire({
+        //   icon: 'warning',
+        //   title: 'Invalid Input',
+        //   text: 'You cannot enter more than 2 digits before the dot.',
+        //   timer: 2000,
+        //   showConfirmButton: false
+        // });
       }
       return;
     }
@@ -700,26 +811,28 @@ export class personalInfoComponent implements OnInit {
     if (input === '.') {
       if (currentValue.includes('.')) {
         event.preventDefault();
-        Swal.fire({
-          icon: 'warning',
-          title: 'Invalid Input',
-          text: 'Only one dot (.) is allowed.',
-          timer: 2000,
-          showConfirmButton: false
-        });
+        this.showAlert("Only one dot (.) is allowed.", "danger")
+        // Swal.fire({
+        //   icon: 'warning',
+        //   title: 'Invalid Input',
+        //   text: 'Only one dot (.) is allowed.',
+        //   timer: 2000,
+        //   showConfirmButton: false
+        // });
       }
       return;
     }
 
     // Show SweetAlert for other invalid inputs
     event.preventDefault();
-    Swal.fire({
-      icon: 'warning',
-      title: 'Invalid Input',
-      text: 'Please enter only numbers (0-9) with a single dot (.) for decimal values.',
-      timer: 2000,
-      showConfirmButton: false
-    });
+    this.showAlert("Please enter only numbers (0-9) with a single dot (.) for decimal values.", "danger")
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Invalid Input',
+    //   text: 'Please enter only numbers (0-9) with a single dot (.) for decimal values.',
+    //   timer: 2000,
+    //   showConfirmButton: false
+    // });
   }
 
 
@@ -752,6 +865,8 @@ export class personalInfoComponent implements OnInit {
     if (value === 'personal') {
       this.isAllDataPresent = false;
       this.personalUpdate = true;
+      this.uploadResume = 'Upload Resume'
+      this.uploadPhoto = 'Upload Photo'
     } else if (value == 'address') {
       this.isAllAddressDataPresent = false
       this.addressUpadte = true;
@@ -779,6 +894,7 @@ export class personalInfoComponent implements OnInit {
         permanentCityId: cityId,
         permanentPostalCode: postalCode
       });
+
 
       // Ensure the communication address is hidden when "yes" is selected
       setTimeout(() => {
@@ -907,8 +1023,79 @@ export class personalInfoComponent implements OnInit {
   //   // }
   // }
 
+  // onFileSelect(event: Event, fieldName: string): void {
+  //   console.log("file name : ", fieldName);
+  //   const fileInput = event.target as HTMLInputElement;
+  //   const file = fileInput.files?.[0];
+
+  //   if (file) {
+  //     const maxSizeInMB = 5;
+  //     const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+  //     if (file.size > maxSizeInBytes) {
+  //       Swal.fire({
+  //         title: 'File Too Large',
+  //         text: 'File size must be less than 5 MB.',
+  //         icon: 'error',
+  //         confirmButtonText: 'OK'
+  //       });
+  //       fileInput.value = ''; // Clear the input
+  //       return;
+  //     }
+
+  //     const selectedFile = new File([file], file.name, { type: file.type, lastModified: Date.now() });
+  //     console.log(`Selected file for ${fieldName}:`, selectedFile);
+  //     this.selectedFiles[fieldName] = selectedFile;
+  //   } else {
+  //     console.log(`No file selected for ${fieldName}`);
+  //   }
+
+  //   let hasFile = false;
+  //   let formData = new FormData();
+  //   console.log("file array: ", this.selectedFiles);
+  //   formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
+
+  //   const documentData = {
+  //     candidateId: this.jobCodeData.candidateId
+  //   };
+  //   formData.append('document', JSON.stringify(documentData));
+  //   formData.append('moduleId', '4');
+
+  //   if (this.selectedFiles['tenth']) {
+  //     formData.append('tenthFile', this.selectedFiles['tenth']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['aadharFile']) {
+  //     formData.append('aadharFile', this.selectedFiles['aadharFile']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['panFile']) {
+  //     formData.append('panFile', this.selectedFiles['panFile']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['twelth']) {
+  //     formData.append('interFile', this.selectedFiles['twelth']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['deploma']) {
+  //     formData.append('pgFile', this.selectedFiles['deploma']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['degreeOrBTech']) {
+  //     formData.append('degreeFile', this.selectedFiles['degreeOrBTech']);
+  //     hasFile = true;
+  //   }
+  //   if (this.selectedFiles['others']) {
+  //     formData.append('otherFile', this.selectedFiles['others']);
+  //     hasFile = true;
+  //   }
+
+  //   if (hasFile) {
+  //     this.finalSave('documents', formData);
+  //   }
+  // }
+
   onFileSelect(event: Event, fieldName: string): void {
-    console.log("file name : ", fieldName);
     const fileInput = event.target as HTMLInputElement;
     const file = fileInput.files?.[0];
 
@@ -927,57 +1114,61 @@ export class personalInfoComponent implements OnInit {
         return;
       }
 
-      const selectedFile = new File([file], file.name, { type: file.type, lastModified: Date.now() });
-      console.log(`Selected file for ${fieldName}:`, selectedFile);
+      if (fieldName == 'resume') {
+        this.uploadResume = file.name
+      }
+      if (fieldName == 'photo') {
+        this.uploadPhoto = file.name
+      }
+
+      // Store a clean copy of the file
+      const selectedFile = new File([file], file.name, {
+        type: file.type,
+        lastModified: Date.now()
+      });
+
+      // console.log(`Selected file for ${fieldName}:`, selectedFile);
       this.selectedFiles[fieldName] = selectedFile;
     } else {
-      console.log(`No file selected for ${fieldName}`);
+      // console.log(`No file selected for ${fieldName}`);
+      return;
     }
 
+    const formData = new FormData();
     let hasFile = false;
-    let formData = new FormData();
-    console.log("file array: ", this.selectedFiles);
+
+    // Append common fields
     formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
-
-    const documentData = {
-      candidateId: this.jobCodeData.candidateId
-    };
-    formData.append('document', JSON.stringify(documentData));
     formData.append('moduleId', '4');
+    formData.append('document', JSON.stringify({
+      candidateId: this.jobCodeData?.candidateId
+    }));
 
-    if (this.selectedFiles['tenth']) {
-      formData.append('tenthFile', this.selectedFiles['tenth']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['aadharFile']) {
-      formData.append('aadharFile', this.selectedFiles['aadharFile']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['panFile']) {
-      formData.append('panFile', this.selectedFiles['panFile']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['twelth']) {
-      formData.append('interFile', this.selectedFiles['twelth']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['deploma']) {
-      formData.append('pgFile', this.selectedFiles['deploma']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['degreeOrBTech']) {
-      formData.append('degreeFile', this.selectedFiles['degreeOrBTech']);
-      hasFile = true;
-    }
-    if (this.selectedFiles['others']) {
-      formData.append('otherFile', this.selectedFiles['others']);
-      hasFile = true;
+    // Map of fieldName => FormData key
+    const fileFieldMap: { [key: string]: string } = {
+      'tenth': 'tenthFile',
+      'aadharFile': 'aadharFile',
+      'panFile': 'panFile',
+      'twelth': 'interFile',
+      'deploma': 'pgFile',
+      'degreeOrBTech': 'degreeFile',
+      'others': 'otherFile'
+    };
+
+    // Append only the selected files
+    for (const [key, formField] of Object.entries(fileFieldMap)) {
+      const selected = this.selectedFiles[key];
+      if (selected) {
+        formData.append(formField, selected);
+        hasFile = true;
+      }
     }
 
     if (hasFile) {
       this.finalSave('documents', formData);
     }
   }
+
 
 
 
@@ -992,54 +1183,16 @@ export class personalInfoComponent implements OnInit {
         control.updateValueAndValidity();
       }
     });
+
+    // if (section === 'documents' && !this.loadedData?.candidateInterviewDetails?.length && this.loadedData?.candidateTrackingDTO?.totalPercentage != '100') {
+    //   this.loadUserData();
+    // }
   }
 
   setValidation(Action: string) {
     let isValid = true;
     const sectionData: any = {};
 
-    // if (Action === 'personal') {
-    //   const personalFields = [
-    //     'candidateId', 'email', 'mobileNumber', 'dob', 'titleId',
-    //     'firstName', 'middleName', 'lastName', 'maritalStatusId', 'bloodGroupId', 'uan', 'passport',
-    //     'genderId', 'fatherName', 'district', 'licence', 'pan', 'adhar', 'resume', 'photo'
-    //   ];
-
-    //   let sectionData: any = {}; // Object to store user data
-    //   let isValid = true;
-
-    //   personalFields.forEach((field) => {
-    //     const control = this.registrationForm.get(field);
-    //     if (control?.invalid) {
-    //       control.markAsTouched();
-    //       isValid = false;
-    //     } else {
-    //       sectionData[field] = control?.value; // Store values dynamically
-    //     }
-    //   });
-
-    //   if (!isValid) {
-    //     // alert('Please fill out all required fields in the Personal section.');
-    //     this.formFillMessageAlert();
-    //     console.log("Fill data: ", sectionData);
-    //     return;
-    //   }
-
-    //   let formData = new FormData();
-
-    //   // Ensure candidateId is properly assigned
-    //   sectionData.candidateId = this.jobCodeData?.candidateId;
-
-    //   // Append JSON data as a single object instead of nested structure
-    //   formData.append('personalInfo', JSON.stringify(sectionData));
-
-    //   // Append resume and photo separately
-    //   formData.append('personalImageFile', this.selectedFiles['photo']);
-    //   formData.append('personalResumeFile', this.selectedFiles['resume']);
-    //   formData.append('moduleId', '1');
-
-    //   this.finalSave('address', formData);
-    // }
     if (Action === 'personal') {
       const personalFields = [
         'email', 'mobileNumber', 'dob', 'titleId',
@@ -1062,7 +1215,7 @@ export class personalInfoComponent implements OnInit {
 
       if (!isValid) {
         this.showAlert("Please fill required fields!", 'danger');
-        console.log("Form incomplete: ", sectionData);
+        // console.log("Form incomplete: ", sectionData);
         return;
       }
 
@@ -1084,7 +1237,10 @@ export class personalInfoComponent implements OnInit {
       formData.append('personalImageFile', this.selectedFiles['photo']);
       formData.append('personalResumeFile', this.selectedFiles['resume']);
       formData.append('moduleId', '1');
-
+      if (!this.selectedFiles['resume']) {
+        this.showAlert("Resume file is required", "danger");
+        formData.append('personalResumeFile', null);
+      }
 
       this.finalSave('address', formData);
     } else if (Action === 'address') {
@@ -1125,7 +1281,8 @@ export class personalInfoComponent implements OnInit {
 
       if (!isValid) {
         // alert('Please fill in all required fields in the Address section.');
-        this.formFillMessageAlert();
+        // this.formFillMessageAlert();
+        this.showAlert("Please fill required fields!", 'danger');
         return;
       }
 
@@ -1145,85 +1302,132 @@ export class personalInfoComponent implements OnInit {
       formData.append('moduleId', '2');
 
       this.finalSave('education', formData);
-    } else if (Action === 'education') {
+    }
+    // else if (Action === 'education') {
+    //   let isValid = true;
+    //   let educationData: any[] = [];
+
+    //   const newEducationControls = this.educationArray.controls.filter(ctrl => !ctrl.disabled);
+    //   const existingEducationControls = this.educationArray.controls.filter(ctrl => ctrl.disabled);
+
+    //   if (newEducationControls.length === 0) {
+    //     // this.formFillMessageAlert();
+    //     this.showAlert("Please fill required fields!", 'danger');
+    //     return;
+    //   }
+
+    //   // Collect existing qualificationIds and normalize to string
+    //   const existingQualificationIds = existingEducationControls
+    //     .map(ctrl => String(ctrl.get('qualificationId')?.value))
+    //     .filter(id => !!id); // Remove null/undefined
+
+    //   const newQualificationIds: string[] = [];
+    //   let hasDuplicate = false;
+
+    //   for (let group of newEducationControls) {
+    //     const qualificationId = String(group.get('qualificationId')?.value);
+
+    //     if (!qualificationId || qualificationId === 'null') continue;
+
+    //     if (existingQualificationIds.includes(qualificationId) || newQualificationIds.includes(qualificationId)) {
+    //       hasDuplicate = true;
+    //       break;
+    //     }
+
+    //     newQualificationIds.push(qualificationId);
+    //   }
+
+    //   if (hasDuplicate) {
+    //     // Swal.fire({
+    //     //   title: 'Duplicate Qualification',
+    //     //   text: 'You have already selected this qualification. To update, please delete the existing entry and add again.',
+    //     //   icon: 'warning',
+    //     //   confirmButtonText: 'OK'
+    //     // });
+    //     this.showAlert("Duplicate Qualification", "danger")
+    //     return;
+    //   }
+
+    //   newEducationControls.forEach((group: FormGroup) => {
+    //     let educationEntry: any = {};
+    //     const educationFields = [
+    //       'educationTypeId', 'universityId', 'qualification',
+    //       'yearOfPassing', 'percentage', 'branch', 'educationLevelId', 'college'
+    //     ];
+
+    //     educationFields.forEach((field) => {
+    //       const control = group.get(field);
+    //       if (control?.invalid) {
+    //         control.markAsTouched();
+    //         isValid = false;
+    //       } else {
+    //         educationEntry[field] = control?.value;
+    //       }
+    //     });
+
+    //     educationEntry['educationId'] = 1;
+    //     educationEntry['candidateId'] = this.jobCodeData?.candidateId;
+
+    //     educationData.push(educationEntry);
+    //   });
+
+    //   if (!isValid) {
+    //     // this.formFillMessageAlert();
+    //     this.showAlert("Please fill required fields!", 'danger');
+    //     return;
+    //   }
+
+    //   let formData = new FormData();
+    //   formData.append("education", JSON.stringify(educationData));
+    //   formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
+    //   formData.append('candidateId', this.jobCodeData?.candidateId);
+    //   formData.append('moduleId', '3');
+
+    //   this.finalSave('education', formData);
+    // } 
+    if (Action === 'education') {
+      const educationFields = [
+        'educationTypeId',
+        'educationLevelId',
+        'qualification',
+        'universityId',
+        'branch',
+        'yearOfPassing',
+        'percentage',
+        'college'
+      ];
+
+      let educationSection: any = {};
       let isValid = true;
-      let educationData: any[] = [];
 
-      const newEducationControls = this.educationArray.controls.filter(ctrl => !ctrl.disabled);
-      const existingEducationControls = this.educationArray.controls.filter(ctrl => ctrl.disabled);
-
-      if (newEducationControls.length === 0) {
-        this.formFillMessageAlert();
-        return;
-      }
-
-      // Collect existing qualificationIds and normalize to string
-      const existingQualificationIds = existingEducationControls
-        .map(ctrl => String(ctrl.get('qualificationId')?.value))
-        .filter(id => !!id); // Remove null/undefined
-
-      const newQualificationIds: string[] = [];
-      let hasDuplicate = false;
-
-      for (let group of newEducationControls) {
-        const qualificationId = String(group.get('qualificationId')?.value);
-
-        if (!qualificationId || qualificationId === 'null') continue;
-
-        if (existingQualificationIds.includes(qualificationId) || newQualificationIds.includes(qualificationId)) {
-          hasDuplicate = true;
-          break;
+      educationFields.forEach((field) => {
+        const control = this.registrationForm.get(field);
+        if (control?.invalid) {
+          control.markAsTouched();
+          isValid = false;
+        } else {
+          educationSection[field] = control?.value;
         }
-
-        newQualificationIds.push(qualificationId);
-      }
-
-      if (hasDuplicate) {
-        Swal.fire({
-          title: 'Duplicate Qualification',
-          text: 'You have already selected this qualification. To update, please delete the existing entry and add again.',
-          icon: 'warning',
-          confirmButtonText: 'OK'
-        });
-        return;
-      }
-
-      newEducationControls.forEach((group: FormGroup) => {
-        let educationEntry: any = {};
-        const educationFields = [
-          'educationTypeId', 'universityId', 'qualificationId',
-          'yearOfPassing', 'percentage'
-        ];
-
-        educationFields.forEach((field) => {
-          const control = group.get(field);
-          if (control?.invalid) {
-            control.markAsTouched();
-            isValid = false;
-          } else {
-            educationEntry[field] = control?.value;
-          }
-        });
-
-        educationEntry['educationId'] = 1;
-        educationEntry['candidateId'] = this.jobCodeData?.candidateId;
-
-        educationData.push(educationEntry);
       });
 
       if (!isValid) {
-        this.formFillMessageAlert();
+        this.showAlert("Please fill required fields!", 'danger');
         return;
       }
 
-      let formData = new FormData();
-      formData.append("education", JSON.stringify(educationData));
-      formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
-      formData.append('candidateId', this.jobCodeData?.candidateId);
-      formData.append('moduleId', '3');
+      educationSection.educationId = this.registrationForm.get('educationId')?.value || 1;
+      educationSection.candidateId = this.jobCodeData?.candidateId;
+
+      const formData = new FormData();
+      formData.append("education", JSON.stringify([educationSection]));
+      formData.append("jobCodeId", this.jobCodeData?.jobCodeId);
+      formData.append("candidateId", this.jobCodeData?.candidateId);
+      formData.append("moduleId", "3");
 
       this.finalSave('education', formData);
-    } else if (Action === 'documents') {
+    }
+
+    else if (Action === 'documents') {
       const documentsFields = ['tenth', 'twelth', 'panFile', 'aadharFile', 'deploma', 'degreeOrBTech', 'others'];
       let hasFile = false; // Flag to check if any file is present
 
@@ -1246,7 +1450,7 @@ export class personalInfoComponent implements OnInit {
       this.personalInfoArray.push({ documentDetails: { ...sectionData } });
 
       let formData = new FormData();
-      console.log("file array: ", this.selectedFiles);
+      // console.log("file array: ", this.selectedFiles);
       formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
 
       const documentData = {
@@ -1298,16 +1502,16 @@ export class personalInfoComponent implements OnInit {
           timerProgressBar: true,
         });
       }
-    } if (Action === 'experience') {
+    } if (Action === 'experienceWithCtc') {
       let isValid = true;
       const sectionData: any = {};
 
       const experienceFields = this.isFresher
         ? ['joiningTime', 'isFresher']
         : [
-          'joiningTime', 'companyName', 'totalExperience',
-          'LastOrStill_Working_Date', 'isFresher', 'currentSalary',
-          'expectedSalary', 'suitableJobDescription', 'payslipFile', 'serviceLetterFile'
+          'joiningTime', 'isFresher', 'currentSalary', 'expectedSalary', 'suitableJobDescription',
+          // 'LastOrStill_Working_Date','totalExperience','companyName',
+          // 'payslipFile', 'serviceLetterFile'
         ];
 
       experienceFields.forEach((field) => {
@@ -1322,7 +1526,8 @@ export class personalInfoComponent implements OnInit {
 
       if (!isValid) {
         // alert('Please fill in all required fields in the Experience section.');
-        this.formFillMessageAlert();
+        // this.formFillMessageAlert();
+        this.showAlert("Please fill required fields!", "danger")
         return;
       }
 
@@ -1333,19 +1538,23 @@ export class personalInfoComponent implements OnInit {
       };
 
       if (!this.isFresher) {
-        experienceData.experienceMapDTO = [
-          {
-            companyName: sectionData.companyName,
-            totalExp: sectionData.totalExperience,
-            lastWorkingDate: this.datePipe.transform(sectionData.LastOrStill_Working_Date, 'dd-MM-yyyy')
-          }
-        ];
+        // experienceData.experienceMapDTO = [
+        //   {
+        //     companyName: sectionData.companyName,
+        //     totalExp: sectionData.totalExperience,
+        //     lastWorkingDate: this.datePipe.transform(sectionData.LastOrStill_Working_Date, 'dd-MM-yyyy')
+        //   }
+        // ];
 
-        experienceData.experienceSalaryDTO = {
-          currentSalary: sectionData.currentSalary,
-          expectedSalary: sectionData.expectedSalary,
-          description: sectionData.suitableJobDescription
-        };
+        // experienceData.experienceSalaryDTO = {
+        //   currentSalary: sectionData.currentSalary,
+        //   expectedSalary: sectionData.expectedSalary,
+        //   description: sectionData.suitableJobDescription
+        // };
+        experienceData.currentSalary = sectionData.currentSalary;
+        experienceData.expectedSalary = sectionData.expectedSalary;
+        experienceData.description = sectionData.suitableJobDescription;
+
       }
 
       this.personalInfoArray.push({ experience: { ...experienceData } });
@@ -1370,15 +1579,67 @@ export class personalInfoComponent implements OnInit {
 
       this.finalSave('experience', formData);
     }
+    else if (Action === 'experienceWithCompany') {
+      console.log("rajender");
+      if (!this.experienceId) {
+        this.showAlert("Experience ID is not available!", "danger");
+        return;
+      }
+      let isValid = true;
+      const sectionData: any = {};
+      const experienceFields = ['LastOrStill_Working_Date', 'totalExperience', 'companyName'];
+      experienceFields.forEach((field) => {
+        const control = this.registrationForm.get(field);
+        if (control?.invalid) {
+          control.markAsTouched();
+          isValid = false;
+        } else {
+          sectionData[field] = control.value;
+        }
+      });
+
+      if (!isValid) {
+        this.showAlert("Please fill required fields!", "danger");
+        return;
+      }
+      const experienceData: any = {
+        companyName: sectionData.companyName,
+        totalExp: sectionData.totalExperience,
+        lastWorkingDate: this.datePipe.transform(sectionData.LastOrStill_Working_Date, 'yyyy-MM-dd'),
+        experienceId: this.experienceId
+      };
+      const experiencePayload = {
+        experienceId: experienceData.experienceId,
+        companyName: experienceData.companyName,
+        totalExp: experienceData.totalExp,
+        lastWorkingDate: experienceData.lastWorkingDate,
+        jobCodeId: this.jobCodeData?.jobCodeId,
+        candidateId: this.jobCodeData?.candidateId,
+        moduleId: '5'
+      };
+      this.authService.ExperienceAdd(experiencePayload).subscribe({
+        next: (res: any) => {
+          this.showAlert("Experience added Successfully.", 'success');
+          this.loadUserData();
+          this.registrationForm.get('LastOrStill_Working_Date')?.reset();
+          this.registrationForm.get('totalExperience')?.reset();
+          this.registrationForm.get('companyName')?.reset();
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log("error : ", err);
+        }
+      })
+    }
+
   }
 
 
   finalSave(action: string, formData) {
     formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
     formData.append('candidateId', this.jobCodeData?.candidateId);
-    console.log("education jobcode id : ", this.jobCodeData?.jobCodeId, "candidate id: ", this.jobCodeData?.candidateId)
+    // console.log("education jobcode id : ", this.jobCodeData?.jobCodeId, "candidate id: ", this.jobCodeData?.candidateId)
     this.isLoading = true;
-    console.log(" form data : ", formData)
+    // console.log(" form data : ", formData)
     // return false
     this.authService.hiringRegister(formData).subscribe({
       next: (res: HttpResponse<any>) => {
@@ -1392,7 +1653,7 @@ export class personalInfoComponent implements OnInit {
           //   educationArray.clear();
           //   educationArray.push(this.createEducationFormGroup());
           // }
-          // this.selectedFiles = {}
+          this.selectedFiles = {}
           this.personalUpdate = false;
           this.addressUpadte = false;
           // Swal.fire({
@@ -1402,33 +1663,43 @@ export class personalInfoComponent implements OnInit {
           //   showConfirmButton: true,
           // });
 
-          this.showAlert("Successfully completed","success");
+          this.showAlert("Successfully completed", "success");
           this.setActiveSection(action);
           if (action === 'education') {
-            const educationArray = this.registrationForm.get('educationDetails') as FormArray;
-            if (educationArray) {
-              educationArray.clear();
-              educationArray.push(this.createEducationFormGroup());
-            }
+            const educationFields = [
+              'educationTypeId',
+              'educationLevelId',
+              'qualification',
+              'universityId',
+              'branch',
+              'yearOfPassing',
+              'percentage',
+              'college'
+            ];
+
+            educationFields.forEach(field => {
+              this.registrationForm.get(field)?.setValue('');
+              this.registrationForm.get(field)?.markAsPristine();
+              this.registrationForm.get(field)?.markAsUntouched();
+            });
           } else if (action === 'documents') {
             this.selectedFiles = {}
             const educationArray = this.registrationForm.get('educationDetails') as FormArray;
             if (educationArray) {
               educationArray.clear();
-              educationArray.push(this.createEducationFormGroup());
+              // educationArray.push(this.createEducationFormGroup());
             }
             this.updateDocumentFlag = false;
             // this.fileInput.nativeElement.value = '';
           } else if (action === 'experience') {
-            console.log("essssssssssssxxx")
-            this.loadUserData();
+            // this.loadUserData();
             const educationArray = this.registrationForm.get('educationDetails') as FormArray;
             // this.selectedFiles = {}
             // this.payslipFile = null;
             // this.serviceLetterFile = null;
             if (educationArray) {
               educationArray.clear();
-              educationArray.push(this.createEducationFormGroup());
+              // educationArray.push(this.createEducationFormGroup());
             }
             this.registrationForm.patchValue({
               companyName: '',
@@ -1451,7 +1722,7 @@ export class personalInfoComponent implements OnInit {
 
       }, error: (err: HttpErrorResponse) => {
         this.isLoading = false;
-        console.log("error : ", err)
+        // console.log("error : ", err);
         Swal.fire({
           title: 'error',
           text: err.error.message = 'failed',
@@ -1473,7 +1744,7 @@ export class personalInfoComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
 
         // this.isLoading = false;
-        console.log("error", err);
+        // console.log("error", err);
         Swal.fire({
           title: 'error',
           text: err.error.message,
@@ -1490,7 +1761,7 @@ export class personalInfoComponent implements OnInit {
         this.genderOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err)
       }
     })
   }
@@ -1501,7 +1772,7 @@ export class personalInfoComponent implements OnInit {
         this.marriatalStatusOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err)
       }
     })
   }
@@ -1512,21 +1783,76 @@ export class personalInfoComponent implements OnInit {
         this.universityOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err);
       }
     })
   }
-  qualification() {
-    this.authService.qualification().subscribe({
+
+  educationLevel() {
+    this.authService.educationLevel().subscribe({
       next: (res: any) => {
-        // console.log("titles : ",res);
-        this.qualificationOptions = res;
+        // console.log("univercities : ", res)
+        this.educationLevelOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err);
       }
     })
   }
+
+  onEducationLevelChange(selectedId: string): void {
+    if (selectedId) {
+      const educationLevelId = parseInt(selectedId, 10);
+      console.log("Education level ID:", educationLevelId);
+      this.qualificationOptions = [];
+      this.branchOptions = [];
+      this.registrationForm.get('qualification')?.setValue('');
+      this.registrationForm.get('branch')?.setValue('');
+
+      this.getQualificationsByEducationLevelId(educationLevelId);
+    } else {
+      this.qualificationOptions = [];
+      this.branchOptions = [];
+      this.registrationForm.get('qualification')?.setValue('');
+      this.registrationForm.get('branch')?.setValue('');
+    }
+  }
+
+  getQualificationsByEducationLevelId(educationLevelId: number): void {
+    this.authService.qualification(educationLevelId).subscribe({
+      next: (qualifications: any) => {
+        this.qualificationOptions = qualifications;
+      },
+      error: (err) => {
+        console.error('Error fetching qualifications', err);
+      }
+    });
+  }
+
+  onQualificationChange(event: Event): void {
+    const selectedName = (event.target as HTMLSelectElement).value;
+    console.log('Selected name:', selectedName);
+
+    if (selectedName) {
+      const formData = new FormData();
+      formData.append('qualificationName', selectedName);
+
+      this.branch(formData);
+    }
+  }
+
+  branch(formData: FormData) {
+    console.log(formData)
+    this.authService.branch(formData).subscribe({
+      next: (res: any) => {
+        this.branchOptions = res;
+      },
+      error: (err) => {
+        console.error('Branch API error:', err);
+      }
+    });
+  }
+
   joiningTime() {
     this.authService.joiningTime().subscribe({
       next: (res: any) => {
@@ -1534,7 +1860,7 @@ export class personalInfoComponent implements OnInit {
         this.joiningOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err)
       }
     })
   }
@@ -1546,7 +1872,7 @@ export class personalInfoComponent implements OnInit {
         this.bloodGroupOptions = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("error", err)
+        // console.log("error", err)
       }
     })
   }
@@ -1557,7 +1883,7 @@ export class personalInfoComponent implements OnInit {
         this.indianStates = res;
       },
       error: (err: HttpErrorResponse) => {
-        console.log("Error fetching states:", err);
+        // console.log("Error fetching states:", err);
       }
     });
   }
@@ -1595,19 +1921,23 @@ export class personalInfoComponent implements OnInit {
     });
   }
 
+
   private setCitiesAndPatch(cities: any[] | null, addressType: 'communication' | 'permanent', cityId: string | null) {
+    const patchedCityId = cityId ?? '';
+
     if (addressType === 'communication') {
       this.communicationCities = cities ?? [];
       setTimeout(() => {
-        this.registrationForm.get('cityId')?.patchValue(cityId);
+        this.registrationForm.get('cityId')?.patchValue(patchedCityId);
       });
     } else {
       this.permanentCities = cities ?? [];
       setTimeout(() => {
-        this.registrationForm.get('permanentCityId')?.patchValue(cityId);
+        this.registrationForm.get('permanentCityId')?.patchValue(patchedCityId);
       });
     }
   }
+
 
 
 
@@ -1643,8 +1973,8 @@ export class personalInfoComponent implements OnInit {
   // }
 
   logout(): void {
-  Swal.fire({
-    html: `
+    Swal.fire({
+      html: `
       <div class="mb-3">
         <img src="assets/img/job-code/logout-gif.gif" alt="logout" style="width:60px; height:60px; " />
       </div>
@@ -1653,37 +1983,38 @@ export class personalInfoComponent implements OnInit {
         You will need to log in again to access your profile and application details.
       </p>
     `,
-    showCancelButton: true,
-    confirmButtonText: 'Log Out',
-    cancelButtonText: 'Cancel',
-    customClass: {
-      popup: 'p-3 rounded-4',
-      htmlContainer: 'text-center',
-      confirmButton: 'btn btn-primary btn-sm w-100 mb-2 shadow-none',
-      cancelButton: 'btn btn-sm btn-outline-secondary w-100',
-    },
-    buttonsStyling: false,
-    width: '500px',
-    backdrop: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      localStorage.removeItem('hiringLoginData');
-      this.router.navigate(['/hiring-login']);
-    }
-  });
-}
+      showCancelButton: true,
+      confirmButtonText: 'Log Out',
+      cancelButtonText: 'Cancel',
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        // actions: 'd-flex justify-content-center',
+        confirmButton: 'btn btn-primary btn-sm w-100 mb-2 shadow-none',
+        cancelButton: 'btn btn-sm btn-outline-secondary w-100',
+      },
+      buttonsStyling: false,
+      width: '500px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('hiringLoginData');
+        this.router.navigate(['/hiring-login']);
+      }
+    });
+  }
 
 
 
   checkDuplicateQualification(index: number): boolean {
     const educationArray = this.registrationForm.get('educationDetails') as FormArray;
-    const currentQual = educationArray.at(index).get('qualificationId')?.value;
+    const currentQual = educationArray.at(index).get('qualification')?.value;
 
     if (!currentQual) return false;
 
     // Count how many times this qualification appears in the form
     const duplicates = educationArray.controls.filter((control, i) => {
-      return i !== index && control.get('qualificationId')?.value === currentQual;
+      return i !== index && control.get('qualification')?.value === currentQual;
     });
 
     return duplicates.length > 0;
@@ -1770,18 +2101,109 @@ export class personalInfoComponent implements OnInit {
   }
 
 
-  onFileChange(event: any, controlName: string) {
-    const file = event.target.files[0];
-    if (file) {
-      this.registrationForm.get(controlName)?.setValue(file);
+  // onFileChange(event: any, controlName: string) {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     this.registrationForm.get(controlName)?.setValue(file);
+  //     console.log("file : ", file);
 
-      if (controlName === 'payslipFile') {
-        this.payslipFile = file;
-      } else if (controlName === 'serviceLetterFile') {
-        this.serviceLetterFile = file;
-      }
+
+  //     if (controlName === 'payslipFile') {
+  //       this.payslipFile = file;
+  //       this.selectedPayslip1FileName = file.name;
+  //     } else if (controlName === 'serviceLetterFile') {
+  //       this.serviceLetterFile = file;
+  //       this.selectedServiceLetterFileName = file.name
+  //     }
+  //   }
+  // }
+  onFileChange(event: any, controlName: string, fileId: any) {
+    const file = event.target.files[0];
+    console.log("file id : ", fileId);
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({
+        title: 'File Too Large',
+        text: 'File size must be less than 5 MB.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return;
     }
+
+    this.registrationForm.get(controlName)?.setValue(file);
+    console.log("Selected file:", file);
+
+    const formData = new FormData();
+    formData.append('jobCodeId', this.jobCodeData?.jobCodeId);
+    formData.append('moduleId', '5');
+    formData.append('experienceId', this.experienceId);
+    formData.append('candidateId', this.jobCodeData?.candidateId);
+    formData.append('fileNo', fileId);
+    formData.append('file', file);
+
+    this.isLoading = true;
+    this.authService.experienceFileAdd(formData).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        this.showAlert("File uploaded successfully.", 'success');
+        this.loadUserData();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error("Upload error:", err);
+        this.isLoading = false;
+      }
+    });
   }
+
+
+
+  deleteExpericeFile(id: any) {
+    if (!this.experienceId) {
+      this.showAlert("Experience ID is not available!", "danger");
+      return;
+    }
+
+    Swal.fire({
+      html: `
+    <div class="mb-3">
+      <img src="https://cdn.dribbble.com/userupload/24380574/file/original-2070b7f112d8cdc5b374a8b7d80f1fc7.gif" alt="delete" style="width:60px; height:60px; border-radius: 15px;" />
+    </div>
+    <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to delete this File?</h5>
+    <p class="text-muted mb-0" style="font-size: 14px;">
+      Deleting this may affect your application records.
+    </p>
+  `,
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: true,
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        actions: 'd-flex justify-content-center',
+        cancelButton: 'btn btn-outline-secondary btn-sm shadow-none mr-2',
+        confirmButton: 'btn btn-danger btn-sm shadow-none'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("id : ", id);
+        this.authService.ExperienceFileDelete(this.experienceId, id).subscribe({
+          next: (res: any) => {
+            this.showAlert("File Deleted successfully.", "success");
+            this.loadUserData();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.showAlert("error while deleting file!", "danger")
+          }
+        })
+      }
+    })
+  }
+
 
 
   checkIfLoginExpired(): void {
@@ -1798,7 +2220,7 @@ export class personalInfoComponent implements OnInit {
       // Convert to days
       const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
 
-      console.log('Days since login:', diffInDays);
+      // console.log('Days since login:', diffInDays);
 
       // If more than 5 days have passed, redirect
       if (diffInDays > 5) {
@@ -1808,7 +2230,7 @@ export class personalInfoComponent implements OnInit {
   }
 
   UpdatePayslip() {
-    this.paySlipFilePath = null;
+    this.paySlipFilePath1 = null;
     this.serviceFilePath = null;
   }
 
@@ -1850,6 +2272,85 @@ export class personalInfoComponent implements OnInit {
 
   closeAlert() {
     this.alertMessage = null;
+  }
+
+  InterviewStatus() {
+    Swal.fire({
+      html: `
+        <div class="mb-3">
+          <img src="assets/img/job-code/document-gif.gif" alt="delete" style="width:60px; height:60px;" />
+        </div>
+        <h5 class="mb-2" style="font-weight: bold;">Interview Process Started!</h5>
+        <p class="text-muted mb-0" style="font-size: 14px;">
+        Your interview has started. Please stay updated and be available as per the schedule. Updates will follow via email.
+        </p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Track Interview Status',
+      cancelButtonText: 'Close',
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        confirmButton: 'btn btn-primary btn-sm shadow-none w-100 mb-2',
+        cancelButton: 'btn btn-outline-secondary btn-sm shadow-none'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.setActiveSection('status');
+      }
+    });
+  }
+
+  completedStatus() {
+    Swal.fire({
+      html: `
+    <div class="mb-3">
+      <img src="assets/img/job-code/document-gif.gif" alt="delete" style="width:60px; height:60px;" />
+    </div>
+    <h5 class="mb-2" style="font-weight: bold;">Submission Successful!</h5>
+    <p class="text-muted mb-0" style="font-size: 14px;">
+      Your application has been submitted. All further updates will be shared with you via email.
+    </p>
+  `,
+      showCancelButton: true,
+      confirmButtonText: 'Track Interview Status',
+      cancelButtonText: 'Close',
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        confirmButton: 'btn btn-primary btn-sm shadow-none w-100 mb-2',
+        cancelButton: 'btn btn-outline-secondary btn-sm shadow-none'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.setActiveSection('status');
+      }
+    });
+  }
+
+
+  formatFullDateForInterview(dateStr: string): string {
+    if (!dateStr) return '';
+
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return '';
+
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+
+    const date = new Date(year, month, day);
+
+    const dayStr = day.toString().padStart(2, '0');
+    const monthName = date.toLocaleString('default', { month: 'long' });
+
+    return `${dayStr} ${monthName} ${year}`;
   }
 
 }

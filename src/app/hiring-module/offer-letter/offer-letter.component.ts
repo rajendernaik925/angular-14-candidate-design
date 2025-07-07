@@ -33,7 +33,8 @@ export class OfferLetterComponent implements OnInit {
   colorTheme = 'theme-dark-blue';
   fileURL: SafeResourceUrl | null = null;
   showPDF: boolean = false;
-  today: Date = new Date();
+  today = new Date();
+  maxDate: Date;
   panAlertMessage: string | null = null;
   private panAlertTimeout: any;
 
@@ -60,6 +61,10 @@ export class OfferLetterComponent implements OnInit {
       this.searchQueryText = value.trim().toLowerCase(); // Store search text
       this.filterRows(value);
     });
+
+    const after90Days = new Date();
+    after90Days.setDate(this.today.getDate() + 90);
+    this.maxDate = after90Days;
   }
 
   offerCandidates() {
@@ -122,8 +127,8 @@ export class OfferLetterComponent implements OnInit {
       { key: 'email', label: 'Mail Id', uppercase: true },
       { key: 'expectedCtc', label: 'Proposed CTC', uppercase: true },
       { key: 'name', label: 'Full Name', uppercase: true },
-      { key: 'deptName', label: 'Department Name', uppercase: true },
       { key: 'joiningDate', label: 'Actual Date Of Join (editable)', uppercase: true },
+      { key: 'deptName', label: 'Department Name', uppercase: true },
       { key: 'employeeId', label: 'Action', center: true, clickable: true }
     ];
 
@@ -162,7 +167,7 @@ export class OfferLetterComponent implements OnInit {
           this.offerCandidates();
           Swal.fire({
             title: 'Success',
-            text: 'Generated Successfully',
+            text: 'Offer Letter Generated Successfully',
             icon: 'success',
             showConfirmButton: false,
             timer: 1000,

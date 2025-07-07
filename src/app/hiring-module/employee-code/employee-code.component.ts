@@ -126,12 +126,42 @@ export class EmployeeCodeComponent implements OnInit {
 
   moveToHrms(id: any) {
     console.log("id: ", id);
+
     Swal.fire({
-      title: 'Warning',
-      text: 'Need to implement from backend',
-      icon: 'warning',
-      confirmButtonText: 'Close',
-      allowOutsideClick: false
+      html: `
+       <div class="mb-3">
+         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZM9W5m85CN4_xgg6D1yEnJKLArugi2Hx-cA&s" alt="delete" style="width:60px; height:60px; border-radius: 15px;" />
+       </div>
+       <h5 class="mb-2" style="font-weight: bold;">Are you sure you want to move this Candidate?</h5>
+       <p class="text-muted mb-0" style="font-size: 14px;">
+         This will complete the Hiring process and moving to HRMS.
+       </p>
+     `,
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Move',
+      reverseButtons: true,
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        actions: 'd-flex justify-content-center',
+        cancelButton: 'btn btn-danger btn-sm shadow-none mr-2',
+        confirmButton: 'btn btn-success btn-sm shadow-none'
+      },
+      buttonsStyling: false,
+      width: '550px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(result);
+        Swal.fire({
+          title: 'Warning',
+          text: 'Need to implement from backend',
+          icon: 'warning',
+          confirmButtonText: 'Close',
+          allowOutsideClick: false
+        });
+      }
     });
   }
 

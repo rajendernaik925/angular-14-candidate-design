@@ -52,14 +52,27 @@
                   <td *ngFor="let col of columns" class="small-header"
                     [ngClass]="{'text-uppercase': col.uppercase, 'text-center': col.center}">
 
-                    <ng-container *ngIf="col.key === 'status'; else default">
+                    <!-- <ng-container *ngIf="col.key === 'status'; else default">
                       <span *ngIf="row.status === 'OnGoing'" class="custom-text fw-bold">OnGoing</span>
                       <span *ngIf="row.status === 'Rejected'" class="text-danger fw-bold">Rejected</span>
                       <span *ngIf="row.status === 'Approved'" class="text-success fw-bold">Approved</span>
                       <span *ngIf="row.status === 'Pending'" class="text-warning fw-bold">Pending</span>
                       <span *ngIf="row.status === 'Cancelled'" class="text-orange-dark fw-bold">Cancelled</span>
                       <span *ngIf="row.status === 'Hold'" class="text-orange-dark fw-bold">Hold</span>
+                    </ng-container> -->
+                    <ng-container *ngIf="col.key === 'status'; else default">
+                      <span [ngClass]="{
+                          'custom-text fw-bold': row.status.startsWith('OnGoing'),
+                          'text-danger fw-bold': row.status.startsWith('Rejected'),
+                          'text-success fw-bold': row.status.startsWith('Approved'),
+                          'text-warning fw-bold': row.status.startsWith('Pending'),
+                          'text-orange-dark fw-bold': row.status.startsWith('Hold'),
+                          'text-muted fw-bold': row.status.startsWith('Cancelled')
+                        }">
+                        {{ row.status }}
+                      </span>
                     </ng-container>
+
                     <!-- 
                     1001 = '',
                     1002 = '',
@@ -269,20 +282,10 @@
 
           <div class="col-md-6">
             <label for="interviewerName" class="form-label">Interview Mode<span class="text-danger">*</span></label>
-            <!-- <select formControlName="mode" class="form-control form-control-sm">
-              <option value="">Select</option>
-              <option *ngFor="let item of interviewRounds" [value]="item?.id">{{ item?.name }}</option>
-            </select> -->
-            <!-- <select formControlName="mode" class="form-control form-control-sm" (change)="onModeChange($event)">
-              <option value="">Select</option>
-              <option *ngFor="let item of interviewRounds" [value]="item?.id">{{ item?.name }}</option>
-            </select> -->
             <select class="form-control form-control-sm" (change)="onModeChange($event)">
               <option value="">Select</option>
               <option *ngFor="let item of interviewRounds" [value]="item?.id">{{ item?.name }}</option>
             </select>
-
-
             <div *ngIf="addNewRoundForm.get('mode')?.touched && addNewRoundForm.get('mode')?.invalid"
               class="text-danger fs-custom">
               Interview Mode is required
@@ -404,8 +407,8 @@
                   <th class="custom-th small-header">Feedback</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let exp of candidateData.candidateInterviewDetails">
+              <tbody *ngFor="let exp of candidateData.candidateInterviewDetails">
+                <tr>
                   <td class="custom-td small-header">{{ exp?.roundNo }}</td>
                   <td class="custom-td small-header">
                     {{ exp?.interviewDate ? (convertToDateObject(exp.interviewDate) | date:'dd-MMM-yyyy') : '--' }}
@@ -413,7 +416,7 @@
                   <td class="custom-td small-header">{{ exp?.interviewTime || '--' }}</td>
                   <td class="custom-td small-header">{{exp?.interviewByName}} - {{ exp?.interviewBy }}</td>
                   <td class="custom-td small-header">{{ exp?.level }} ({{exp?.interviewRoundName || 'Initial'}})</td>
-                  <td class="custom-td small-header text-break">{{ exp.modeName }}</td>
+                  <td class="custom-td small-header text-break">{{ exp.modeName || '--'}}</td>
                   <td class="custom-td small-header text-single-line">
                     <button (click)="cancelInterview(exp?.interviewScheduleId)"
                       *ngIf="exp.status === 1001  && exp.interviewTime"
@@ -424,10 +427,15 @@
                       class="btn btn-sm btn-info border-0 px-2 py-1 text-white">
                       Schedule
                     </button>
-                    <button (click)="rescheduleInterview(employeeId)" *ngIf="exp.status === 1002 || exp.status == 1006"
+                    <button (click)="rescheduleInterview(employeeId)"
+                      *ngIf="exp.status === 1002 || exp.status == 1006 && exp?.interviewRoundName != 'HR'"
                       class="btn btn-sm btn-warning border-0 px-2 py-1 text-white">
                       Reschedule
                     </button>
+                    <span *ngIf="exp.status === 1002 || exp.status == 1006 && exp?.interviewRoundName == 'HR'" class="">
+                      HR Hold
+                    </span>
+
 
                     <button *ngIf="exp.status === 1004" class="btn btn-sm btn-success border-0 px-2 py-1 text-white"
                       disabled>
@@ -449,8 +457,13 @@
                       <span class="text-muted">Pending</span>
                     </ng-template>
                   </td>
-
                 </tr>
+                <tr *ngIf="(exp.status === 1002 || exp.status === 1006) && exp?.interviewRoundName === 'HR'" class="mt-2">
+                  <td colspan="8" class=" text-center text-danger mt-2">
+                    When Hold, the HR needs to take action from the Hold tab.
+                  </td>
+                </tr>
+
               </tbody>
             </table>
           </div>

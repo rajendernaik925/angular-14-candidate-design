@@ -195,15 +195,15 @@
             class="fw-bold custom-text">Details</span>
         </div>
         <div class="col-md-2 d-flex justify-content-end align-items-center">
-          <span class="cursor-pointer text-danger Hover" (click)="close()">
-            <i class="bi bi-x-circle"></i>
-          </span>
+          <button type="button" class="btn btn-sm shadow-none " (click)="close()">
+            <i class="bi bi-x-circle fs-5 text-danger" (click)="close()"></i>
+          </button>
         </div>
       </div>
       <hr class="m-0 p-0 text-dark border mb-2">
 
       <div *ngIf="candidateData?.candidateTrackingDTO?.totalPercentage !== '0.00'; else noCandidateData"
-        class="scroll-container">
+        class="scroll-container container">
         <div class="card p-2 mb-3" *ngIf="candidateData?.candidateTrackingDTO?.personalInfo !== '0'">
           <span class="custom-text text-decoration-underline"><strong>Basic Details</strong></span>
 
@@ -228,6 +228,22 @@
             <div class="col-md-5 mt-1">
               <strong>Marital Status:</strong> {{ candidateData?.candidatePersonalInformationDetails?.maritalStatusName
               }}
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="resumeFile">
+                <button class="btn btn-outline-custom btn-sm w-100  small shadow-none" (click)="viewFile(resumeFile)">
+                  Resume
+                </button>
+              </ng-container>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <ng-container *ngIf="photoFile">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(photoFile)">
+                  Photo
+                </button>
+              </ng-container>
             </div>
           </div>
         </div>
@@ -282,7 +298,7 @@
                 candidateData?.candidatePermanentAddressDetails?.postalCode }}</p>
             </div>
           </div>
-        </div> 
+        </div>
         <div class="card p-2 mb-3"
           *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails?.is_Fresher">
           <span class="custom-text text-decoration-underline"><strong>Salary Expectation</strong></span>
@@ -297,7 +313,7 @@
 
           <!-- Job description on a new line -->
           <div>
-            <span><strong>Job Description:</strong> {{
+            <span><strong>Job Resposibilities:</strong> {{
               candidateData?.candidateExperienceDetails?.candidateSalaryDetails?.description }}</span>
           </div>
         </div>
@@ -331,7 +347,7 @@
         </div>
 
 
-        <div class="card p-2 mb-3"*ngIf="candidateData?.candidateTrackingDTO?.experience !== '0'">
+        <div class="card p-2 mb-3" *ngIf="candidateData?.candidateTrackingDTO?.experience !== '0'">
           <!-- Experience Header Section -->
           <div class="row mb-1">
             <div class="col">
@@ -354,9 +370,9 @@
           </div>
 
           <!-- Show Table Only if NOT Fresher -->
-          <div class="table-container ">
+          <div class="table-container">
             <table class="custom-table table-bordered"
-              *ngIf="!candidateData.candidateExperienceDetails.candidateJoiningDetails?.is_Fresher">
+              *ngIf="candidateData.candidateExperienceDetails.candidateCompanyDetails?.length">
               <thead>
                 <tr>
                   <th class="custom-th small-header-dialog">Company</th>
@@ -374,6 +390,37 @@
               </tbody>
             </table>
           </div>
+          <div class="row">
+            <div *ngIf="paySlipFileA" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="paySlipFileA">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(paySlipFileA)">
+                  Payslip 1
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="paySlipFileB" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="paySlipFileB">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(paySlipFileB)">
+                  Payslip 2
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="paySlipFileC" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="paySlipFileC">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(paySlipFileC)">
+                  Payslip 3
+                </button>
+              </ng-container>
+            </div>
+            <div *ngIf="ServiceLetterFile" class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+              <ng-container *ngIf="ServiceLetterFile">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small"
+                  (click)="viewFile(ServiceLetterFile)">
+                  Service Letter
+                </button>
+              </ng-container>
+            </div>
+          </div>
         </div>
 
         <div class="card p-3 mb-3" *ngIf="candidateData?.candidateTrackingDTO?.document !== '0'">
@@ -385,78 +432,50 @@
 
           <div class="row g-2">
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-              <ng-container *ngIf="resumeFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(resumeFile)">
-                  Resume
-                </button>
-              </ng-container>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-              <ng-container *ngIf="photoFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(photoFile)">
-                  Photo
-                </button>
-              </ng-container>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
               <ng-container *ngIf="aadharFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(aadharFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(aadharFile)">
                   Aadhar
                 </button>
               </ng-container>
             </div>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
               <ng-container *ngIf="pancardFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(pancardFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(pancardFile)">
                   PAN Card
                 </button>
               </ng-container>
             </div>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
               <ng-container *ngIf="tenthFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(tenthFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(tenthFile)">
                   10th
                 </button>
               </ng-container>
             </div>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2">
               <ng-container *ngIf="InterFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(InterFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(InterFile)">
                   Intermediate
                 </button>
               </ng-container>
             </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
               <ng-container *ngIf="BTechFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(BTechFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(BTechFile)">
                   B.Tech/Degree
                 </button>
               </ng-container>
             </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
-              <ng-container *ngIf="paySlipFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(paySlipFile)">
-                  Payslip
-                </button>
-              </ng-container>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
-              <ng-container *ngIf="ServiceLetterFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(ServiceLetterFile)">
-                  Service Letter
-                </button>
-              </ng-container>
-            </div>
-            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 ">
               <ng-container *ngIf="mTechFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(mTechFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(mTechFile)">
                   M.Tech/PG
                 </button>
               </ng-container>
             </div>
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-2">
               <ng-container *ngIf="otherFile">
-                <button class="btn btn-outline-custom btn-sm w-100  small" (click)="viewFile(otherFile)">
+                <button class="btn btn-outline-custom btn-sm w-100 shadow-none small" (click)="viewFile(otherFile)">
                   Other File
                 </button>
               </ng-container>

@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AuthService } from 'src/app/auth.service';
 import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-unscheduled',
@@ -17,6 +19,9 @@ export class UnscheduledComponent implements OnInit {
   rows: any[] = [];
   originalRows: any[] = [];
   searchQuery: FormControl = new FormControl();
+  registrationForm!: FormGroup;
+  selectedPayslipFiles: File[] = [];
+  payslipError: string = '';
   filteredRows: any[] = [];
   userData: any;
   filterOffcanvas: any;
@@ -32,15 +37,24 @@ export class UnscheduledComponent implements OnInit {
   searchQueryText: string;
   panAlertMessage: string = null;
   panAlertTimeout: NodeJS.Timeout;
+  payslipFile: any;
+  serviceLetterFile: any;
 
 
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
+
+    // this.selectApi();
+
+    this.registrationForm = this.fb.group({
+    payslipFiles: [null, Validators.required]
+  });
     // this.unScheduledCandidates();
     this.generateColumns();
     let loggedUser = decodeURIComponent(window.atob(localStorage.getItem('userData')));
@@ -431,6 +445,216 @@ export class UnscheduledComponent implements OnInit {
   closeAlert() {
     this.panAlertMessage = null;
   }
+
+  logout(): void {
+    Swal.fire({
+      html: `
+        <div class="mb-3">
+          <img src="assets/img/job-code/logout-gif.gif" alt="logout" style="width:60px; height:60px; " />
+        </div>
+        <h5 class="mb-2" style="font-weight:bold;">Are you sure you want to log out?</h5>
+        <p class="text-muted mb-0" style="font-size: 14px;">
+          You will need to log in again to access your profile and application details.
+        </p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Log Out',
+      cancelButtonText: 'Cancel',
+      customClass: {
+        popup: 'p-3 rounded-4',
+        htmlContainer: 'text-center',
+        confirmButton: 'btn btn-primary w-100 mb-2 shadow-none',
+        cancelButton: 'btn  btn-outline-secondary w-100',
+      },
+      buttonsStyling: false,
+      width: '500px',
+      backdrop: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // localStorage.removeItem('hiringLoginData');
+        // this.router.navigate(['/hiring-login']);
+      }
+    });
+  }
+
+//  onFileChange(event: any): void {
+//   const files: FileList = event.target.files;
+//   this.selectedPayslipFiles = [];
+//   this.payslipError = '';
+
+//   if (files.length !== 3) {
+//     this.payslipError = 'Please upload exactly 3 payslips.';
+//     this.registrationForm.get('payslipFiles')?.setErrors({ required: true });
+//     return;
+//   }
+
+//   for (let i = 0; i < files.length; i++) {
+//     const file = files[i];
+//     if (file.size > 2 * 1024 * 1024) {
+//       this.payslipError = `File "${file.name}" exceeds 2MB size limit.`;
+//       this.registrationForm.get('payslipFiles')?.setErrors({ fileTooLarge: true });
+//       return;
+//     }
+//     this.selectedPayslipFiles.push(file);
+//   }
+
+//   this.registrationForm.get('payslipFiles')?.setValue(this.selectedPayslipFiles);
+//   this.registrationForm.get('payslipFiles')?.setErrors(null);
+// }
+
+onFileChange(event: any): void {
+  const files: FileList = event.target.files;
+  this.payslipError = '';
+
+  if (!files || files.length === 0) return;
+
+  const newFiles: File[] = Array.from(files);
+
+  for (let file of newFiles) {
+    if (file.size > 2 * 1024 * 1024) {
+      this.payslipError = `File "${file.name}" exceeds 2MB limit.`;
+      return;
+    }
+
+    const alreadyExists = this.selectedPayslipFiles.some(f => f.name === file.name);
+    if (alreadyExists) {
+      this.payslipError = `File "${file.name}" is already selected.`;
+      return;
+    }
+
+    if (this.selectedPayslipFiles.length >= 3) {
+      this.payslipError = 'You can only upload up to 3 payslips.';
+      return;
+    }
+
+    this.selectedPayslipFiles.push(file);
+  }
+
+  this.registrationForm.get('payslipFiles')?.setValue(this.selectedPayslipFiles);
+}
+
+
+
+
+  // submit(): void {
+  //   if (this.registrationForm.invalid) {
+  //     this.registrationForm.markAllAsTouched();
+  //     console.warn('Please upload 3 valid payslips.');
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+
+  //   this.selectedPayslipFiles.forEach((file, index) => {
+  //     formData.append('payslipFiles', file); // backend can handle array by same key name
+  //   });
+
+  //   console.log("FormData with 3 payslips: ", formData);
+
+  //   // Submit to backend
+  //   // this.authService.submitDocuments(formData).subscribe({
+  //   //   next: (res) => {
+  //   //     console.log('Documents submitted successfully:', res);
+  //   //     this.registrationForm.reset();
+  //   //     this.selectedPayslipFiles = [];
+  //   //   },
+  //   //   error: (err) => {
+  //   //     console.error('Submission failed:', err);
+  //   //   }
+  //   // });
+  // }
+
+  submit(): void {
+  this.payslipError = '';
+
+  // Check if exactly 3 files are selected
+  if (this.selectedPayslipFiles.length !== 3) {
+    this.payslipError = 'Please upload exactly 3 payslips.';
+    return;
+  }
+
+  if (this.registrationForm.invalid) {
+    this.registrationForm.markAllAsTouched();
+    console.warn('Form is invalid.');
+    return;
+  }
+
+  const formData = new FormData();
+  this.selectedPayslipFiles.forEach((file) => {
+    formData.append('payslipFiles', file);
+  });
+
+  console.log("FormData with 3 payslips:", formData);
+
+  // Uncomment for actual submission
+  // this.authService.submitDocuments(formData).subscribe({
+  //   next: (res) => {
+  //     console.log('Documents submitted successfully:', res);
+  //     this.registrationForm.reset();
+  //     this.selectedPayslipFiles = [];
+  //   },
+  //   error: (err) => {
+  //     console.error('Submission failed:', err);
+  //   }
+  // });
+}
+
+fileEdit() {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to update or delete the document?',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqDyzK35jV_umcyX6jjCOlZLFxnfWaCUeaAZKeQY4Zv3ARZWCNI-Y85a4-xJpmUGyyc3A&usqp=CAU',
+    imageWidth: 60,
+    imageHeight: 60,
+    showCancelButton: true,
+    showCloseButton: true, 
+    confirmButtonText: 'Update',
+    cancelButtonText: 'Delete',
+    reverseButtons: true,
+    customClass: {
+      confirmButton: 'btn btn-sm btn-primary mr-2 shadow-none',
+      cancelButton: 'btn btn-sm btn-danger shadow-none mr-2'
+    },
+    buttonsStyling: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.openAadharInput();
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      this.deleteFile();
+    } else if (result.dismiss === Swal.DismissReason.close) {
+      // Optional: handle top-right X close here if needed
+      console.log('Closed without action');
+    }
+  });
+}
+
+
+
+openAadharInput() {
+  // Your logic to open aadhar input
+}
+
+deleteFile() {
+  // Your logic to delete file
+}
+
+selectApi() {
+  this.isLoading = true;
+  this.authService.registeredData('103').subscribe({
+    next: (res:any) => {
+      this.isLoading = false
+      console.log("data : ",res);
+    },
+    error: (err:HttpErrorResponse) => {
+      console.log("error : ",err);
+      this.isLoading = false;
+    }
+  })
+}
+
+
+
+
 
 
 

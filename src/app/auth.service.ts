@@ -899,7 +899,7 @@ export class AuthService {
   }
 
 
-  private jobCodeUrls: string = "http://192.168.214.63:2025/";
+  private jobCodeUrls: string = "http://192.168.214.165:2025/";
   createJobCode(formData: any): Observable<HttpResponse<any>> {
     return this.http.post<any>(`${this.jobCodeUrls}jobcode/create`, formData, this.getDefaultHttpOptions()).pipe(
       catchError(this.handleError)
@@ -985,6 +985,25 @@ export class AuthService {
     )
   }
 
+  ExperienceAdd(data: any) {
+    return this.http.post(`${this.jobCodeUrls}hiring/addcompanydetails`, data, { observe: 'response' }).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  ExperienceFileDelete(experienceId: any, fileId: any) {
+    return this.http.delete(`${this.jobCodeUrls}hiring/deletefile/${experienceId}/${fileId}`, { observe: 'response' }).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+
+  experienceFileAdd(data: FormData) {
+    return this.http.post(`${this.jobCodeUrls}hiring/updatefiles`, data, { observe: 'response' }).pipe(
+      catchError(this.handleError)
+    )
+  }
+
   title() {
     return this.http.get(`${this.jobCodeUrls}master/mstitle`)
   }
@@ -1000,8 +1019,16 @@ export class AuthService {
     return this.http.get(`${this.jobCodeUrls}master/university`)
   }
 
-  qualification() {
-    return this.http.get(`${this.jobCodeUrls}master/qualification`)
+  educationLevel() {
+    return this.http.get(`${this.jobCodeUrls}master/educationlevel`)
+  }
+
+  qualification(id: number) {
+    return this.http.get(`${this.jobCodeUrls}master/qualification/${id}`)
+  }
+
+  branch(formdata: FormData) {
+    return this.http.post(`${this.jobCodeUrls}master/branch`, formdata);
   }
 
   joiningTime() {
@@ -1153,6 +1180,18 @@ export class AuthService {
       catchError(this.handleError)
     )
   }
+
+  HRHoldProeccess(candidateId: any, interviewRound: any, actionFlag: any) {
+    return this.http.post(`${this.jobCodeUrls}hiring/reprocessbyhr/${candidateId}/${interviewRound}/${actionFlag}`, {})
+  }
+
+  techHoldProeccess(data: any) {
+    return this.http.post(`${this.jobCodeUrls}hiring/reprocess`, data)
+  }
+
+  // HRHoldProeccess(candidateId: any, interviewRound: any, actionflag: any): Observable<any> {
+  //   return this.http.post(`${this.jobCodeUrls}hiring/reprocessbyhr/${candidateId}/${interviewRound}/${actionflag}`, {});
+  // }
 
   unScheduledCandidates() {
     return this.http.get(`${this.jobCodeUrls}hiring/unscheduled`).pipe(

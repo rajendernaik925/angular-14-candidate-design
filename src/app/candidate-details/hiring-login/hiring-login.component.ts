@@ -24,6 +24,7 @@ export class HiringLoginComponent implements OnInit {
   logo: string = 'https://sso.heterohealthcare.com/iconnect/assets/img/logo.svg';
   @ViewChild('Login') Login!: TemplateRef<any>;
   private dialogRef: any;
+  bgLogo: string = 'assets/img/job-code/Rectangle 6.png'
 
   constructor(
     private fb: FormBuilder,
@@ -169,6 +170,16 @@ export class HiringLoginComponent implements OnInit {
       this.dialogRef = null;
     }
   }
+
+  getBackgroundStyle() {
+  return {
+    'background-image': `url(${this.bgLogo})`,
+    'background-size': 'cover',
+    'background-position': 'center',
+    'background-repeat': 'no-repeat'
+  };
+}
+
 
 
 

@@ -21,9 +21,14 @@
 th, td
   white-space: nowrap // Prevent text from wrapping to the next line
   overflow: hidden     // Hide any overflowing content
-  text-overflow: ellipsis // Add ellipsis (...) if content overflows    
+  text-overflow: ellipsis // Add ellipsis (...) if content overflows  
 
 .scroll-container
+  max-height: calc(100vh - 219px)
+  overflow-y: auto
+  display: block      
+
+//.scroll-container
   max-height: calc(100vh - 230px)
   overflow-y: scroll // Keep scrolling functionality
   display: block
@@ -172,3 +177,11 @@ $z-index-offcanvas: 1050
   word-wrap: break-word
   word-break: break-word
   white-space: normal // Allows text to wrap properly
+
+
+input::placeholder, textarea::placeholder 
+  font-size: 0.775rem
+  color: #6c757d
+  opacity: 0.5
+
+

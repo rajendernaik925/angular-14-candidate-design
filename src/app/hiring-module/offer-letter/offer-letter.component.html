@@ -32,7 +32,7 @@
               </button> -->
             </div>
           </div>
-          <div class="scroll-container table-responsive-custom" style="overflow-x: auto;" > 
+          <div class="scroll-container table-responsive-custom">
             <table class="table table-bordered">
               <thead class="custom-bg">
                 <tr class="text-light">
@@ -77,15 +77,17 @@
                         <ng-template #editableDate>
                           <input type="text" readonly class="form-control extra-small-input cursor-pointer"
                             placeholder="dd-mm-yyyy" [bsConfig]="{
-                              adaptivePosition: true,
-                              showWeekNumbers: false,
-                              isAnimated: true,
-                              containerClass: colorTheme,
-                              customTodayClass: 'custom-today-class',
-                              dateInputFormat: 'DD-MM-YYYY',
-                              minDate: today
-                            }" bsDatepicker [ngModel]="row[col.key]" (ngModelChange)="onDateChange($event, row, col.key)"
-                            autocomplete="off" required />
+                            adaptivePosition: true,
+                            showWeekNumbers: false,
+                            isAnimated: true,
+                            containerClass: colorTheme,
+                            customTodayClass: 'custom-today-class',
+                            dateInputFormat: 'DD-MM-YYYY',
+                            minDate: today,
+                            maxDate: maxDate
+                          }" bsDatepicker [ngModel]="row[col.key]" (ngModelChange)="onDateChange($event, row, col.key)" autocomplete="off"
+                            required />
+
                         </ng-template>
                       </ng-container>
 
@@ -121,7 +123,7 @@
           </div>
 
           <!-- Pagination Controls -->
-          <hr *ngIf="rows.length > 0" class="custom-hr mb-1 mt-0">
+          <hr *ngIf="rows.length > 0" class="custom-hr mb-1 mt-1">
           <div class="d-flex justify-content-between align-items-center mt-1" *ngIf="rows.length > 0">
             <span class="small badge bg-secondary text-white">
               Showing {{ startIndex }} to {{ endIndex }} of {{ rows.length }} Records

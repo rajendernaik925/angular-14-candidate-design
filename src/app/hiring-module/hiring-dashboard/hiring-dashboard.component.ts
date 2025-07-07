@@ -30,6 +30,8 @@ export class HiringDashboardComponent implements OnInit, AfterViewInit, AfterVie
   userMessage = '';
   messages: { text: string, sender: 'user' | 'bot' }[] = []; // distinguish who sent the message
   isTyping = false;
+  organogramLogo:string = 'assets/img/job-code/Isolation_Mode.svg';
+  userData: any;
 
 
 
@@ -50,6 +52,8 @@ export class HiringDashboardComponent implements OnInit, AfterViewInit, AfterVie
   }
 
   ngOnInit(): void {
+    let loggedUser = decodeURIComponent(window.atob(localStorage.getItem('userData')));
+    this.userData = JSON.parse(loggedUser);
     this.candidateCount();
     // this.speakRemainder();
   }
@@ -193,9 +197,9 @@ export class HiringDashboardComponent implements OnInit, AfterViewInit, AfterVie
 
     const isScheduledPresent = this.candidatesCount?.scheduled && this.candidatesCount.scheduled > 0;
 
-    const message = `Today's activities by the HR team include: 
+    const message = `Today's activities by the HR team includes: 
     shortlisting ${this.candidatesCount?.shortlisted || 0} candidates, 
-    sending reminders to ${this.candidatesCount?.remainder || 0} candidates, 
+    interview process to ${this.candidatesCount?.onGoing || 0} candidates, 
     scheduling interviews for ${this.candidatesCount?.scheduled || 0} candidates,
     holding interviews for ${this.candidatesCount?.hold || 0} candidates,
     offer initiation for ${this.candidatesCount?.offerLetterInitiated || 0} candidates,

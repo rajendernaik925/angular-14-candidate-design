@@ -427,7 +427,10 @@
                     <td class="custom-td small-header text-break">
                       <ng-container *ngIf="exp.candidateInterviewFeedBackDTO?.length > 0; else pending">
                         <button class="btn btn-sm custom-bg text-white text-break"
-                          [disabled]="!exp?.candidateInterviewFeedBackDTO?.length" (click)="feedbackView(exp)"
+                          [disabled]="!exp?.candidateInterviewFeedBackDTO?.length" (click)="feedbackView(
+                          exp,
+                          candidateData?.candidatePersonalInformationDetails?.firstName || 'NA',
+                          candidateData?.candidatePersonalInformationDetails?.email || 'NA')"
                           tabindex="-1">
                           View
                         </button>

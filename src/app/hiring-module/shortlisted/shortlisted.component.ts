@@ -51,7 +51,9 @@ export class ProfileListComponent implements OnInit {
   mTechFile: string | null = null;
   otherFile: string | null = null;
   ServiceLetterFile: string | null = null;
-  paySlipFile: string | null = null;
+  paySlipFileA: string | null = null;
+  paySlipFileB: string | null = null;
+  paySlipFileC: string | null = null;
 
   @ViewChild('aboutCandidateDialog', { static: true }) aboutCandidateDialog!: TemplateRef<any>;
   private dialogRef: any;
@@ -140,7 +142,9 @@ export class ProfileListComponent implements OnInit {
         this.mTechFile = res?.candidateDocumentDetails?.pgFile || null;
         this.otherFile = res?.candidateDocumentDetails?.otherFile || null;
         this.ServiceLetterFile = res?.candidateExperienceDetails?.candidateSalaryDetails?.serviceFile || null;
-        this.paySlipFile = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileA || null;
+        this.paySlipFileA = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileA || null;
+        this.paySlipFileB = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileB || null;
+        this.paySlipFileC = res?.candidateExperienceDetails?.candidateSalaryDetails?.paySlipFileC || null;
         this.candidateData.candidateEducationDetails = this.candidateData.candidateEducationDetails || [];
         console.log("Updated Education Details: ", this.candidateData?.candidateEducationDetails);
         this.openDialog();
