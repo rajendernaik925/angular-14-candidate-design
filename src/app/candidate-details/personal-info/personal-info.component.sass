@@ -1,7 +1,8 @@
 
 .scroll-container
   //max-height: calc(100vh - 245px)
-  max-height: calc(100vh - 200px)
+  max-height: calc(100vh - 175px)
+  min-height: calc(100vh - 175px)
   overflow-y: scroll // Keep scrolling functionality
   display: block
   max-width: 100%
@@ -30,7 +31,10 @@
 .rounded-4
   border-radius: 5px  
 .col-md-2
-  padding-right: 0  
+  padding-right: 0
+.col-md-10
+  padding-left: 0    
+  padding-right: 0
 .cursor-pointer
   cursor: pointer  
 .active
@@ -135,7 +139,7 @@ button
   opacity: 0.2
 
 .filled-bg
-  background-color: rgba(0, 123, 255, 0.1)
+  background-color: #F2F2F2
 
 
 
@@ -360,6 +364,31 @@ button.custom-disabled-btn:disabled
     transform: rotate(0deg)
   100%
     transform: rotate(360deg)
+
+.bg-file 
+  background-color: rgba(0, 82, 204, 0.163)
+  backdrop-filter: blur(6px)
+  -webkit-backdrop-filter: blur(6px)
+.text-decoration-underline
+  text-decoration: underline 
+
+.fst-italic
+  font-style: italic
+.fst-italic:hover
+  color: red
+.cursor-blocked
+  cursor: not-allowed
+
+input::placeholder, textarea::placeholder 
+  font-size: 0.775rem
+  color: #6c757d
+  opacity: 0.5
+
+
+
+
+
+
 
 
 

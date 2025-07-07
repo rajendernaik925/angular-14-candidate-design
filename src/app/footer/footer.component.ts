@@ -20,7 +20,7 @@ export class FooterComponent implements OnInit {
  
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
-      console.log('Current Hostname:', hostname);
+      // console.log('Current Hostname:', hostname);
       // Set the link based on the hostname
       if (hostname === 'azistaindustries.com' || hostname === 'www.sso.azistaindustries.com') {
         this.linkText = 'Azista Industries';
@@ -38,7 +38,7 @@ export class FooterComponent implements OnInit {
         this.linkHref = '#';
         //console.log(this.linkHref+""+this.linkText);
       }
-      console.log('Link Text:', this.linkText); // Verify the value is set correctly
+      // console.log('Link Text:', this.linkText); // Verify the value is set correctly
     }
    }
 }

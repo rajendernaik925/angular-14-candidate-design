@@ -61,7 +61,7 @@ export class InterviewScheduleComponent implements OnInit {
   ) {
     this.addNewRoundForm = this.fb.group({
       locationId: ['', Validators.required],
-      mode: ['1', Validators.required],
+      mode: ['', Validators.required],
       interviewDate: ['', Validators.required],
       interviewTime: ['', Validators.required],
       interviewBy: ['', [Validators.required]], // ✅ SYNC validator
@@ -139,16 +139,47 @@ export class InterviewScheduleComponent implements OnInit {
     this.authService.scheduleCandidates(pageNo, pageSize, searchQuery).subscribe({
       next: (res: any) => {
         this.isLoading = false;
-        this.rows = res.list?.map((item: any) => ({
-          job_code: item.jcReferanceId || '--',
-          email: item.email || '--',
-          firstname: item.name || '--',
-          // lastname: item.lastName || '--',
-          mobilenumber: item.mobileNumber || '--',
-          job_title: item.jobTitleName || '--',
-          employeeid: item.candidateId || '--',
-          status: item.status || '--',
-        })) || [];
+        // this.rows = res.list?.map((item: any) => ({
+        //   job_code: item.jcReferanceId || '--',
+        //   email: item.email || '--',
+        //   firstname: item.name || '--',
+        //   mobilenumber: item.mobileNumber || '--',
+        //   job_title: item.jobTitleName || '--',
+        //   employeeid: item.candidateId || '--',
+        //   status: item.status || '--',
+        // })) || [];
+
+        this.rows = res.list?.map((item: any) => {
+  let statusText = item.status || '--';
+
+  const round = item.interviewRoundInfo?.interviewRound;
+
+  if (round !== undefined && round !== null) {
+    let roundText = '';
+    if (round === 0 || round === 1) {
+      roundText = 'interviewer';
+    } else if (round === 2) {
+      roundText = 'manager';
+    } else if (round === 3) {
+      roundText = 'HR';
+    }
+
+    if (roundText) {
+      statusText += ` (${roundText})`;
+    }
+  }
+
+  return {
+    job_code: item.jcReferanceId || '--',
+    email: item.email || '--',
+    firstname: item.name || '--',
+    mobilenumber: item.mobileNumber || '--',
+    job_title: item.jobTitleName || '--',
+    employeeid: item.candidateId || '--',
+    status: statusText,
+  };
+}) || [];
+
         this.totalRecords = Number(res.totalCount) || 0;
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize) || 1;
         if (this.currentPage > this.totalPages) {
@@ -164,7 +195,6 @@ export class InterviewScheduleComponent implements OnInit {
       { key: 'job_code', label: 'Job Code', uppercase: true },
       { key: 'email', label: 'Mail Id', uppercase: true },
       { key: 'firstname', label: 'Full Name', uppercase: true },
-      // { key: 'lastname', label: 'Last Name', uppercase: true },
       { key: 'mobilenumber', label: 'Mobile Number', uppercase: true },
       { key: 'job_title', label: 'Designation', uppercase: true },
       { key: 'status', label: 'Status', uppercase: true },
@@ -203,18 +233,13 @@ export class InterviewScheduleComponent implements OnInit {
   onModeChange(event: Event): void {
     const selectedValue = (event.target as HTMLSelectElement).value;
 
-    // First, update 'mode' form control manually with selected id
     if (!this.addNewRoundForm.contains('mode')) {
       this.addNewRoundForm.addControl('mode', new FormControl(selectedValue, Validators.required));
     } else {
       this.addNewRoundForm.get('mode')?.setValue(selectedValue);
     }
-
-    // Based on ID, modify other controls
     if (selectedValue === '1') {
       this.isMeetingLinkDisabled = true;
-
-      // Remove 'link' if exists
       if (this.addNewRoundForm.contains('link')) {
         this.addNewRoundForm.removeControl('link');
       }
@@ -269,7 +294,7 @@ export class InterviewScheduleComponent implements OnInit {
     this.addNewRoundForm.reset();
 
     this.dialogRef = this.dialog.open(this.interviewDialog, {
-      width: '400px',
+      width: '500px',
       height: 'auto',
       hasBackdrop: true,
     });
@@ -586,7 +611,7 @@ export class InterviewScheduleComponent implements OnInit {
           }
 
           this.dialogRef = this.dialog.open(this.interviewDialog, {
-            width: '400px',
+            width: '500px',
             height: 'auto',
             hasBackdrop: true,
           });

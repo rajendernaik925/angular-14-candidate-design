@@ -184,15 +184,15 @@
             class="border-none custom-bg text-white custom-action-btn px-2 py-1 mr-2" (click)="viewFeedbackForm()">
             Feedback Form
           </button>
-          <span class="cursor-pointer text-danger Hover" (click)="close()">
-            <i class="bi bi-x-circle"></i>
-          </span>
+          <button type="button" class="btn btn-sm shadow-none " (click)="close()">
+            <i class="bi bi-x-circle fs-5 text-danger" (click)="close()"></i>
+          </button>
         </div>
       </div>
       <hr class="m-0 p-0 text-dark border mb-2">
 
       <div *ngIf="candidateData?.candidatePersonalInformationDetails?.firstName; else noCandidateData"
-        class="scroll-container">
+        class="scroll-container container">
         <div class="card p-2 mb-3">
           <span class="custom-text text-decoration-underline"><strong>Basic Details</strong></span>
           <div class="row">
@@ -361,8 +361,7 @@
         <div class="card p-3 mb-3">
           <div class="row mb-2">
             <div class="col">
-              <h6 class="text-decoration-underline fw-bold mb-0 custom-text">Files <i
-                  class="bi bi-file-earmark-arrow-down-fill"></i></h6>
+              <h6 class="text-decoration-underline fw-bold mb-0 custom-text">Files </h6>
             </div>
           </div>
 
@@ -552,7 +551,7 @@
 
   <div class="scroll-container-with-scroll-bar">
     <form [formGroup]="feedbackForm" (ngSubmit)="feedbackSubmit()">
-      <table class="table table-bordered mb-0">
+      <!-- <table class="table table-bordered mb-0">
         <thead class="text-center">
           <tr class="small-header text-white">
             <th class="p-0 text-center small" style="padding: 2px; font-size: 12px;">S.No</th>
@@ -581,7 +580,31 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+      <div class="table-responsive">
+        <table class="table table-bordered text-center table-sm">
+          <thead class="table-primary">
+            <tr>
+              <th style="font-size: 12px;">S.No</th>
+              <th style="font-size: 12px;">Factors</th>
+              <th style="font-size: 12px;">Excellent</th>
+              <th style="font-size: 12px;">Good</th>
+              <th style="font-size: 12px;">Average</th>
+              <th style="font-size: 12px;">Below Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let factor of feedbackFactorsData; let i = index" [formGroup]="feedbackArray.controls[i]">
+              <td>{{ i + 1 }}</td>
+              <td>{{ factor.name }}</td>
+              <td><input type="radio" formControlName="feedbackId" value="1" /></td>
+              <td><input type="radio" formControlName="feedbackId" value="2" /></td>
+              <td><input type="radio" formControlName="feedbackId" value="3" /></td>
+              <td><input type="radio" formControlName="feedbackId" value="4" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div *ngIf="!feedbackForm.valid && feedbackForm.touched && areRadioFieldsInvalid()" class="text-danger fs-custom">
         Please select an option for all factors
@@ -600,20 +623,23 @@
       </div>
 
       <div class="row g-3 align-items-center mt-1">
-        <div [ngClass]="(selectedHrStatus === 1005 || selectedHrStatus === 1006) ? 'col-md-6' : 'col-md-4'">
+        <div class="col-md-4">
           <label for="statusSelect" class="form-label">Status <span class="text-danger">*</span></label>
-          <select id="statusSelect" class="form-select form-control form-control-sm" formControlName="status"
-            (change)="onHrStatusChange($event.target.value)">
+
+          <select id="statusSelect" class="form-select form-control form-control-sm"
+            [value]="feedbackForm.get('status')?.value" (change)="onHrStatusChange($event.target.value)">
             <option value="">Select</option>
             <option *ngFor="let item of interviewStatus" [value]="item?.id">{{ item?.name }}</option>
           </select>
-          <div *ngIf="feedbackForm.controls['status'].invalid && feedbackForm.controls['status'].touched"
+
+          <div *ngIf="feedbackForm.get('status')?.invalid && feedbackForm.get('status')?.touched"
             class="text-danger fs-custom">
             Status is required.
           </div>
         </div>
 
-        <div class="col-md-6 mt-4" *ngIf="selectedHrStatus === 1005 || selectedHrStatus === 1006">
+
+        <div class="col-md-2 mt-4" *ngIf="selectedHrStatus === 1005 || selectedHrStatus === 1006 && !finalHrRound">
           <span class="fw-bold custom-text"></span>
           <div class="flex-grow-1 d-flex justify-content-center"></div>
           <span class="cursor-pointer Hover">
@@ -621,18 +647,31 @@
           </span>
         </div>
 
+        <div class="col-md-2 mt-4"
+          *ngIf="selectedHrStatus != 1005 && selectedHrStatus != 1006 && selectedHrStatus != 1004 && finalHrRound">
+          <span class="fw-bold custom-text"></span>
+          <div class="flex-grow-1 d-flex justify-content-center"></div>
+          <span class="cursor-pointer Hover">
+            <button type="submit" class="btn btn-sm custom-bg text-light mt-2 w-100">Submit</button>
+          </span>
+        </div>
+
+
         <div class="col-md-4" *ngIf="selectedHrStatus !== 1005 && selectedHrStatus !== 1006 && !finalHrRound">
           <label for="optionSelect" class="form-label">Assign next round <span class="text-danger">*</span></label>
-          <select id="optionSelect" class="form-select form-control form-control-sm" formControlName="interviewRound">
+
+          <select id="optionSelect" class="form-select form-control form-control-sm"
+            [value]="feedbackForm.get('interviewRound')?.value" (change)="onInterviewRoundChange($event.target.value)">
             <option value="">Select</option>
             <option *ngFor="let item of interviewRounds" [value]="item?.id">{{ item?.name }}</option>
           </select>
-          <div
-            *ngIf="feedbackForm.controls['interviewRound'].invalid && feedbackForm.controls['interviewRound'].touched"
+
+          <div *ngIf="feedbackForm.get('interviewRound')?.invalid && feedbackForm.get('interviewRound')?.touched"
             class="text-danger fs-custom">
             Next round option is required.
           </div>
         </div>
+
 
         <div class="col-md-4 position-relative"
           *ngIf="selectedHrStatus !== 1005 && selectedHrStatus !== 1006 && !finalHrRound">
@@ -663,18 +702,28 @@
 
       </div>
 
-      <div *ngIf="finalHrRound && selectedHrStatus === 1004" class="row g-3 align-items-center mt-1">
+      <div *ngIf="finalHrRound && (selectedHrStatus === 1004 || selectedHrStatus === 1006)"
+        class="row g-3 align-items-center mt-1">
         <div class="col-md-3">
-          <label>Join Date:</label>
-          <input type="text" id="interviewDate" class="form-control form-control-sm" placeholder="yyyy-mm-dd"
-            formControlName="joiningDate" autocomplete="off" [bsConfig]="{
+          <label>Joining Date:</label>
+          <input type="text" id="interviewDate" class="form-control form-control-sm"
+            placeholder="DD-MM-YYYY"
+            formControlName="joiningDate"
+            autocomplete="off"
+            [bsConfig]="{
                 adaptivePosition: true,
                 showWeekNumbers: false,
                 isAnimated: true,
                 containerClass: colorTheme,
                 customTodayClass: 'custom-today-class',
-                dateInputFormat: 'YYYY-MM-DD'
-              }" [minDate]="minDate" bsDatepicker required readonly />
+                dateInputFormat: 'DD-MM-YYYY'
+              }"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            bsDatepicker
+            required
+            readonly />
+
           <div *ngIf="feedbackForm.controls['joiningDate'].invalid && feedbackForm.controls['joiningDate'].touched"
             class="text-danger fs-custom">
             Join Date is required.
@@ -695,18 +744,20 @@
 
         <div class="col-md-3">
           <label>Division:</label>
-          <select formControlName="division" class="form-control form-control-sm">
+          <select class="form-control form-control-sm" [value]="feedbackForm.get('division')?.value"
+            (change)="onDivisionChange($event.target.value)">
             <option value="">Select</option>
             <option *ngFor="let state of totalDivisionsList" [value]="state.id">
               {{ state.name }}
             </option>
           </select>
-          <div *ngIf="feedbackForm.controls['division'].invalid && feedbackForm.controls['division'].touched"
+
+          <div *ngIf="feedbackForm.get('division')?.invalid && feedbackForm.get('division')?.touched"
             class="text-danger fs-custom">
             Division is required.
           </div>
-
         </div>
+
 
         <div class="col-md-3">
           <label>Designation:</label>
@@ -720,8 +771,8 @@
             class="text-danger fs-custom">
             Designation is required.
           </div>
-
         </div>
+
 
         <div class="col-md-3">
           <label>Department:</label>
@@ -735,53 +786,55 @@
             class="text-danger fs-custom">
             Department is required.
           </div>
-
         </div>
 
         <div class="col-md-3">
           <label>State:</label>
-          <select formControlName="state" class="form-control form-control-sm" (change)="onStateChange($event)">
+          <select class="form-control form-control-sm" [value]="feedbackForm.get('state')?.value"
+            (change)="onStateChange($event)">
             <option value="">Select</option>
             <option *ngFor="let state of totalStatesList" [value]="state.id">
               {{ state.name }}
             </option>
           </select>
-          <div *ngIf="feedbackForm.controls['state'].invalid && feedbackForm.controls['state'].touched"
+
+          <div *ngIf="feedbackForm.get('state')?.invalid && feedbackForm.get('state')?.touched"
             class="text-danger fs-custom">
             State is required.
           </div>
-
         </div>
+
 
         <div class="col-md-3">
           <label>HQ:</label>
-          <select formControlName="hq" class="form-control form-control-sm">
+          <select class="form-control form-control-sm" (change)="onHqChange($event)">
             <option value="">Select</option>
             <option *ngFor="let state of totalCitiesList" [value]="state.id">
               {{ state.name }}
             </option>
           </select>
-          <div *ngIf="feedbackForm.controls['hq'].invalid && feedbackForm.controls['hq'].touched"
-            class="text-danger fs-custom">
+          <div *ngIf="feedbackForm.get('hq')?.invalid && feedbackForm.get('hq')?.touched" class="text-danger fs-custom">
             HQ is required.
           </div>
-
         </div>
+
 
         <div class="col-md-3">
           <label>Region:</label>
-          <select formControlName="region" class="form-control form-control-sm">
+          <select class="form-control form-control-sm" [value]="feedbackForm.get('region')?.value"
+            (change)="onRegionChange($event)">
             <option value="">Select</option>
             <option *ngFor="let state of totalRegionsList" [value]="state.id">
               {{ state.name }}
             </option>
           </select>
-          <div *ngIf="feedbackForm.controls['region'].invalid && feedbackForm.controls['region'].touched"
+
+          <div *ngIf="feedbackForm.get('region')?.invalid && feedbackForm.get('region')?.touched"
             class="text-danger fs-custom">
             Region is required.
           </div>
-
         </div>
+
 
         <div class="col-md-3 mt-4">
           <span class="cursor-pointer Hover">

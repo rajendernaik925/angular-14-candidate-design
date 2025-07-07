@@ -368,7 +368,7 @@
       </ng-template>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 
 
 
@@ -379,7 +379,7 @@
     <div class="bounce2"></div>
     <div class="bounce3"></div>
   </div>
-</div> -->
+</div> 
 
 
 <div class="row">
@@ -388,26 +388,14 @@
   </div>
   <div class="col-md-10">
     <div class="container-fluid py-4 card ">
-      <h5 class="mb-4 fw-boldd mt-5">Personal Info</h5>
+      <h5 class="mb-4 fw-boldd mt-5">Working Experience</h5>
 
       <div class="container scroll-container">
         <!-- Job Code & Email -->
-        <div class="row mb-4">
-          <div class="col-md-3 fw-bold">Job Code and Email Address</div>
-          <div class="col-md-9 row g-3">
-            <div class="col-md-4">
-              <label class="form-label form-label-small ">Jobcode Id</label>
-              <input type="text" class="form-control" value="JC104202506" readonly />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label form-label-small ">Email Address</label>
-              <input type="email" class="form-control" value="example@email.com" readonly />
-            </div>
-          </div>
-        </div>
+
 
         <!-- Personal Details -->
-        <div class="row mb-4">
+        <div class="row mb-4 mt-5">
           <div class="col-md-3 fw-bold">Personal Details</div>
           <div class="col-md-9 row g-3">
             <div class="col-md-4">
@@ -423,13 +411,45 @@
             </div>
 
 
+            <!-- <div class="col-md-4">
+              <label>Payslips <span class="text-danger">*</span></label>
+              <input type="file" accept=".pdf" class="form-control form-control-sm" multiple
+                (change)="onFileChange($event)" />
+
+              <div *ngIf="selectedPayslipFiles.length > 0" class="mt-2">
+                <small *ngFor="let file of selectedPayslipFiles" class="me-2 text-muted">
+                  {{ file.name }}
+                </small>
+              </div>
+
+
+              <div *ngIf="payslipError" class="text-danger small mt-1">
+                {{ payslipError }}
+              </div>
+            </div> -->
+
             <div class="col-md-4">
-              <label class="form-label form-label-small">First Name</label>
-              <input type="text" class="form-control" placeholder="Enter First Name" />
+              <label>Payslips <span class="text-danger">*</span></label>
+              <input type="file" accept=".pdf" class="form-control form-control-sm" (change)="onFileChange($event)"
+                multiple />
+
+              <div *ngIf="selectedPayslipFiles.length > 0" class="mt-2">
+                <small class="text-muted">Selected: {{ selectedPayslipFiles.length }} file{{ selectedPayslipFiles.length
+                  > 1 ? 's' : '' }}</small>
+                <br />
+                <small *ngFor="let file of selectedPayslipFiles" class="me-2 text-muted">
+                  {{ file.name }}
+                </small>
+              </div>
+
+              <div *ngIf="payslipError" class="text-danger small mt-1">
+                {{ payslipError }}
+              </div>
             </div>
+
+
             <div class="col-md-4">
-              <label class="form-label form-label-small">Middle Name</label>
-              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+              <button class="btn btn-sm custom-bg text-white mt-4" (click)="submit()">Submit</button>
             </div>
             <div class="col-md-4">
               <label class="form-label form-label-small">Last Name</label>
@@ -700,23 +720,242 @@
               <label class="form-label form-label-small">Is considered</label>
               <input type="text" class="form-control" placeholder="Enter First Name" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 d-block">
               <label class="form-label form-label-small">For Wage Review</label>
               <input type="text" class="form-control" placeholder="Enter First Name" />
             </div>
             <div class="col-md-4">
               <button class="mt-4 btn btn-sm custom-bg text-white">Save and add</button>
-
             </div>
+
             <div class="col-md-4">
-              <button class="mt-4 btn btn-sm btn-outline-danger d-flex align-items-center shadow-none">
+              <!-- <button class="mt-4 btn btn-sm btn-outline-danger d-flex align-items-center shadow-none">
                 Remove <i class="bi bi-x ml-2"></i>
-              </button>
+              </button> -->
 
             </div>
           </div>
         </div>
 
+        <div class="row mb-1">
+          <div class="col-md-3 fw-bold">Working Experience details</div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label form-label-small">Are you Fresher or Experienced?</label>
+                <select class="form-select w-100">
+                  <option>Fresher</option>
+                  <option>Experienced</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label class="form-label form-label-small">Tentative Joining Date</label>
+                <select class="form-select w-100">
+                  <option>Mr.</option>
+                  <option>Ms.</option>
+                  <option>Mrs.</option>
+                  <option>Dr.</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-2 d-flex align-items-center justify-content-center mt-1">
+              <button class="btn custom-bg text-white btn-sm">Add & Save</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <hr class="mt-0 pt-0">
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-3"></div>
+          <div class="col-md-9 row g-3">
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Current Salary</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Expected Salary</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Job Responsibilities</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Payslip
+            <p class="mb-1 text-muted">Upload your last 3 months' payslips (max 2MB each).</p>
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3">
+              <label class="form-label text-muted small">payslip 1</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-2 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload payslip</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+
+
+            </div>
+
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3">
+              <label class="form-label text-muted small">payslip 2</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-2 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload payslip</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+
+
+            </div>
+
+          </div>
+          <div class="col-md-3">
+            <div class="mb-3">
+              <label class="form-label text-muted small">payslip 3</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-2 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload payslip</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Service Letter (Optional)
+            <p class="mb-1 text-muted">Upload only PDF files. File size must be 5MB or less.</p>
+          </div>
+          <div class="col-md-9">
+            <div class="mb-3">
+              <label class="form-label text-muted small">Service Letter</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-2 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload service letter</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Add Your Work History
+            <p class="mb-1 text-muted">Past working Company Details are mondatory.</p>
+          </div>
+          <div class="col-md-9 row g-3">
+
+
+            <div class="col-md-4 mb-3">
+              <label class="form-label form-label-small">Education level</label>
+              <input type="text" class="form-control" placeholder="Enter First Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Qualification</label>
+              <input type="text" class="form-control" placeholder="Enter Middle Name" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label form-label-small">Branch</label>
+              <input type="text" class="form-control" placeholder="Enter Last Name" />
+            </div>
+            <div class="col-md-4">
+              <button class="mt-4 btn btn-sm custom-bg text-white">Save and add</button>
+            </div>
+
+            <div class="col-md-4">
+              <!-- <button class="mt-4 btn btn-sm btn-outline-danger d-flex align-items-center shadow-none">
+                Remove <i class="bi bi-x ml-2"></i>
+              </button> -->
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- file folder -->
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Aadhaar card
+            <p class="mb-1 text-muted">Upload only PDF files. File size must be 5MB or less.</p>
+          </div>
+          <div class="col-md-9">
+            <div class="mb-3">
+              <label class="form-label text-muted small">Aadhaar</label>
+
+              <!-- File Upload Button -->
+              <label for="resumeUpload"
+                class="d-block border rounded text-center p-1 bg-file border-primary text-primary"
+                style="cursor: pointer;">
+                <i class="bi bi-file-earmark-arrow-up fs-3 d-block mb-2"></i>
+                <span>Upload aadhaar</span>
+              </label>
+
+              <!-- Hidden File Input -->
+              <input type="file" id="resumeUpload" class="d-none" accept=".pdf" />
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-3 fw-bold">Aadhaar card
+            <p class="mb-1 text-muted">Upload only PDF files. File size must be 5MB or less.</p>
+          </div>
+          <div class="col-md-9 row d-flex align-items-center">
+            <div class="col-md-12 align-items-center">
+              <span class="custom-text text-decoration-underline cursor-pointer mr-1">aadhaar.pdf</span>
+              <span class="p-0 m-0 text-danger cursor-pointer mr-2"><i class="bi bi-trash3-fill"></i></span>
+              <span class="p-0 m-0 text-info cursor-pointer" (click)="fileEdit()"><i
+                  class="bi bi-pencil-square"></i></span>
+              <!-- <button class="btn btn-sm bg-danger text-white mr-2">Delete</button>
+              <button class="btn btn-sm custom-bg text-white ">Update</button> -->
+            </div>
+            <div class="col-md-3">
+
+            </div>
+
+          </div>
+        </div>
 
 
       </div>
@@ -726,7 +965,8 @@
       <div class="container">
         <div class="d-flex justify-content-end">
           <button class="btn btn-sm bg-danger text-white shadow-none mr-2" (click)="showError()">Error</button>
-          <button class="btn btn-sm custom-bg text-white shadow-none" (click)="save()">Save and Next</button>
+          <button class="btn btn-sm custom-bg text-white shadow-none mr-2" (click)="save()">Save and Next</button>
+          <button class="btn btn-sm bg-danger text-white shadow-none" (click)="logout()">Log out </button>
         </div>
       </div>
 
@@ -770,4 +1010,8 @@
   <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
     <span aria-hidden="true">&times;</span>
   </button>
+</div>
+<div class="d-flex justify-content-between m-5">
+  <div>John Doe</div>
+  <a href="#" class="btn btn-danger btn-sm">Logout</a>
 </div>

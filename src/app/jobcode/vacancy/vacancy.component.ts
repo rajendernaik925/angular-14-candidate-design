@@ -50,7 +50,7 @@ export class VacancyComponent implements OnInit {
       fullName: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-Z\s]+$/)]],
       mobileNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       emailAddress: ['', [Validators.required, Validators.email]],
-      workExperience: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      workExperience: ['', [Validators.required]],
       jobCodeId: ['', Validators.required],
       resume: [{ value: null, disabled: false }],
     });
