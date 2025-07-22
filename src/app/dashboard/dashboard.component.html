@@ -36,11 +36,7 @@
       </owl-carousel>  -->
 
   <owl-carousel [options]="mySlideOptions" [carouselClasses]="['owl-theme']">
-    <div
-      class="item"
-      [style.background]="line.color"
-      *ngFor="let line of mySlideLines; let i = index"
-    >
+    <div class="item" [style.background]="line.color" *ngFor="let line of mySlideLines; let i = index">
       <h4>{{ line.title }}</h4>
     </div>
   </owl-carousel>
@@ -56,23 +52,13 @@
       <div class="myProfile">
         <!-- profile card  -->
         <div class="card" style="width: 19rem" *ngIf="empData">
-          <img
-            class="card-img-top"
-            src="././assets/img/dashboard/user-bg-image.png"
-            alt="Card image cap"
-          />
+          <img class="card-img-top" src="././assets/img/dashboard/user-bg-image.png" alt="Card image cap" />
           <div *ngIf="profilepic === '0'">
             <div class="profile-pic" *ngIf="isMale">
-              <img
-                src="././assets/img/dashboard/user-male.svg"
-                alt="profile-pic"
-              />
+              <img src="././assets/img/dashboard/user-male.svg" alt="profile-pic" />
             </div>
             <div class="profile-pic" *ngIf="isFemale">
-              <img
-                src="././assets/img/dashboard/user-female.svg"
-                alt="profile-pic"
-              />
+              <img src="././assets/img/dashboard/user-female.svg" alt="profile-pic" />
             </div>
           </div>
           <div class="profile-pic" *ngIf="profilepic !== '0'">
@@ -92,48 +78,31 @@
               <small>{{ empData.department }}</small>
             </p>
             <p>
-              <small
-                >Joined On&nbsp;
+              <small>Joined On&nbsp;
                 <b>{{ empData.doj }}</b>
                 <!-- <b>{{ empData.doj | date: "dd MMM yyyy" }}</b> -->
               </small>
             </p>
             <p>
-              <small
-                ><b>{{ empData.division }}</b></small
-              >
+              <small><b>{{ empData.division }}</b></small>
             </p>
             <br />
-            <a class="btn brfView" [routerLink]="['/profilePage']"
-              >View Profile</a
-            >
+            <a class="btn brfView" [routerLink]="['/profilePage']">View Profile</a>
             &nbsp;&nbsp;
-            <a
-              *ngIf="isJD == 'TRUE'"
-              class="btn brfView"
-              (click)="showjd_Modal()"
-              >View JD</a
-            >
+            <a *ngIf="isJD == 'TRUE'" class="btn brfView" (click)="showjd_Modal()">View JD</a>
           </div>
         </div>
         <!--End profile card  -->
 
         <!-- In & Out card   -->
-        <div
-          class="card inOutCard"
-          style="width: 19rem"
-          *ngIf="dayType != 'WFH' && inToday"
-        >
+        <div class="card inOutCard" style="width: 19rem" *ngIf="dayType != 'WFH' && inToday">
           <div class="flx_inline">
             <h5>Today's IN &amp; OUT</h5>
           </div>
           <h6>
-            <b>{{ TodaynetHours | slice : 0 : 5 }}</b
-            >&nbsp;
-            <small
-              >In {{ inToday | slice : 0 : 5 }} to
-              {{ OutToday | slice : 0 : 5 }} Out</small
-            >
+            <b>{{ TodaynetHours | slice : 0 : 5 }}</b>&nbsp;
+            <small>In {{ inToday | slice : 0 : 5 }} to
+              {{ OutToday | slice : 0 : 5 }} Out</small>
             <ng-container *ngIf="inToday != '00:00:00'">
               <!-- <small *ngIf="inToday == OutToday">In {{inToday | slice:0:5}} to 
               <label *ngIf="inToday >= '09:00:00'; else actualOutTime">{{tentatvOutTime | slice:0:5}}</label> 
@@ -147,29 +116,18 @@
                         [progress]=" TodaynetHours | slice:1:2"
                         [total]="9">
               </app-progress-bar>     -->
-            <app-in-out-time-bar
-              [progress]="TodaynetHours | slice : 1 : 2"
-              [total]="9"
-            >
+            <app-in-out-time-bar [progress]="TodaynetHours | slice : 1 : 2" [total]="9">
             </app-in-out-time-bar>
           </ng-container>
         </div>
-        <div
-          class="card inOutCard _wfh"
-          style="width: 19rem"
-          *ngIf="dayType == 'WFH'"
-        >
+        <div class="card inOutCard _wfh" style="width: 19rem" *ngIf="dayType == 'WFH'">
           <div class="flx_inline">
-            <h5>Today's In &amp; Out</h5> 
+            <h5>Today's In &amp; Out</h5>
           </div>
           <h6>
-            <b>{{ TodaynetHours | slice : 0 : 5 }}</b
-            >&nbsp; <span>Work from Home </span>
+            <b>{{ TodaynetHours | slice : 0 : 5 }}</b>&nbsp; <span>Work from Home </span>
           </h6>
-          <app-in-out-time-bar
-            [progress]="TodaynetHours | slice : 1 : 2"
-            [total]="9"
-          >
+          <app-in-out-time-bar [progress]="TodaynetHours | slice : 1 : 2" [total]="9">
           </app-in-out-time-bar>
         </div>
 
@@ -182,24 +140,15 @@
           <div class="crdsGrid">
             <!-- <div class="theCard" data-toggle="modal" data-target="#leavePolicyModal" (click)="showleavePolicyModal()"> -->
             <div class="theCard" [routerLink]="['/HR-Policies']">
-              <img
-                src="././assets/img/dashboard/leave-policy-icon.svg"
-                alt="leave-policy-icon"
-              />
+              <img src="././assets/img/dashboard/leave-policy-icon.svg" alt="leave-policy-icon" />
               <a>HR Policies</a>
             </div>
             <div class="theCard" [routerLink]="['/deptInfo']">
-              <img
-                src="././assets/img/dashboard/department-info-icon.svg"
-                alt="department-info-icon"
-              />
+              <img src="././assets/img/dashboard/department-info-icon.svg" alt="department-info-icon" />
               <a>Department Information</a>
             </div>
             <div class="theCard" (click)="aboutOrgnztn()">
-              <img
-                src="././assets/img/dashboard/about-our-organization.svg"
-                alt="about-our-organization"
-              />
+              <img src="././assets/img/dashboard/about-our-organization.svg" alt="about-our-organization" />
               <a>About Our Organization</a>
             </div>
 
@@ -217,13 +166,8 @@
             <div class="crdHdr">
               <div class="flx_inline">
                 <h4>Upcoming Holidays</h4>
-                <a
-                  data-toggle="modal"
-                  data-target="#holidays_Modal"
-                  (click)="showmyModal()"
-                  class="viewBtn"
-                  >View All</a
-                >
+                <a data-toggle="modal" data-target="#holidays_Modal" (click)="showmyModal()" class="viewBtn">View
+                  All</a>
               </div>
             </div>
             <div class="crdBdy table_contnr">
@@ -231,11 +175,9 @@
                 <tbody>
                   <ng-container *ngIf="holidayList">
                     <tr *ngFor="let item of holidayList">
-                      <ng-container
-                        *ngIf="
+                      <ng-container *ngIf="
                           latest_dateFormtd < (item.date | date : 'yyyy-MM-dd')
-                        "
-                      >
+                        ">
                         <td>{{ item.dayname }}</td>
                         <td>{{ item.date | date : "MMMM d, EEEE" }}</td>
                       </ng-container>
@@ -263,25 +205,14 @@
           <h5>Utilities</h5>
           <div class="crdsGrid">
             <ng-container *ngFor="let x of Ryts">
-              <div
-                class="theCard"
-                [routerLink]="['/ctcInfo']"
-                *ngIf="x.CTC_VIEW == 'true'"
-              >
+              <div class="theCard" [routerLink]="['/ctcInfo']" *ngIf="x.CTC_VIEW == 'true'">
                 <img src="././assets/img/icons/ctc.svg" alt="ctc" />
                 <a>CTC Details</a>
               </div>
             </ng-container>
 
-            <div
-              class="theCard"
-              (click)="apprisal_Nav()"
-              *ngIf="isAppraisal == '1'"
-            >
-              <img
-                src="././assets/img/dashboard/request-hr-latters-icon.svg"
-                alt="tds-declaration-icon"
-              />
+            <div class="theCard" (click)="apprisal_Nav()" *ngIf="isAppraisal == '1'">
+              <img src="././assets/img/dashboard/request-hr-latters-icon.svg" alt="tds-declaration-icon" />
               <a>Performance Appraisal</a>
             </div>
 
@@ -295,7 +226,18 @@
               <a>Id Card</a>
             </div>
 
-            
+            <!-- <div class="theCard  new_relative" [routerLink]="['/fuel']">
+              <img src="https://cdn-icons-png.flaticon.com/512/7720/7720738.png" alt="vaccine" />
+              <a>Fuel & Driver Expenses</a>
+            </div> -->
+
+            <div class="theCard new_label" [routerLink]="['/fuel']">
+              <div class="new_pdf">New</div>
+              <img src="https://cdn-icons-png.flaticon.com/512/7720/7720738.png" alt="fuel-icon" />
+              <a>Fuel & Driver Expenses</a>
+            </div>
+
+
             <div class="theCard" [routerLink]="['/jobcode']">
               <img src="../../assets/img/job-code/icons8-job-offer-64.png" alt="vaccine" />
               <a>Job Code</a>
@@ -313,7 +255,7 @@
               <!-- <a>Field Workforce</a> -->
               <a>Organogram</a>
             </div>
-            
+
             <!-- <div class="theCard" [routerLink]="['/registration']">
               <img src="https://cdn-icons-png.flaticon.com/512/8920/8920535.png" alt="vaccine" />
               <a>fieldwork Candidate</a>
@@ -323,26 +265,26 @@
               <a>Inducation (fieldwork)</a>
             </div> -->
 
-            <div class="theCard" [routerLink]="['/AssetAllocationRequest']"  *ngIf="ASSETALLOCATION">
+            <div class="theCard" [routerLink]="['/AssetAllocationRequest']" *ngIf="ASSETALLOCATION">
               <img src="././assets/img/Asset Allocation.svg" alt="family-details-icon" />
               <a>Asset Allocation Request</a>
             </div>
 
-            <div class="theCard" [routerLink]="['/AssetITAdmin']"  *ngIf="ASSETITADMIN">
+            <div class="theCard" [routerLink]="['/AssetITAdmin']" *ngIf="ASSETITADMIN">
               <img src="././assets/img/AssetITAdmin.svg" alt="family-details-icon" />
               <a>AssetITAdmin</a>
             </div>
 
-             <!-- <div class="theCard" [routerLink]="['/worksheet']"  *ngIf="worksheetview">
+            <!-- <div class="theCard" [routerLink]="['/worksheet']"  *ngIf="worksheetview">
               <img src="./assets/img/worksheet.png" alt="family-details-icon" />
               <a>WorkSheet</a>
             </div>  -->
-            
-            <div class="theCard" [routerLink]="['/worksheet']"  *ngIf="worksheet== 'TRUE'">
+
+            <div class="theCard" [routerLink]="['/worksheet']" *ngIf="worksheet== 'TRUE'">
               <img src="./assets/img/worksheet.png" alt="family-details-icon" />
               <a>WorkSheet</a>
-            </div> 
-           
+            </div>
+
             <!-- <div class="thworkeCard" [routerLink]="['/worksheet']">
               <img src="./assets/img/id-card.png" alt="family-details-icon" />
               <a>WorkSheet</a>
@@ -356,7 +298,7 @@
               <img src="././assets/img/dashboard/promotionimage.png" alt="promotion-icon" />
               <a>Promotion letter</a>
             </div> -->
-            
+
             <div class="theCard" [routerLink]="['/familydetails']">
               <img src="././assets/img/family.png" alt="family-details-icon" />
               <a>Family Details</a>
@@ -366,15 +308,8 @@
     <a >TDS Declaration</a>
   </div> -->
             <ng-container *ngFor="let x of Ryts">
-              <div
-                class="theCard px-0"
-                (click)="payadjustments()"
-                *ngIf="x.Payadjustments == 'true'"
-              >
-                <img
-                  src="././assets/img/dashboard/payadjustments.svg"
-                  alt="hr-management-system-icon"
-                />
+              <div class="theCard px-0" (click)="payadjustments()" *ngIf="x.Payadjustments == 'true'">
+                <img src="././assets/img/dashboard/payadjustments.svg" alt="hr-management-system-icon" />
                 <a>Payadjustments</a>
               </div>
             </ng-container>
@@ -391,69 +326,36 @@
         <div class="circle">
             <img src="././assets/img/icons/tds.png" alt="tds" />
         </div> -->
-                <img
-                  src="././assets/img/dashboard/payadjustments.svg"
-                  alt="hr-management-system-icon"
-                />
+                <img src="././assets/img/dashboard/payadjustments.svg" alt="hr-management-system-icon" />
 
                 <p>Payadjustments</p>
               </a>
             </div>
 
-            <div
-              class="theCard"
-              [routerLink]="['/mastercreation']"
-              *ngIf="masterview"
-            >
-              <img
-                src="././assets/img/dashboard/mastercreation.jpg"
-                alt="hr-management-system-icon"
-              />
+            <div class="theCard" [routerLink]="['/mastercreation']" *ngIf="masterview">
+              <img src="././assets/img/dashboard/mastercreation.jpg" alt="hr-management-system-icon" />
               <a>Master Creation</a>
             </div>
- 
-            <div
-              class="theCard"
-              [routerLink]="['/LeaveQuota']"
-              *ngIf="LeaveQuota"
-            >
-              <img
-                src="././assets/img/dashboard/leave.png"
-                alt="leavesquota-details-icon"
-              />
+
+            <div class="theCard" [routerLink]="['/LeaveQuota']" *ngIf="LeaveQuota">
+              <img src="././assets/img/dashboard/leave.png" alt="leavesquota-details-icon" />
               <a>LeaveQuota</a>
             </div>
 
             <div class="theCard" [routerLink]="['/hrms']" *ngIf="isHR">
-              <img
-                src="././assets/img/dashboard/hr-management-system-icon.svg"
-                alt="hr-management-system-icon"
-              />
+              <img src="././assets/img/dashboard/hr-management-system-icon.svg" alt="hr-management-system-icon" />
               <a>HR Actions</a>
             </div>
             <!-- <ng-container  *ngFor="let x of Ryts"> -->
-            <div
-              class="theCard new_relative"
-              [routerLink]="['/employeeletter']"
-              *ngIf="AppointmentVIEW == 'TRUE' || Incrementview == 'TRUE'"
-            >
+            <div class="theCard new_relative" [routerLink]="['/employeeletter']"
+              *ngIf="AppointmentVIEW == 'TRUE' || Incrementview == 'TRUE'">
               <div class="new_pdf">New</div>
-              <img
-                src="././assets/img/dashboard/letter.svg"
-                alt="hr-management-system-icon"
-              />
+              <img src="././assets/img/dashboard/letter.svg" alt="hr-management-system-icon" />
               <a>Letters</a>
             </div>
             <!-- </ng-container> -->
-            <div
-              class="theCard"
-              *ngIf="IsManager == 'Y'"
-              [routerLink]="['/managerApprovals']"
-            >
-              <img
-                src="././assets/img/dashboard/manager-approvels-icon.svg"
-                alt="manager-approvels-icon"
-              />
+            <div class="theCard" *ngIf="IsManager == 'Y'" [routerLink]="['/managerApprovals']">
+              <img src="././assets/img/dashboard/manager-approvels-icon.svg" alt="manager-approvels-icon" />
               <a>Manager Approvals</a>
             </div>
             <div class="theCard" [routerLink]="['/vaccination']">
@@ -461,16 +363,9 @@
               <a>Vaccination Details</a>
             </div>
 
-            
-            <div
-              class="theCard"
-              *ngIf="assmntAccess == true"
-              [routerLink]="['/assesmentForm']"
-            >
-              <img
-                src="././assets/img/dashboard/manager-approvels-icon.svg"
-                alt="manager-approvels-icon"
-              />
+
+            <div class="theCard" *ngIf="assmntAccess == true" [routerLink]="['/assesmentForm']">
+              <img src="././assets/img/dashboard/manager-approvels-icon.svg" alt="manager-approvels-icon" />
               <a>Assessment Form</a>
             </div>
           </div>
@@ -483,14 +378,10 @@
             <h6>Payslips</h6>
             <ul>
               <li *ngFor="let item of pay_slips">
-                <a (click)="showPayslipModal(item)"
-                  ><span
-                    ><img
-                      src="././assets/img/icons/pdf-file.svg"
-                      alt="pdf-file"
-                  /></span>
-                  <p>{{ item.MONTHNAME }}-{{ item.YEAR }}</p></a
-                >
+                <a (click)="showPayslipModal(item)"><span><img src="././assets/img/icons/pdf-file.svg"
+                      alt="pdf-file" /></span>
+                  <p>{{ item.MONTHNAME }}-{{ item.YEAR }}</p>
+                </a>
               </li>
             </ul>
           </div>
@@ -498,25 +389,15 @@
             <h6>ITS Documents</h6>
             <ul>
               <li>
-                <a
-                  data-toggle="modal"
-                  data-target="#fy_Modal"
-                  (click)="showFY_Modal()"
-                >
-                  <span
-                    ><img src="././assets/img/icons/tax.svg" alt="tax"
-                  /></span>
+                <a data-toggle="modal" data-target="#fy_Modal" (click)="showFY_Modal()">
+                  <span><img src="././assets/img/icons/tax.svg" alt="tax" /></span>
                   <p>FY {{ oldYear }}-{{ myDate | momentDate : "YYYY" }}</p>
                 </a>
               </li>
               <!-- <li class="form_16"><a (click)="openModal1('form16')"> -->
               <li class="form_16">
                 <a (click)="showForm16Modal()">
-                  <span
-                    ><img
-                      src="././assets/img/icons/form16-icon.svg"
-                      alt="form16-icon"
-                  /></span>
+                  <span><img src="././assets/img/icons/form16-icon.svg" alt="form16-icon" /></span>
                   <p>Form 16A</p>
                 </a>
               </li>
@@ -530,80 +411,51 @@
       <div class="abslt">
         <!-- Donut chart  -->
         <div class="leaveBalDonutchart" *ngIf="showLeaveData">
-          <div
-            class="card donutCard"
-            *ngIf="userData.user.costcenter != 'FIELD'"
-          >
+          <div class="card donutCard" *ngIf="userData.user.costcenter != 'FIELD'">
             <div class="flx_inline">
               <h5 class="mb-0">Leave Balance</h5>
-              <ng-container
-                *ngIf="
+              <ng-container *ngIf="
                   userData.Manger[0].mangercode == '1001' ||
                     userData.Manger[0].mangercode == '1092' ||
                     userData.Manger[0].mangercode == '1401';
                   else mngrResigned
-                "
-              >
-                <ng-container
-                  *ngIf="
+                ">
+                <ng-container *ngIf="
                     userData.Manger[0].mangeremail.length != 0;
                     else noMngrEmail
-                  "
-                >
-                  <a [routerLink]="['/applyLeave']" class="applyLveBtn"
-                    >Apply Leave</a
-                  >
+                  ">
+                  <a [routerLink]="['/applyLeave']" class="applyLveBtn">Apply Leave</a>
                 </ng-container>
               </ng-container>
-              <a
-                *ngIf="userData.Manger[0].mangercode.length == 0"
-                (click)="ifnoManager('1')"
-                class="applyLveBtn"
-                >Apply Leave</a
-              >
+              <a *ngIf="userData.Manger[0].mangercode.length == 0" (click)="ifnoManager('1')" class="applyLveBtn">Apply
+                Leave</a>
 
               <ng-template #mngrResigned>
-                <a (click)="ifnoManager('2')" class="applyLveBtn"
-                  >Apply Leave</a
-                >
+                <a (click)="ifnoManager('2')" class="applyLveBtn">Apply Leave</a>
               </ng-template>
               <ng-template #noMngrEmail>
-                <a (click)="ifnoManager('3')" class="applyLveBtn"
-                  >Apply Leave</a
-                >
+                <a (click)="ifnoManager('3')" class="applyLveBtn">Apply Leave</a>
               </ng-template>
             </div>
             <!-- <app-pie-chart></app-pie-chart> -->
             <div style="display: block" *ngIf="leaveData">
               <ng-container *ngIf="availLeaves != '0'; else noLeaves">
-                <canvas
-                  baseChart
-                  [data]="pieChartData"
-                  [labels]="pieChartLabels"
-                  [chartType]="pieChartType"
-                  [options]="chartOptions"
-                  [colors]="colors"
-                  height="270"
-                ></canvas>
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                  [options]="chartOptions" [colors]="colors" height="270"></canvas>
               </ng-container>
               <ng-template #noLeaves>
-                <h5
-                  style="
+                <h5 style="
                     opacity: 0.8;
                     text-align: center;
                     padding-top: 5em;
                     text-shadow: 1px 2px 0px #dddada;
-                  "
-                >
+                  ">
                   Quota Completed..
                 </h5>
               </ng-template>
             </div>
           </div>
-          <div
-            class="card donutCard"
-            *ngIf="userData.user.costcenter == 'FIELD'"
-          >
+          <div class="card donutCard" *ngIf="userData.user.costcenter == 'FIELD'">
             <div class="">
               <h5 class="mb-2">Leave Balance</h5>
               <p>
@@ -615,10 +467,7 @@
 
           <!-- progress bar start  -->
           <div class="leaveBalBarchart">
-            <div
-              class="card _usedLeaves"
-              *ngIf="userData.user.costcenter != 'FIELD'"
-            >
+            <div class="card _usedLeaves" *ngIf="userData.user.costcenter != 'FIELD'">
               <div class="card-body">
                 <div class="flx_inline">
                   <h5 class="mb-0">Used Leaves</h5>
@@ -626,10 +475,7 @@
                 </div>
                 <h3>{{ sumOfUsedQuota }}</h3>
 
-                <div
-                  class="theBar"
-                  *ngFor="let item of leaveData; let i = index"
-                >
+                <div class="theBar" *ngFor="let item of leaveData; let i = index">
                   <div *ngIf="i < '6'">
                     <span class="lbl _txt">{{ item.leavetypename }}</span>
                     <span class="lbl">
@@ -638,31 +484,21 @@
                       <span>{{ item.quantity }}</span>
                     </span>
 
-                    <app-progress-bar
-                      *ngIf="
+                    <app-progress-bar *ngIf="
                         item.leavetypename === 'ONDUTY' ||
                           item.leavetypename === 'WORK FROM HOME';
                         else regularBar
-                      "
-                      [progress]="item.quantity"
-                      [total]="item.usedqty"
-                    >
+                      " [progress]="item.quantity" [total]="item.usedqty">
                     </app-progress-bar>
                     <ng-template #regularBar>
-                      <app-progress-bar
-                        [progress]="item.usedqty"
-                        [total]="item.quantity"
-                      >
+                      <app-progress-bar [progress]="item.usedqty" [total]="item.quantity">
                       </app-progress-bar>
                     </ng-template>
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              class="card _usedLeaves"
-              *ngIf="userData.user.costcenter == 'FIELD'"
-            >
+            <div class="card _usedLeaves" *ngIf="userData.user.costcenter == 'FIELD'">
               <div class="card-body">
                 <h5 class="mb-2">Used Leaves</h5>
                 <p>
@@ -728,14 +564,10 @@
 
                   <tbody>
                     <ng-container *ngIf="inOutData.length != 0; else noData1">
-                      <tr
-                        [routerLink]="['/attendanceReport']"
-                        *ngFor="let item of inOutDataDescndng"
-                        [ngClass]="{
+                      <tr [routerLink]="['/attendanceReport']" *ngFor="let item of inOutDataDescndng" [ngClass]="{
                           warnBg: item.LESSHRS >= '1',
                           holyday: item.DAREQ === 'HL'
-                        }"
-                      >
+                        }">
                         <ng-container *ngIf="item.DAREQ !== 'HL'">
                           <td>{{ item.date }}</td>
                           <td>{{ item.in }}</td>
@@ -747,7 +579,7 @@
                           <td>{{ item.date }}</td>
                           <td colspan="4" style="text-align: center">
                             <--------- {{ item.dayType }} --------->
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           </td>
                         </ng-container>
                       </tr>
@@ -808,10 +640,7 @@
                   </thead>
                   <tbody>
                     <ng-container *ngIf="inOutData.length != 0; else noData2">
-                      <tr
-                        [routerLink]="['/attendanceReport']"
-                        *ngFor="let item of inOutDataDescndng"
-                      >
+                      <tr [routerLink]="['/attendanceReport']" *ngFor="let item of inOutDataDescndng">
                         <ng-container *ngIf="item.DAREQ !== 'HL'">
                           <td>{{ item.date }}</td>
                           <td>{{ item.in }}</td>
@@ -823,7 +652,7 @@
                           <td>{{ item.date }}</td>
                           <td colspan="4" style="text-align: center">
                             <--------- {{ item.dayType }} --------->
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           </td>
                         </ng-container>
                       </tr>
@@ -881,10 +710,7 @@
                   </thead>
                   <tbody>
                     <ng-container *ngIf="inOutData.length != 0; else noData3">
-                      <tr
-                        [routerLink]="['/attendanceReportAssam']"
-                        *ngFor="let item of inOutDataDescndng"
-                      >
+                      <tr [routerLink]="['/attendanceReportAssam']" *ngFor="let item of inOutDataDescndng">
                         <td>{{ item.date }}</td>
                         <td>{{ item.in }}</td>
                         <td>{{ item.out }}</td>
@@ -912,44 +738,27 @@
           <div class="flx_inline">
             <h5>
               Today's Birthdays
-              <span *ngIf="isBday == '1'"
-                ><img src="././assets/img/icons/isBday.gif" alt="isBday"
-              /></span>
+              <span *ngIf="isBday == '1'"><img src="././assets/img/icons/isBday.gif" alt="isBday" /></span>
             </h5>
             <a [routerLink]="['/birthdays']" class="viewBtn">View All</a>
           </div>
-          <small
-            ><!--  (Only from your Department of All Business Units) --></small
-          >
+          <small><!--  (Only from your Department of All Business Units) --></small>
 
           <div class="bdaysList">
             <ul>
               <div *ngIf="isBday == '1'">
                 <li *ngFor="let item of birthdayList">
-                  <ng-container
-                    *ngIf="item.birthdaydateformat == compreBdayDate"
-                  >
+                  <ng-container *ngIf="item.birthdaydateformat == compreBdayDate">
                     <div class="bdayOf">
                       <div>
-                        <ng-container
-                          *ngIf="item.profilepic != 0; else profileIcon"
-                        >
-                          <img
-                            [src]="bdayProfleImg + item.profilepic"
-                            [alt]="item.ename"
-                          />
+                        <ng-container *ngIf="item.profilepic != 0; else profileIcon">
+                          <img [src]="bdayProfleImg + item.profilepic" [alt]="item.ename" />
                         </ng-container>
                         <ng-template #profileIcon>
-                          <img
-                            src="././assets/img/dashboard/user-male.svg"
-                            alt="{{ item.ename }}"
-                            *ngIf="item.genderid == '1'"
-                          />
-                          <img
-                            src="././assets/img/dashboard/user-female.svg"
-                            alt="{{ item.ename }}"
-                            *ngIf="item.genderid == '2'"
-                          />
+                          <img src="././assets/img/dashboard/user-male.svg" alt="{{ item.ename }}"
+                            *ngIf="item.genderid == '1'" />
+                          <img src="././assets/img/dashboard/user-female.svg" alt="{{ item.ename }}"
+                            *ngIf="item.genderid == '2'" />
                         </ng-template>
                         <p>{{ item.department }}</p>
                       </div>
@@ -993,10 +802,7 @@
           </div>
 
           <div class="_listOfOpngs">
-            <owl-carousel
-              [options]="myCarouselOptions"
-              [carouselClasses]="['owl-theme', 'sliding']"
-            >
+            <owl-carousel [options]="myCarouselOptions" [carouselClasses]="['owl-theme', 'sliding']">
               <!-- <div class="_listOfOpngs"> -->
 
               <div class="_job">
@@ -1051,11 +857,7 @@
 </div>
 
 <!-- Holidays modal  -->
-<div
-  class="modal hlydysModl"
-  id="holidays_Modal"
-  [style.display]="holidaysModal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" id="holidays_Modal" [style.display]="holidaysModal ? 'block' : 'none'">
   <div class="modal-dialog modal_content_left">
     <div class="modal-content">
       <div class="modal-header">
@@ -1073,27 +875,19 @@
             <table>
               <tbody>
                 <tr *ngFor="let item of holidayList">
-                  <td
-                    [ngClass]="{
+                  <td [ngClass]="{
                       clsd:
                         latest_dateFormtd > (item.date | date : 'yyyy-MM-dd')
-                    }"
-                  >
+                    }">
                     {{ item.dayname }}
-                    <span
-                      class="closedHldy"
-                      *ngIf="
+                    <span class="closedHldy" *ngIf="
                         latest_dateFormtd > (item.date | date : 'yyyy-MM-dd')
-                      "
-                      >&nbsp;- Closed</span
-                    >
+                      ">&nbsp;- Closed</span>
                   </td>
-                  <td
-                    [ngClass]="{
+                  <td [ngClass]="{
                       clsd:
                         latest_dateFormtd > (item.date | date : 'yyyy-MM-dd')
-                    }"
-                  >
+                    }">
                     {{ item.date | date : "MMMM d, EEEE" }}
                   </td>
                 </tr>
@@ -1113,11 +907,7 @@
 </div>
 
 <!-- JD modal -->
-<div
-  class="modal hlydysModl"
-  id="jd_Modal"
-  [style.display]="jd_Modal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" id="jd_Modal" [style.display]="jd_Modal ? 'block' : 'none'">
   <div class="modal-dialog modal_top modal-lg">
     <div class="modal-content">
       <div class="modal_Myheader">
@@ -1126,27 +916,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <object
-          [data]="Jdpdf_web | safe"
-          type="application/pdf"
-          allowtransparency="true"
-          allowfullscreen="true"
-          style="min-height: 95vh; width: 100%"
-        >
-          <a [href]="Jdpdf_mob" (click)="closejd_Modal()"
-            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
-          >
+        <object [data]="Jdpdf_web | safe" type="application/pdf" allowtransparency="true" allowfullscreen="true"
+          style="min-height: 95vh; width: 100%">
+          <a [href]="Jdpdf_mob" (click)="closejd_Modal()"><span class="btn btn-primary">View/Download</span> the PDF
+            file.</a>
         </object>
       </div>
     </div>
   </div>
 </div>
 <!-- FinancialYear -->
-<div
-  class="modal hlydysModl"
-  id="fy_Modal"
-  [style.display]="fy_Modal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" id="fy_Modal" [style.display]="fy_Modal ? 'block' : 'none'">
   <div class="modal-dialog modal_top modal-lg">
     <div class="modal-content">
       <div class="modal_Myheader">
@@ -1155,15 +935,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <object
-          [data]="finclYear | safe"
-          type="application/pdf"
-          allowtransparency="true"
-          style="min-height: 95vh; width: 100%"
-        >
-          <a [href]="finclYear_mob" (click)="closeCommonModal()"
-            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
-          >
+        <object [data]="finclYear | safe" type="application/pdf" allowtransparency="true"
+          style="min-height: 95vh; width: 100%">
+          <a [href]="finclYear_mob" (click)="closeCommonModal()"><span class="btn btn-primary">View/Download</span> the
+            PDF file.</a>
         </object>
       </div>
     </div>
@@ -1171,11 +946,7 @@
 </div>
 
 <!-- Form-16 Modal-->
-<div
-  class="modal hlydysModl"
-  id="form16Modal"
-  [style.display]="form16Modal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" id="form16Modal" [style.display]="form16Modal ? 'block' : 'none'">
   <div class="modal-dialog modal_top modal-lg">
     <div class="modal-content">
       <div class="modal_Myheader">
@@ -1184,16 +955,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <object
-          [data]="form16 | safe"
-          type="application/pdf"
-          allowtransparency="true"
-          allowfullscreen="true"
-          style="min-height: 95vh; width: 100%"
-        >
-          <a [href]="form16_mob" (click)="closeform16Modal()"
-            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
-          >
+        <object [data]="form16 | safe" type="application/pdf" allowtransparency="true" allowfullscreen="true"
+          style="min-height: 95vh; width: 100%">
+          <a [href]="form16_mob" (click)="closeform16Modal()"><span class="btn btn-primary">View/Download</span> the PDF
+            file.</a>
         </object>
       </div>
     </div>
@@ -1214,16 +979,10 @@
           </iframe >   
         <iframe class="mobile-pdf embed-responsive-item" [src]="pay_slip_mob"  width="100%" height="500" allowfullscreen="true" style="min-height:95vh;width:100%;max-width: 100%;" type="application/pdf" *ngIf="pay_slip">
         </iframe >  -->
-        <object
-          [data]="pay_slip | safe"
-          type="application/pdf"
-          allowtransparency="true"
-          allowfullscreen="true"
-          style="min-height: 95vh; width: 100%"
-        >
-          <a [href]="pay_slip_mob" (click)="closePayslipModal()"
-            ><span class="btn btn-primary">View/Download</span> the PDF file.</a
-          >
+        <object [data]="pay_slip | safe" type="application/pdf" allowtransparency="true" allowfullscreen="true"
+          style="min-height: 95vh; width: 100%">
+          <a [href]="pay_slip_mob" (click)="closePayslipModal()"><span class="btn btn-primary">View/Download</span> the
+            PDF file.</a>
         </object>
       </div>
     </div>
@@ -1258,10 +1017,7 @@
 
 <!--********************* Pan Verify Modal **************** -->
 
-<div
-  class="modal hlydysModl"
-  [style.display]="panVerifyModal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" [style.display]="panVerifyModal ? 'block' : 'none'">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-body">
@@ -1288,11 +1044,7 @@
                 <h2>आयकर &nbsp;&nbsp; विभाग</h2>
                 <h3>Income Tax Department</h3>
               </div>
-              <img
-                class="A"
-                src="././assets/img/emblem-of-india-logo.png"
-                alt="emblem-of-india-logo"
-              />
+              <img class="A" src="././assets/img/emblem-of-india-logo.png" alt="emblem-of-india-logo" />
               <div>
                 <h1>भारत &nbsp;&nbsp; सरकार</h1>
                 <h4>Govt. of India</h4>
@@ -1315,108 +1067,65 @@
                 <div class="form-group" *ngIf="thepanValue != 'NO'">
                   <label>PAN Number <sup>*</sup></label>
                   <fieldset [disabled]="empPanDisabled">
-                    <input
-                      type="text"
-                      formControlName="PAN_Number"
-                      [(ngModel)]="example.PAN_Number"
-                      maxlength="10"
-                      class="form-control"
-                      (input)="handleInput($event.target.value)"
-                    />
+                    <input type="text" formControlName="PAN_Number" [(ngModel)]="example.PAN_Number" maxlength="10"
+                      class="form-control" (input)="handleInput($event.target.value)" />
 
-                    <span
-                      *ngIf="
+                    <span *ngIf="
                         panSubmitted &&
                         p.PAN_Number.touched &&
                         p.PAN_Number.errors
-                      "
-                      class="custom_validtn"
-                    >
+                      " class="custom_validtn">
                       <span *ngIf="p.PAN_Number.errors.invalidNumber">
-                        <i
-                          class="fa fa-exclamation-triangle"
-                          aria-hidden="true"
-                        ></i>
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         Invalid PAN Number
                       </span>
                       <!-- <span  *ngIf="p.PAN_Number.errors.required">PAN Number Required</span>     -->
                     </span>
-                    <span *ngIf="showErr" class="custom_validtn"
-                      ><i
-                        class="fa fa-exclamation-triangle"
-                        aria-hidden="true"
-                      ></i>
-                      Invalid PAN Number</span
-                    >
-                    <span
-                      *ngIf="panSubmitted && !noPan && p.PAN_Number.errors"
-                      class="invalid-feedback"
-                    >
-                      <span *ngIf="p.PAN_Number.errors.required"
-                        >PAN Number Required</span
-                      >
+                    <span *ngIf="showErr" class="custom_validtn"><i class="fa fa-exclamation-triangle"
+                        aria-hidden="true"></i>
+                      Invalid PAN Number</span>
+                    <span *ngIf="panSubmitted && !noPan && p.PAN_Number.errors" class="invalid-feedback">
+                      <span *ngIf="p.PAN_Number.errors.required">PAN Number Required</span>
                     </span>
-                    <span *ngIf="ExistPan" class="custom_validtn"
-                      >Given PAN Number Already Exist.</span
-                    >
+                    <span *ngIf="ExistPan" class="custom_validtn">Given PAN Number Already Exist.</span>
                   </fieldset>
                 </div>
 
                 <div class="form-group" *ngIf="thepanValue == 'NEW'">
                   <label>Upload Pan Card(img/pdf) <sup>*</sup></label>
-                  <label for="panFile" class="uploadBtn"
-                    ><img src="./././assets/img/upload.png" />
+                  <label for="panFile" class="uploadBtn"><img src="./././assets/img/upload.png" />
                     <span *ngIf="!panFileName">Choose File To Upload</span>
                     <span *ngIf="panFileName">
                       <!-- {{panFileName.substring(panFileName.lastIndexOf('.') + 1, panFileName.length) || panFileName}}  -->
-                      <span
-                        >{{
-                          panFileName.length > 25
-                            ? (panFileName | slice : 0 : 15) +
-                              ".." +
-                              (panFileName.substring(
-                                panFileName.lastIndexOf(".") + 1,
-                                panFileName.length
-                              ) || panFileName)
-                            : panFileName
+                      <span>{{
+                        panFileName.length > 25
+                        ? (panFileName | slice : 0 : 15) +
+                        ".." +
+                        (panFileName.substring(
+                        panFileName.lastIndexOf(".") + 1,
+                        panFileName.length
+                        ) || panFileName)
+                        : panFileName
                         }}
                       </span>
                     </span>
                   </label>
                   <!-- #pan_file -->
-                  <input
-                    type="file"
-                    (change)="uploadPan($event)"
-                    #panFile
-                    id="panFile"
-                    formControlName="Pan_file"
-                    accept="application/pdf,image/png, image/jpeg, image/jpg"
-                    class="form-control"
-                    [ngClass]="{
+                  <input type="file" (change)="uploadPan($event)" #panFile id="panFile" formControlName="Pan_file"
+                    accept="application/pdf,image/png, image/jpeg, image/jpg" class="form-control" [ngClass]="{
                       'is-invalid': panSubmitted && p.Pan_file.errors
-                    }"
-                    style="width: 0; height: 0; padding: 0; visibility: hidden"
-                  />
+                    }" style="width: 0; height: 0; padding: 0; visibility: hidden" />
 
-                  <span
-                    *ngIf="panSubmitted && p.Pan_file.errors"
-                    class="invalid-feedback"
-                  >
+                  <span *ngIf="panSubmitted && p.Pan_file.errors" class="invalid-feedback">
                     <span *ngIf="p.Pan_file.errors.required">PAN Required</span>
                   </span>
-                  <span
-                    *ngIf="
+                  <span *ngIf="
                       isFileUploaded &&
                       p.Pan_file.invalid &&
                       (p.Pan_file.dirty || p.Pan_file.touched)
-                    "
-                    class="custom_validtn"
-                  >
+                    " class="custom_validtn">
                     <span *ngIf="p.Pan_file.errors.invalidFile">
-                      <i
-                        class="fa fa-exclamation-triangle"
-                        aria-hidden="true"
-                      ></i>
+                      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                       Upload image/pdf file Only.
                     </span>
                   </span>
@@ -1426,43 +1135,23 @@
               <div class="radioGrid">
                 <div class="form-group" *ngIf="!noPan && showValidPAN">
                   <div class="v_center">
-                    <input
-                      type="radio"
-                      formControlName="validtePAN"
-                      name="validtePAN"
-                      value="YES"
-                      id="valPan"
-                      (click)="setradio('YES')"
-                    /><label for="valPan">My PAN is Valid</label>
+                    <input type="radio" formControlName="validtePAN" name="validtePAN" value="YES" id="valPan"
+                      (click)="setradio('YES')" /><label for="valPan">My PAN is Valid</label>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <div class="v_center">
-                    <input
-                      type="radio"
-                      formControlName="validtePAN"
-                      name="validtePAN"
-                      value="NEW"
-                      id="invalPan"
-                      (click)="setradio('NEW')"
-                    />
-                    <label for="invalPan" *ngIf="!noPan"
-                      >Update/modify PAN</label
-                    >
+                    <input type="radio" formControlName="validtePAN" name="validtePAN" value="NEW" id="invalPan"
+                      (click)="setradio('NEW')" />
+                    <label for="invalPan" *ngIf="!noPan">Update/modify PAN</label>
                     <label for="invalPan" *ngIf="noPan">Upload PAN</label>
                   </div>
                 </div>
                 <div class="form-group" *ngIf="noPan && xprdDate">
                   <div class="v_center" *ngIf="dateExprd">
-                    <input
-                      type="radio"
-                      formControlName="validtePAN"
-                      name="validtePAN"
-                      value="NO"
-                      id="noPAN"
-                      (click)="setradio('NO')"
-                    />
+                    <input type="radio" formControlName="validtePAN" name="validtePAN" value="NO" id="noPAN"
+                      (click)="setradio('NO')" />
                     <label for="noPAN">I Don't have PAN</label>
                   </div>
                 </div>
@@ -1471,20 +1160,10 @@
               <div class="">
                 <div class="form-group" *ngIf="thepanValue == 'NO'">
                   <label>Reason <sup>*</sup></label>
-                  <textarea
-                    formControlName="panReason"
-                    [ngClass]="{
+                  <textarea formControlName="panReason" [ngClass]="{
                       'is-invalid': panSubmitted1 && p.panReason.errors
-                    }"
-                    placeholder="Start typing here.."
-                    maxlength="300"
-                    rows="2"
-                    class="form-control"
-                  ></textarea>
-                  <div
-                    *ngIf="panSubmitted1 && p.panReason.errors"
-                    class="invalid-feedback"
-                  >
+                    }" placeholder="Start typing here.." maxlength="300" rows="2" class="form-control"></textarea>
+                  <div *ngIf="panSubmitted1 && p.panReason.errors" class="invalid-feedback">
                     <div *ngIf="p.panReason.errors.required">
                       Reason is required
                     </div>
@@ -1492,32 +1171,18 @@
                 </div>
                 <div class="form-group" *ngIf="thepanValue == 'NO'">
                   <label>When you are able to submit PAN ? <sup>*</sup></label>
-                  <input
-                    type="text"
-                    placeholder="DD-MMM-YYYY"
-                    class="form-control datePckr"
-                    formControlName="expctedDate"
-                    [ngClass]="{
+                  <input type="text" placeholder="DD-MMM-YYYY" class="form-control datePckr"
+                    formControlName="expctedDate" [ngClass]="{
                       'is-invalid': panSubmitted1 && p.expctedDate.errors
-                    }"
-                    bsDatepicker
-                    [bsConfig]="{
+                    }" bsDatepicker [bsConfig]="{
                       adaptivePosition: true,
                       showWeekNumbers: false,
                       isAnimated: true,
                       containerClass: colorTheme,
                       customTodayClass: 'custom-today-class',
                       dateInputFormat: 'DD-MMM-YYYY'
-                    }"
-                    [minDate]="minDateVal"
-                    [maxDate]="maxDateVal"
-                    readonly
-                    (bsValueChange)="dateCreated($event)"
-                  />
-                  <div
-                    *ngIf="panSubmitted1 && p.expctedDate.errors"
-                    class="invalid-feedback"
-                  >
+                    }" [minDate]="minDateVal" [maxDate]="maxDateVal" readonly (bsValueChange)="dateCreated($event)" />
+                  <div *ngIf="panSubmitted1 && p.expctedDate.errors" class="invalid-feedback">
                     <div *ngIf="p.expctedDate.errors.required">
                       Date is required
                     </div>
@@ -1526,33 +1191,18 @@
               </div>
 
               <div class="form-group">
-                <button
-                  type="submit"
-                  [disabled]="disableValidateBtn"
-                  class="btn btn-primary"
-                  *ngIf="thepanValue == 'YES'"
-                  (click)="validPan()"
-                >
+                <button type="submit" [disabled]="disableValidateBtn" class="btn btn-primary"
+                  *ngIf="thepanValue == 'YES'" (click)="validPan()">
                   Validate &amp; Access iConnect
                 </button>
-                <button
-                  type="submit"
-                  [disabled]="disableUpdateBtn"
-                  class="btn btn-warning"
-                  *ngIf="thepanValue == 'NEW'"
-                  (click)="correctionPan()"
-                >
+                <button type="submit" [disabled]="disableUpdateBtn" class="btn btn-warning" *ngIf="thepanValue == 'NEW'"
+                  (click)="correctionPan()">
                   Update &amp; Access iConnect
                 </button>
 
                 <!-- DON'T have PAN case -->
-                <button
-                  type="submit"
-                  [disabled]="disableSubmitBtn"
-                  class="btn btn-primary"
-                  *ngIf="thepanValue == 'NO'"
-                  (click)="dontHavePan()"
-                >
+                <button type="submit" [disabled]="disableSubmitBtn" class="btn btn-primary" *ngIf="thepanValue == 'NO'"
+                  (click)="dontHavePan()">
                   Submit &amp; Access iConnect
                 </button>
               </div>
@@ -1571,11 +1221,7 @@
 
 <!-- <a data-toggle="modal" data-target="#NoticeModal" (click)='showNoticeModal()' class="viewBtn" style="display: none;">View All</a> -->
 
-<div
-  class="modal hlydysModl"
-  id="NoticeModal"
-  [style.display]="NoticeModal ? 'block' : 'none'"
->
+<div class="modal hlydysModl" id="NoticeModal" [style.display]="NoticeModal ? 'block' : 'none'">
   <div class="modal-dialog modal-lg center_model">
     <div class="modal-content popup_onload">
       <!-- <div class="modal-header">          
@@ -1588,28 +1234,22 @@
       <div class="modal-body">
         <!-- Holidays card -->
         <div class="">
-          <div
-            class="crdBdy table_contnr"
-            style="border-radius: 3px solid; border: none"
-          >
+          <div class="crdBdy table_contnr" style="border-radius: 3px solid; border: none">
             <table>
               <tbody>
                 <tr class="table_padding">
                   <!-- <p  class="imptext" style="font-size: 13px;font-weight: 500; padding:0px 10px;text-align: justify;">
                     Attendance logs from our Commerzone Building attendance readers will reflect in iConnect from 25th Feb 2024.
                    </p>   -->
-                  <p
-                    class="imptext"
-                    style="
+                  <p class="imptext" style="
                       font-size: 13px;
                       font-weight: 500;
                       padding: 0px 10px;
                       text-align: justify;
-                    "
-                  >
+                    ">
                     <!-- <b
                       ><span style="color: red">Alert: </span>Leave & LOP Reminder</b> -->
-                     
+
                   </p>
 
                   <!-- <p
@@ -1652,46 +1292,35 @@
 
 
                   <ng-container *ngIf="location === 'MUM'; else notMumbai">
-                    <p
-                      class="imptext"
-                      style="
+                    <p class="imptext" style="
                         font-size: 13px;
                         font-weight: 500;
                         padding: 0px 10px;
                         text-align: justify;
-                      "
-                    >
-                      <b
-                        ><span style="color: red">Note: </span>Kindly submit
+                      ">
+                      <b><span style="color: red">Note: </span>Kindly submit
                         your investment proofs along with the declaration form
                         for the FY 2024-25 on or before Jan 5th, 2025 at the
-                        Mumbai Office - Accounts Department</b
-                      >
+                        Mumbai Office - Accounts Department</b>
                     </p>
                   </ng-container>
 
                   <ng-template #notMumbai>
                     <!-- Content for non-Mumbai location -->
-                    <p
-                      class="imptext"
-                      style="
+                    <p class="imptext" style="
                         font-size: 13px;
                         font-weight: 500;
                         padding: 0px 10px;
                         text-align: justify;
-                      "
-                    >
-                      <b
-                        ><span style="color: red">Note: </span>Please apply for your leave in advance, and backdated leave within 48 hours. After 48 hours, the dates will be closed. Delays may result in Loss of Pay (LOP) and payroll deductions</b
-                      >
+                      ">
+                      <b><span style="color: red">Note: </span>Please apply for your leave in advance, and backdated
+                        leave within 48 hours. After 48 hours, the dates will be closed. Delays may result in Loss of
+                        Pay (LOP) and payroll deductions</b>
                     </p>
                   </ng-template>
                   <div style="text-align: center; margin-top: 20px">
-                    <button
-                      class="btn btn-primary"
-                      style="float: center; text-align: center"
-                      (click)="closeNoticeModal()"
-                    >
+                    <button class="btn btn-primary" style="float: center; text-align: center"
+                      (click)="closeNoticeModal()">
                       Ok
                     </button>
                   </div>

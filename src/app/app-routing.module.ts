@@ -89,6 +89,7 @@ import { OrganogramComponent } from './organogram/organogram/organogram.componen
 import { OrganogramTrackingComponent } from './organogram/organogram-tracking/organogram-tracking.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UnscheduledComponent } from './hiring-module/unscheduled/unscheduled.component';
+import { FuelComponent } from './HR/fuel/fuel.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -171,6 +172,7 @@ const routes: Routes = [
   { path: 'organogram', component: OrganogramComponent },
   { path: 'organogram/:id', component: OrganogramTrackingComponent },
   {path:'unscheduled',component:UnscheduledComponent},
+  {path:'fuel',component:FuelComponent},
 
 
   // Manager 

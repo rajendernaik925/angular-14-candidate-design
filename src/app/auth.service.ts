@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { User } from './user';
-import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -36,7 +34,7 @@ export class AuthService {
 
   private bulkUploadUrl = 'https://sso.heterohcl.com/bulkupload/'
 
-  constructor(public router: Router, private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   private handleError = (error: HttpErrorResponse): Observable<never> => {
     let errorMessage = '';
@@ -46,13 +44,11 @@ export class AuthService {
       errorMessage = error.error;
     }
     Swal.fire({
-      title: 'Server Error',
+      title: 'Error',
       text: error.error.message,
       icon: 'error',
-      showConfirmButton: true,           // Show the confirm (close) button
-      confirmButtonText: 'Close',        // Optional: change text from "OK" to "Close"
-      // timer: 1000,                       // Optional: auto close after 1 second
-      // timerProgressBar: true
+      showConfirmButton: true,
+      confirmButtonText: 'Close',
     });
 
     return throwError(() => errorMessage);
@@ -886,8 +882,6 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/notifications`, formData);
   }
 
-
-
   private getDefaultHttpOptions() {
     return {
       headers: new HttpHeaders({
@@ -899,7 +893,7 @@ export class AuthService {
   }
 
 
-  private jobCodeUrls: string = "http://192.168.214.165:2025/";
+  private jobCodeUrls: string = "http://192.168.213.233:2025/";
   createJobCode(formData: any): Observable<HttpResponse<any>> {
     return this.http.post<any>(`${this.jobCodeUrls}jobcode/create`, formData, this.getDefaultHttpOptions()).pipe(
       catchError(this.handleError)
@@ -1272,6 +1266,31 @@ export class AuthService {
       observe: 'response',
       responseType: 'text' as 'json' // Forces Angular to treat text as JSON
     });
+  }
+
+  private fuelUrls: string = "http://192.168.215.162:8094/";
+  getFuelData(data: FormData) {
+    return this.http.post(`${this.fuelUrls}fuelanddriver/details`, data).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getPayPeriods() {
+    return this.http.get(`${this.fuelUrls}fuelanddriver/payperiods`).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  postFuelData(data: any) {
+    return this.http.post(`${this.fuelUrls}fuelanddriver/add`, data).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  processFuelBill(data: any) {
+    return this.http.post(`${this.fuelUrls}fuelanddriver/updateprocessdetails`, data).pipe(
+      catchError(this.handleError)
+    )
   }
 
 }

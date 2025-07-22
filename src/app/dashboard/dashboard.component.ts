@@ -981,7 +981,7 @@ ngAfterViewInit() {
         //   if(this.Ryts[i].HRActions == "true" || this.Ryts[i].parent == "1"){ 
         //     this.isHR=true;}else{
         //     this.isHR =false;
-        //   }} 
+        //   }}
         for (let i = 0; i < this.Ryts.length; i++) {   
           if(this.Ryts[i].HRActions == "true"){ 
             this.isHR=true; 

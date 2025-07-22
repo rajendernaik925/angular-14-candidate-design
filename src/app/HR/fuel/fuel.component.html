@@ -1,0 +1,300 @@
+<div class="container-fluid">
+    <app-nav></app-nav>
+</div>
+<div class="mt-2 container-fluid mb-0">
+    <div class="row mb-0">
+        <div class="col-md-12 mb-0">
+            <div class="card border-0 mb-0">
+                <div class="card-body pt-2 pb-0 mb-0">
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-md-4 d-none d-md-block">
+                            <span class="fw-bold">
+                                <i class="bi bi-chevron-left cursor-pointer" [routerLink]="'/dashboard'"></i>
+                                Fuel and Driver
+                                <span class="badge bg-secondary text-white">
+                                    Unclaimed {{ unClaimedCount || 0 }} of {{ rows.length }} Records
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-md-8 d-flex justify-content-end align-items-center">
+                            <label for="" class="custom-label mt-2 mr-1"> PAY PERIOD</label>
+                            <select class="form-control mr-2 select-css" [(ngModel)]="selectedMonthValue"
+                                (ngModelChange)="onMonthChange($event)">
+                                <option *ngFor="let m of months" [value]="m.payperiod">
+                                    {{ m.monthYear }}
+                                </option>
+                            </select>
+
+                            <input type="search" class="form-control search-input mr-2" placeholder="🔍 Search "
+                                [formControl]="searchQuery" aria-level="Search"
+                                style="max-width: 150px; font-size: 13px;">
+                            <!-- <button role="button" class="btn btn-sm bg-success text-white border-none shadow-none mr-2"
+                                (click)="saveAllChecked()">
+                                Save Checked
+                            </button> -->
+                            <!-- <label class="rocker rocker-small">
+                                <input type="checkbox">
+                                <span class="switch-left">1</span>
+                                <span class="switch-right">0</span>
+                            </label> -->
+
+                            <button role="button" class="btn btn-sm custom-bg text-white border-none shadow-none mr-2"
+                                (click)="saveAll()">
+                                Save All Data
+                            </button>
+
+                            <button role="button" class="btn btn-sm bg-info text-white border-none shadow-none"
+                                (click)="downloadExcel()">
+                                Download Excel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-0 scroll-container m-0">
+                        <table class="table" [ngClass]="rows && rows.length > 0 ? 'table-bordered' : ''">
+                            <thead>
+                                <tr class="text-light">
+                                    <th class="small-header-th cursor-pointer">
+                                        EMP Id
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Name
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Design
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Dept
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Fuel
+                                        <small class="text-warning">(per month)</small>
+                                    </th>
+
+                                    <th class="small-header-th cursor-pointer">
+                                        Driver
+                                        <small class="text-warning">(per month)</small>
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Total Amount
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Claimed (₹)
+                                        <!-- <small class="text-warning">(as per bills)</small> -->
+                                    </th>
+                                    <!-- <th class="small-header-th cursor-pointer">
+                                        Recieved Date
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Processed Date
+                                    </th> -->
+                                    <th class="small-header-th cursor-pointer">
+                                        Bill Status
+                                        <!-- (Recieved/Not) -->
+                                    </th>
+                                    <th class="small-header-th cursor-pointer">
+                                        Processed
+                                        <!-- (Recieved/Not) -->
+                                    </th>
+                                    <th class="small-header-th cursor-pointer" style="max-width: 100px;">
+                                        Comment
+                                    </th>
+                                    <th class="small-header-th">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngIf="filteredJobs?.length > 0; else noData">
+                                <tr *ngFor="let row of filteredJobs; let i = index" class="small-header table-hoverr">
+                                    <td class="small-header text-center align-middle fw-bold" scope="row"
+                                        [innerHTML]="highlightMatch(row.employeeSequenceNo)">
+                                    </td>
+                                    <td class="small-header align-middle" [title]="getEmployeeTooltip(row.employeeName)"
+                                        [innerHTML]="highlightMatch(getEmployeeDisplay(row.employeeName))">
+                                    </td>
+
+
+                                    <td class="small-header text-center align-middle" [title]="row.deptName">
+                                        {{ getAbbreviation(row.deptName) }}
+                                    </td>
+
+                                    <td class="small-header text-center align-middle" [title]="row.desgName">
+                                        {{ getAbbreviation(row.desgName) }}
+                                    </td>
+
+                                    <td class="small-header align-middle"
+                                        [innerHTML]="highlightMatch(row.fuelAndMaintenance)"></td>
+                                    <td class="small-header align-middle"
+                                        [innerHTML]="highlightMatch(row.driverSalary)"></td>
+                                    <td class="small-header align-middle" [innerHTML]="highlightMatch(row.totalAmount)">
+                                    </td>
+                                    <td class="small-header align-middle">
+                                        <ng-container
+                                            *ngIf="row.claimedAmount !== 'NA' && row.claimedAmount !== null && row.claimedAmount !== undefined; else inputField">
+                                            <input type="number" class="form-control form-control-sm" readonly
+                                                placeholder="claim amount ₹" [(ngModel)]="row.totalAmount"
+                                                name="amount_{{ i }}" (ngModelChange)="validateAmount(row)"
+                                                minlength="5"
+                                                (keypress)="allowOnlyNumbers($event,row.amount, row.totalAmount)"
+                                                [ngClass]="{ 'is-invalid': row.amountError }" />
+                                        </ng-container>
+
+                                        <ng-template #inputField>
+                                            <input type="number" class="form-control form-control-sm" readonly
+                                                placeholder="claim amount ₹" [(ngModel)]="row.totalAmount"
+                                                name="amount_{{ i }}" (ngModelChange)="validateAmount(row)"
+                                                minlength="5"
+                                                (keypress)="allowOnlyNumbers($event,row.amount, row.totalAmount)"
+                                                [ngClass]="{ 'is-invalid': row.amountError }" />
+                                            <!-- <div *ngIf="row.amountError" class="text-danger small">
+                                                {{ row.amountError }}
+                                            </div> -->
+                                        </ng-template>
+                                    </td>
+
+                                    <td class="small-header  align-middle">
+                                        <span *ngIf="row.billFlag == '1'"
+                                            class="fs-3 text-success">{{formatDate(row.receivedDate)}}</span>
+                                        <!-- <span *ngIf="row.billFlag === '0'" class="text-danger">Not Recieved</span> -->
+                                        <div class="centered-checkbox"
+                                            *ngIf="row.billFlag == 'NA' || row.billFlag == '0'">
+                                            <input type="checkbox" [(ngModel)]="row.received" name="billFlag_{{ i }}"
+                                                (change)="row.claimedAmount == row.totalAmount && onBillFlagChange($event, row)"
+                                                class="p-0 m-0 checkbox" />
+                                            <label class="mt-2">Received</label>
+                                        </div>
+                                    </td>
+
+                                    <td class="small-header text-center align-middle">
+                                        <span *ngIf="row.processedDate != 'NA'" class="fs-3 text-success">
+                                            {{formatDate(row.processedDate)}}
+                                            <!-- <input type="text" class="form-control"
+                                                [value]="formatDate(row.processedDate)" disabled /> -->
+
+                                        </span>
+                                        <!-- <input *ngIf="row.processedDate !== 'NA'" type="text"
+                                            class="form-control" [value]="row.processedDate  | date: 'dd-MMM-yyyy'" readonly
+                                            disabled /> -->
+
+                                        <div class="centered-checkbox" *ngIf="row.processedDate == 'NA'">
+                                            <input type="checkbox" [(ngModel)]="row.processed"
+                                                (change)="row.claimedAmount == row.totalAmount && onProcessedFlagChange($event, row)"
+                                                name="billProccesed_{{ i }}" class="p-0 m-0 checkbox" />
+                                            <label class="mt-2">Processed</label>
+                                        </div>
+                                    </td>
+
+                                    <td class="small-header align-middle">
+                                        <div *ngIf="row.claimedAmount !== 'NA' && row.claimedAmount !== null && row.claimedAmount !== undefined; else inputComment"
+                                            [title]="row.comments">
+                                            {{ getCommentPreview(row.comments) || '--'}}
+                                        </div>
+
+                                        <ng-template #inputComment>
+                                            <input type="text" class="form-control form-control-sm"
+                                                placeholder="Comment" [(ngModel)]="row.comment" name="comment_{{ i }}"
+                                                [ngClass]="{ 'is-invalid': row.commentError }"
+                                                (input)="clearCommentError(row)" maxlength="200" />
+                                        </ng-template>
+                                    </td>
+
+                                    <td class="small-header text-center align-middle">
+                                        <ng-container
+                                            *ngIf="row.claimedAmount !== 'NA' && row.claimedAmount !== null && row.claimedAmount !== undefined && row.billFlag && row.processedFlag; else saveButton">
+
+                                            <button *ngIf="row.processedDate != 'NA' && row.billFlag == 1"
+                                                class="btn btn-secondary btn-sm fs-small" disabled>
+                                                Claimed
+                                            </button>
+
+                                            <!-- <button *ngIf="row.processedDate == 'NA'"
+                                                class="border-none btn-success text-white custom-action-btn px-3 py-1 shadow-none"
+                                                (click)="confirm(row)">
+                                                Pending at Processed
+                                            </button>
+
+                                            <button *ngIf="row.processedDate != 'NA' && row.billFlag == '0'"
+                                                class="border-none btn-success text-white custom-action-btn px-3 py-1 shadow-none"
+                                                (click)="confirm(row)">
+                                                Pending at Bill
+                                            </button> -->
+
+                                            <span
+                                                *ngIf="row.processedDate == 'NA' || (row.processedDate != 'NA' && row.billFlag == '0')"
+                                                class="text-muted small">
+                                                {{ row.processedDate == 'NA' ? 'To Process' : 'Not Billed' }}
+                                            </span>
+
+                                        </ng-container>
+                                        <ng-template #saveButton>
+                                            <button class="border-none custom-bg text-white custom-action-btn px-3 py-1"
+                                                (click)="submit(row)">
+                                                Save
+                                            </button>
+                                        </ng-template>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                            <ng-template #noData>
+                                <tbody class="py-5">
+                                    <tr>
+                                        <td colspan="13" class="py-4">
+                                            <div class="d-flex justify-content-center align-items-center my-5 py-4">
+                                                <img [src]="dataNotFound" alt="No Data" width="150" height="150"
+                                                    class="">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-template>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Section -->
+                    <!-- <hr *ngIf="paginatedRows.length > 0" class="custom-hr mb-2 p-0 m-0" />
+
+                    <div class="d-flex justify-content-between align-items-center mt-1"
+                        *ngIf="paginatedRows.length > 0">
+                        <span class="small badge bg-secondary text-white">
+                            Showing {{ startIndex }} to {{ endIndex }} of {{ totalRecords }} Records
+                        </span>
+
+                        <ul class="pagination pagination-sm mb-1">
+                            <li class="page-item">
+                                <button type="button" class="border-none text-white custom-action-btn px-2 py-1 mr-2"
+                                    (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1"
+                                    [ngClass]="{'custom-bg': currentPage > 1, 'bg-secondary': currentPage === 1}">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                            </li>
+
+                            <li class="page-item mr-2 d-none d-md-block">
+                                <span class="px-3 py-1 small text-dark fw-bold border rounded bg-light">
+                                    Page {{ currentPage }} of {{ totalPages }}
+                                </span>
+                            </li>
+
+                            <li class="page-item">
+                                <button type="button" class="border-none text-white custom-action-btn px-2 py-1"
+                                    (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages"
+                                    [ngClass]="{'custom-bg': currentPage < totalPages, 'bg-secondary': currentPage === totalPages}">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="blur-loader-overlay" *ngIf="isLoading">
+    <div class="blur-loader-spinner">
+        <div class="bounce1 custom-bg"></div>
+        <div class="bounce2 custom-bg"></div>
+        <div class="bounce3 custom-bg"></div>
+    </div>
+</div>

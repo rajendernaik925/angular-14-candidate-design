@@ -117,10 +117,6 @@ export class OfferLetterComponent implements OnInit {
     });
   }
 
-
-
-
-
   generateColumns() {
     this.columns = [
       { key: 'jcReferanceId', label: 'Job Code', uppercase: true },
@@ -131,10 +127,7 @@ export class OfferLetterComponent implements OnInit {
       { key: 'deptName', label: 'Department Name', uppercase: true },
       { key: 'employeeId', label: 'Action', center: true, clickable: true }
     ];
-
-
   }
-
 
   filterRows(query: string) {
     const lowerCaseQuery = query.toLowerCase().trim();

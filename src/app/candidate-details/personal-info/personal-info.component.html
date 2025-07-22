@@ -316,7 +316,7 @@
                         <div class="col-md-4 mb-3">
                           <label class="form-label form-label-small">UAN Number (Optional)</label>
                           <input type="text" [readOnly]="isAllDataPresent" formControlName="uan"
-                            placeholder="UAN Number" class="form-control form-control-sm" />
+                            placeholder="UAN Number" class="form-control form-control-sm" maxlength="12" />
                           <div *ngIf="registrationForm.get('uan')?.touched && registrationForm.get('uan')?.invalid"
                             class="text-danger fs-custom">
                             UAN Number is required

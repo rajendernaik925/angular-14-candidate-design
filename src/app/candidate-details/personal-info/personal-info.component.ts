@@ -333,7 +333,7 @@ export class personalInfoComponent implements OnInit {
             bloodGroupId: res?.candidatePersonalInformationDetails?.bloodGroupId || '',
             genderId: res?.candidatePersonalInformationDetails?.genderId || '',
             titleId: res?.candidatePersonalInformationDetails?.titleId || '',
-            dob: res?.candidatePersonalInformationDetails?.dob || '',
+            dob: this.dobFormat(res?.candidatePersonalInformationDetails?.dob) || '',
             fatherName: res?.candidatePersonalInformationDetails?.fatherName || '',
             passport: res?.candidatePersonalInformationDetails?.passport || '',
             uan: res?.candidatePersonalInformationDetails?.uan || '',
@@ -2228,6 +2228,25 @@ export class personalInfoComponent implements OnInit {
       }
     }
   }
+
+  dobFormat(dobStr: string | null | undefined): Date | '' {
+  if (!dobStr) return '';
+
+  const [dd, mm, yyyy] = dobStr.split('-');
+  const day = Number(dd);
+  const month = Number(mm) - 1; // JS months are 0-based
+  const year = Number(yyyy);
+
+  if (
+    isNaN(day) || isNaN(month) || isNaN(year) ||
+    day < 1 || day > 31 || month < 0 || month > 11 || year < 1000
+  ) {
+    return '';
+  }
+
+  return new Date(year, month, day);
+}
+
 
   UpdatePayslip() {
     this.paySlipFilePath1 = null;

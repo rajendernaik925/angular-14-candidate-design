@@ -14,7 +14,7 @@ import { OwlModule } from 'ngx-owl-carousel';
 import { NumbersOnlyDirective } from './directives/numbers-only.directive';
 import { TrackCapslockDirective } from './directives/track-capslock.directive';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { DatePipe } from '@angular/common'; 
+import { DatePipe } from '@angular/common';
 import { BirthdaysComponent } from './components/birthdays/birthdays.component';
 import { DepartmentInfoComponent } from './components/department-info/department-info.component';
 import { LeaveSummaryComponent } from './components/leave-summary/leave-summary.component';
@@ -24,7 +24,7 @@ import { NoDoubleClickBtnDirective } from './directives/no-double-click-btn.dire
 import { ErrorComponent } from './components/error/error.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { AttendanceApprovalsComponent } from './manager/attendance-approvals/attendance-approvals.component';
-import { NgIdleService } from './services/ng-idle-service.service'; 
+import { NgIdleService } from './services/ng-idle-service.service';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { LeaveApprovalsComponent } from './manager/leave-approvals/leave-approvals.component';
@@ -41,7 +41,7 @@ import { HrmsComponent } from './HR/hrms/hrms.component';
 import { AttendanceReportAssamComponent } from './components/attendance-report-assam/attendance-report-assam.component';
 import { FooterComponent } from './footer/footer.component';
 import { BusinessUnitAttendanceComponent } from './HR/business-unit-attendance/business-unit-attendance.component';
- 
+
 import { NgOtpInputModule } from 'ng-otp-input';
 import { LeaveQuotaComponent } from './HR/leave-quota/leave-quota.component';
 import { UnfreezeDatesComponent } from './HR/unfreeze-dates/unfreeze-dates.component';
@@ -130,9 +130,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UnscheduledComponent } from './hiring-module/unscheduled/unscheduled.component';
 import { ActiveUrlPipe } from './hiring-module/active-url.pipe';
+import { FuelComponent } from './HR/fuel/fuel.component';
 
- 
-  
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -142,83 +143,84 @@ import { ActiveUrlPipe } from './hiring-module/active-url.pipe';
     SettingsComponent,
     NumbersOnlyDirective,
     TrackCapslockDirective,
-    ProgressBarComponent, 
+    ProgressBarComponent,
     BirthdaysComponent,
     DepartmentInfoComponent,
     LeaveSummaryComponent,
     AttendanceReportComponent,
     NoDoubleClickBtnDirective,
     ErrorComponent,
-    AttendanceApprovalsComponent, 
+    AttendanceApprovalsComponent,
     LeaveApprovalsComponent,
     ManagerApprovalsComponent,
     DeptAttendanceComponent,
     DateSuffixPipe,
     AssessmentExtendedReportComponent,
     AssessmentPermanentReportComponent,
-    AssessmentProcessReportComponent, 
-    ProcessOfAssessmentComponent, HrmsComponent, 
-    AttendanceReportAssamComponent, FooterComponent, 
-    BusinessUnitAttendanceComponent, LeaveQuotaComponent, 
-    UnfreezeDatesComponent, FlexiPolicyComponent, 
-    AttendanceLogsComponent, AttendanceReaderComponent, 
-    CtcComponent, ApplyLeaveComponent, 
-    DebounceClickDirective, 
-    MngrAssesmentFormComponent, 
+    AssessmentProcessReportComponent,
+    ProcessOfAssessmentComponent, HrmsComponent,
+    AttendanceReportAssamComponent, FooterComponent,
+    BusinessUnitAttendanceComponent, LeaveQuotaComponent,
+    UnfreezeDatesComponent, FlexiPolicyComponent,
+    AttendanceLogsComponent, AttendanceReaderComponent,
+    CtcComponent, ApplyLeaveComponent,
+    DebounceClickDirective,
+    MngrAssesmentFormComponent,
     AssmntFillFormComponent, ProfilePageComponent, KeysPipe, ActiveUrlPipe,
-     BlockCopyPasteDirective, SafePipe, NoCommaPipe,
-     ProfileRequestsComponent, 
-     CommnctnAddrssComponent, 
-     PermntAddrssComponent, 
-     RestrictWhiteSpaceDirective, 
-     IceAddressComponent, 
-     BankAddrssComponent, 
-     PanReqstsComponent, 
-     VaccineRegComponent, 
-     MomentDatePipe,
-     InOutTimeBarComponent, 
-     HomepageComponent, HRpoliciesComponent, NoRightClickDirective, AnnouncementsComponent, SaturdayPolicyComponent, EmployeeLetterComponent, ReviewLetterComponent, EmployeeHikeLetterComponent, HikeReviewLetterComponent, PayslipsuploadsComponent, FamilyDetailsComponent, MastercreationComponent, LeavequotaComponent, IdcardComponent, UtilitiesComponent, PromotionLetterComponent,WorksheetComponent, BulkUploadComponent, AssethistoryComponent, AssetDataComponent, AssetmainComponent, SidebarComponent, EmployeeAssertModuleComponent, AssetRequestFormComponent, AssetItAdminComponent, QRManagementComponent, ConfirmationLetterComponent, 
-     JobcodeComponent,
-     VacancyComponent,
-     JobDetailComponent,
-     NonFunctionalComponent,
-     AppendicesComponent,
-     UseCaseComponent,
-     SideBarComponent,
-     TrackingComponent,
-     personalInfoComponent,
-     HiringLoginComponent,
-     HiringDashboardComponent,
-     ProfileListComponent,
-     InterviewScheduleComponent,
-     InterviewProcessComponent,
-     InterviewProcessedComponent,
-     HoldComponent,
-     RejectedComponent,
-     OfferLetterComponent,
-     EmployeeCodeComponent,
-     assetManagerSideBarComponent,
-     RegistrationComponent,
-     FieldEmployeesComponent,
-     FieldworkHrmsComponent,
-     FieldworkDashboardComponent,
-     FieldWorkSideBarComponent,
-     OrganogramComponent,
-     OrganogramTrackingComponent,
-     PageNotFoundComponent,
-     UnscheduledComponent
+    BlockCopyPasteDirective, SafePipe, NoCommaPipe,
+    ProfileRequestsComponent,
+    CommnctnAddrssComponent,
+    PermntAddrssComponent,
+    RestrictWhiteSpaceDirective,
+    IceAddressComponent,
+    BankAddrssComponent,
+    PanReqstsComponent,
+    VaccineRegComponent,
+    MomentDatePipe,
+    InOutTimeBarComponent,
+    HomepageComponent, HRpoliciesComponent, NoRightClickDirective, AnnouncementsComponent, SaturdayPolicyComponent, EmployeeLetterComponent, ReviewLetterComponent, EmployeeHikeLetterComponent, HikeReviewLetterComponent, PayslipsuploadsComponent, FamilyDetailsComponent, MastercreationComponent, LeavequotaComponent, IdcardComponent, UtilitiesComponent, PromotionLetterComponent, WorksheetComponent, BulkUploadComponent, AssethistoryComponent, AssetDataComponent, AssetmainComponent, SidebarComponent, EmployeeAssertModuleComponent, AssetRequestFormComponent, AssetItAdminComponent, QRManagementComponent, ConfirmationLetterComponent,
+    JobcodeComponent,
+    VacancyComponent,
+    JobDetailComponent,
+    NonFunctionalComponent,
+    AppendicesComponent,
+    UseCaseComponent,
+    SideBarComponent,
+    TrackingComponent,
+    personalInfoComponent,
+    HiringLoginComponent,
+    HiringDashboardComponent,
+    ProfileListComponent,
+    InterviewScheduleComponent,
+    InterviewProcessComponent,
+    InterviewProcessedComponent,
+    HoldComponent,
+    RejectedComponent,
+    OfferLetterComponent,
+    EmployeeCodeComponent,
+    assetManagerSideBarComponent,
+    RegistrationComponent,
+    FieldEmployeesComponent,
+    FieldworkHrmsComponent,
+    FieldworkDashboardComponent,
+    FieldWorkSideBarComponent,
+    OrganogramComponent,
+    OrganogramTrackingComponent,
+    PageNotFoundComponent,
+    UnscheduledComponent,
+    FuelComponent
   ],
-  imports: [   
+  imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
-    HttpClientModule, 
+    HttpClientModule,
     ChartsModule,
-    OwlModule, 
+    OwlModule,
     TooltipModule,
-    Ng2SearchPipeModule, 
-    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}), 
+    Ng2SearchPipeModule,
+    ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' }),
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     AutocompleteLibModule,
@@ -227,8 +229,7 @@ import { ActiveUrlPipe } from './hiring-module/active-url.pipe';
     TimepickerModule.forRoot(),
     MatDialogModule,
   ],
-  providers: [DatePipe, NgIdleService,{provide: LocationStrategy, useClass: HashLocationStrategy}, NgxImageCompressService ],
+  providers: [DatePipe, NgIdleService, { provide: LocationStrategy, useClass: HashLocationStrategy }, NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
- 
