@@ -87,7 +87,6 @@
                 </tr>
               </tbody>
 
-
               <ng-template #noData>
                 <tbody class="bg-white">
                   <tr>
@@ -148,72 +147,8 @@
   </div>
 </div>
 
-<!-- loader -->
-<div class="loader attDnceLoadr" *ngIf="">
-  <div class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-  </div>
-</div>
 
 
-<div class="offcanvas-right" [class.show]="isOpen">
-  <div class="offcanvas-header">
-    <h5 class="custom-text fw-bold">Filter </h5>
-    <button type="button" class="close" (click)="closeOffcanvas()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-
-  <div class="container mt-3">
-    <!-- Name Filter -->
-    <div class="form-group">
-      <label for="nameFilter">Select Name</label>
-      <select class="form-control form-control-sm" id="nameFilter">
-        <option value="">Select</option>
-        <option value="rajender">Rajender</option>
-        <option value="sisisha">Sirisha</option>
-        <option value="anusha">Anusha</option>
-        <option value="durga">Durga</option>
-      </select>
-    </div>
-
-    <!-- Date Filter -->
-    <div class="form-group">
-      <label for="dateFilter">Select Date</label>
-      <input type="date" class="form-control form-control-sm" id="dateFilter">
-    </div>
-
-    <!-- Category Filter -->
-    <div class="form-group">
-      <label for="categoryFilter">Category</label>
-      <select class="form-control form-control-sm" id="categoryFilter">
-        <option value="">Select</option>
-        <option value="category1">Category 1</option>
-        <option value="category2">Category 2</option>
-        <option value="category3">Category 3</option>
-      </select>
-    </div>
-
-    <!-- Buttons -->
-    <div class="form-group">
-      <div class="row">
-        <div class="col-6">
-          <button class="btn btn-sm custom-bg text-light w-100" (click)="applyFilter()">Filter</button>
-        </div>
-        <div class="col-6">
-          <button class="btn btn-sm btn-danger w-100" (click)="closeOffcanvas()">Cancel</button>
-        </div>
-      </div>
-    </div>
-    <div class="mt-5 d-flex justify-content-center align-items-center">
-      <img (click)="closeOffcanvas()" type="button" [src]="comapnyLogo" alt="">
-    </div>
-  </div>
-
-</div>
 
 <ng-template #aboutCandidateDialog>
   <div class="animate-zoom">
